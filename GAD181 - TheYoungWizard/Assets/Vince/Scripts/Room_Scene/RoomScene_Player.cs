@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class RoomScene_Player : MonoBehaviour
 {
 
@@ -13,13 +14,24 @@ public class RoomScene_Player : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] float gravity = 9.81f;
 
-
-
     //for the rotation of camera
     [Header("Camera Rotation Settings")]
     [SerializeField] GameObject mainCamera;
     [SerializeField] float velocity;
     [SerializeField] float smoothTime;
+
+    //Player RayCast
+    [Header("RayCast Settings")]
+    [SerializeField] float rayCastLength = 2f;
+    [SerializeField] LayerMask mapStationLayer;
+
+    //Map InterAction
+    [Header("Map InterAction")]
+    [SerializeField] GameObject mapUI;
+    [SerializeField] GameObject thirdPersonCamera;
+ 
+
+
 
     void Start()
     {
@@ -34,6 +46,7 @@ public class RoomScene_Player : MonoBehaviour
     void Update()
     {
         PlayerMovement();
+        PlayerRayCast();
     }
 
     private void PlayerMovement()
@@ -79,4 +92,30 @@ public class RoomScene_Player : MonoBehaviour
         }
 
     }
+
+    private void PlayerRayCast()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+
+        if(Physics.Raycast(ray, out hit, rayCastLength, mapStationLayer))
+        {
+            //enable float UI text from mapStation
+            hit.rigidbody.GetComponent<MapStation>().floatingText.SetActive(true);
+            
+
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                mapUI.SetActive(true);
+                characterAnim.SetBool("Move", false);
+                this.enabled = false;
+                Cursor.lockState = CursorLockMode.Confined;
+                Cursor.visible = true;
+                thirdPersonCamera.SetActive(false);
+            }
+        }
+
+        Debug.DrawRay(transform.position, transform.forward * rayCastLength, Color.red);
+    }
+
 }
