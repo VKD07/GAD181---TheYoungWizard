@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +18,26 @@ public class MapScript : MonoBehaviour
     [SerializeField] Material portalMaterial;
     [SerializeField] Material trailMaterial;
     [SerializeField] Light portalLight;
- 
+
+
+    private void Update()
+    {
+        closeUI();
+    }
+
+    private void closeUI()
+    {
+        //closes UI when you press escape button
+        if(mapImage.activeSelf == true && Input.GetKeyDown(KeyCode.Escape))
+        {
+            mapImage.SetActive(false);
+            playerMovement.enabled = true;
+            thirdPersonCamera.SetActive(true);
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+    }
+
     //Close the button 
     public void exitUI()
     {
