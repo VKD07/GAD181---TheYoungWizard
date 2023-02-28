@@ -71,9 +71,6 @@ public class RoomScene_Player : MonoBehaviour
             //character moves according to where the camera is facing
             Vector3 moveDir = Quaternion.Euler(0f, targetAngle , 0f) * Vector3.forward;
 
-            //applying gravity
-          
-
             //move character
             characterController.Move(moveDir * speed * Time.deltaTime);
 
