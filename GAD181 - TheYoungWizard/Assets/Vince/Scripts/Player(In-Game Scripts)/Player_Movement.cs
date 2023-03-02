@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Player_Movement : MonoBehaviour
 {
 
-    CharacterController characterController;
+   [HideInInspector] public CharacterController characterController;
 
     [Header("Player Movement Settings")]
     //[SerializeField] Animator characterAnim;
@@ -15,6 +16,7 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] float currentspeed;
     [SerializeField] float walkingSpeed;
     [SerializeField] float runSpeed;
+    [HideInInspector] public bool isMoving = false;
 
     [Header("Player Animation")]
     [SerializeField] Animator anim;
@@ -27,6 +29,13 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] float smoothTime;
 
 
+    [Header("Character Roll")]
+     public bool rolled = false;
+    public bool notRollingForward = false;
+    public bool rolling = false;
+
+    [SerializeField] float forceStrength = 10f;
+    Rigidbody rb;
 
     void Start()
     {
@@ -35,6 +44,7 @@ public class Player_Movement : MonoBehaviour
         Cursor.visible = false;
 
         characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>(); 
         
     }
 
@@ -43,6 +53,7 @@ public class Player_Movement : MonoBehaviour
     {
         characterMovement();
         characterAimMode();
+        characterRoll();
     }
 
   
@@ -61,10 +72,7 @@ public class Player_Movement : MonoBehaviour
             //sprinting
             if (Input.GetKey(KeyCode.LeftShift))
             {
-
-
                 currentspeed = runSpeed;
-
             }
 
             //walkings
@@ -87,8 +95,11 @@ public class Player_Movement : MonoBehaviour
             {
                 characterController.Move(moveDir * currentspeed * Time.deltaTime);
             }
-
-            characterRoll();
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false; //The purpose of this is to set the weight of the animation base layer
         }
 
         //applying gravity
@@ -118,77 +129,86 @@ public class Player_Movement : MonoBehaviour
 
     private void characterRoll()
     {
-        ////roll forward
-        //if (rolled == true)
-        //{
-        //    characterController.enabled = false;
-        //    rb.isKinematic = false;
-        //    rb.velocity = transform.forward * forceStrength;
 
-        //    //roll backwards direction
-        //}
-        //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S))
-        //{
-        //    characterController.enabled = false;
-        //    rb.isKinematic = false;
-        //    rb.velocity = -transform.forward * forceStrength;
-        //}
-        ////roll right
-        //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D))
-        //{
-        //    characterController.enabled = false;
-        //    rb.isKinematic = false;
-        //    rb.velocity = transform.right * forceStrength;
-        //}
-        ////roll left
-        //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A))
-        //{
-        //    characterController.enabled = false;
-        //    rb.isKinematic = false;
-        //    rb.velocity = -transform.right * forceStrength;
-        //}
+        //chracter roll target mode
+        //roll forward
 
+        if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && rolling == false)
+        {
+            notRollingForward = true;
+            rolling = true;
+           
+            characterController.enabled = false;
+            rb.isKinematic = false;
+            rb.velocity = -transform.forward * forceStrength;
+            disableOtherAnimations();
+        }
+        //roll right
+      if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && rolling == false)
+        {
+            rolling = true;
+            notRollingForward = true;
+            characterController.enabled = false;
+            rb.isKinematic = false;
+            rb.velocity = transform.right * forceStrength;
+            disableOtherAnimations();
+        }
+        //roll left
+        if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && rolling == false)
+        {
+            rolling = true;
+            notRollingForward = true;
+            characterController.enabled = false;
+            rb.isKinematic = false;
+            rb.velocity = -transform.right * forceStrength;
+            disableOtherAnimations();
+        }
 
+        if (rolled == true && notRollingForward == false && rolling == false)
+        {
+            rolling = true;
+            characterController.enabled = false;
+            rb.isKinematic = false;
+            rb.velocity = transform.forward * forceStrength;
+            disableOtherAnimations();
+            //roll backwards direction
+        }
 
-        ////character roll
-        //if (Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.Mouse1) && rolled == false)
-        //{
-        //    rolled = true;
-        //    anim.SetTrigger("Roll");
+        //character roll
+        if (rolled == false && Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.Mouse1))
+        {
+            rolled = true;
+            anim.SetTrigger("Roll");
 
-        //}
+        }
+        if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && Input.GetKeyDown(KeyCode.Space))
+        {
+            rolled = true;
+            anim.SetTrigger("RollLeft");
+        }
 
-        ////chracter roll target mode
-        //if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && Input.GetKeyDown(KeyCode.Space) && rolled == false)
-        //{
-        //    rolled = true;
-        //    anim.SetTrigger("RollLeft");
-        //}
+        if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Space))
+        {
+            rolled = true;
+            anim.SetTrigger("RollRight");
+        }
 
-        //if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Space) && rolled == false)
-        //{
-        //    rolled = true;
-        //    anim.SetTrigger("RollRight");
-        //}
+        if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && Input.GetKeyDown(KeyCode.Space))
+        {
+            rolled = true;
+            anim.SetTrigger("Roll");
+        }
 
-        //if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && Input.GetKeyDown(KeyCode.Space) && rolled == false)
-        //{
-        //    rolled = true;
-        //    anim.SetTrigger("Roll");
-        //}
-
-        //if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space) && rolled == false)
-        //{
-        //    rolled = true;
-        //    anim.SetTrigger("RollBack");
-        //}
+        if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space))
+        {
+            rolled = true;
+            anim.SetTrigger("RollBack");
+        }
     }
 
     private void MovementAnimation(Vector3 newPos)
     {
         //Animation -----------------------------------
-
-
         if (newPos.magnitude > 0.1f)
         {
             //running
@@ -211,7 +231,7 @@ public class Player_Movement : MonoBehaviour
             //target mode Animation
 
             //run left
-            if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A)
+            if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) 
                 || Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.Mouse1))
             {
 
@@ -224,28 +244,18 @@ public class Player_Movement : MonoBehaviour
                 anim.SetBool("walkBack", false);
 
             }
-
-
-
             //run right
             if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D)
                 || Input.GetKey(KeyCode.D) && Input.GetKey(KeyCode.Mouse1))
             {
-
-
                 anim.SetBool("Moving", true);
                 anim.SetBool("runRight", true);
                 anim.SetBool("runLeft", false);
                 anim.SetBool("run", false);
                 anim.SetBool("Walk", false);
                 anim.SetBool("walkBack", false);
-
-
             }
-
-
             // Walk back
-
             if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S)
                 || Input.GetKey(KeyCode.S) && Input.GetKey(KeyCode.Mouse1))
             {
@@ -262,8 +272,6 @@ public class Player_Movement : MonoBehaviour
             {
                 anim.SetBool("walkBack", false);
             }
-
-
         }
         else
         {
@@ -274,5 +282,15 @@ public class Player_Movement : MonoBehaviour
             anim.SetBool("runLeft", false);
             anim.SetBool("walkBack", false);
         }
+    }
+
+    void disableOtherAnimations()
+    {
+        anim.SetBool("Moving", false);
+        anim.SetBool("run", false);
+        anim.SetBool("Walk", false);
+        anim.SetBool("runRight", false);
+        anim.SetBool("runLeft", false);
+        anim.SetBool("walkBack", false);
     }
 }

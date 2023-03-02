@@ -7,24 +7,26 @@ public class playerCombat : MonoBehaviour
 {
     [Header("Player Stats")]
     [SerializeField] int playerHealth;
+    Player_Movement playerMovement;
 
     [Header("Character Animation")]
     [SerializeField] public Animator anim;
-    [SerializeField] float lookEnemyRotationSpeed;
     bool paused = false;
-    public Transform target;
 
-    // cast mode
+    [Header("Cast Mode")]
+    [SerializeField] GameObject castUI;
 
-   // [SerializeField] GameObject castUI;
-
-    //target mode
+    [Header("Aim Mode")]
     CinemachineComposer midRig;
     [SerializeField] CinemachineFreeLook cam;
-    float yAxisValue;
-    float xAxisValue;
     [SerializeField] GameObject targetSight;
-    bool targetMode = false;
+    public bool targetMode = false;
+
+    //Attack animation combo
+    public int AttackNumber;
+    public bool attacking = false;
+    public float currentTimeToChangeAnim;
+    public float timeLimit = 1f;
 
     //Item manager
     //[SerializeField] ItemManager itemManager;
@@ -35,30 +37,22 @@ public class playerCombat : MonoBehaviour
     public bool dodge = false;
     public float shieldDuration = 3f;
 
-
-
-
-
-
-
     void Start()
     {
-
         //getting the cinemachinefree look mid rig
         midRig = cam.GetRig(1).GetCinemachineComponent<CinemachineComposer>();
         //disabling sight at first
-        //targetSight.SetActive(false);
+        targetSight.SetActive(false);
         //instantiating midrig values
         cam.m_Lens.FieldOfView = 33f;
         midRig.m_TrackedObjectOffset.x = 0.25f;
+
+        playerMovement = GetComponent<Player_Movement>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
-        print(playerHealth);
-
         //pause
         if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
         {
@@ -70,16 +64,13 @@ public class playerCombat : MonoBehaviour
             paused = false;
             Time.timeScale = 1;
         }
-
-
         //focusing on targeting the enemy
-        targetEnemy();
-      //  attack();
+        aimMode();
+        attack();
         //castMode();
 
         //Item handler
         //ItemHandler();
-
         Dodge();
 
 
@@ -104,23 +95,23 @@ public class playerCombat : MonoBehaviour
         }
     }
 
-    //private void castMode()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.R))
-    //    {
-    //        if (castUI.activeSelf == false)
-    //        {
-    //            //activate cast mode UI
-    //            castUI.SetActive(true);
-    //            //slow down time
-    //            Time.timeScale = 0.1f;
-    //        }
+    private void castMode()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (castUI.activeSelf == false)
+            {
+                //activate cast mode UI
+                castUI.SetActive(true);
+                //slow down time
+                Time.timeScale = 0.1f;
+            }
 
 
-    //    }
-    //}
+        }
+    }
 
-    private void targetEnemy()
+    private void aimMode()
     {
         //sight activated
         if (Input.GetKey(KeyCode.Mouse1))
@@ -138,22 +129,16 @@ public class playerCombat : MonoBehaviour
                 cam.m_Lens.FieldOfView -= 60f * Time.deltaTime;
             }
 
-
         }
         else
         {
             targetMode = false;
             targetSight.SetActive(false);
 
-
-
             if (midRig.m_TrackedObjectOffset.x > 0.2371475f)
             {
                 midRig.m_TrackedObjectOffset.x -= 5f * Time.deltaTime;
             }
-
-
-
             if (cam.m_Lens.FieldOfView < 30)
             {
                 cam.m_Lens.FieldOfView += 60f * Time.deltaTime;
@@ -163,15 +148,75 @@ public class playerCombat : MonoBehaviour
 
     }
 
-    //public void attack()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
-    //    {
-    //        anim.SetTrigger("Attack");
+    public void attack()
+    {
+        //if the player is moving then dont proceed to the attacking combo
+        if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
+        {
+            anim.SetTrigger("Attack");
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false)
+            {
+                attacking = true;
+                anim.SetTrigger("Attack");
+                anim.SetBool("Attacking", true);
 
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+            {
+                anim.SetTrigger("Attack2");
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+            {
+                anim.SetTrigger("Attack3");
+            }
+        }
 
-    //    }
-    //}
+        if (AttackNumber == 3)
+        {
+            AttackNumber = 0;
+        }
+
+        //Timer to switch to second animation
+        //If player Starts to attack then start timer
+        if (attacking == true)
+        {
+            //if current time doesnt reeach the time limit. Keep counting
+            if(currentTimeToChangeAnim < timeLimit)
+            {
+                currentTimeToChangeAnim = currentTimeToChangeAnim + Time.deltaTime;
+            }
+            //if current time reached the time, then reset the animation to first attack
+            if(currentTimeToChangeAnim > timeLimit)
+            {
+                attacking = false;
+                anim.SetBool("Attacking", attacking);
+                AttackNumber = 0;
+                currentTimeToChangeAnim = 0;
+            }
+            //if the time hasn't reached yet and player pressed left click again, change the attack number
+            if (currentTimeToChangeAnim < timeLimit && Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                AttackNumber++;
+            }
+        }
+
+        //base layer adjustments
+        if (playerMovement.isMoving == false && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
+        {
+            anim.SetBool("notAttacking", false);
+            anim.SetLayerWeight(0, 0);
+            anim.SetLayerWeight(1, 1);
+        }
+        else if (playerMovement.isMoving == true)
+        {
+            anim.SetBool("notAttacking", true);
+            anim.SetLayerWeight(0, 1);
+            anim.SetLayerWeight(1, 0.4f);
+        }
+    }
 
     //private void ItemHandler()
     //{
