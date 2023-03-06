@@ -27,12 +27,15 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] GameObject mainCamera;
     [SerializeField] float velocity;
     [SerializeField] float smoothTime;
+    [SerializeField] GameObject thirdPersonCamera;
 
 
     [Header("Character Roll")]
-     public bool rolled = false;
+    public bool rolled = false;
     public bool notRollingForward = false;
     public bool rolling = false;
+    playerCombat pc;
+
 
     [SerializeField] float forceStrength = 10f;
     Rigidbody rb;
@@ -44,7 +47,8 @@ public class Player_Movement : MonoBehaviour
         Cursor.visible = false;
 
         characterController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>(); 
+        rb = GetComponent<Rigidbody>();
+        pc = GetComponent<playerCombat>();
         
     }
 
@@ -115,7 +119,7 @@ public class Player_Movement : MonoBehaviour
     private void characterAimMode()
     {
         //sight adjust character rotation
-        if (Input.GetKey(KeyCode.Mouse1))
+        if (Input.GetKey(KeyCode.Mouse1) && rolling == false)
         {
             transform.LookAt(transform.position + mainCamera.transform.forward);
 
@@ -133,36 +137,53 @@ public class Player_Movement : MonoBehaviour
         //chracter roll target mode
         //roll forward
 
-        if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && rolling == false)
-        {
-            notRollingForward = true;
-            rolling = true;
+        //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && rolling == false)
+        //{
+        //    notRollingForward = true;
+        //    rolling = true;
            
-            characterController.enabled = false;
-            rb.isKinematic = false;
-            rb.velocity = -transform.forward * forceStrength;
-            disableOtherAnimations();
-        }
-        //roll right
-      if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && rolling == false)
-        {
-            rolling = true;
-            notRollingForward = true;
-            characterController.enabled = false;
-            rb.isKinematic = false;
-            rb.velocity = transform.right * forceStrength;
-            disableOtherAnimations();
-        }
-        //roll left
-        if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && rolling == false)
-        {
-            rolling = true;
-            notRollingForward = true;
-            characterController.enabled = false;
-            rb.isKinematic = false;
-            rb.velocity = -transform.right * forceStrength;
-            disableOtherAnimations();
-        }
+        //    characterController.enabled = false;
+        //    rb.isKinematic = false;
+        //    rb.velocity = -transform.forward * forceStrength;
+
+        //    //enable roll camera
+        //    pc.RollCamera();
+
+        //    disableOtherAnimations();
+        //}
+       //Roll direction
+      //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && rolling == false)
+      //  {
+      //      rolling = true;
+      //      notRollingForward = true;
+      //      characterController.enabled = false;
+      //      rb.isKinematic = false;
+      //      rb.velocity = transform.right * forceStrength;
+      //      pc.RollCamera();
+      //      disableOtherAnimations();
+      //  }
+      //  //roll left
+      //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && rolling == false)
+      //  {
+      //      rolling = true;
+      //      notRollingForward = true;
+      //      characterController.enabled = false;
+      //      rb.isKinematic = false;
+      //      rb.velocity = -transform.right * forceStrength;
+      //      pc.RollCamera();
+      //      disableOtherAnimations();
+      //  }
+
+      //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && rolling == false)
+      //  {
+      //      rolling = true;
+      //      notRollingForward = true;
+      //      characterController.enabled = false;
+      //      rb.isKinematic = false;
+      //      rb.velocity = transform.forward * forceStrength;
+      //      pc.RollCamera();
+      //      disableOtherAnimations();
+      //  }
 
         if (rolled == true && notRollingForward == false && rolling == false)
         {
@@ -171,39 +192,41 @@ public class Player_Movement : MonoBehaviour
             rb.isKinematic = false;
             rb.velocity = transform.forward * forceStrength;
             disableOtherAnimations();
-            //roll backwards direction
         }
-
-        //character roll
+        //roll animation
         if (rolled == false && Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.Mouse1))
         {
             rolled = true;
             anim.SetTrigger("Roll");
 
         }
-        if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && Input.GetKeyDown(KeyCode.Space))
-        {
-            rolled = true;
-            anim.SetTrigger("RollLeft");
-        }
 
-        if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Space))
-        {
-            rolled = true;
-            anim.SetTrigger("RollRight");
-        }
+        //rolling left and right
+        //if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    rolled = true;
+        //    anim.SetTrigger("RollLeft");
+        //}
 
-        if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && Input.GetKeyDown(KeyCode.Space))
-        {
-            rolled = true;
-            anim.SetTrigger("Roll");
-        }
+        //if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    rolled = true;
+        //    anim.SetTrigger("RollRight");
+        //}
 
-        if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space))
-        {
-            rolled = true;
-            anim.SetTrigger("RollBack");
-        }
+        //if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    rolled = true;
+        //    anim.SetTrigger("Roll");
+        //}
+
+        //for rolling back------------------
+        //if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    rolled = true;
+        //    pc.RollCamera();
+        //    anim.SetTrigger("RollBack");
+        //}
     }
 
     private void MovementAnimation(Vector3 newPos)

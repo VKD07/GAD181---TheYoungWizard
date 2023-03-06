@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,6 +18,8 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] float rollSpeed = 6f;
     [SerializeField] CharacterController cr;
     [SerializeField] Rigidbody rb;
+    [SerializeField] CinemachineFreeLook cam;
+
 
 
     public void SpawnBullet()
@@ -63,6 +66,10 @@ public class Player_Animation_Config : MonoBehaviour
         pm.rolled = false;
         pm.notRollingForward = false;
         pm.rolling = false;
+        playerCombat.rolled = false;
+        //giving mouse controll again
+        cam.m_YAxis.m_MaxSpeed = 2;
+        cam.m_XAxis.m_MaxSpeed = 200;
     }
 
     //disabling cr if picking up item;

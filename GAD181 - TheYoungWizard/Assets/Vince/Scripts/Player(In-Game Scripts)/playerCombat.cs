@@ -21,18 +21,21 @@ public class playerCombat : MonoBehaviour
     [SerializeField] CinemachineFreeLook cam;
     [SerializeField] GameObject targetSight;
     public bool targetMode = false;
+    public static bool rolled = false;
+
+    [Header("Item Manager")]
+    [SerializeField] ItemManager itemManager;
 
     //Attack animation combo
-    public int AttackNumber;
-    public bool attacking = false;
-    public float currentTimeToChangeAnim;
-    public float timeLimit = 1f;
+    int AttackNumber;
+    bool attacking = false;
+    float currentTimeToChangeAnim;
+    float timeLimit = 1f;
 
-    //Item manager
-    //[SerializeField] ItemManager itemManager;
+    
 
     //Awareness 
-   // [SerializeField] GameObject awarenessUI;
+    // [SerializeField] GameObject awarenessUI;
 
     public bool dodge = false;
     public float shieldDuration = 3f;
@@ -53,6 +56,7 @@ public class playerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         //pause
         if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
         {
@@ -67,10 +71,10 @@ public class playerCombat : MonoBehaviour
         //focusing on targeting the enemy
         aimMode();
         attack();
-        //castMode();
+        castMode();
 
         //Item handler
-        //ItemHandler();
+        ItemHandler();
         Dodge();
 
 
@@ -106,15 +110,13 @@ public class playerCombat : MonoBehaviour
                 //slow down time
                 Time.timeScale = 0.1f;
             }
-
-
         }
     }
 
     private void aimMode()
     {
         //sight activated
-        if (Input.GetKey(KeyCode.Mouse1))
+        if (Input.GetKey(KeyCode.Mouse1) && rolled == false && playerMovement.rolling == false)
         {
             targetMode = true;
             targetSight.SetActive(true);
@@ -218,23 +220,23 @@ public class playerCombat : MonoBehaviour
         }
     }
 
-    //private void ItemHandler()
-    //{
-    //    //if slot 1 is full and player wanted to use it
-    //    if (itemManager.isFull[0] == true && Input.GetKeyDown(KeyCode.Alpha1))
-    //    {
-    //        itemManager.isFull[0] = false;
-    //        itemManager.itemSlots[0].sprite = null;
+    private void ItemHandler()
+    {
+        //if slot 1 is full and player wanted to use it
+        if (itemManager.isFull[0] == true && Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            itemManager.isFull[0] = false;
+            itemManager.itemSlots[0].sprite = null;
 
-    //        //if slot 2 is full and player wants to use it
-    //    }
-    //    else if (itemManager.isFull[1] == true && Input.GetKeyDown(KeyCode.Alpha2))
-    //    {
-    //        itemManager.isFull[1] = false;
-    //        itemManager.itemSlots[1].sprite = null;
-    //    }
+            //if slot 2 is full and player wants to use it
+        }
+        else if (itemManager.isFull[1] == true && Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            itemManager.isFull[1] = false;
+            itemManager.itemSlots[1].sprite = null;
+        }
 
-    //}
+    }
 
     //take damage from enemy
     public void damagePlayer(int damage)
@@ -259,5 +261,21 @@ public class playerCombat : MonoBehaviour
 
     //collisions handler
 
+    public void RollCamera()
+    {
+        targetMode = false;
+        rolled = true;
+        cam.m_YAxis.m_MaxSpeed = 0;
+        cam.m_XAxis.m_MaxSpeed = 0;
+        targetSight.SetActive(false);
 
+        if (midRig.m_TrackedObjectOffset.x > 0.2371475f)
+        {
+            midRig.m_TrackedObjectOffset.x -= 10f * Time.deltaTime;
+        }
+        if (cam.m_Lens.FieldOfView < 30)
+        {
+            cam.m_Lens.FieldOfView += 80f * Time.deltaTime;
+        }
+    }
 }
