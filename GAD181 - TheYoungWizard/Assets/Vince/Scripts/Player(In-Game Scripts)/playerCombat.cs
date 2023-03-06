@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,11 +16,19 @@ public class playerCombat : MonoBehaviour
 
     [Header("Cast Mode")]
     [SerializeField] GameObject castUI;
+    [SerializeField] CastModeManager castModeManager;
+
+    [Header("Spells")]
+    [SerializeField] SpellSlot spellManager;
+    [SerializeField] GameObject fireball;
+    [SerializeField] float fireBallSpeed;
+
 
     [Header("Aim Mode")]
     CinemachineComposer midRig;
     [SerializeField] CinemachineFreeLook cam;
     [SerializeField] GameObject targetSight;
+    [SerializeField] Transform bulletSpawn;
     public bool targetMode = false;
     public static bool rolled = false;
 
@@ -27,10 +36,11 @@ public class playerCombat : MonoBehaviour
     [SerializeField] ItemManager itemManager;
 
     //Attack animation combo
-    int AttackNumber;
-    bool attacking = false;
-    float currentTimeToChangeAnim;
-    float timeLimit = 1f;
+    [Header("Animation Combo")]
+    public int AttackNumber;
+    public bool attacking = false;
+    public float currentTimeToChangeAnim;
+    public float timeLimit = 1f;
 
     
 
@@ -57,7 +67,7 @@ public class playerCombat : MonoBehaviour
     void Update()
     {
        
-        //pause
+        //pause game
         if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
         {
             paused = true;
@@ -68,6 +78,7 @@ public class playerCombat : MonoBehaviour
             paused = false;
             Time.timeScale = 1;
         }
+
         //focusing on targeting the enemy
         aimMode();
         attack();
@@ -76,8 +87,19 @@ public class playerCombat : MonoBehaviour
         //Item handler
         ItemHandler();
         Dodge();
+        castSpell();
 
 
+    }
+
+    private void castSpell()
+    {
+        //casting a fireball
+        if(castModeManager.availableSpellID == 55 && spellManager.fireBallCoolDown == false && targetMode && Input.GetKeyDown(KeyCode.E))
+        {
+            GameObject fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
+            fireBallObj.GetComponent<Rigidbody>().velocity = bulletSpawn.forward * fireBallSpeed * Time.deltaTime;
+        }
     }
 
     private void Dodge()

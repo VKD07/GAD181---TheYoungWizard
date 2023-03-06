@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -35,6 +36,7 @@ public class Player_Movement : MonoBehaviour
     public bool notRollingForward = false;
     public bool rolling = false;
     playerCombat pc;
+    [SerializeField] CinemachineBrain cinemachineBrain;
 
 
     [SerializeField] float forceStrength = 10f;
@@ -49,7 +51,10 @@ public class Player_Movement : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
         pc = GetComponent<playerCombat>();
-        
+
+        //setting up cinemachine brain for smoothness
+        cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
+  
     }
 
     // Update is called once per frame
@@ -97,7 +102,15 @@ public class Player_Movement : MonoBehaviour
             //move character
             if (characterController.enabled == true)
             {
-                characterController.Move(moveDir * currentspeed * Time.deltaTime);
+                if (Input.GetKey(KeyCode.Mouse1) &&  Input.GetKey(KeyCode.D)) {
+                    characterController.Move(transform.right * currentspeed * Time.deltaTime);
+                    thirdPersonCamera.transform.position += transform.right * currentspeed * Time.deltaTime;
+                }
+                else
+                {
+                    characterController.Move(moveDir * currentspeed * Time.deltaTime);
+                }
+                
             }
             isMoving = true;
         }
@@ -191,11 +204,14 @@ public class Player_Movement : MonoBehaviour
             characterController.enabled = false;
             rb.isKinematic = false;
             rb.velocity = transform.forward * forceStrength;
+            cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+            pc.RollCamera();
             disableOtherAnimations();
         }
         //roll animation
         if (rolled == false && Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.Mouse1))
         {
+            pc.RollCamera();
             rolled = true;
             anim.SetTrigger("Roll");
 

@@ -19,6 +19,7 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] CharacterController cr;
     [SerializeField] Rigidbody rb;
     [SerializeField] CinemachineFreeLook cam;
+    [SerializeField] CinemachineBrain cinemachineBrain;
 
 
 
@@ -26,7 +27,7 @@ public class Player_Animation_Config : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             // Calculate the direction to fire the bullet
             Vector3 direction = (hit.point - bulletSpawn.position).normalized;
@@ -38,6 +39,8 @@ public class Player_Animation_Config : MonoBehaviour
             Rigidbody bulletRigidbody = bulletObj.GetComponent<Rigidbody>();
             bulletRigidbody.velocity = direction * bulletSpeed;
         }
+
+        Debug.DrawRay(transform.position, transform.forward * 1000f, Color.red);
     }
 
     public void SpawnBigBullet()
@@ -67,6 +70,7 @@ public class Player_Animation_Config : MonoBehaviour
         pm.notRollingForward = false;
         pm.rolling = false;
         playerCombat.rolled = false;
+        cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
         //giving mouse controll again
         cam.m_YAxis.m_MaxSpeed = 2;
         cam.m_XAxis.m_MaxSpeed = 200;

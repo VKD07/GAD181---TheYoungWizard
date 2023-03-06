@@ -17,6 +17,7 @@ public class CastModeManager : MonoBehaviour
     //Spells 
     public int[] spellIDs;
     public int currentSpellID;
+    public int availableSpellID;
     [SerializeField] Image spellSlot;
     [SerializeField] public Sprite[] spellIcons;
 
@@ -138,7 +139,8 @@ public class CastModeManager : MonoBehaviour
             if (spellIDs[i] == currentSpellID)
             {
                 spellSlot.sprite = spellIcons[i];
-
+                //Store the current spell available to use
+                availableSpellID = currentSpellID;
                 break;
             }
             else
