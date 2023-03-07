@@ -29,7 +29,7 @@ public class RoomScene_Player : MonoBehaviour
     [Header("Map InterAction")]
     [SerializeField] GameObject mapUI;
     [SerializeField] GameObject thirdPersonCamera;
- 
+    
 
 
 
