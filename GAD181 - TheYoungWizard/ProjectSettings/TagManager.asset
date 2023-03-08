@@ -10,6 +10,7 @@ TagManager:
   - playerBullet
   - dummy
   - Fireball
+  - Enemy
   layers:
   - Default
   - TransparentFX

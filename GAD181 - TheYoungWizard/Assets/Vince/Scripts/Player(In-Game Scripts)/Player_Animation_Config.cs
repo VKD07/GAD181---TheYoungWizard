@@ -13,6 +13,7 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] Transform bulletSpawn;
     [SerializeField] float bulletSpeed;
+    [SerializeField] LayerMask layerMask;
   
 
     //Roll
@@ -28,7 +29,7 @@ public class Player_Animation_Config : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             // Calculate the direction to fire the bullet
             Vector3 direction = (hit.point - bulletSpawn.position).normalized;

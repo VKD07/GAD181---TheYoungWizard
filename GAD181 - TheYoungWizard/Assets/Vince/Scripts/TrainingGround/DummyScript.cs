@@ -13,7 +13,7 @@ public class DummyScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "playerBullet")
+        if (collision.gameObject.tag == "playerBullet" || collision.gameObject.tag == "Fireball")
         {
             animator.SetTrigger("dummyHit");
         }

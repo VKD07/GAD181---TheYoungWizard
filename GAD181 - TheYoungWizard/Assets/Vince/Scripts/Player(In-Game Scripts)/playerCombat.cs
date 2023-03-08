@@ -98,6 +98,7 @@ public class playerCombat : MonoBehaviour
 
     private void SpellCastAnimation()
     {
+        //casting ice
         if (castModeManager.availableSpellID == 30 && spellManager.iceCooldown == false && castModeManager.castingMode == false
             && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(KeyCode.E))
         {
@@ -113,6 +114,26 @@ public class playerCombat : MonoBehaviour
             castingSpell = true;
             anim.SetTrigger("FireBall");
         }
+
+        //casting wind gust
+        if (castModeManager.availableSpellID == 35 && spellManager.windGustCoolDown == false
+            && castModeManager.castingMode == false && playerMovement.rolling == false
+            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
+        {
+            castingSpell = true;
+            anim.SetTrigger("WindGust");
+        }
+
+        //luminous spell
+        //casting wind gust
+        if (castModeManager.availableSpellID == 40 && spellManager.sparkCoolDown == false
+            && castModeManager.castingMode == false && playerMovement.rolling == false
+            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
+        {
+            castingSpell = true;
+            anim.SetTrigger("Luminous");
+        }
+
     }
 
     //player has shield while rolling
@@ -192,13 +213,7 @@ public class playerCombat : MonoBehaviour
         // if reticle hits player then dont attack
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
-        {
-            print("player");
-            anim.SetBool("Attacking", false);
-            return;
-        }
-        else{
+       
 
             //if the player is moving then dont proceed to the attacking combo
             if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
@@ -223,7 +238,7 @@ public class playerCombat : MonoBehaviour
                     anim.SetTrigger("Attack3");
                 }
             }
-        }
+        
 
         if (AttackNumber == 3)
         {
