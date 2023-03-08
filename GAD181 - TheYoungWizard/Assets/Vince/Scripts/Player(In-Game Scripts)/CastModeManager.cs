@@ -20,6 +20,7 @@ public class CastModeManager : MonoBehaviour
     public int availableSpellID;
     [SerializeField] Image spellSlot;
     [SerializeField] public Sprite[] spellIcons;
+    public bool castingMode = false;
 
 
 
@@ -35,6 +36,7 @@ public class CastModeManager : MonoBehaviour
         {
             //resets spell combinations after UI is disabled;
             spellCasting();
+            castingMode = false;
             ResetSpellCombinations();
             this.gameObject.SetActive(false);
             playerScript.enabled = true;
@@ -48,6 +50,7 @@ public class CastModeManager : MonoBehaviour
     {
         //when the UI is enable start the timer, disable the movement scrpt then reactived everything again after few seconds
         StartCoroutine(disableUI());
+        castingMode = true;
         playerScript.enabled = false;
     }
 
@@ -58,6 +61,7 @@ public class CastModeManager : MonoBehaviour
         yield return new WaitForSeconds(castModeTimer);
 
         Time.timeScale = 1;
+        castingMode = false;
         playerScript.enabled = true;
 
         spellCasting();

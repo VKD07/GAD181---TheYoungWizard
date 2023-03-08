@@ -13,6 +13,7 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] GameObject bullet;
     [SerializeField] Transform bulletSpawn;
     [SerializeField] float bulletSpeed;
+  
 
     //Roll
     [SerializeField] float rollSpeed = 6f;
@@ -43,26 +44,9 @@ public class Player_Animation_Config : MonoBehaviour
         Debug.DrawRay(transform.position, transform.forward * 1000f, Color.red);
     }
 
-    public void SpawnBigBullet()
-    {
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //RaycastHit hit;
-        //if (Physics.Raycast(ray, out hit))
-        //{
-        //    // Calculate the direction to fire the bullet
-        //    Vector3 direction = (hit.point - bulletSpawn.position).normalized;
-
-        //    // Instantiate the bullet prefab
-        //    GameObject bulletObj = Instantiate(bullet, bulletSpawn.position, Quaternion.identity);
-
-        //    // Set the initial velocity of the bullet
-        //    Rigidbody bulletRigidbody = bulletObj.GetComponent<Rigidbody>();
-        //    bulletRigidbody.velocity = direction * bulletSpeed;
-        //}
-    }
-
     public void DisableRoll()
     {
+        
         cr.enabled = true;
         rb.velocity = Vector3.zero;
         rb.isKinematic = true;

@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class playerCombat : MonoBehaviour
@@ -18,10 +19,9 @@ public class playerCombat : MonoBehaviour
     [SerializeField] GameObject castUI;
     [SerializeField] CastModeManager castModeManager;
 
-    [Header("Spells")]
+    [Header("Spell Cast")]
     [SerializeField] SpellSlot spellManager;
-    [SerializeField] GameObject fireball;
-    [SerializeField] float fireBallSpeed;
+    [HideInInspector]public bool castingSpell = false;
 
 
     [Header("Aim Mode")]
@@ -29,6 +29,7 @@ public class playerCombat : MonoBehaviour
     [SerializeField] CinemachineFreeLook cam;
     [SerializeField] GameObject targetSight;
     [SerializeField] Transform bulletSpawn;
+    [SerializeField] LayerMask layerMask;
     public bool targetMode = false;
     public static bool rolled = false;
 
@@ -52,6 +53,9 @@ public class playerCombat : MonoBehaviour
 
     void Start()
     {
+        //giving control of camera
+        cam.m_YAxis.m_MaxSpeed = 2;
+        cam.m_XAxis.m_MaxSpeed = 200;
         //getting the cinemachinefree look mid rig
         midRig = cam.GetRig(1).GetCinemachineComponent<CinemachineComposer>();
         //disabling sight at first
@@ -66,7 +70,6 @@ public class playerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
         //pause game
         if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
         {
@@ -87,21 +90,32 @@ public class playerCombat : MonoBehaviour
         //Item handler
         ItemHandler();
         Dodge();
-        castSpell();
 
+        //spell cast
+        SpellCastAnimation();
 
     }
 
-    private void castSpell()
+    private void SpellCastAnimation()
     {
-        //casting a fireball
-        if(castModeManager.availableSpellID == 55 && spellManager.fireBallCoolDown == false && targetMode && Input.GetKeyDown(KeyCode.E))
+        if (castModeManager.availableSpellID == 30 && spellManager.iceCooldown == false && castModeManager.castingMode == false
+            && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(KeyCode.E))
         {
-            GameObject fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
-            fireBallObj.GetComponent<Rigidbody>().velocity = bulletSpawn.forward * fireBallSpeed * Time.deltaTime;
+            castingSpell = true;
+            anim.SetTrigger("IceSpell");
+        }
+
+        //casting a fireball
+        if (castModeManager.availableSpellID == 55 && spellManager.fireBallCoolDown == false 
+            && castModeManager.castingMode == false && playerMovement.rolling == false
+            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
+        {
+            castingSpell = true;
+            anim.SetTrigger("FireBall");
         }
     }
 
+    //player has shield while rolling
     private void Dodge()
     {
         if (Input.GetKeyDown(KeyCode.Space))
@@ -174,32 +188,53 @@ public class playerCombat : MonoBehaviour
 
     public void attack()
     {
-        //if the player is moving then dont proceed to the attacking combo
-        if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
-        {
-            anim.SetTrigger("Attack");
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false)
-            {
-                attacking = true;
-                anim.SetTrigger("Attack");
-                anim.SetBool("Attacking", true);
 
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+        // if reticle hits player then dont attack
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        {
+            print("player");
+            anim.SetBool("Attacking", false);
+            return;
+        }
+        else{
+
+            //if the player is moving then dont proceed to the attacking combo
+            if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
             {
-                anim.SetTrigger("Attack2");
+                anim.SetTrigger("Attack");
             }
-            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+            else
             {
-                anim.SetTrigger("Attack3");
+                if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false)
+                {
+                    attacking = true;
+                    anim.SetTrigger("Attack");
+                    anim.SetBool("Attacking", true);
+
+                }
+                else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+                {
+                    anim.SetTrigger("Attack2");
+                }
+                else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+                {
+                    anim.SetTrigger("Attack3");
+                }
             }
         }
 
         if (AttackNumber == 3)
         {
+            AttackNumber = 0;
+        }
+
+        //attack animation resets if aiming mode is disabled
+        if(targetMode == false)
+        {
+            attacking = false;
+            currentTimeToChangeAnim = 0;
             AttackNumber = 0;
         }
 
