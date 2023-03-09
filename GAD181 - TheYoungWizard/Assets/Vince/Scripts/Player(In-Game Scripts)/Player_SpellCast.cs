@@ -38,6 +38,7 @@ public class Player_SpellCast : MonoBehaviour
     {
         //adjust the wind sphere
         sphere.radius = windRange;
+        
 
     }
 

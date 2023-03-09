@@ -11,6 +11,9 @@ TagManager:
   - dummy
   - Fireball
   - Enemy
+  - frostWall
+  - luminous
+  - windGust
   layers:
   - Default
   - TransparentFX
@@ -20,8 +23,8 @@ TagManager:
   - UI
   - Map Station
   - Player
-  - 
-  - 
+  - dummyBullet
+  - Spells
   - 
   - 
   - 
