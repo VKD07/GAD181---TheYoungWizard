@@ -21,9 +21,9 @@ public class playerCombat : MonoBehaviour
 
     [Header("Spell Cast")]
     [SerializeField] SpellSlot spellManager;
-    [HideInInspector]public bool castingSpell = false;
-
-
+    [HideInInspector] public bool casting = false;
+    public bool castingSpell = false;
+ 
     [Header("Aim Mode")]
     CinemachineComposer midRig;
     [SerializeField] CinemachineFreeLook cam;
@@ -46,7 +46,7 @@ public class playerCombat : MonoBehaviour
     
 
     //Awareness 
-    // [SerializeField] GameObject awarenessUI;
+    [SerializeField] GameObject awarenessUI;
 
     public bool dodge = false;
     public float shieldDuration = 3f;
@@ -139,13 +139,16 @@ public class playerCombat : MonoBehaviour
     //player has shield while rolling
     private void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             dodge = true;
         }
 
         if (dodge == true && shieldDuration > 0)
         {
+            disableSenses();
+            Time.timeScale = 1;
+
             shieldDuration -= 0.3f * Time.deltaTime;
 
             if (shieldDuration <= 0)
@@ -154,6 +157,7 @@ public class playerCombat : MonoBehaviour
                 shieldDuration = 0.2f;
             }
         }
+
     }
 
     private void castMode()
@@ -162,6 +166,7 @@ public class playerCombat : MonoBehaviour
         {
             if (castUI.activeSelf == false)
             {
+                casting = true;
                 //activate cast mode UI
                 castUI.SetActive(true);
                 //slow down time
@@ -189,7 +194,7 @@ public class playerCombat : MonoBehaviour
             }
 
         }
-        else
+        else if(Input.GetKeyUp(KeyCode.Mouse1) || castingSpell == false)
         {
             targetMode = false;
             targetSight.SetActive(false);
@@ -212,8 +217,6 @@ public class playerCombat : MonoBehaviour
 
         // if reticle hits player then dont attack
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-       
 
             //if the player is moving then dont proceed to the attacking combo
             if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
@@ -316,20 +319,22 @@ public class playerCombat : MonoBehaviour
         if (dodge == false)
         {
             playerHealth -= damage;
+            disableSenses();
+            Time.timeScale = 1;
         }
 
     }
 
 
-    //public void enableSenses()
-    //{
-    //    awarenessUI.SetActive(true);
-    //}
+    public void enableSenses()
+    {
+        awarenessUI.SetActive(true);
+    }
 
-    //public void disableSenses()
-    //{
-    //    awarenessUI.SetActive(false);
-    //}
+    public void disableSenses()
+    {
+        awarenessUI.SetActive(false);
+    }
 
     //collisions handler
 

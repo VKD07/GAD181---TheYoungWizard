@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8253013096733026067}
   - component: {fileID: 7604446577742350023}
   - component: {fileID: -8402792388549591164}
+  - component: {fileID: 336828266620587144}
   m_Layer: 9
   m_Name: iceTest 1
   m_TagString: frostWall
@@ -111,8 +112,20 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7604446577742350022}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.6836035, y: 1.8116738, z: 19.31444}
   m_Center: {x: -0.000000001050449, y: -0.15624517, z: 9.759237}
+--- !u!114 &336828266620587144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604446577742350022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48c17615653249f48984b008db55555a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

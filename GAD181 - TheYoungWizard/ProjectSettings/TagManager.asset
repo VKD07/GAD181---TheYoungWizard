@@ -14,6 +14,8 @@ TagManager:
   - frostWall
   - luminous
   - windGust
+  - ground
+  - windEnemy
   layers:
   - Default
   - TransparentFX

@@ -14,14 +14,16 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] Transform bulletSpawn;
     [SerializeField] float bulletSpeed;
     [SerializeField] LayerMask layerMask;
+
   
 
     //Roll
-    [SerializeField] float rollSpeed = 6f;
     [SerializeField] CharacterController cr;
     [SerializeField] Rigidbody rb;
     [SerializeField] CinemachineFreeLook cam;
     [SerializeField] CinemachineBrain cinemachineBrain;
+    [SerializeField] CapsuleCollider capsuleCollider;
+    [SerializeField] Transform player;
 
 
 
@@ -42,14 +44,19 @@ public class Player_Animation_Config : MonoBehaviour
             bulletRigidbody.velocity = direction * bulletSpeed;
         }
 
-        Debug.DrawRay(transform.position, transform.forward * 1000f, Color.red);
     }
+
+    //public void CharacterFall()
+    //{
+    //    pm.fall = true;
+    //}
 
     public void DisableRoll()
     {
         
         cr.enabled = true;
         rb.velocity = Vector3.zero;
+        player.position = new Vector3(player.position.x, -4.947f, player.position.z);
         rb.isKinematic = true;
         pm.rolled = false;
         pm.notRollingForward = false;

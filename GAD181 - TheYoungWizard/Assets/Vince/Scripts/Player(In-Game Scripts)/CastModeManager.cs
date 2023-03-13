@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class CastModeManager : MonoBehaviour
 {
     [SerializeField] Player_Movement playerScript;
+    [SerializeField] playerCombat pc;
     [SerializeField] float castModeTimer;
 
     //arrays of elements and slots
@@ -34,6 +35,7 @@ public class CastModeManager : MonoBehaviour
         //after you finished casting
         if (this.gameObject.activeSelf == true && Input.GetKeyDown(KeyCode.R))
         {
+            pc.casting = false;
             //resets spell combinations after UI is disabled;
             spellCasting();
             castingMode = false;
@@ -59,7 +61,7 @@ public class CastModeManager : MonoBehaviour
     {
         //if the UI is disabled 
         yield return new WaitForSeconds(castModeTimer);
-
+        pc.casting = false;
         Time.timeScale = 1;
         castingMode = false;
         playerScript.enabled = true;

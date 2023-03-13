@@ -53,6 +53,11 @@ public class dummyBullet : MonoBehaviour
 
     private void OnTriggerStay(Collider collision)
     {
+        if (collision.tag == "Player")
+        {
+            Destroy(gameObject);
+        }
+
         //spells
 
         if (currentSpell == "fireBall" && collision.tag == "Fireball")
@@ -77,4 +82,6 @@ public class dummyBullet : MonoBehaviour
             Destroy(gameObject);
         }   
     }
+
+
 }

@@ -125,6 +125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e5eb4bf27b7ce740871eb518f1c7e4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletSpeed: 5
+  bulletSpeed: 3
   render: {fileID: 0}
   currentSpell: 

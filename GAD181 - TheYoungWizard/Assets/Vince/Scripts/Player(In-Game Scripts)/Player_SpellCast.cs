@@ -38,7 +38,6 @@ public class Player_SpellCast : MonoBehaviour
     {
         //adjust the wind sphere
         sphere.radius = windRange;
-        
 
     }
 
@@ -50,6 +49,8 @@ public class Player_SpellCast : MonoBehaviour
     {
         Quaternion spawnRot = Quaternion.LookRotation(transform.up, -transform.forward);
         GameObject iceObj = Instantiate(ice, iceSpawn.position, spawnRot);
+
+        
         Destroy(iceObj, iceWallDuration);
     }
 
@@ -81,7 +82,7 @@ public class Player_SpellCast : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.tag == "Enemy" || other.tag == "windEnemy")
         {
             enemiesInRange.Add(other.gameObject);
         }
@@ -89,7 +90,7 @@ public class Player_SpellCast : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Enemy")
+        if(other.tag == "Enemy" || other.tag == "windEnemy")
         {
             enemiesInRange.Remove(other.gameObject);
         }
@@ -97,7 +98,8 @@ public class Player_SpellCast : MonoBehaviour
 
     private void Update()
     {
-        
+       if(releaseWind == true)
+        {
             foreach (GameObject enemy in enemiesInRange)
             {
                 Rigidbody enemyRb = enemy.GetComponent<Rigidbody>();
@@ -105,23 +107,8 @@ public class Player_SpellCast : MonoBehaviour
                 knowckBackDirection.y = 0;
                 enemyRb.AddForce(knowckBackDirection * knockBackForce, ForceMode.Impulse);
             }
-
             enemiesInRange.Clear();
-
-        if (releaseWind == true)
-        {
-            //finding all enemies withing the range and adding it to the list
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, windRange);
-            foreach (Collider enemy in hitColliders)
-            {
-                if (enemy.CompareTag("Enemy"))
-                {
-                    enemiesInRange.Add(enemy.gameObject);
-                }
-            }
         }
-        
     }
-
     #endregion
 }
