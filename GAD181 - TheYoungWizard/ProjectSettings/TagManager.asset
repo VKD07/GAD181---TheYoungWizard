@@ -9,6 +9,13 @@ TagManager:
   - ItemManager
   - playerBullet
   - dummy
+  - Fireball
+  - Enemy
+  - frostWall
+  - luminous
+  - windGust
+  - ground
+  - windEnemy
   layers:
   - Default
   - TransparentFX
@@ -17,9 +24,9 @@ TagManager:
   - Water
   - UI
   - Map Station
-  - 
-  - 
-  - 
+  - Player
+  - dummyBullet
+  - Spells
   - 
   - 
   - 

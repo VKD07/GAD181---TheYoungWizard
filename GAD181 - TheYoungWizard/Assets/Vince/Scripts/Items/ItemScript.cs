@@ -9,6 +9,7 @@ public class ItemScript : MonoBehaviour
     bool playerDetected = false;
     playerCombat playerScript;
     Player_Movement playerMovement;
+    [SerializeField] KeyCode pickUpKey = KeyCode.F;
 
     private void Update()
     {
@@ -23,7 +24,7 @@ public class ItemScript : MonoBehaviour
         //if player is detected and player picks it up
         if (playerScript != null && playerDetected == true)
         {
-            if (Input.GetKeyDown(KeyCode.E) && playerMovement.rolled == false)
+            if (Input.GetKeyDown(pickUpKey) && playerMovement.rolled == false)
             {
                 playerDetected = false;
                 for (int i = 0; i < itemManager.isFull.Length; i++)

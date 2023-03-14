@@ -4,12 +4,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Experimental.GlobalIllumination;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Player_Movement : MonoBehaviour
 {
 
-   [HideInInspector] public CharacterController characterController;
+    [HideInInspector] public CharacterController characterController;
 
     [Header("Player Movement Settings")]
     //[SerializeField] Animator characterAnim;
@@ -17,7 +18,19 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] float currentspeed;
     [SerializeField] float walkingSpeed;
     [SerializeField] float runSpeed;
-    [HideInInspector] public bool isMoving = false;
+    [SerializeField] KeyCode rollKey = KeyCode.LeftControl;
+    public bool isMoving = false;
+    CapsuleCollider capsuleCollider;
+
+    [Header("Player Jump Settings")]
+    [SerializeField] float maxHeightJump = 2f;
+    [SerializeField] float speedToReachMaxHeight = 2f;
+    [SerializeField] float jumpVelocity = 0.2f;
+    [SerializeField] KeyCode jumpKey = KeyCode.Space;
+    public bool jumped = false;
+    public float currentHeight;
+    public bool fall = false;
+
 
     [Header("Player Animation")]
     [SerializeField] Animator anim;
@@ -52,9 +65,11 @@ public class Player_Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         pc = GetComponent<playerCombat>();
 
+        capsuleCollider = GetComponent<CapsuleCollider>();
+
         //setting up cinemachine brain for smoothness
         cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
-  
+
     }
 
     // Update is called once per frame
@@ -63,16 +78,17 @@ public class Player_Movement : MonoBehaviour
         characterMovement();
         characterAimMode();
         characterRoll();
+        // characterJump();
+
+
     }
 
-  
     private void characterMovement()
     {
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
         Vector3 newPos = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-
 
         if (newPos.magnitude > 0.1f)
         {
@@ -90,27 +106,21 @@ public class Player_Movement : MonoBehaviour
                 currentspeed = walkingSpeed;
             }
 
-            //player rotation
-            float targetAngle = Mathf.Atan2(newPos.x, newPos.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
-            //player rotate to the target angle with smoothness
-            float newAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref velocity, smoothTime);
-            //apply the new rotation to the character
-            transform.rotation = Quaternion.Euler(0f, newAngle, 0f);
-            //character moves according to where the camera is facing
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
 
-            //move character
-            if (characterController.enabled == true)
+            if (characterController.enabled == true && pc.castingSpell == false)
             {
-                if (Input.GetKey(KeyCode.Mouse1) &&  Input.GetKey(KeyCode.D)) {
-                    characterController.Move(transform.right * currentspeed * Time.deltaTime);
-                    thirdPersonCamera.transform.position += transform.right * currentspeed * Time.deltaTime;
-                }
-                else
-                {
-                    characterController.Move(moveDir * currentspeed * Time.deltaTime);
-                }
-                
+                //player rotation
+                float targetAngle = Mathf.Atan2(newPos.x, newPos.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+                //player rotate to the target angle with smoothness
+                float newAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref velocity, smoothTime);
+                //apply the new rotation to the character
+                transform.rotation = Quaternion.Euler(0f, newAngle, 0f);
+                //character moves according to where the camera is facing
+                Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+                //move character
+                characterController.Move(moveDir * currentspeed * Time.deltaTime);
+
             }
             isMoving = true;
         }
@@ -119,14 +129,46 @@ public class Player_Movement : MonoBehaviour
             isMoving = false; //The purpose of this is to set the weight of the animation base layer
         }
 
-        //applying gravity
-        if (!characterController.isGrounded)
+
+        //movement anim
+        MovementAnimation(newPos);
+    }
+
+    private void characterJump()
+    {
+
+        if (Input.GetKeyDown(jumpKey) && characterController.isGrounded == true)
+        {
+            print("Jumped");
+            jumped = true;
+            anim.SetBool("StandingJump", true);
+        }
+
+
+        if (Input.GetKey(jumpKey) && jumped == true && currentHeight < maxHeightJump)
+        {
+            currentHeight += speedToReachMaxHeight * Time.deltaTime;
+            characterController.Move(Vector3.up * jumpVelocity * Time.deltaTime);
+        }
+        else
         {
             characterController.Move(Vector3.down * gravity * Time.deltaTime);
         }
 
-        //movement anim
-        MovementAnimation(newPos);
+        if (Input.GetKeyUp(jumpKey) || currentHeight >= maxHeightJump)
+        {
+            anim.SetBool("StandingJump", false);
+        }
+
+        if (characterController.isGrounded == true)
+        {
+            print("playerIsGrounded");
+            fall = false;
+            currentHeight = 0;
+            jumped = false;
+        }
+
+
     }
 
     private void characterAimMode()
@@ -138,8 +180,7 @@ public class Player_Movement : MonoBehaviour
 
             float xRotation = Mathf.Clamp(transform.eulerAngles.x, -5f, 12f);
 
-            transform.rotation = Quaternion.Euler(xRotation, transform.eulerAngles.y, transform.eulerAngles.z);
-
+            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, transform.eulerAngles.z);
         }
     }
 
@@ -154,7 +195,7 @@ public class Player_Movement : MonoBehaviour
         //{
         //    notRollingForward = true;
         //    rolling = true;
-           
+
         //    characterController.enabled = false;
         //    rb.isKinematic = false;
         //    rb.velocity = -transform.forward * forceStrength;
@@ -164,39 +205,39 @@ public class Player_Movement : MonoBehaviour
 
         //    disableOtherAnimations();
         //}
-       //Roll direction
-      //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && rolling == false)
-      //  {
-      //      rolling = true;
-      //      notRollingForward = true;
-      //      characterController.enabled = false;
-      //      rb.isKinematic = false;
-      //      rb.velocity = transform.right * forceStrength;
-      //      pc.RollCamera();
-      //      disableOtherAnimations();
-      //  }
-      //  //roll left
-      //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && rolling == false)
-      //  {
-      //      rolling = true;
-      //      notRollingForward = true;
-      //      characterController.enabled = false;
-      //      rb.isKinematic = false;
-      //      rb.velocity = -transform.right * forceStrength;
-      //      pc.RollCamera();
-      //      disableOtherAnimations();
-      //  }
+        //Roll direction
+        //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && rolling == false)
+        //  {
+        //      rolling = true;
+        //      notRollingForward = true;
+        //      characterController.enabled = false;
+        //      rb.isKinematic = false;
+        //      rb.velocity = transform.right * forceStrength;
+        //      pc.RollCamera();
+        //      disableOtherAnimations();
+        //  }
+        //  //roll left
+        //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && rolling == false)
+        //  {
+        //      rolling = true;
+        //      notRollingForward = true;
+        //      characterController.enabled = false;
+        //      rb.isKinematic = false;
+        //      rb.velocity = -transform.right * forceStrength;
+        //      pc.RollCamera();
+        //      disableOtherAnimations();
+        //  }
 
-      //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && rolling == false)
-      //  {
-      //      rolling = true;
-      //      notRollingForward = true;
-      //      characterController.enabled = false;
-      //      rb.isKinematic = false;
-      //      rb.velocity = transform.forward * forceStrength;
-      //      pc.RollCamera();
-      //      disableOtherAnimations();
-      //  }
+        //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && rolling == false)
+        //  {
+        //      rolling = true;
+        //      notRollingForward = true;
+        //      characterController.enabled = false;
+        //      rb.isKinematic = false;
+        //      rb.velocity = transform.forward * forceStrength;
+        //      pc.RollCamera();
+        //      disableOtherAnimations();
+        //  }
 
         if (rolled == true && notRollingForward == false && rolling == false)
         {
@@ -205,11 +246,11 @@ public class Player_Movement : MonoBehaviour
             rb.isKinematic = false;
             rb.velocity = transform.forward * forceStrength;
             cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
-            pc.RollCamera();
+            pc.RollCamera();//disabling camera controll
             disableOtherAnimations();
         }
         //roll animation
-        if (rolled == false && Input.GetKey(KeyCode.Space) && !Input.GetKey(KeyCode.Mouse1))
+        if (rolled == false && Input.GetKey(rollKey) && pc.castingSpell == false)
         {
             pc.RollCamera();
             rolled = true;
@@ -270,7 +311,7 @@ public class Player_Movement : MonoBehaviour
             //target mode Animation
 
             //run left
-            if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) 
+            if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A)
                 || Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.Mouse1))
             {
 
@@ -332,4 +373,5 @@ public class Player_Movement : MonoBehaviour
         anim.SetBool("runLeft", false);
         anim.SetBool("walkBack", false);
     }
+
 }

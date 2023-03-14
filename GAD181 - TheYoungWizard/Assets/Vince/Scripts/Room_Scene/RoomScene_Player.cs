@@ -47,6 +47,9 @@ public class RoomScene_Player : MonoBehaviour
     {
         PlayerMovement();
         PlayerRayCast();
+
+        Debug.Log("hi");
+
     }
 
     private void PlayerMovement()
@@ -55,9 +58,7 @@ public class RoomScene_Player : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 newPos = new Vector3(horizontal, 0f, vertical).normalized;
-
-
-      
+        
 
         if (newPos.magnitude > 0.1f)
         {

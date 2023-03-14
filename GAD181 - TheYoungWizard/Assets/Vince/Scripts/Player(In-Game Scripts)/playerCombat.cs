@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 public class playerCombat : MonoBehaviour
@@ -17,18 +18,19 @@ public class playerCombat : MonoBehaviour
     [Header("Cast Mode")]
     [SerializeField] GameObject castUI;
     [SerializeField] CastModeManager castModeManager;
+    [SerializeField] Animator spellCastUIAnim;
 
-    [Header("Spells")]
+    [Header("Spell Cast")]
     [SerializeField] SpellSlot spellManager;
-    [SerializeField] GameObject fireball;
-    [SerializeField] float fireBallSpeed;
-
-
+    [HideInInspector] public bool casting = false;
+    public bool castingSpell = false;
+ 
     [Header("Aim Mode")]
     CinemachineComposer midRig;
     [SerializeField] CinemachineFreeLook cam;
     [SerializeField] GameObject targetSight;
     [SerializeField] Transform bulletSpawn;
+    [SerializeField] LayerMask layerMask;
     public bool targetMode = false;
     public static bool rolled = false;
 
@@ -45,13 +47,16 @@ public class playerCombat : MonoBehaviour
     
 
     //Awareness 
-    // [SerializeField] GameObject awarenessUI;
+    [SerializeField] GameObject awarenessUI;
 
     public bool dodge = false;
     public float shieldDuration = 3f;
 
     void Start()
     {
+        //giving control of camera
+        cam.m_YAxis.m_MaxSpeed = 2;
+        cam.m_XAxis.m_MaxSpeed = 200;
         //getting the cinemachinefree look mid rig
         midRig = cam.GetRig(1).GetCinemachineComponent<CinemachineComposer>();
         //disabling sight at first
@@ -66,7 +71,6 @@ public class playerCombat : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
         //pause game
         if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
         {
@@ -78,7 +82,7 @@ public class playerCombat : MonoBehaviour
             paused = false;
             Time.timeScale = 1;
         }
-
+       
         //focusing on targeting the enemy
         aimMode();
         attack();
@@ -87,30 +91,65 @@ public class playerCombat : MonoBehaviour
         //Item handler
         ItemHandler();
         Dodge();
-        castSpell();
 
+        //spell cast
+        SpellCastAnimation();
 
     }
 
-    private void castSpell()
+    private void SpellCastAnimation()
     {
-        //casting a fireball
-        if(castModeManager.availableSpellID == 55 && spellManager.fireBallCoolDown == false && targetMode && Input.GetKeyDown(KeyCode.E))
+        //casting ice
+        if (castModeManager.availableSpellID == 30 && spellManager.iceCooldown == false && castModeManager.castingMode == false
+            && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(KeyCode.E))
         {
-            GameObject fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
-            fireBallObj.GetComponent<Rigidbody>().velocity = bulletSpawn.forward * fireBallSpeed * Time.deltaTime;
+            castingSpell = true;
+            anim.SetTrigger("IceSpell");
         }
+
+        //casting a fireball
+        if (castModeManager.availableSpellID == 55 && spellManager.fireBallCoolDown == false 
+            && castModeManager.castingMode == false && playerMovement.rolling == false
+            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
+        {
+            castingSpell = true;
+            anim.SetTrigger("FireBall");
+        }
+
+        //casting wind gust
+        if (castModeManager.availableSpellID == 35 && spellManager.windGustCoolDown == false
+            && castModeManager.castingMode == false && playerMovement.rolling == false
+            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
+        {
+            castingSpell = true;
+            anim.SetTrigger("WindGust");
+        }
+
+        //luminous spell
+        //casting wind gust
+        if (castModeManager.availableSpellID == 40 && spellManager.sparkCoolDown == false
+            && castModeManager.castingMode == false && playerMovement.rolling == false
+            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
+        {
+            castingSpell = true;
+            anim.SetTrigger("Luminous");
+        }
+
     }
 
+    //player has shield while rolling
     private void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             dodge = true;
         }
 
         if (dodge == true && shieldDuration > 0)
         {
+            disableSenses();
+            Time.timeScale = 1;
+
             shieldDuration -= 0.3f * Time.deltaTime;
 
             if (shieldDuration <= 0)
@@ -119,6 +158,7 @@ public class playerCombat : MonoBehaviour
                 shieldDuration = 0.2f;
             }
         }
+
     }
 
     private void castMode()
@@ -127,6 +167,8 @@ public class playerCombat : MonoBehaviour
         {
             if (castUI.activeSelf == false)
             {
+                spellCastUIAnim.SetBool("CastMode", true);
+                casting = true;
                 //activate cast mode UI
                 castUI.SetActive(true);
                 //slow down time
@@ -142,7 +184,7 @@ public class playerCombat : MonoBehaviour
         {
             targetMode = true;
             targetSight.SetActive(true);
-
+            
             if (midRig.m_TrackedObjectOffset.x < 0.95f)
             {
                 midRig.m_TrackedObjectOffset.x += 5f * Time.deltaTime;
@@ -154,7 +196,7 @@ public class playerCombat : MonoBehaviour
             }
 
         }
-        else
+        else if(Input.GetKeyUp(KeyCode.Mouse1) || castingSpell == false)
         {
             targetMode = false;
             targetSight.SetActive(false);
@@ -174,32 +216,45 @@ public class playerCombat : MonoBehaviour
 
     public void attack()
     {
-        //if the player is moving then dont proceed to the attacking combo
-        if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
-        {
-            anim.SetTrigger("Attack");
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false)
-            {
-                attacking = true;
-                anim.SetTrigger("Attack");
-                anim.SetBool("Attacking", true);
 
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+        // if reticle hits player then dont attack
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            //if the player is moving then dont proceed to the attacking combo
+            if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
             {
-                anim.SetTrigger("Attack2");
+                anim.SetTrigger("Attack");
             }
-            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+            else
             {
-                anim.SetTrigger("Attack3");
+                if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false)
+                {
+                    attacking = true;
+                    anim.SetTrigger("Attack");
+                    anim.SetBool("Attacking", true);
+
+                }
+                else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+                {
+                    anim.SetTrigger("Attack2");
+                }
+                else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+                {
+                    anim.SetTrigger("Attack3");
+                }
             }
-        }
+        
 
         if (AttackNumber == 3)
         {
+            AttackNumber = 0;
+        }
+
+        //attack animation resets if aiming mode is disabled
+        if(targetMode == false)
+        {
+            attacking = false;
+            currentTimeToChangeAnim = 0;
             AttackNumber = 0;
         }
 
@@ -266,20 +321,22 @@ public class playerCombat : MonoBehaviour
         if (dodge == false)
         {
             playerHealth -= damage;
+            disableSenses();
+            Time.timeScale = 1;
         }
 
     }
 
 
-    //public void enableSenses()
-    //{
-    //    awarenessUI.SetActive(true);
-    //}
+    public void enableSenses()
+    {
+        awarenessUI.SetActive(true);
+    }
 
-    //public void disableSenses()
-    //{
-    //    awarenessUI.SetActive(false);
-    //}
+    public void disableSenses()
+    {
+        awarenessUI.SetActive(false);
+    }
 
     //collisions handler
 
