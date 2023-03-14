@@ -15,7 +15,7 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] float bulletSpeed;
     [SerializeField] LayerMask layerMask;
 
-  
+
 
     //Roll
     [SerializeField] CharacterController cr;
@@ -43,7 +43,6 @@ public class Player_Animation_Config : MonoBehaviour
             Rigidbody bulletRigidbody = bulletObj.GetComponent<Rigidbody>();
             bulletRigidbody.velocity = direction * bulletSpeed;
         }
-
     }
 
     //public void CharacterFall()
@@ -53,10 +52,9 @@ public class Player_Animation_Config : MonoBehaviour
 
     public void DisableRoll()
     {
-        
         cr.enabled = true;
-        rb.velocity = Vector3.zero;
         player.position = new Vector3(player.position.x, -4.947f, player.position.z);
+        rb.velocity = Vector3.zero;
         rb.isKinematic = true;
         pm.rolled = false;
         pm.notRollingForward = false;

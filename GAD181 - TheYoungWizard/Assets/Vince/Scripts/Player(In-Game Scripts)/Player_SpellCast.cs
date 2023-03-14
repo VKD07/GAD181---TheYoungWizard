@@ -15,6 +15,7 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] GameObject fireball;
     [SerializeField] float fireBallSpeed;
     [SerializeField] Transform bulletSpawn;
+    [SerializeField] LayerMask layerMask;
 
     [Header("Ice Spell")]
     [SerializeField] GameObject ice;
@@ -38,7 +39,6 @@ public class Player_SpellCast : MonoBehaviour
     {
         //adjust the wind sphere
         sphere.radius = windRange;
-
     }
 
     public void enableMovement()
@@ -56,9 +56,20 @@ public class Player_SpellCast : MonoBehaviour
 
     private void ReleaseFireBall()
     {
-        GameObject fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
-        fireBallObj.GetComponent<Rigidbody>().velocity = bulletSpawn.forward * fireBallSpeed * Time.deltaTime;
- 
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        {
+            // Calculate the direction to fire the bullet
+            Vector3 direction = (hit.point - bulletSpawn.position).normalized;
+
+            // Instantiate the fireball prefab
+            GameObject fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
+
+            // Set the initial velocity of the bullet
+            Rigidbody bulletRigidbody = fireball.GetComponent<Rigidbody>();
+            fireBallObj.GetComponent<Rigidbody>().velocity = direction * fireBallSpeed * Time.deltaTime;
+        }
     }
 
     public void CastLuminous()

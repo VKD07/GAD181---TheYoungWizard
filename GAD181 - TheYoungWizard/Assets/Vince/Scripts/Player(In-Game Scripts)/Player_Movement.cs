@@ -80,7 +80,7 @@ public class Player_Movement : MonoBehaviour
         characterRoll();
         // characterJump();
 
-       
+
     }
 
     private void characterMovement()
@@ -89,8 +89,6 @@ public class Player_Movement : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
 
         Vector3 newPos = new Vector3(horizontalInput, 0f, verticalInput).normalized;
-
-        print(newPos);
 
         if (newPos.magnitude > 0.1f)
         {
@@ -122,7 +120,7 @@ public class Player_Movement : MonoBehaviour
 
                 //move character
                 characterController.Move(moveDir * currentspeed * Time.deltaTime);
-                
+
             }
             isMoving = true;
         }
@@ -152,14 +150,14 @@ public class Player_Movement : MonoBehaviour
             currentHeight += speedToReachMaxHeight * Time.deltaTime;
             characterController.Move(Vector3.up * jumpVelocity * Time.deltaTime);
         }
-       else
+        else
         {
             characterController.Move(Vector3.down * gravity * Time.deltaTime);
         }
 
         if (Input.GetKeyUp(jumpKey) || currentHeight >= maxHeightJump)
         {
-            anim.SetBool("StandingJump", false) ;
+            anim.SetBool("StandingJump", false);
         }
 
         if (characterController.isGrounded == true)
@@ -170,13 +168,8 @@ public class Player_Movement : MonoBehaviour
             jumped = false;
         }
 
-       
+
     }
-
-
-
-
-
 
     private void characterAimMode()
     {
@@ -187,7 +180,7 @@ public class Player_Movement : MonoBehaviour
 
             float xRotation = Mathf.Clamp(transform.eulerAngles.x, -5f, 12f);
 
-            transform.rotation = Quaternion.Euler(xRotation, transform.eulerAngles.y, transform.eulerAngles.z);
+            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, transform.eulerAngles.z);
         }
     }
 
@@ -202,7 +195,7 @@ public class Player_Movement : MonoBehaviour
         //{
         //    notRollingForward = true;
         //    rolling = true;
-           
+
         //    characterController.enabled = false;
         //    rb.isKinematic = false;
         //    rb.velocity = -transform.forward * forceStrength;
@@ -212,39 +205,39 @@ public class Player_Movement : MonoBehaviour
 
         //    disableOtherAnimations();
         //}
-       //Roll direction
-      //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && rolling == false)
-      //  {
-      //      rolling = true;
-      //      notRollingForward = true;
-      //      characterController.enabled = false;
-      //      rb.isKinematic = false;
-      //      rb.velocity = transform.right * forceStrength;
-      //      pc.RollCamera();
-      //      disableOtherAnimations();
-      //  }
-      //  //roll left
-      //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && rolling == false)
-      //  {
-      //      rolling = true;
-      //      notRollingForward = true;
-      //      characterController.enabled = false;
-      //      rb.isKinematic = false;
-      //      rb.velocity = -transform.right * forceStrength;
-      //      pc.RollCamera();
-      //      disableOtherAnimations();
-      //  }
+        //Roll direction
+        //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && rolling == false)
+        //  {
+        //      rolling = true;
+        //      notRollingForward = true;
+        //      characterController.enabled = false;
+        //      rb.isKinematic = false;
+        //      rb.velocity = transform.right * forceStrength;
+        //      pc.RollCamera();
+        //      disableOtherAnimations();
+        //  }
+        //  //roll left
+        //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && rolling == false)
+        //  {
+        //      rolling = true;
+        //      notRollingForward = true;
+        //      characterController.enabled = false;
+        //      rb.isKinematic = false;
+        //      rb.velocity = -transform.right * forceStrength;
+        //      pc.RollCamera();
+        //      disableOtherAnimations();
+        //  }
 
-      //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && rolling == false)
-      //  {
-      //      rolling = true;
-      //      notRollingForward = true;
-      //      characterController.enabled = false;
-      //      rb.isKinematic = false;
-      //      rb.velocity = transform.forward * forceStrength;
-      //      pc.RollCamera();
-      //      disableOtherAnimations();
-      //  }
+        //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && rolling == false)
+        //  {
+        //      rolling = true;
+        //      notRollingForward = true;
+        //      characterController.enabled = false;
+        //      rb.isKinematic = false;
+        //      rb.velocity = transform.forward * forceStrength;
+        //      pc.RollCamera();
+        //      disableOtherAnimations();
+        //  }
 
         if (rolled == true && notRollingForward == false && rolling == false)
         {
@@ -259,7 +252,6 @@ public class Player_Movement : MonoBehaviour
         //roll animation
         if (rolled == false && Input.GetKey(rollKey) && pc.castingSpell == false)
         {
-            
             pc.RollCamera();
             rolled = true;
             anim.SetTrigger("Roll");
@@ -319,7 +311,7 @@ public class Player_Movement : MonoBehaviour
             //target mode Animation
 
             //run left
-            if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) 
+            if (Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A)
                 || Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.Mouse1))
             {
 
@@ -381,7 +373,5 @@ public class Player_Movement : MonoBehaviour
         anim.SetBool("runLeft", false);
         anim.SetBool("walkBack", false);
     }
-
-
 
 }

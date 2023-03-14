@@ -8,12 +8,13 @@ public class CastModeManager : MonoBehaviour
     [SerializeField] Player_Movement playerScript;
     [SerializeField] playerCombat pc;
     [SerializeField] float castModeTimer;
+    [SerializeField] Animator spellCastUiAnim;
 
     //arrays of elements and slots
     [SerializeField] Sprite[] spriteElements;
     [SerializeField] Image[] elementSlots;
     [SerializeField] bool[] elementState;
-
+    [SerializeField] GameObject[] selectionSlots;
 
     //Spells 
     public int[] spellIDs;
@@ -35,11 +36,12 @@ public class CastModeManager : MonoBehaviour
         //after you finished casting
         if (this.gameObject.activeSelf == true && Input.GetKeyDown(KeyCode.R))
         {
+            spellCastUiAnim.SetBool("CastMode", false);
             pc.casting = false;
             //resets spell combinations after UI is disabled;
             spellCasting();
             castingMode = false;
-            ResetSpellCombinations();
+            ResetSpell();
             this.gameObject.SetActive(false);
             playerScript.enabled = true;
             Time.timeScale = 1f;
@@ -50,6 +52,7 @@ public class CastModeManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        refreshSpell();
         //when the UI is enable start the timer, disable the movement scrpt then reactived everything again after few seconds
         StartCoroutine(disableUI());
         castingMode = true;
@@ -69,8 +72,8 @@ public class CastModeManager : MonoBehaviour
         spellCasting();
 
         //resets spell combinations after UI is disabled;
-        ResetSpellCombinations();
-
+        ResetSpell();
+        spellCastUiAnim.SetBool("CastMode", false);
         this.gameObject.SetActive(false);
 
     }
@@ -96,6 +99,11 @@ public class CastModeManager : MonoBehaviour
     //handling the elements chosen by the player
     void Element(int elementValue)
     {
+        if (this.gameObject.activeSelf == true)
+        {
+            selectionSlots[elementValue].SetActive(true);
+        }
+
         //if player choosed 1st element
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -109,7 +117,7 @@ public class CastModeManager : MonoBehaviour
 
             //change the slot image to the element chosen
             elementSlots[elementValue].sprite = spriteElements[0];
-
+            selectionSlots[elementValue].SetActive(false);
             //adding the element ID
             currentSpellID += 5;
 
@@ -117,23 +125,25 @@ public class CastModeManager : MonoBehaviour
         //if player choosed 2nd element
         else if (Input.GetKeyDown(KeyCode.W))
         {
+            selectionSlots[elementValue].SetActive(true);
             elementState[elementValue] = true;
             Color currentColor = elementSlots[elementValue].color;
             currentColor.a = 1f;
             elementSlots[elementValue].color = currentColor;
             elementSlots[elementValue].sprite = spriteElements[1];
-
+            selectionSlots[elementValue].SetActive(false);
             currentSpellID += 15;
         }
         // if player choosed 3rd element
         else if (Input.GetKeyDown(KeyCode.E))
         {
+            selectionSlots[elementValue].SetActive(false);
             elementState[elementValue] = true;
             Color currentColor = elementSlots[elementValue].color;
             currentColor.a = 1f;
             elementSlots[elementValue].color = currentColor;
             elementSlots[elementValue].sprite = spriteElements[2];
-
+            selectionSlots[elementValue].SetActive(false);
             currentSpellID += 20;
         }
     }
@@ -156,7 +166,7 @@ public class CastModeManager : MonoBehaviour
         }
     }
 
-    private void ResetSpellCombinations()
+    private void refreshSpell()
     {
         //loop throuhg the element slots and reset everything from the transparecy color, 
         // to the element sprits and the element states;
@@ -169,7 +179,22 @@ public class CastModeManager : MonoBehaviour
 
             elementSlots[i].color = currentColor;
             elementState[i] = false;
+            selectionSlots[i].SetActive(false);
+            //reset the spell ID after finish combining
+            //reset the spell ID after finish combining
+            currentSpellID = 0;
+        }
+    }
 
+
+    void ResetSpell()
+    {
+        //loop throuhg the element slots and reset everything from the transparecy color, 
+        // to the element sprits and the element states;
+        for (int i = 0; i < elementSlots.Length; i++)
+        {
+            elementState[i] = false;
+            selectionSlots[i].SetActive(false);
             //reset the spell ID after finish combining
             //reset the spell ID after finish combining
             currentSpellID = 0;

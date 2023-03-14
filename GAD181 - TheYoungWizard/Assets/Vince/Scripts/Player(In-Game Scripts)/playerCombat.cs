@@ -18,6 +18,7 @@ public class playerCombat : MonoBehaviour
     [Header("Cast Mode")]
     [SerializeField] GameObject castUI;
     [SerializeField] CastModeManager castModeManager;
+    [SerializeField] Animator spellCastUIAnim;
 
     [Header("Spell Cast")]
     [SerializeField] SpellSlot spellManager;
@@ -81,7 +82,7 @@ public class playerCombat : MonoBehaviour
             paused = false;
             Time.timeScale = 1;
         }
-
+       
         //focusing on targeting the enemy
         aimMode();
         attack();
@@ -166,6 +167,7 @@ public class playerCombat : MonoBehaviour
         {
             if (castUI.activeSelf == false)
             {
+                spellCastUIAnim.SetBool("CastMode", true);
                 casting = true;
                 //activate cast mode UI
                 castUI.SetActive(true);
@@ -182,7 +184,7 @@ public class playerCombat : MonoBehaviour
         {
             targetMode = true;
             targetSight.SetActive(true);
-
+            
             if (midRig.m_TrackedObjectOffset.x < 0.95f)
             {
                 midRig.m_TrackedObjectOffset.x += 5f * Time.deltaTime;

@@ -20,7 +20,7 @@ public class DummySpawner : MonoBehaviour
         existingDummies = GameObject.FindGameObjectsWithTag("dummy");
         existingWindDummies = GameObject.FindGameObjectsWithTag("windEnemy");
 
-        if (existingDummies.Length == 0 && existingWindDummies.Length == 0 && stageNumber < 9)
+        if (existingDummies.Length == 0 && existingWindDummies.Length == 0)
         {
             spawnDummy();
         }
@@ -34,13 +34,12 @@ public class DummySpawner : MonoBehaviour
             Instantiate(dummyAi, spawnerLocations[randomLocation].position, Quaternion.identity);
         }
 
-        StageHander();
+        StageHandler();
     }
 
-    private void StageHander()
+    private void StageHandler()
     {
         stageNumber++;
-
         if (stageNumber == 3)
         {
             numberOfDummiesToSpawn++;

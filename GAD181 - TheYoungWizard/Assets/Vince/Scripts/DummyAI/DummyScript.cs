@@ -27,8 +27,6 @@ public class DummyScript : MonoBehaviour
     NavMeshAgent ai;
     bool isAlive = true;
 
-
-
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -57,7 +55,7 @@ public class DummyScript : MonoBehaviour
 
         //choose a spell
         spellChosenIndex = Random.Range(0, spellIDs.Length);
-        if(spellChosenIndex == 4)
+        if (spellChosenIndex == 4)
         {
             return;
         }
@@ -65,51 +63,51 @@ public class DummyScript : MonoBehaviour
         {
             spellSlot.sprite = spellIcons[spellChosenIndex];
         }
-     
+
     }
 
     private void ChasePlayer()
     {
         if (isAlive == true)
         {
-          
+
             player = GameObject.FindGameObjectWithTag("Player").transform;
-            
-          
+
+
             //dummy looking at the player always
-            
+
             transform.rotation = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
             ai.SetDestination(player.position);
 
             //calculate distance
             float distanceToPlayer = Vector3.Distance(player.position, transform.position);
 
-            if(distanceToPlayer <= attackRange)
+            if (distanceToPlayer <= attackRange)
             {
                 Attack();
             }
-            else if(pc.casting == false)
+            else if (pc.casting == false)
             {
                 Time.timeScale = 1f;
                 pc.disableSenses();
                 animator.SetBool("Attacking", false);
             }
         }
-      
+
     }
 
     private void Attack()
     {
-       animator.SetBool("Attacking", true);
+        animator.SetBool("Attacking", true);
     }
 
     private void WindGustEffect()
     {
-        if(spellChosenIndex == 1)
+        if (spellChosenIndex == 1)
         {
             gameObject.tag = "windEnemy";
         }
-        if(enteredWindRange == true && spell.releaseWind == true)
+        if (enteredWindRange == true && spell.releaseWind == true)
         {
             ai.enabled = false;
             DeathState();
@@ -118,7 +116,7 @@ public class DummyScript : MonoBehaviour
 
     private void DamagePlayer()
     {
-      pc.damagePlayer(attackDamage);
+        pc.damagePlayer(attackDamage);
     }
 
     private void DamageIndicator()
@@ -147,7 +145,8 @@ public class DummyScript : MonoBehaviour
         else if (spellChosenIndex == 3 && collision.tag == "luminous")
         {
             DeathState();
-        }else if(spellChosenIndex == 4 && collision.tag == "playerBullet")
+        }
+        else if (spellChosenIndex == 4 && collision.tag == "playerBullet")
         {
             DeathState();
         }
@@ -160,7 +159,7 @@ public class DummyScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-       
+
         //dummy gets destroyed depends on the chosen spells
         if (spellChosenIndex == 0 && other.tag == "Fireball")
         {
@@ -180,7 +179,6 @@ public class DummyScript : MonoBehaviour
             enteredWindRange = true;
         }
     }
- 
 
     void DeathState()
     {
