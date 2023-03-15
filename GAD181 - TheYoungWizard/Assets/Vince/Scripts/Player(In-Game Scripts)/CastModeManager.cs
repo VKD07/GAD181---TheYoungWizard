@@ -9,7 +9,6 @@ public class CastModeManager : MonoBehaviour
     [SerializeField] playerCombat pc;
     [SerializeField] float castModeTimer;
     [SerializeField] Animator spellCastUiAnim;
-    [SerializeField] Animator centerCircleUi;
 
     //arrays of elements and slots
     [SerializeField] Sprite[] spriteElements;
@@ -38,7 +37,6 @@ public class CastModeManager : MonoBehaviour
         if (this.gameObject.activeSelf == true && Input.GetKeyDown(KeyCode.R))
         {
             spellCastUiAnim.SetBool("CastMode", false);
-            centerCircleUi.SetBool("StartSpin", false);
             pc.casting = false;
             //resets spell combinations after UI is disabled;
             spellCasting();
@@ -55,7 +53,6 @@ public class CastModeManager : MonoBehaviour
     private void OnEnable()
     {
         refreshSpell();
-        centerCircleUi.SetBool("StartSpin", true);
         //when the UI is enable start the timer, disable the movement scrpt then reactived everything again after few seconds
         StartCoroutine(disableUI());
         castingMode = true;
@@ -77,7 +74,6 @@ public class CastModeManager : MonoBehaviour
         //resets spell combinations after UI is disabled;
         ResetSpell();
         spellCastUiAnim.SetBool("CastMode", false);
-        centerCircleUi.SetBool("StartSpin", false);
         this.gameObject.SetActive(false);
 
     }
