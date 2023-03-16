@@ -245,7 +245,7 @@ public class Player_Movement : MonoBehaviour
             characterController.enabled = false;
             rb.isKinematic = false;
             rb.velocity = transform.forward * forceStrength;
-            cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+           cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
             pc.RollCamera();//disabling camera controll
             disableOtherAnimations();
         }

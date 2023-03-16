@@ -148,7 +148,11 @@ public class playerCombat : MonoBehaviour
         if (dodge == true && shieldDuration > 0)
         {
             disableSenses();
-            Time.timeScale = 1;
+
+            if (casting == false)
+            {
+                Time.timeScale = 1;
+            }
 
             shieldDuration -= 0.3f * Time.deltaTime;
 

@@ -59,7 +59,7 @@ public class Player_Animation_Config : MonoBehaviour
         pm.rolled = false;
         pm.notRollingForward = false;
         pm.rolling = false;
-        playerCombat.rolled = false;
+       // pc.rolled = false;
         cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
         //giving mouse controll again
         cam.m_YAxis.m_MaxSpeed = 2;

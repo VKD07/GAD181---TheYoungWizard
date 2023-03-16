@@ -180,7 +180,6 @@ public class SpellSlot : MonoBehaviour
     {
         if (windGustCoolDown == true)
         {
-            print("casted Ice");
             if (windGustCurrentCoolDown > 0)
             {
                 windGustCurrentCoolDown -= Time.deltaTime;
@@ -198,7 +197,6 @@ public class SpellSlot : MonoBehaviour
     {
         if (sparkCoolDown == true)
         {
-            print("casted Ice");
             if (sparkCurrentCoolDown > 0)
             {
                 sparkCurrentCoolDown -= Time.deltaTime;

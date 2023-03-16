@@ -28,6 +28,7 @@ public class CastModeManager : MonoBehaviour
     [SerializeField] public Sprite[] spellIcons;
     [SerializeField] Sprite defaultIcon;
     public bool castingMode = false;
+    public bool doneCombining = false;
 
     private void Update()
     {
@@ -35,12 +36,12 @@ public class CastModeManager : MonoBehaviour
         if (this.gameObject.activeSelf == true && Input.GetKeyDown(KeyCode.R))
         {
             spellCastUiAnim.SetBool("CastMode", false);
-            centerCircleAnim.SetBool("SpinCircle", false);
             castEffect.SetBool("ActivateEffect", false);
             castEffectObj.SetActive(false);
             pc.casting = false;
             //resets spell combinations after UI is disabled;
-            spellCasting();
+            settingSpellSprite();
+            doneCombining = false;
             castingMode = false;
             ResetSpell();
             this.gameObject.SetActive(false);
@@ -55,7 +56,6 @@ public class CastModeManager : MonoBehaviour
         //activatinng effects
         castEffectObj.SetActive(true);
         castEffect.SetBool("ActivateEffect", true);
-        centerCircleAnim.SetBool("SpinCircle", true);
         //when the UI is enable start the timer, disable the movement scrpt then reactived everything again after few seconds
         StartCoroutine(disableUI());
         castingMode = true;
@@ -69,10 +69,11 @@ public class CastModeManager : MonoBehaviour
         yield return new WaitForSeconds(castModeTimer);
         pc.casting = false;
         Time.timeScale = 1;
+        doneCombining = false;
         castingMode = false;
         playerScript.enabled = true;
 
-        spellCasting();
+        settingSpellSprite();
 
         //resets spell combinations after UI is disabled;
         ResetSpell();
@@ -99,6 +100,11 @@ public class CastModeManager : MonoBehaviour
         else if (elementState[2] == false && elementState[1] == true)
         {
             Element(2);
+        }
+        //this prevents combining spells with only combing 2 elements
+        if(elementState[2] == true)
+        {
+            doneCombining = true;
         }
     }
 
@@ -154,11 +160,11 @@ public class CastModeManager : MonoBehaviour
         }
     }
 
-    void spellCasting()
+    void settingSpellSprite()
     {
         for (int i = 0; i < spellIDs.Length; i++)
         {
-            if (spellIDs[i] == currentSpellID)
+            if (spellIDs[i] == currentSpellID && doneCombining == true)
             {
                 spellSlot.sprite = spellIcons[i];
                 //Store the current spell available to use

@@ -16,6 +16,7 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] float fireBallSpeed;
     [SerializeField] Transform bulletSpawn;
     [SerializeField] LayerMask layerMask;
+    GameObject fireBallObj;
 
     [Header("Ice Spell")]
     [SerializeField] GameObject ice;
@@ -58,17 +59,24 @@ public class Player_SpellCast : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        if (combatScript.targetMode == true && Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             // Calculate the direction to fire the bullet
             Vector3 direction = (hit.point - bulletSpawn.position).normalized;
 
             // Instantiate the fireball prefab
-            GameObject fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
+           fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
 
             // Set the initial velocity of the bullet
-            Rigidbody bulletRigidbody = fireball.GetComponent<Rigidbody>();
             fireBallObj.GetComponent<Rigidbody>().velocity = direction * fireBallSpeed * Time.deltaTime;
+        }
+        else if(combatScript.targetMode == false)
+        {
+            // Instantiate the fireball prefab
+            fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
+
+            // Set the initial velocity of the bullet
+            fireBallObj.GetComponent<Rigidbody>().velocity = transform.forward * fireBallSpeed * Time.deltaTime;
         }
     }
 
