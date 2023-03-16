@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class SpellSlot : MonoBehaviour
 {
-    [SerializeField] Slider slider;
     [SerializeField] GameObject castManager;
     CastModeManager castMode;
 
@@ -35,8 +34,16 @@ public class SpellSlot : MonoBehaviour
     public Sprite[] spellImages;
     [SerializeField] Image spellSlot;
 
+    [Header("Cooldown Manager")]
+    [SerializeField] Slider slider;
+    [SerializeField] GameObject coolDownUi;
+    [SerializeField] Sprite[] coolDownSprites;
+    [SerializeField] Image coolDownFillImg;
 
-
+    private void Start()
+    {
+        coolDownUi.SetActive(false);
+    }
 
     // Update is called once per frame
     void Update()
@@ -51,7 +58,6 @@ public class SpellSlot : MonoBehaviour
             if (spellID == spells[0] && Input.GetKey(KeyCode.Mouse1) && Input.GetKeyDown(KeyCode.E))
             {
                 iceCooldown = true;
-
                 iceSpell();
             }
             else if (spellID == spells[1] && Input.GetKey(KeyCode.Mouse1) && Input.GetKeyDown(KeyCode.E))
@@ -68,7 +74,10 @@ public class SpellSlot : MonoBehaviour
             {
                 fireBallCoolDown = true;
                 fireBallSpell();
-
+            }
+            else
+            {
+                coolDownUi.SetActive(false);
             }
         }
 
@@ -94,24 +103,16 @@ public class SpellSlot : MonoBehaviour
             //Get ID elements and store it to this script
             for (int i = 0; i < castMode.spellIDs.Length; i++)
             {
-
                 spells[i] = castMode.spellIDs[i];
             }
 
             for (int i = 0; i < spellImages.Length; i++)
             {
-
                 spellImages[i] = castMode.spellIcons[i];
             }
-
             //get the current spell ID chosen
             spellID = castMode.currentSpellID;
-
         }
-
-
-
-
     }
 
     private void coolDownUI()
@@ -123,18 +124,26 @@ public class SpellSlot : MonoBehaviour
             {
                 //slider value will change according to the image shown in the screen
                 slider.value = iceCurrentCoolDown;
+                coolDownFillImg.sprite = coolDownSprites[0];
+                SetCoolDownImage(iceCooldown);
             }
             else if (spellSlot.sprite == spellImages[1])
             {
                 slider.value = windGustCurrentCoolDown;
+                coolDownFillImg.sprite = coolDownSprites[1];
+                SetCoolDownImage(windGustCoolDown);
             }
             else if (spellSlot.sprite == spellImages[2])
             {
                 slider.value = sparkCurrentCoolDown;
+                coolDownFillImg.sprite = coolDownSprites[2];
+                SetCoolDownImage(sparkCoolDown);
             }
             else if (spellSlot.sprite == spellImages[3])
             {
                 slider.value = fireBallCurrentCoolDown;
+                coolDownFillImg.sprite = coolDownSprites[3];
+                SetCoolDownImage(fireBallCoolDown);
             }
         }
     }
@@ -143,11 +152,9 @@ public class SpellSlot : MonoBehaviour
     {
         if (fireBallCoolDown == true)
         {
-
             if (fireBallCurrentCoolDown > 0)
             {
                 fireBallCurrentCoolDown -= Time.deltaTime;
-
             }
             else
             {
@@ -159,14 +166,11 @@ public class SpellSlot : MonoBehaviour
 
     void iceSpell()
     {
-
         if (iceCooldown == true)
         {
-
             if (iceCurrentCoolDown > 0)
             {
                 iceCurrentCoolDown -= Time.deltaTime;
-
             }
             else
             {
@@ -200,7 +204,6 @@ public class SpellSlot : MonoBehaviour
             if (sparkCurrentCoolDown > 0)
             {
                 sparkCurrentCoolDown -= Time.deltaTime;
-
             }
             else
             {
@@ -210,4 +213,16 @@ public class SpellSlot : MonoBehaviour
         }
     }
 
+    //activating and deactivating UI cool down depends if the spell is cooldown or not
+    void SetCoolDownImage(bool spellCoolDown)
+    {
+        if (spellCoolDown == true)
+        {
+            coolDownUi.SetActive(true);
+        }
+        else
+        {
+            coolDownUi.SetActive(false);
+        }
+    }
 }
