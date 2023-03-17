@@ -29,6 +29,7 @@ public class CastModeManager : MonoBehaviour
     [SerializeField] Sprite defaultIcon;
     public bool castingMode = false;
     public bool doneCombining = false;
+    public bool wrongCombination = false;
 
     private void Update()
     {
@@ -36,6 +37,7 @@ public class CastModeManager : MonoBehaviour
         if (this.gameObject.activeSelf == true && Input.GetKeyDown(KeyCode.R))
         {
             spellCastUiAnim.SetBool("CastMode", false);
+            centerCircleAnim.SetBool("SpinCircle", false);
             castEffect.SetBool("ActivateEffect", false);
             castEffectObj.SetActive(false);
             pc.casting = false;
@@ -56,6 +58,7 @@ public class CastModeManager : MonoBehaviour
         //activatinng effects
         castEffectObj.SetActive(true);
         castEffect.SetBool("ActivateEffect", true);
+        centerCircleAnim.SetBool("SpinCircle", true);
         //when the UI is enable start the timer, disable the movement scrpt then reactived everything again after few seconds
         StartCoroutine(disableUI());
         castingMode = true;
@@ -166,6 +169,7 @@ public class CastModeManager : MonoBehaviour
         {
             if (spellIDs[i] == currentSpellID && doneCombining == true)
             {
+                wrongCombination = false;
                 spellSlot.sprite = spellIcons[i];
                 //Store the current spell available to use
                 availableSpellID = currentSpellID;
@@ -174,7 +178,9 @@ public class CastModeManager : MonoBehaviour
             else
             {
                 //insert the consequences here if the player miscombined the elements------------------------
+                wrongCombination = true;
                 spellSlot.sprite = defaultIcon;
+
             }
         }
     }

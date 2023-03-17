@@ -8,8 +8,19 @@ using UnityEngine;
 public class playerCombat : MonoBehaviour
 {
     [Header("Player Stats")]
-    [SerializeField] int playerHealth;
+    [SerializeField] float playerHealth;
+    [SerializeField] float playerMana;
     Player_Movement playerMovement;
+
+    [Header("Spell Mana Cost")]
+    [SerializeField] int fireballManaCost;
+    [SerializeField] int iceSpellManaCost;
+    [SerializeField] int luminousManaCost;
+    [SerializeField] int windGustManaCost;
+
+    [Header("Item Settings")]
+    [SerializeField] float healthPotionValue = 40f;
+    [SerializeField] float manaPotionValue = 40f;
 
     [Header("Character Animation")]
     [SerializeField] public Animator anim;
@@ -22,6 +33,7 @@ public class playerCombat : MonoBehaviour
 
     [Header("Spell Cast")]
     [SerializeField] SpellSlot spellManager;
+    [SerializeField] Animator sliderAnimation;
     [HideInInspector] public bool casting = false;
     public bool castingSpell = false;
  
@@ -43,8 +55,6 @@ public class playerCombat : MonoBehaviour
     public bool attacking = false;
     public float currentTimeToChangeAnim;
     public float timeLimit = 1f;
-
-    
 
     //Awareness 
     [SerializeField] GameObject awarenessUI;
@@ -94,47 +104,60 @@ public class playerCombat : MonoBehaviour
 
         //spell cast
         SpellCastAnimation();
-
     }
 
     private void SpellCastAnimation()
     {
-        //casting ice
-        if (castModeManager.availableSpellID == 30 && spellManager.iceCooldown == false && castModeManager.castingMode == false
-            && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(KeyCode.E))
+        //if combination is not wrong then you can activate a spell
+        if(castModeManager.wrongCombination == false)
         {
-            castingSpell = true;
-            anim.SetTrigger("IceSpell");
-        }
+            //casting ice
+            if (castModeManager.availableSpellID == 30 && spellManager.iceCooldown == false && castModeManager.castingMode == false
+                && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey)
+                && playerMana >= 20)
+            {
+                castingSpell = true;
+                anim.SetTrigger("IceSpell");
+                playerMana -= iceSpellManaCost;
+            }
 
-        //casting a fireball
-        if (castModeManager.availableSpellID == 55 && spellManager.fireBallCoolDown == false 
-            && castModeManager.castingMode == false && playerMovement.rolling == false
-            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
-        {
-            castingSpell = true;
-            anim.SetTrigger("FireBall");
-        }
+            //casting a fireball
+            if (castModeManager.availableSpellID == 55 && spellManager.fireBallCoolDown == false
+                && castModeManager.castingMode == false && playerMovement.rolling == false
+                && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey) && playerMana >= 20)
+            {
+                castingSpell = true;
+                anim.SetTrigger("FireBall");
+                playerMana -= fireballManaCost;
+            }
 
-        //casting wind gust
-        if (castModeManager.availableSpellID == 35 && spellManager.windGustCoolDown == false
-            && castModeManager.castingMode == false && playerMovement.rolling == false
-            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
-        {
-            castingSpell = true;
-            anim.SetTrigger("WindGust");
-        }
+            //casting wind gust
+            if (castModeManager.availableSpellID == 35 && spellManager.windGustCoolDown == false
+                && castModeManager.castingMode == false && playerMovement.rolling == false
+                && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey) && playerMana >= 20)
+            {
+                castingSpell = true;
+                anim.SetTrigger("WindGust");
+                playerMana -= windGustManaCost;
+            }
 
-        //luminous spell
-        //casting wind gust
-        if (castModeManager.availableSpellID == 40 && spellManager.sparkCoolDown == false
-            && castModeManager.castingMode == false && playerMovement.rolling == false
-            && castingSpell == false && Input.GetKeyDown(KeyCode.E))
-        {
-            castingSpell = true;
-            anim.SetTrigger("Luminous");
+            //luminous spell
+            //casting wind gust
+            if (castModeManager.availableSpellID == 40 && spellManager.sparkCoolDown == false
+                && castModeManager.castingMode == false && playerMovement.rolling == false
+                && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey) && playerMana >= 20)
+            {
+                castingSpell = true;
+                anim.SetTrigger("Luminous");
+                playerMana -= luminousManaCost;
+            }
+            //if player tries to cast a spell with not enough mana
+            if(castModeManager.castingMode == false && playerMovement.rolling == false
+                && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey) && playerMana <= 20)
+            {
+                sliderAnimation.SetTrigger("NotEnoughMana");
+            }
         }
-
     }
 
     //player has shield while rolling
@@ -304,21 +327,49 @@ public class playerCombat : MonoBehaviour
     private void ItemHandler()
     {
         //if slot 1 is full and player wanted to use it
-        if (itemManager.isFull[0] == true && Input.GetKeyDown(KeyCode.Alpha1))
+        if (itemManager.numberOfHealthP > 0 && Input.GetKeyDown(KeyCode.Alpha1) && playerHealth < 100)
         {
-            itemManager.isFull[0] = false;
-            itemManager.itemSlots[0].sprite = null;
-
-            //if slot 2 is full and player wants to use it
-        }
-        else if (itemManager.isFull[1] == true && Input.GetKeyDown(KeyCode.Alpha2))
+            float totalHealthValue = playerHealth + healthPotionValue;
+            //this is to avoid the character having more than 100 health
+            if(totalHealthValue > 100)
+            {
+                playerHealth = 100;
+            }
+            else
+            {
+                playerHealth += healthPotionValue;
+            }
+            //hide slot if slot is zero, else dont hide but subtract the quantity
+            if (itemManager.numberOfHealthP <= 0)
+            {
+                itemManager.HideItemSlot(0);
+            }
+            else
+            {
+                itemManager.numberOfHealthP--;
+            }
+        } //if slot 2 is full and player wants to use it
+        else if (itemManager.numberOfManaP > 0 && Input.GetKeyDown(KeyCode.Alpha2) && playerMana < 100)
         {
-            itemManager.isFull[1] = false;
-            itemManager.itemSlots[1].sprite = null;
+            float totalManaValue = playerMana + manaPotionValue;
+            if(totalManaValue > 100)
+            {
+                playerMana = 100;
+            }
+            else
+            {
+                playerMana += manaPotionValue;
+            }
+            if (itemManager.numberOfManaP <= 0)
+            {
+                itemManager.HideItemSlot(1);
+            }
+            else
+            {
+                itemManager.numberOfManaP--;
+            }
         }
-
     }
-
     //take damage from enemy
     public void damagePlayer(int damage)
     {
@@ -329,6 +380,28 @@ public class playerCombat : MonoBehaviour
             Time.timeScale = 1;
         }
 
+    }
+
+    //get player health
+    public float GetPlayerHealth()
+    {
+        return playerHealth;
+    }
+
+    //get player mana
+    public float GetPlayerMana()
+    {
+        return playerMana;
+    }
+    
+    public void ReducePlayerMana(float value)
+    {
+        playerMana -= value;
+    }
+
+    public void SetPlayerMana(float value)
+    {
+        playerMana += value;
     }
 
 

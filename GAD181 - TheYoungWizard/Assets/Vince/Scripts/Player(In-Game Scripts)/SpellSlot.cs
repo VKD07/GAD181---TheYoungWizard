@@ -1,23 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SpellSlot : MonoBehaviour
 {
+    [Header("Spells Settings")]
+    [SerializeField] public KeyCode activateSpellKey = KeyCode.E;
     [SerializeField] GameObject castManager;
+    [SerializeField] playerCombat pc;
     CastModeManager castMode;
 
+    [Header("Spell CoolDowns")]
     public float spellID;
     public int[] spells;
-
-    [Header("Spell CoolDowns")]
     public float fireBall = 10f;
     public float ice = 10f;
     public float windGust = 10f;
     public float spark = 5f;
 
-    //spell cooldownStates
+    [Header("Cooldown Manager")]
+    [SerializeField] Slider slider;
+    [SerializeField] GameObject coolDownUi;
+    [SerializeField] Sprite[] coolDownSprites;
+    [SerializeField] Image coolDownFillImg;
+
     public bool iceCooldown = false;
     public float iceCurrentCoolDown = 0f;
 
@@ -30,19 +38,16 @@ public class SpellSlot : MonoBehaviour
     public bool fireBallCoolDown = false;
     public float fireBallCurrentCoolDown = 0f;
 
-    //spell images 
+    [Header("SpellImages")]
     public Sprite[] spellImages;
     [SerializeField] Image spellSlot;
-
-    [Header("Cooldown Manager")]
-    [SerializeField] Slider slider;
-    [SerializeField] GameObject coolDownUi;
-    [SerializeField] Sprite[] coolDownSprites;
-    [SerializeField] Image coolDownFillImg;
+    Color spellColor;
 
     private void Start()
     {
+        pc = FindObjectOfType<playerCombat>();
         coolDownUi.SetActive(false);
+        setSpellUiTransparency(1f);
     }
 
     // Update is called once per frame
@@ -50,27 +55,28 @@ public class SpellSlot : MonoBehaviour
     {
         //find the cast manager game object
         castManager = GameObject.FindGameObjectWithTag("CastMode");
-
+        print(pc.GetPlayerMana());
         //spell cooldown handler
         if (spellID != 0)
         {
             //if player is on the target mode release spell
-            if (spellID == spells[0] && Input.GetKey(KeyCode.Mouse1) && Input.GetKeyDown(KeyCode.E))
+            if (spellID == spells[0] && Input.GetKey(KeyCode.Mouse1) 
+                && pc.GetPlayerMana() > 20 && Input.GetKeyDown(activateSpellKey))
             {
                 iceCooldown = true;
                 iceSpell();
             }
-            else if (spellID == spells[1] && Input.GetKey(KeyCode.Mouse1) && Input.GetKeyDown(KeyCode.E))
+            else if (spellID == spells[1]&& pc.GetPlayerMana() > 20 &&  Input.GetKeyDown(activateSpellKey))
             {
                 windGustCoolDown = true;
                 windGustSpell();
             }
-            else if (spellID == spells[2] && Input.GetKey(KeyCode.Mouse1) && Input.GetKeyDown(KeyCode.E))
+            else if (spellID == spells[2] && pc.GetPlayerMana()> 20 && Input.GetKeyDown(activateSpellKey))
             {
                 sparkCoolDown = true;
                 sparkSpell();
             }
-            else if (spellID == spells[3] && Input.GetKey(KeyCode.Mouse1) && Input.GetKeyDown(KeyCode.E))
+            else if (spellID == spells[3] && pc.GetPlayerMana() > 20 && Input.GetKey(KeyCode.Mouse1) && Input.GetKeyDown(activateSpellKey))
             {
                 fireBallCoolDown = true;
                 fireBallSpell();
@@ -78,6 +84,7 @@ public class SpellSlot : MonoBehaviour
             else
             {
                 coolDownUi.SetActive(false);
+                setSpellUiTransparency(1f);
             }
         }
 
@@ -219,10 +226,19 @@ public class SpellSlot : MonoBehaviour
         if (spellCoolDown == true)
         {
             coolDownUi.SetActive(true);
+            //changing the opacity if on cooldown
+            setSpellUiTransparency(0.3f);
         }
         else
         {
+            setSpellUiTransparency(1f);
             coolDownUi.SetActive(false);
         }
+    }
+
+    void setSpellUiTransparency(float value)
+    {
+        spellColor = new Color(spellSlot.color.r, spellSlot.color.g, spellSlot.color.b, value);
+        spellSlot.color = spellColor;
     }
 }

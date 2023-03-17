@@ -31,10 +31,8 @@ public class Player_Movement : MonoBehaviour
     public float currentHeight;
     public bool fall = false;
 
-
     [Header("Player Animation")]
     [SerializeField] Animator anim;
-
 
     //for the rotation of camera
     [Header("Camera Rotation Settings")]
@@ -43,14 +41,12 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] float smoothTime;
     [SerializeField] GameObject thirdPersonCamera;
 
-
     [Header("Character Roll")]
     public bool rolled = false;
     public bool notRollingForward = false;
     public bool rolling = false;
     playerCombat pc;
     [SerializeField] CinemachineBrain cinemachineBrain;
-
 
     [SerializeField] float forceStrength = 10f;
     Rigidbody rb;

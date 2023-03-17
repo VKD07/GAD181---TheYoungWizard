@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemScript : MonoBehaviour
 {
     [SerializeField] Sprite itemIcon;
+    [SerializeField] bool isHealthPotion;
     [SerializeField] ItemManager itemManager;
     bool playerDetected = false;
     playerCombat playerScript;
@@ -27,23 +28,28 @@ public class ItemScript : MonoBehaviour
             if (Input.GetKeyDown(pickUpKey) && playerMovement.rolled == false)
             {
                 playerDetected = false;
-                for (int i = 0; i < itemManager.isFull.Length; i++)
+
+                //iterating the slots if its full and if 1 slot is not full
+                if (isHealthPotion == true)
                 {
-                    //iterating the slots if its full and if 1 slot is not full
-                    if (itemManager.isFull[i] == false)
-                    {
-                        //trigger animation
-                        playerScript.anim.SetTrigger("pickUp");
+                    //trigger animation
+                    playerScript.anim.SetTrigger("pickUp");
 
-                        itemManager.isFull[i] = true;
+                    itemManager.numberOfHealthP++;
 
-                        itemManager.itemSlots[i].sprite = itemIcon;
+                    itemManager.itemSlots[0].sprite = itemIcon;
 
-                        Destroy(gameObject, 0.5f);
+                    Destroy(gameObject, 0.5f);
+                }
+                else if (isHealthPotion == false)
+                {
+                    playerScript.anim.SetTrigger("pickUp");
 
-                        break;
+                    itemManager.numberOfManaP++;
 
-                    }
+                    itemManager.itemSlots[1].sprite = itemIcon;
+
+                    Destroy(gameObject, 0.5f);
                 }
             }
         }

@@ -528,8 +528,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4872551868171817279}
-  - component: {fileID: 4872551868171817272}
   - component: {fileID: 4872551868171817273}
+  - component: {fileID: 4872551868171817272}
   - component: {fileID: 4872551868171817278}
   - component: {fileID: 4872551868171817275}
   - component: {fileID: 982218886}
@@ -561,6 +561,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 92.293, z: 0}
+--- !u!114 &4872551868171817273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872551868171817276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 103209a462803c349a84a48dc7079398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: 100
+  playerMana: 0
+  anim: {fileID: 1365819606734077128}
+  castUI: {fileID: 0}
+  castModeManager: {fileID: 0}
+  spellCastUIAnim: {fileID: 0}
+  spellManager: {fileID: 0}
+  casting: 0
+  castingSpell: 0
+  cam: {fileID: 0}
+  targetSight: {fileID: 4872551869405881993}
+  bulletSpawn: {fileID: 1122833214}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  targetMode: 0
+  itemManager: {fileID: 0}
+  AttackNumber: 0
+  attacking: 0
+  currentTimeToChangeAnim: 0
+  timeLimit: 2
+  awarenessUI: {fileID: 714685523}
+  dodge: 0
+  shieldDuration: 0.2
 --- !u!114 &4872551868171817272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,41 +633,6 @@ MonoBehaviour:
   rolling: 0
   cinemachineBrain: {fileID: 0}
   forceStrength: 6
---- !u!114 &4872551868171817273
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4872551868171817276}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 103209a462803c349a84a48dc7079398, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerHealth: 100
-  anim: {fileID: 1365819606734077128}
-  castUI: {fileID: 0}
-  castModeManager: {fileID: 0}
-  spellCastUIAnim: {fileID: 0}
-  spellManager: {fileID: 0}
-  casting: 0
-  castingSpell: 0
-  cam: {fileID: 0}
-  targetSight: {fileID: 4872551869405881993}
-  bulletSpawn: {fileID: 1122833214}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 128
-  targetMode: 0
-  itemManager: {fileID: 0}
-  AttackNumber: 0
-  attacking: 0
-  currentTimeToChangeAnim: 0
-  timeLimit: 2
-  awarenessUI: {fileID: 714685523}
-  dodge: 0
-  shieldDuration: 0.2
 --- !u!143 &4872551868171817278
 CharacterController:
   m_ObjectHideFlags: 0

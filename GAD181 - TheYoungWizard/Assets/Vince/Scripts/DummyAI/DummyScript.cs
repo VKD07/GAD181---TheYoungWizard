@@ -132,7 +132,6 @@ public class DummyScript : MonoBehaviour
         if (spellChosenIndex == 0 && collision.tag == "Fireball")
         {
             DeathState();
-
         }
         else if (spellChosenIndex == 2 && collision.tag == "frostWall")
         {

@@ -50,8 +50,6 @@ public class Player_SpellCast : MonoBehaviour
     {
         Quaternion spawnRot = Quaternion.LookRotation(transform.up, -transform.forward);
         GameObject iceObj = Instantiate(ice, iceSpawn.position, spawnRot);
-
-        
         Destroy(iceObj, iceWallDuration);
     }
 
