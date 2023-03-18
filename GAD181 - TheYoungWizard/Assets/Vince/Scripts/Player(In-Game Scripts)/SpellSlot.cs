@@ -60,8 +60,7 @@ public class SpellSlot : MonoBehaviour
         if (spellID != 0)
         {
             //if player is on the target mode release spell
-            if (spellID == spells[0] && Input.GetKey(KeyCode.Mouse1) 
-                && pc.GetPlayerMana() > 20 && Input.GetKeyDown(activateSpellKey))
+            if (spellID == spells[0]  && pc.GetPlayerMana() > 20 && Input.GetKeyDown(activateSpellKey))
             {
                 iceCooldown = true;
                 iceSpell();
@@ -76,7 +75,7 @@ public class SpellSlot : MonoBehaviour
                 sparkCoolDown = true;
                 sparkSpell();
             }
-            else if (spellID == spells[3] && pc.GetPlayerMana() > 20 && Input.GetKey(KeyCode.Mouse1) && Input.GetKeyDown(activateSpellKey))
+            else if (spellID == spells[3] && pc.GetPlayerMana() > 20 && Input.GetKeyDown(activateSpellKey))
             {
                 fireBallCoolDown = true;
                 fireBallSpell();

@@ -85,7 +85,6 @@ public class CastModeManager : MonoBehaviour
         castEffect.SetBool("ActivateEffect", false);
         castEffectObj.SetActive(false);
         this.gameObject.SetActive(false);
-
     }
     void CastMode()
     {
