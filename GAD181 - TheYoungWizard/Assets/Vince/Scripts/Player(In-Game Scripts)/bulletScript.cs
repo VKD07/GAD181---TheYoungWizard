@@ -20,8 +20,16 @@ public class bulletScript : MonoBehaviour
         if (collision.tag == "Boss")
         {
             GameObject boss = collision.gameObject;
-            boss.GetComponent<Animator>().SetTrigger("Hit");
             boss.GetComponent<BossScript>().DamageBoss(bulletDamage);
+            Destroy(gameObject);
+        }
+
+        if (collision.tag == "CatMinion")
+        {
+            print("Minion Hit");
+            GameObject minion = collision.gameObject;
+            minion.GetComponent<Animator>().SetTrigger("Hit");
+            minion.GetComponent<CatMinion>().DamageMinion(bulletDamage);
             Destroy(gameObject);
         }
     }

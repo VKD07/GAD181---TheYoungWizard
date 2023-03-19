@@ -38,13 +38,11 @@ public class playerCombat : MonoBehaviour
     [SerializeField] Animator sliderAnimation;
     [HideInInspector] public bool casting = false;
     public bool castingSpell = false;
- 
+
     [Header("Aim Mode")]
     CinemachineComposer midRig;
     [SerializeField] CinemachineFreeLook cam;
     [SerializeField] GameObject targetSight;
-    [SerializeField] Transform bulletSpawn;
-    [SerializeField] LayerMask layerMask;
     public bool targetMode = false;
     public static bool rolled = false;
 
@@ -94,7 +92,7 @@ public class playerCombat : MonoBehaviour
             paused = false;
             Time.timeScale = 1;
         }
-       
+
         //focusing on targeting the enemy
         aimMode();
         attack();
@@ -111,9 +109,9 @@ public class playerCombat : MonoBehaviour
     private void SpellCastAnimation()
     {
         //if combination is not wrong then you can activate a spell
-        if(castModeManager.wrongCombination == false)
+        if (castModeManager.wrongCombination == false)
         {
-            
+
             //casting ice
             if (spellManager.iceCooldown == false && castModeManager.availableSpellID == 30 && castModeManager.castingMode == false
                 && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(activateSpellKey)
@@ -159,7 +157,7 @@ public class playerCombat : MonoBehaviour
                 playerMana -= luminousManaCost;
             }
             //if player tries to cast a spell with not enough mana
-            if(castModeManager.castingMode == false && playerMovement.rolling == false
+            if (castModeManager.castingMode == false && playerMovement.rolling == false
                 && castingSpell == false && Input.GetKeyDown(activateSpellKey) && playerMana <= 20)
             {
                 sliderAnimation.SetTrigger("NotEnoughMana");
@@ -218,7 +216,7 @@ public class playerCombat : MonoBehaviour
         {
             targetMode = true;
             targetSight.SetActive(true);
-            
+
             if (midRig.m_TrackedObjectOffset.x < 0.95f)
             {
                 midRig.m_TrackedObjectOffset.x += 5f * Time.deltaTime;
@@ -230,7 +228,7 @@ public class playerCombat : MonoBehaviour
             }
 
         }
-        else if(Input.GetKeyUp(KeyCode.Mouse1) || castingSpell == false)
+        else if (Input.GetKeyUp(KeyCode.Mouse1) || castingSpell == false)
         {
             targetMode = false;
             targetSight.SetActive(false);
@@ -250,34 +248,29 @@ public class playerCombat : MonoBehaviour
 
     public void attack()
     {
-
-        // if reticle hits player then dont attack
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
-            //if the player is moving then dont proceed to the attacking combo
-            if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
+        //if the player is moving then dont proceed to the attacking combo
+        if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
+        {
+            anim.SetTrigger("Attack");
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false)
             {
+                attacking = true;
                 anim.SetTrigger("Attack");
-            }
-            else
-            {
-                if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false)
-                {
-                    attacking = true;
-                    anim.SetTrigger("Attack");
-                    anim.SetBool("Attacking", true);
+                anim.SetBool("Attacking", true);
 
-                }
-                else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
-                {
-                    anim.SetTrigger("Attack2");
-                }
-                else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
-                {
-                    anim.SetTrigger("Attack3");
-                }
             }
-        
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+            {
+                anim.SetTrigger("Attack2");
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+            {
+                anim.SetTrigger("Attack3");
+            }
+        }
 
         if (AttackNumber == 3)
         {
@@ -285,7 +278,7 @@ public class playerCombat : MonoBehaviour
         }
 
         //attack animation resets if aiming mode is disabled
-        if(targetMode == false)
+        if (targetMode == false)
         {
             attacking = false;
             currentTimeToChangeAnim = 0;
@@ -297,12 +290,12 @@ public class playerCombat : MonoBehaviour
         if (attacking == true)
         {
             //if current time doesnt reeach the time limit. Keep counting
-            if(currentTimeToChangeAnim < timeLimit)
+            if (currentTimeToChangeAnim < timeLimit)
             {
                 currentTimeToChangeAnim = currentTimeToChangeAnim + Time.deltaTime;
             }
             //if current time reached the time, then reset the animation to first attack
-            if(currentTimeToChangeAnim > timeLimit)
+            if (currentTimeToChangeAnim > timeLimit)
             {
                 attacking = false;
                 anim.SetBool("Attacking", attacking);
@@ -338,7 +331,7 @@ public class playerCombat : MonoBehaviour
         {
             float totalHealthValue = playerHealth + healthPotionValue;
             //this is to avoid the character having more than 100 health
-            if(totalHealthValue > 100)
+            if (totalHealthValue > 100)
             {
                 playerHealth = 100;
             }
@@ -359,7 +352,7 @@ public class playerCombat : MonoBehaviour
         else if (itemManager.numberOfManaP > 0 && Input.GetKeyDown(KeyCode.Alpha2) && playerMana < 100)
         {
             float totalManaValue = playerMana + manaPotionValue;
-            if(totalManaValue > 100)
+            if (totalManaValue > 100)
             {
                 playerMana = 100;
             }
@@ -400,7 +393,7 @@ public class playerCombat : MonoBehaviour
     {
         return playerMana;
     }
-    
+
     public void ReducePlayerMana(float value)
     {
         playerMana -= value;

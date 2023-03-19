@@ -25,24 +25,27 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] CapsuleCollider capsuleCollider;
     [SerializeField] Transform player;
 
-
+    private void Update()
+    {
+        
+    }
 
     public void SpawnBullet()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
+     
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
-            // Calculate the direction to fire the bullet
             Vector3 direction = (hit.point - bulletSpawn.position).normalized;
 
-            // Instantiate the bullet prefab
             GameObject bulletObj = Instantiate(bullet, bulletSpawn.position, Quaternion.identity);
 
-            // Set the initial velocity of the bullet
             Rigidbody bulletRigidbody = bulletObj.GetComponent<Rigidbody>();
+
             bulletRigidbody.velocity = direction * bulletSpeed;
         }
+        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
     }
 
     //public void CharacterFall()

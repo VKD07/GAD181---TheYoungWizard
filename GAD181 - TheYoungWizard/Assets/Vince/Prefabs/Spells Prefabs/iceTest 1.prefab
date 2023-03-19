@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48c17615653249f48984b008db55555a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  freezeDuration: 4.5
+  freezeDuration: 4
   currentTime: 0
 --- !u!54 &1262812151194513574
 Rigidbody:

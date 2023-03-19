@@ -24,10 +24,12 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] float iceWallDuration;
 
     [Header("Wind Gust Spell")]
+    [SerializeField] float windGustDamage = 10f;
     [SerializeField] SphereCollider sphere;
     [SerializeField] float windRange = 4f;
     [SerializeField] List<GameObject> enemiesInRange;
     [SerializeField] float knockBackForce = 5f;
+    [SerializeField] List <string> enemyTagsAffected;
     public bool releaseWind = false;
 
     [Header("Luminous Spell")]
@@ -63,12 +65,12 @@ public class Player_SpellCast : MonoBehaviour
             Vector3 direction = (hit.point - bulletSpawn.position).normalized;
 
             // Instantiate the fireball prefab
-           fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
+            fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
 
             // Set the initial velocity of the bullet
             fireBallObj.GetComponent<Rigidbody>().velocity = direction * fireBallSpeed * Time.deltaTime;
         }
-        else if(combatScript.targetMode == false)
+        else if (combatScript.targetMode == false)
         {
             // Instantiate the fireball prefab
             fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
@@ -94,28 +96,39 @@ public class Player_SpellCast : MonoBehaviour
 
     public void disableWindgust()
     {
-        releaseWind = false; 
+        releaseWind = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy" || other.tag == "windEnemy")
+        if (enemyTagsAffected.Contains(other.tag))
         {
             enemiesInRange.Add(other.gameObject);
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (enemyTagsAffected.Contains(other.tag))
+        {
+            if(other.gameObject.GetComponent<BossScript>() != null && releaseWind == true)
+            {
+                other.gameObject.GetComponent<BossScript>().DamageBoss(windGustDamage);
+            }
+        }
+    }
+    
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Enemy" || other.tag == "windEnemy")
+        if (enemyTagsAffected.Contains(other.tag))
         {
             enemiesInRange.Remove(other.gameObject);
         }
     }
-
+    
     private void Update()
     {
-       if(releaseWind == true)
+        if (releaseWind == true)
         {
             foreach (GameObject enemy in enemiesInRange)
             {

@@ -54,7 +54,6 @@ public class SpellSlot : MonoBehaviour
     {
         //find the cast manager game object
         castManager = GameObject.FindGameObjectWithTag("CastMode");
-        print(pc.GetPlayerMana());
         //spell cooldown handler
         if (spellID != 0)
         {

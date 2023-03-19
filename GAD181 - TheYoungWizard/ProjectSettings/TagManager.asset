@@ -17,6 +17,7 @@ TagManager:
   - ground
   - windEnemy
   - Boss
+  - CatMinion
   layers:
   - Default
   - TransparentFX

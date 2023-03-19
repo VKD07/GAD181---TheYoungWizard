@@ -18,8 +18,13 @@ public class Fireball_Script : MonoBehaviour
         if (collision.tag == "Boss")
         {
             GameObject boss = collision.gameObject;
-            boss.GetComponent<Animator>().SetTrigger("Hit");
+           
             boss.GetComponent<BossScript>().DamageBoss(fireBallDamage);
+
+            if(boss.GetComponent<BossScript>().icedShield == true)
+            {
+                boss.GetComponent<BossScript>().icedShield = false;
+            }
             Destroy(gameObject);
         }
     }

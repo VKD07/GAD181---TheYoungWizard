@@ -24,14 +24,19 @@ public class BossFireBall_1 : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if(collision.tag == "Player")
+       
+
+        if(collision.tag =="frostWall")
         {
-            collision.gameObject.GetComponent<playerCombat>().damagePlayer(fireBallDamage);
             Destroy(gameObject);
         }
+    }
 
-        if(collision.tag =="frostWall" || collision.gameObject.tag == "windGust")
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
         {
+            collision.gameObject.GetComponent<playerCombat>().damagePlayer(fireBallDamage);
             Destroy(gameObject);
         }
     }
