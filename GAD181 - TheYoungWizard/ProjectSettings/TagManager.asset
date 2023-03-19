@@ -16,6 +16,7 @@ TagManager:
   - windGust
   - ground
   - windEnemy
+  - Boss
   layers:
   - Default
   - TransparentFX
@@ -27,8 +28,8 @@ TagManager:
   - Player
   - dummyBullet
   - Spells
-  - 
-  - 
+  - BossBullet
+  - FinalBoss
   - 
   - 
   - 

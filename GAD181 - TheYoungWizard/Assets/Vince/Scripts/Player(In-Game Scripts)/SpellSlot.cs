@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class SpellSlot : MonoBehaviour
 {
     [Header("Spells Settings")]
-    [SerializeField] public KeyCode activateSpellKey = KeyCode.E;
     [SerializeField] GameObject castManager;
     [SerializeField] playerCombat pc;
     CastModeManager castMode;
@@ -60,24 +59,21 @@ public class SpellSlot : MonoBehaviour
         if (spellID != 0)
         {
             //if player is on the target mode release spell
-            if (spellID == spells[0]  && pc.GetPlayerMana() > 20 && Input.GetKeyDown(activateSpellKey))
+            if (spellID == spells[0]  && pc.GetPlayerMana() > 20 && iceCooldown == true)
             {
-                iceCooldown = true;
                 iceSpell();
             }
-            else if (spellID == spells[1]&& pc.GetPlayerMana() > 20 &&  Input.GetKeyDown(activateSpellKey))
+            else if (spellID == spells[1] && pc.GetPlayerMana() > 20 && windGustCoolDown == true)
             {
-                windGustCoolDown = true;
+                
                 windGustSpell();
             }
-            else if (spellID == spells[2] && pc.GetPlayerMana()> 20 && Input.GetKeyDown(activateSpellKey))
+            else if (spellID == spells[2] && pc.GetPlayerMana() > 20 && sparkCoolDown == true)
             {
-                sparkCoolDown = true;
                 sparkSpell();
             }
-            else if (spellID == spells[3] && pc.GetPlayerMana() > 20 && Input.GetKeyDown(activateSpellKey))
+            else if (spellID == spells[3] && pc.GetPlayerMana() > 20 && fireBallCoolDown == true)
             {
-                fireBallCoolDown = true;
                 fireBallSpell();
             }
             else

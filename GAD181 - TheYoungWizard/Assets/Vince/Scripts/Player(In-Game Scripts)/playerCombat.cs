@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class playerCombat : MonoBehaviour
 {
@@ -32,6 +33,7 @@ public class playerCombat : MonoBehaviour
     [SerializeField] Animator spellCastUIAnim;
 
     [Header("Spell Cast")]
+    [SerializeField] public KeyCode activateSpellKey = KeyCode.E;
     [SerializeField] SpellSlot spellManager;
     [SerializeField] Animator sliderAnimation;
     [HideInInspector] public bool casting = false;
@@ -111,12 +113,14 @@ public class playerCombat : MonoBehaviour
         //if combination is not wrong then you can activate a spell
         if(castModeManager.wrongCombination == false)
         {
+            
             //casting ice
-            if (castModeManager.availableSpellID == 30 && spellManager.iceCooldown == false && castModeManager.castingMode == false
-                && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey)
+            if (spellManager.iceCooldown == false && castModeManager.availableSpellID == 30 && castModeManager.castingMode == false
+                && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(activateSpellKey)
                 && playerMana >= 20)
             {
                 castingSpell = true;
+                spellManager.iceCooldown = true;
                 anim.SetTrigger("IceSpell");
                 playerMana -= iceSpellManaCost;
             }
@@ -124,9 +128,10 @@ public class playerCombat : MonoBehaviour
             //casting a fireball
             if (castModeManager.availableSpellID == 55 && spellManager.fireBallCoolDown == false
                 && castModeManager.castingMode == false && playerMovement.rolling == false
-                && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey) && playerMana >= 20)
+                && castingSpell == false && Input.GetKeyDown(activateSpellKey) && playerMana >= 20)
             {
                 castingSpell = true;
+                spellManager.fireBallCoolDown = true;
                 anim.SetTrigger("FireBall");
                 playerMana -= fireballManaCost;
             }
@@ -134,9 +139,10 @@ public class playerCombat : MonoBehaviour
             //casting wind gust
             if (castModeManager.availableSpellID == 35 && spellManager.windGustCoolDown == false
                 && castModeManager.castingMode == false && playerMovement.rolling == false
-                && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey) && playerMana >= 20)
+                && castingSpell == false && Input.GetKeyDown(activateSpellKey) && playerMana >= 20)
             {
                 castingSpell = true;
+                spellManager.windGustCoolDown = true;
                 anim.SetTrigger("WindGust");
                 playerMana -= windGustManaCost;
             }
@@ -145,15 +151,16 @@ public class playerCombat : MonoBehaviour
             //casting wind gust
             if (castModeManager.availableSpellID == 40 && spellManager.sparkCoolDown == false
                 && castModeManager.castingMode == false && playerMovement.rolling == false
-                && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey) && playerMana >= 20)
+                && castingSpell == false && Input.GetKeyDown(activateSpellKey) && playerMana >= 20)
             {
                 castingSpell = true;
+                spellManager.sparkCoolDown = true;
                 anim.SetTrigger("Luminous");
                 playerMana -= luminousManaCost;
             }
             //if player tries to cast a spell with not enough mana
             if(castModeManager.castingMode == false && playerMovement.rolling == false
-                && castingSpell == false && Input.GetKeyDown(spellManager.activateSpellKey) && playerMana <= 20)
+                && castingSpell == false && Input.GetKeyDown(activateSpellKey) && playerMana <= 20)
             {
                 sliderAnimation.SetTrigger("NotEnoughMana");
             }
@@ -371,7 +378,7 @@ public class playerCombat : MonoBehaviour
         }
     }
     //take damage from enemy
-    public void damagePlayer(int damage)
+    public void damagePlayer(float damage)
     {
         if (dodge == false)
         {
