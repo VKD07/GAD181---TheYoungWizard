@@ -830,9 +830,9 @@ MonoBehaviour:
   jumpForce: 20
   maxJumpHeight: 2
   stompSpeed: 25
-  catBiteDuration: 20
+  catBiteDuration: 15
   runSpeed: 3
-  biteDamage: 5
+  biteDamage: 10
   attackRange: 2
   rayCastPoint: {fileID: 649517503}
   distanceToplayer: 0
@@ -913,7 +913,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!1 &2664697871807438670
 GameObject:

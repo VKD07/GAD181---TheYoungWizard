@@ -27,5 +27,14 @@ public class Fireball_Script : MonoBehaviour
             }
             Destroy(gameObject);
         }
+
+        if (collision.tag == "CatMinion")
+        {
+            GameObject minion = collision.gameObject;
+
+            minion.GetComponent<CatMinion>().DamageMinion(fireBallDamage);
+
+            Destroy(gameObject);
+        }
     }
 }

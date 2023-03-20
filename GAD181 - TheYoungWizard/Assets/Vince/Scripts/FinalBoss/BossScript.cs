@@ -88,6 +88,7 @@ public class BossScript : MonoBehaviour
         print(health);
         if (health > halfHealth)
         {
+            numberOfSkills = 5;
             Stage1Skills();
         }
         else
