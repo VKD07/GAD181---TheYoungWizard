@@ -1638,11 +1638,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3763478541095184013, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.000000017688615
+      value: -0.0000000176886
       objectReference: {fileID: 0}
     - target: {fileID: 3763478541095184013, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.0000000012947403
+      value: 0.0000000012947392
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1686,11 +1686,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6172785108523187452, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.0007138165
+      value: -0.00071378116
       objectReference: {fileID: 0}
     - target: {fileID: 6172785108523187452, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00006543536
+      value: 0.00006543212
       objectReference: {fileID: 0}
     - target: {fileID: 6814667658218565404, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_RootOrder
@@ -1762,11 +1762,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6814667659509696091, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.00061107456
+      value: -0.00061101984
       objectReference: {fileID: 0}
     - target: {fileID: 6814667659509696091, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.00005442551
+      value: 0.00005442063
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
@@ -1777,6 +1777,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 602998595307223012, guid: d6a75f88dc4803c469dcb57d3e6704f3, type: 3}
+      propertyPath: bossClone
+      value: 
+      objectReference: {fileID: 8564405209731484416, guid: e7e238cead0c1114daa78920ced1a5ec, type: 3}
     - target: {fileID: 2501539842113063889, guid: d6a75f88dc4803c469dcb57d3e6704f3, type: 3}
       propertyPath: m_Name
       value: Boss Cat

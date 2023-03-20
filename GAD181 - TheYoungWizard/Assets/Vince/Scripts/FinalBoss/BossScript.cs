@@ -12,6 +12,7 @@ public class BossScript : MonoBehaviour
     [Header("Enemy Attributes")]
     [SerializeField] float health = 500f;
     [SerializeField] float idleModeTime = 10f;
+    [SerializeField] bool bossReplica;
     public int numberOfSkills = 5;
     float halfHealth;
 
@@ -86,12 +87,13 @@ public class BossScript : MonoBehaviour
         //else additional skills if health is half
        
         print(health);
-        if (health > halfHealth)
+        //if this is the original boss then start easy
+        if (health > halfHealth && bossReplica == false)
         {
             numberOfSkills = 5;
             Stage1Skills();
-        }
-        else
+        //else if the boss health is less than half or this is the replica then make it difficult
+        }else if(bossReplica == true || health < halfHealth)
         {
             //increasing difficulty
             numberOfSkills = 7;
