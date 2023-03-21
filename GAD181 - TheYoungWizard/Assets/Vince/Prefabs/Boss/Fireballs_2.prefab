@@ -125,6 +125,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888f907a7a56a634ba406d4e2a56d439, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireBallSpeed: 70
+  fireBallSpeed: 4
   fireBallDamage: 20
   projectile1: 0
+  deflected: 0
+  bossLocation: {fileID: 0}

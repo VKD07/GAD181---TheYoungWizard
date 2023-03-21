@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UIElements;
 
 public class BossScript : MonoBehaviour
@@ -41,7 +42,7 @@ public class BossScript : MonoBehaviour
     [SerializeField] float maxJumpHeight = 1f;
     [SerializeField] float stompSpeed = 35f;
     bool jumped;
-    bool jumpedToPlayer;
+    public bool jumpedToPlayer;
 
     [Header("Cat Bite")]
     [SerializeField] float catBiteDuration = 20f;
@@ -52,6 +53,13 @@ public class BossScript : MonoBehaviour
     RaycastHit hit;
     public float distanceToplayer;
     bool playerInRange;
+
+    [Header("Darkness")]
+    [SerializeField] public float darknessDuration = 10f;
+    public bool distracted;
+    [SerializeField] GameObject luminousSpell;
+    public float distanceToLight;
+    public bool lightsDisabled;
 
     [Header("Spawn Minions")]
     [SerializeField] GameObject minions;
@@ -85,15 +93,16 @@ public class BossScript : MonoBehaviour
     {
         //easy stage if the health is not half
         //else additional skills if health is half
-       
+
         print(health);
         //if this is the original boss then start easy
-        if (health > halfHealth && bossReplica == false)
+        if (health > halfHealth || bossReplica == true)
         {
             numberOfSkills = 5;
             Stage1Skills();
-        //else if the boss health is less than half or this is the replica then make it difficult
-        }else if(bossReplica == true || health < halfHealth)
+            //else if the boss health is less than half or this is the replica then make it difficult
+        }
+        else if (bossReplica == false || health < halfHealth)
         {
             //increasing difficulty
             numberOfSkills = 7;
@@ -151,11 +160,13 @@ public class BossScript : MonoBehaviour
 
         if (attackNumber == 4)
         {
-            CatBite(true);
+            DarkNess(true);
+            // CatBite(true);
         }
         else
         {
-            CatBite(false);
+            DarkNess(false);
+            //CatBite(false);
         }
 
         Jump();
@@ -205,6 +216,42 @@ public class BossScript : MonoBehaviour
         }
     }
 
+
+    void DarkNess(bool value)
+    {
+        if (value == true)
+        {
+            anim.SetTrigger("Darkness");
+            currentTime = 0;
+            attackNumber = 0;
+        }
+
+        //boss distraction
+        //luminousSpell = GameObject.FindGameObjectWithTag("luminous");
+        //if (luminousSpell != null)
+        //{
+        //    attackNumber = 0;
+        //    distanceToLight = Vector3.Distance(transform.position, luminousSpell.transform.position);
+        //    //distract boss
+        //    if (lightsDisabled == true && luminousSpell != null && distanceToLight > ai.stoppingDistance)
+        //    {
+        //        ai.SetDestination(luminousSpell.transform.position);
+        //        anim.SetBool("Run", true);
+        //    }
+        //    else
+        //    {
+        //        anim.SetBool("Run", false);
+        //    }
+        //    transform.LookAt(luminousSpell.transform.position);
+        //    distracted = true;
+        //}
+    }
+
+    void Animator_DisableLights()
+    {
+        lightsDisabled = true;
+    }
+
     void CatBite(bool value)
     {
         if (value == true)
@@ -248,7 +295,7 @@ public class BossScript : MonoBehaviour
 
     void ProjectTilemode(bool projectileMode)
     {
-        if (projectileMode == true)
+        if (projectileMode == true && distracted == false)
         {
             if (currentTime < projectileModeTime)
             {
@@ -405,7 +452,7 @@ public class BossScript : MonoBehaviour
 
     void Replicate(bool value)
     {
-        if(value == true)
+        if (value == true)
         {
             anim.SetTrigger("Replicate");
             attackNumber = 0;
@@ -418,7 +465,7 @@ public class BossScript : MonoBehaviour
         GameObject cloneObj = Instantiate(bossClone, multipleFireBallSpawners[0].position, Quaternion.identity);
         Destroy(cloneObj, cloneDuration);
 
-        if(health <= 0)
+        if (health <= 0)
         {
             Destroy(cloneObj);
         }

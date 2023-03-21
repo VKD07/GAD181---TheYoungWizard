@@ -40,7 +40,7 @@ public class ProjectileScript : MonoBehaviour
             {
                 indicatorSpawned = true;
                 spawnedIndicator = Instantiate(targetIndicator, playerLastPosition, Quaternion.Euler(-90f, 0f, 0f));
-                spawnedIndicator.transform.position = new Vector3(playerLastPosition.x, -5.675f, playerLastPosition.z);
+                spawnedIndicator.transform.position = new Vector3(playerLastPosition.x, -5.18f, playerLastPosition.z);
                 Destroy(spawnedIndicator, 1.5f);
             }
         }

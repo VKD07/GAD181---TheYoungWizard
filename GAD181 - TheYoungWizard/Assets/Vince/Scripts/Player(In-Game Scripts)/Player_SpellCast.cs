@@ -35,8 +35,7 @@ public class Player_SpellCast : MonoBehaviour
     [Header("Luminous Spell")]
     [SerializeField] GameObject luminousLight;
     [SerializeField] Transform luminousLightSpawn;
-    [SerializeField] float lightDuration = 5f;
-
+    [SerializeField] float lightDuration;
 
     private void Start()
     {
@@ -82,9 +81,8 @@ public class Player_SpellCast : MonoBehaviour
 
     public void CastLuminous()
     {
-        GameObject luminous = Instantiate(luminousLight, luminousLightSpawn.position, Quaternion.identity);
-
-        Destroy(luminous, lightDuration);
+       GameObject lightObj = Instantiate(luminousLight, luminousLightSpawn.position, Quaternion.identity);
+        Destroy(lightObj, lightDuration);
     }
 
     #region WindGust spell

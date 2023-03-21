@@ -127,7 +127,7 @@ public class Player_Movement : MonoBehaviour
 
 
         //applying gravity
-        if (!characterController.isGrounded)
+        if (!characterController.isGrounded && rolling == false)
         {
             characterController.Move(Vector3.down * gravity * Time.deltaTime);
         }
