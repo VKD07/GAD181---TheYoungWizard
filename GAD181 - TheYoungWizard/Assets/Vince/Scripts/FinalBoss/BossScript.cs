@@ -93,8 +93,6 @@ public class BossScript : MonoBehaviour
     {
         //easy stage if the health is not half
         //else additional skills if health is half
-
-        print(health);
         //if this is the original boss then start easy
         if (health > halfHealth || bossReplica == true)
         {

@@ -757,9 +757,10 @@ GameObject:
   - component: {fileID: 602998595307223012}
   - component: {fileID: 602998595307223013}
   - component: {fileID: 9159403840031640337}
+  - component: {fileID: 766081290}
+  - component: {fileID: 766081289}
   - component: {fileID: 384947046039857098}
   - component: {fileID: 1878785766}
-  - component: {fileID: 766081289}
   m_Layer: 11
   m_Name: Cat Meow
   m_TagString: Boss
@@ -811,7 +812,7 @@ MonoBehaviour:
   numberOfSkills: 5
   player: {fileID: 0}
   currentTime: 0
-  attackNumber: 4
+  attackNumber: 0
   projectile: {fileID: 5092045786570620397, guid: d7e9f68344d53be4f8ddb8dd1c7c2750, type: 3}
   projectileSpawn: {fileID: 399668943}
   projectileModeTime: 5
@@ -887,6 +888,45 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &766081290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2501539842113063889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3feaf6633b4e7f74d9eba07b78ed16b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rockHealth:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  shatteredRock:
+  - {fileID: 1062071139502221957, guid: 7922d525ea560c94794215c1faf2f07c, type: 3}
+  - {fileID: 8932951293290986573, guid: dea6671808e77174ba0d02ccb6af8473, type: 3}
+--- !u!114 &766081289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2501539842113063889}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9235a62a301503a42a52693ddb2a3994, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  environmentLights:
+  - {fileID: 0}
+  lightAdjustmentRate: 250
+  lightsMaximumIntensity: 415
+  currentLightTime: 0
+  bossScript: {fileID: 0}
 --- !u!65 &384947046039857098
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -916,24 +956,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &766081289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2501539842113063889}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9235a62a301503a42a52693ddb2a3994, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  environmentLights:
-  - {fileID: 0}
-  lightAdjustmentRate: 250
-  lightsMaximumIntensity: 415
-  currentLightTime: 0
-  bossScript: {fileID: 0}
 --- !u!1 &2664697871807438670
 GameObject:
   m_ObjectHideFlags: 0
