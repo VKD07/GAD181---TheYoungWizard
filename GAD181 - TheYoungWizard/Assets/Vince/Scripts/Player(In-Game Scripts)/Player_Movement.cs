@@ -14,7 +14,7 @@ public class Player_Movement : MonoBehaviour
 
     [Header("Player Movement Settings")]
     //[SerializeField] Animator characterAnim;
-    [SerializeField] float gravity = 9.81f;
+    [SerializeField] float gravity = 3f;
     [SerializeField] float currentspeed;
     [SerializeField] float walkingSpeed;
     [SerializeField] float runSpeed;
@@ -125,6 +125,12 @@ public class Player_Movement : MonoBehaviour
             isMoving = false; //The purpose of this is to set the weight of the animation base layer
         }
 
+
+        //applying gravity
+        if (!characterController.isGrounded)
+        {
+            characterController.Move(Vector3.down * gravity * Time.deltaTime);
+        }
 
         //movement anim
         MovementAnimation(newPos);
