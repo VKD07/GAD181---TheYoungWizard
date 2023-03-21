@@ -806,6 +806,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 500
   idleModeTime: 4
+  bossReplica: 0
   numberOfSkills: 5
   player: {fileID: 0}
   currentTime: 0
@@ -842,7 +843,7 @@ MonoBehaviour:
   healingDuration: 15
   iceShieldObj: {fileID: 1771659356}
   icedShield: 0
-  bossClone: {fileID: 2501539842113063889}
+  bossClone: {fileID: 8564405209731484416, guid: e7e238cead0c1114daa78920ced1a5ec, type: 3}
   cloneDuration: 20
 --- !u!195 &602998595307223013
 NavMeshAgent:
