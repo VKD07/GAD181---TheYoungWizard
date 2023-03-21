@@ -25,7 +25,7 @@ public class ItemScript : MonoBehaviour
         //if player is detected and player picks it up
         if (playerScript != null && playerDetected == true)
         {
-            if (Input.GetKeyDown(pickUpKey) && playerMovement.rolled == false)
+            if (Input.GetKeyDown(pickUpKey) && playerMovement.rolling == false)
             {
                 playerDetected = false;
 

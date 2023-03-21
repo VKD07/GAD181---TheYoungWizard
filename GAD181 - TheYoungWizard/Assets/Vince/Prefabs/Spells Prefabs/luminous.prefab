@@ -131,7 +131,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   luminousDamage: 5
-  bossDistractionDuration: 9
+  bossDistractionDuration: 8
   currentTime: 0
 --- !u!108 &486052432
 Light:

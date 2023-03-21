@@ -212,7 +212,7 @@ public class playerCombat : MonoBehaviour
     private void aimMode()
     {
         //sight activated
-        if (Input.GetKey(KeyCode.Mouse1) && rolled == false && playerMovement.rolling == false)
+        if (Input.GetKey(KeyCode.Mouse1) && playerMovement.rolling == false)
         {
             targetMode = true;
             targetSight.SetActive(true);
