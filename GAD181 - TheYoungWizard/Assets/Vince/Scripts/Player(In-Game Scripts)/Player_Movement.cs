@@ -209,7 +209,7 @@ public class Player_Movement : MonoBehaviour
         //}
 
 
-        if (Input.GetKeyDown(KeyCode.Space) && rolling == false)
+        if (Input.GetKeyDown(rollKey) && rolling == false)
         {
             anim.SetTrigger("Roll");
             pc.RollCamera();

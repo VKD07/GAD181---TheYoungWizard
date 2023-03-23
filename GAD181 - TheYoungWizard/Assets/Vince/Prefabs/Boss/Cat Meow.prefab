@@ -806,13 +806,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e53a4ec8fa5b11e4083a9999dcf8c7a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 500
-  idleModeTime: 4
-  bossReplica: 0
+  health: 1000
   numberOfSkills: 5
+  idleModeTime: 7
+  damageBoss: 0
   player: {fileID: 0}
   currentTime: 0
-  attackNumber: 0
+  attackNumber: 3
   projectile: {fileID: 5092045786570620397, guid: d7e9f68344d53be4f8ddb8dd1c7c2750, type: 3}
   projectileSpawn: {fileID: 399668943}
   projectileModeTime: 5
@@ -846,6 +846,7 @@ MonoBehaviour:
   icedShield: 0
   bossClone: {fileID: 1041255003085694992, guid: e7e238cead0c1114daa78920ced1a5ec, type: 3}
   cloneDuration: 20
+  bossReplica: 0
 --- !u!195 &602998595307223013
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -909,6 +910,9 @@ MonoBehaviour:
   shatteredRock:
   - {fileID: 1062071139502221957, guid: 7922d525ea560c94794215c1faf2f07c, type: 3}
   - {fileID: 8932951293290986573, guid: dea6671808e77174ba0d02ccb6af8473, type: 3}
+  - {fileID: 6710051846735057301, guid: 8ea42718c13488841aa05a6e1568d0c0, type: 3}
+  - {fileID: 1836074008032684037, guid: f0c3b196cc0e76d42b147b3617cbe7ee, type: 3}
+  - {fileID: 363171729845898016, guid: 60c5e55b5ecf4044dafe160431918f73, type: 3}
 --- !u!114 &766081289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -935,7 +939,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2501539842113063889}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.66942465, y: 1.1014546, z: 1.2708515}

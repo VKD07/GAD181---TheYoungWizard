@@ -47,6 +47,13 @@ public class BossFireBall_1 : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (collision.gameObject.tag == "Boss" && deflected == true)
+        {
+            collision.gameObject.GetComponent<BossScript>().DamageBoss(fireBallDamage);
+            Destroy(gameObject);
+        }
+
     }
 
     private void OnTriggerStay(Collider other)
@@ -69,4 +76,6 @@ public class BossFireBall_1 : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+
 }

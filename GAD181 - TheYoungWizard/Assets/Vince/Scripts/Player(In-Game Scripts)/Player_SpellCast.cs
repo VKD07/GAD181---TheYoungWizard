@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Player_SpellCast : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] GameObject ice;
     [SerializeField] Transform iceSpawn;
     [SerializeField] float iceWallDuration;
+    GameObject [] boss;
+    GameObject[] iceWalls;
+
 
     [Header("Wind Gust Spell")]
     [SerializeField] float windGustDamage = 10f;
@@ -52,6 +56,26 @@ public class Player_SpellCast : MonoBehaviour
         Quaternion spawnRot = Quaternion.LookRotation(transform.up, -transform.forward);
         GameObject iceObj = Instantiate(ice, iceSpawn.position, spawnRot);
         Destroy(iceObj, iceWallDuration);
+    }
+
+    private void fixingIceWallBug()
+    {
+        boss = GameObject.FindGameObjectsWithTag("Boss");
+        iceWalls = GameObject.FindGameObjectsWithTag("frostWall");
+        if(iceWalls.Length <= 0)
+        {
+            for (int i = 0; i < boss.Length; i++)
+            {
+                if (boss[i].GetComponent<Animator>().enabled == false
+                && boss[i].GetComponent<NavMeshAgent>().enabled == false
+                &&boss[i].GetComponent<BossScript>().enabled == false)
+                {
+                    boss[i].GetComponent<Animator>().enabled = true;
+                    boss[i].GetComponent<NavMeshAgent>().enabled = true;
+                    boss[i].GetComponent<BossScript>().enabled = true;
+                }
+            }
+        }
     }
 
     private void ReleaseFireBall()
@@ -126,6 +150,8 @@ public class Player_SpellCast : MonoBehaviour
     
     private void Update()
     {
+        fixingIceWallBug();
+
         if (releaseWind == true)
         {
             foreach (GameObject enemy in enemiesInRange)
