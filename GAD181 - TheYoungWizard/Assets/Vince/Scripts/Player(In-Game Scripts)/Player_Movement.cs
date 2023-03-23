@@ -14,7 +14,7 @@ public class Player_Movement : MonoBehaviour
 
     [Header("Player Movement Settings")]
     //[SerializeField] Animator characterAnim;
-    [SerializeField] float gravity = 9.81f;
+    [SerializeField] float gravity = 3f;
     [SerializeField] float currentspeed;
     [SerializeField] float walkingSpeed;
     [SerializeField] float runSpeed;
@@ -31,10 +31,8 @@ public class Player_Movement : MonoBehaviour
     public float currentHeight;
     public bool fall = false;
 
-
     [Header("Player Animation")]
     [SerializeField] Animator anim;
-
 
     //for the rotation of camera
     [Header("Camera Rotation Settings")]
@@ -43,17 +41,17 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] float smoothTime;
     [SerializeField] GameObject thirdPersonCamera;
 
-
     [Header("Character Roll")]
-    public bool rolled = false;
-    public bool notRollingForward = false;
-    public bool rolling = false;
+    [SerializeField] float rollForce = 8f;
+    [SerializeField]float rollDuration = 0.5f;
+    public bool rolling;
     playerCombat pc;
-    [SerializeField] CinemachineBrain cinemachineBrain;
-
+    float rollCurrentTime;
 
     [SerializeField] float forceStrength = 10f;
     Rigidbody rb;
+
+    
 
     void Start()
     {
@@ -66,10 +64,6 @@ public class Player_Movement : MonoBehaviour
         pc = GetComponent<playerCombat>();
 
         capsuleCollider = GetComponent<CapsuleCollider>();
-
-        //setting up cinemachine brain for smoothness
-        cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
-
     }
 
     // Update is called once per frame
@@ -79,7 +73,7 @@ public class Player_Movement : MonoBehaviour
         characterAimMode();
         characterRoll();
         // characterJump();
-
+      
 
     }
 
@@ -129,6 +123,12 @@ public class Player_Movement : MonoBehaviour
             isMoving = false; //The purpose of this is to set the weight of the animation base layer
         }
 
+
+        //applying gravity
+        if (!characterController.isGrounded && rolling == false)
+        {
+            characterController.Move(Vector3.down * gravity * Time.deltaTime);
+        }
 
         //movement anim
         MovementAnimation(newPos);
@@ -188,102 +188,43 @@ public class Player_Movement : MonoBehaviour
     private void characterRoll()
     {
 
-        //chracter roll target mode
-        //roll forward
-
-        //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && rolling == false)
+        //if (rolled == true && rolling == false)
         //{
-        //    notRollingForward = true;
         //    rolling = true;
-
-        //    characterController.enabled = false;
-        //    rb.isKinematic = false;
-        //    rb.velocity = -transform.forward * forceStrength;
-
-        //    //enable roll camera
-        //    pc.RollCamera();
-
+        //    //characterController.enabled = false;
+        //    // rb.isKinematic = false;
+        //    // rb.velocity = transform.forward * forceStrength;
+        //    characterController.Move(transform.forward * 10f * Time.deltaTime);
+        //   cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+        //    pc.RollCamera();//disabling camera controll
         //    disableOtherAnimations();
         //}
-        //Roll direction
-        //if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && rolling == false)
-        //  {
-        //      rolling = true;
-        //      notRollingForward = true;
-        //      characterController.enabled = false;
-        //      rb.isKinematic = false;
-        //      rb.velocity = transform.right * forceStrength;
-        //      pc.RollCamera();
-        //      disableOtherAnimations();
-        //  }
-        //  //roll left
-        //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && rolling == false)
-        //  {
-        //      rolling = true;
-        //      notRollingForward = true;
-        //      characterController.enabled = false;
-        //      rb.isKinematic = false;
-        //      rb.velocity = -transform.right * forceStrength;
-        //      pc.RollCamera();
-        //      disableOtherAnimations();
-        //  }
-
-        //  if (rolled == true && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && rolling == false)
-        //  {
-        //      rolling = true;
-        //      notRollingForward = true;
-        //      characterController.enabled = false;
-        //      rb.isKinematic = false;
-        //      rb.velocity = transform.forward * forceStrength;
-        //      pc.RollCamera();
-        //      disableOtherAnimations();
-        //  }
-
-        if (rolled == true && notRollingForward == false && rolling == false)
-        {
-            rolling = true;
-            characterController.enabled = false;
-            rb.isKinematic = false;
-            rb.velocity = transform.forward * forceStrength;
-            cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
-            pc.RollCamera();//disabling camera controll
-            disableOtherAnimations();
-        }
-        //roll animation
-        if (rolled == false && Input.GetKey(rollKey) && pc.castingSpell == false)
-        {
-            pc.RollCamera();
-            rolled = true;
-            anim.SetTrigger("Roll");
-
-        }
-
-        //rolling left and right
-        //if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.A) && Input.GetKeyDown(KeyCode.Space))
+        ////roll animation
+        //if (rolled == false && Input.GetKey(rollKey) && pc.castingSpell == false)
         //{
-        //    rolled = true;
-        //    anim.SetTrigger("RollLeft");
-        //}
-
-        //if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.D) && Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    rolled = true;
-        //    anim.SetTrigger("RollRight");
-        //}
-
-        //if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.W) && Input.GetKeyDown(KeyCode.Space))
-        //{
+        //    pc.RollCamera();
         //    rolled = true;
         //    anim.SetTrigger("Roll");
+
         //}
 
-        //for rolling back------------------
-        //if (rolled == false && Input.GetKey(KeyCode.Mouse1) && Input.GetKey(KeyCode.S) && Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    rolled = true;
-        //    pc.RollCamera();
-        //    anim.SetTrigger("RollBack");
-        //}
+
+        if (Input.GetKeyDown(KeyCode.Space) && rolling == false)
+        {
+            anim.SetTrigger("Roll");
+            pc.RollCamera();
+        }
+
+        if (rolling == true && rollCurrentTime < rollDuration)
+        {
+            rollCurrentTime += Time.deltaTime;
+            characterController.Move(transform.forward * rollForce * Time.deltaTime);
+        }
+        if (rollCurrentTime >= rollDuration)
+        {
+            rollCurrentTime = 0;
+            rolling = false;
+        }
     }
 
     private void MovementAnimation(Vector3 newPos)

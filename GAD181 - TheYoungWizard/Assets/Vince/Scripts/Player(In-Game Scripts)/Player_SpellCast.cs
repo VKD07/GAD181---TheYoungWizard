@@ -16,6 +16,7 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] float fireBallSpeed;
     [SerializeField] Transform bulletSpawn;
     [SerializeField] LayerMask layerMask;
+    GameObject fireBallObj;
 
     [Header("Ice Spell")]
     [SerializeField] GameObject ice;
@@ -23,17 +24,18 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] float iceWallDuration;
 
     [Header("Wind Gust Spell")]
+    [SerializeField] float windGustDamage = 10f;
     [SerializeField] SphereCollider sphere;
     [SerializeField] float windRange = 4f;
     [SerializeField] List<GameObject> enemiesInRange;
     [SerializeField] float knockBackForce = 5f;
+    [SerializeField] List <string> enemyTagsAffected;
     public bool releaseWind = false;
 
     [Header("Luminous Spell")]
     [SerializeField] GameObject luminousLight;
     [SerializeField] Transform luminousLightSpawn;
-    [SerializeField] float lightDuration = 5f;
-
+    [SerializeField] float lightDuration;
 
     private void Start()
     {
@@ -49,8 +51,6 @@ public class Player_SpellCast : MonoBehaviour
     {
         Quaternion spawnRot = Quaternion.LookRotation(transform.up, -transform.forward);
         GameObject iceObj = Instantiate(ice, iceSpawn.position, spawnRot);
-
-        
         Destroy(iceObj, iceWallDuration);
     }
 
@@ -58,25 +58,31 @@ public class Player_SpellCast : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        if (combatScript.targetMode == true && Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
         {
             // Calculate the direction to fire the bullet
             Vector3 direction = (hit.point - bulletSpawn.position).normalized;
 
             // Instantiate the fireball prefab
-            GameObject fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
+            fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
 
             // Set the initial velocity of the bullet
-            Rigidbody bulletRigidbody = fireball.GetComponent<Rigidbody>();
             fireBallObj.GetComponent<Rigidbody>().velocity = direction * fireBallSpeed * Time.deltaTime;
+        }
+        else if (combatScript.targetMode == false)
+        {
+            // Instantiate the fireball prefab
+            fireBallObj = Instantiate(fireball, bulletSpawn.position, Quaternion.identity);
+
+            // Set the initial velocity of the bullet
+            fireBallObj.GetComponent<Rigidbody>().velocity = transform.forward * fireBallSpeed * Time.deltaTime;
         }
     }
 
     public void CastLuminous()
     {
-        GameObject luminous = Instantiate(luminousLight, luminousLightSpawn.position, Quaternion.identity);
-
-        Destroy(luminous, lightDuration);
+       GameObject lightObj = Instantiate(luminousLight, luminousLightSpawn.position, Quaternion.identity);
+        Destroy(lightObj, lightDuration);
     }
 
     #region WindGust spell
@@ -88,28 +94,39 @@ public class Player_SpellCast : MonoBehaviour
 
     public void disableWindgust()
     {
-        releaseWind = false; 
+        releaseWind = false;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Enemy" || other.tag == "windEnemy")
+        if (enemyTagsAffected.Contains(other.tag))
         {
             enemiesInRange.Add(other.gameObject);
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (enemyTagsAffected.Contains(other.tag))
+        {
+            if(other.gameObject.GetComponent<BossScript>() != null && releaseWind == true)
+            {
+                other.gameObject.GetComponent<BossScript>().DamageBoss(windGustDamage);
+            }
+        }
+    }
+    
     private void OnTriggerExit(Collider other)
     {
-        if(other.tag == "Enemy" || other.tag == "windEnemy")
+        if (enemyTagsAffected.Contains(other.tag))
         {
             enemiesInRange.Remove(other.gameObject);
         }
     }
-
+    
     private void Update()
     {
-       if(releaseWind == true)
+        if (releaseWind == true)
         {
             foreach (GameObject enemy in enemiesInRange)
             {
