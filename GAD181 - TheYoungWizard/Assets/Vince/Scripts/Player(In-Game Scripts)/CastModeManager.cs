@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,11 @@ public class CastModeManager : MonoBehaviour
     [SerializeField] Player_Movement playerScript;
     [SerializeField] playerCombat pc;
     [SerializeField] float castModeTimer;
+    //animators effects
     [SerializeField] Animator spellCastUiAnim;
-
+    [SerializeField] Animator centerCircleAnim;
+    [SerializeField] GameObject castEffectObj;
+    [SerializeField] Animator castEffect;
     //arrays of elements and slots
     [SerializeField] Sprite[] spriteElements;
     [SerializeField] Image[] elementSlots;
@@ -22,14 +26,10 @@ public class CastModeManager : MonoBehaviour
     public int availableSpellID;
     [SerializeField] Image spellSlot;
     [SerializeField] public Sprite[] spellIcons;
+    [SerializeField] Sprite defaultIcon;
     public bool castingMode = false;
-
-
-
-    void Start()
-    {
-
-    }
+    public bool doneCombining = false;
+    public bool wrongCombination = false;
 
     private void Update()
     {
@@ -37,22 +37,28 @@ public class CastModeManager : MonoBehaviour
         if (this.gameObject.activeSelf == true && Input.GetKeyDown(KeyCode.R))
         {
             spellCastUiAnim.SetBool("CastMode", false);
+            centerCircleAnim.SetBool("SpinCircle", false);
+            castEffect.SetBool("ActivateEffect", false);
+            castEffectObj.SetActive(false);
             pc.casting = false;
             //resets spell combinations after UI is disabled;
-            spellCasting();
+            settingSpellSprite();
+            doneCombining = false;
             castingMode = false;
             ResetSpell();
             this.gameObject.SetActive(false);
             playerScript.enabled = true;
             Time.timeScale = 1f;
         }
-
         CastMode();
-
     }
     private void OnEnable()
     {
         refreshSpell();
+        //activatinng effects
+        castEffectObj.SetActive(true);
+        castEffect.SetBool("ActivateEffect", true);
+        centerCircleAnim.SetBool("SpinCircle", true);
         //when the UI is enable start the timer, disable the movement scrpt then reactived everything again after few seconds
         StartCoroutine(disableUI());
         castingMode = true;
@@ -66,16 +72,19 @@ public class CastModeManager : MonoBehaviour
         yield return new WaitForSeconds(castModeTimer);
         pc.casting = false;
         Time.timeScale = 1;
+        doneCombining = false;
         castingMode = false;
         playerScript.enabled = true;
 
-        spellCasting();
+        settingSpellSprite();
 
         //resets spell combinations after UI is disabled;
         ResetSpell();
         spellCastUiAnim.SetBool("CastMode", false);
+        centerCircleAnim.SetBool("SpinCircle", false);
+        castEffect.SetBool("ActivateEffect", false);
+        castEffectObj.SetActive(false);
         this.gameObject.SetActive(false);
-
     }
     void CastMode()
     {
@@ -93,6 +102,11 @@ public class CastModeManager : MonoBehaviour
         else if (elementState[2] == false && elementState[1] == true)
         {
             Element(2);
+        }
+        //this prevents combining spells with only combing 2 elements
+        if(elementState[2] == true)
+        {
+            doneCombining = true;
         }
     }
 
@@ -148,12 +162,13 @@ public class CastModeManager : MonoBehaviour
         }
     }
 
-    void spellCasting()
+    void settingSpellSprite()
     {
         for (int i = 0; i < spellIDs.Length; i++)
         {
-            if (spellIDs[i] == currentSpellID)
+            if (spellIDs[i] == currentSpellID && doneCombining == true)
             {
+                wrongCombination = false;
                 spellSlot.sprite = spellIcons[i];
                 //Store the current spell available to use
                 availableSpellID = currentSpellID;
@@ -162,6 +177,9 @@ public class CastModeManager : MonoBehaviour
             else
             {
                 //insert the consequences here if the player miscombined the elements------------------------
+                wrongCombination = true;
+                spellSlot.sprite = defaultIcon;
+
             }
         }
     }
@@ -185,8 +203,6 @@ public class CastModeManager : MonoBehaviour
             currentSpellID = 0;
         }
     }
-
-
     void ResetSpell()
     {
         //loop throuhg the element slots and reset everything from the transparecy color, 
@@ -200,7 +216,4 @@ public class CastModeManager : MonoBehaviour
             currentSpellID = 0;
         }
     }
-
-
-
 }

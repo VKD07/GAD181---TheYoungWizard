@@ -128,15 +128,10 @@ public class DummyScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
-        if (collision.tag == "windGust")
-        {
-            print("wind");
-        }
         //dummy gets destroyed depends on the chosen spells
         if (spellChosenIndex == 0 && collision.tag == "Fireball")
         {
             DeathState();
-
         }
         else if (spellChosenIndex == 2 && collision.tag == "frostWall")
         {
