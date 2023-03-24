@@ -29,6 +29,7 @@ public class Player_SpellCast : MonoBehaviour
 
     [Header("Wind Gust Spell")]
     [SerializeField] GameObject windGustVfx;
+    [SerializeField] Transform windGustPostion;
     [SerializeField] float windGustDamage = 10f;
     [SerializeField] SphereCollider sphere;
     [SerializeField] float windRange = 4f;
@@ -118,8 +119,7 @@ public class Player_SpellCast : MonoBehaviour
     public void ReleaseWindGust()
     {
         releaseWind = true;
-        GameObject windVfx = Instantiate(windGustVfx, transform.position + transform.up, Quaternion.identity);
-        Destroy(windVfx, 2f);
+        
     }
 
     public void disableWindgust()
@@ -171,6 +171,11 @@ public class Player_SpellCast : MonoBehaviour
         }
     }
 
+    void EnableWindGustVfx()
+    {
+        GameObject windVfx = Instantiate(windGustVfx, windGustPostion.position, Quaternion.identity);
+        Destroy(windVfx, 2f);
+    }
 
     #endregion
 }

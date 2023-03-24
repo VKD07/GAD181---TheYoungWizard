@@ -84,7 +84,7 @@ public class Player_Movement : MonoBehaviour
 
         Vector3 newPos = new Vector3(horizontalInput, 0f, verticalInput).normalized;
 
-        if (newPos.magnitude > 0.1f)
+        if (newPos.magnitude > 0.1f && pc.attacking == false)
         {
 
             //character animation and sprint

@@ -89,11 +89,14 @@ public class BossScript : MonoBehaviour
     void Start()
     {
         maxHealth = health;
+        print(maxHealth);
+
         ai = GetComponent<NavMeshAgent>();
         ai.speed = runSpeed;
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         halfHealth = health / 2;
+
     }
 
     // Update is called once per frame
@@ -120,6 +123,7 @@ public class BossScript : MonoBehaviour
             Stage1Skills();
             Stage2Skills();
         }
+        HealingMode();
     }
 
     private void Stage1Skills()
@@ -180,15 +184,6 @@ public class BossScript : MonoBehaviour
 
     void Stage2Skills()
     {
-        if (attackNumber == 5)
-        {
-            healingMode(true);
-        }
-        else
-        {
-            healingMode(false);
-        }
-
         if (attackNumber == 6)
         {
             Replicate(true);
@@ -196,6 +191,18 @@ public class BossScript : MonoBehaviour
         else
         {
             Replicate(false);
+        }
+    }
+
+    void HealingMode()
+    {
+        if (attackNumber == 5)
+        {
+            healingMode(true);
+        }
+        else
+        {
+            healingMode(false);
         }
     }
 
@@ -423,11 +430,13 @@ public class BossScript : MonoBehaviour
     {
         if (value == true)
         {
+            //spawning minions
             if (minionsSpawned == false)
             {
                 anim.SetTrigger("SpawnMinions");
                 minionsSpawned = true;
             }
+            
             if (currentTime < healingDuration)
             {
                 anim.SetBool("Distracted", true);
@@ -439,7 +448,7 @@ public class BossScript : MonoBehaviour
                         health += healingRate * Time.deltaTime;
                     }
                 }
-                else { icedShield = false; }
+
             }
             else
             {

@@ -47,8 +47,8 @@ public class BossHealthHandler : MonoBehaviour
 
         GameObject shatteredObj = Instantiate(shatteredRock[rockNum], rockHealth[rockNum].transform.position, rockHealth[rockNum].transform.rotation);
         //spawn a repica everytime a rock is shattered
-        GameObject cloneObj = Instantiate(bossScript.bossClone, bossScript.multipleFireBallSpawners[0].position, Quaternion.identity);
-        Destroy(cloneObj, bossScript.cloneDuration);
+        //GameObject cloneObj = Instantiate(bossScript.bossClone, bossScript.multipleFireBallSpawners[0].position, Quaternion.identity);
+        //Destroy(cloneObj, bossScript.cloneDuration);
         Destroy(rockHealth[rockNum]);
     }
 }
