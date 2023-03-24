@@ -16,7 +16,7 @@ public class IceSpell : MonoBehaviour
 
     void Update()
     {
-        icePosition();
+       // icePosition();
         FreezeBoss();
     }
 
@@ -65,16 +65,16 @@ public class IceSpell : MonoBehaviour
             groundHit = true;
         }
     }
-    private void icePosition()
-    {
-        transform.rotation = Quaternion.Euler(-90f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
-        // transform.position = new Vector3(transform.position.x, -5.7f, transform.position.z);
+    //private void icePosition()
+    //{
+    //    transform.rotation = Quaternion.Euler(-90f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
+    //    // transform.position = new Vector3(transform.position.x, -5.7f, transform.position.z);
 
-        if (groundHit == true)
-        {
-            transform.position += Vector3.up * Time.deltaTime;
-        }
-    }
+    //    if (groundHit == true)
+    //    {
+    //        transform.position += Vector3.up * Time.deltaTime;
+    //    }
+    //}
 
   
 

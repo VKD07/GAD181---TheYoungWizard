@@ -28,6 +28,7 @@ public class Player_SpellCast : MonoBehaviour
 
 
     [Header("Wind Gust Spell")]
+    [SerializeField] GameObject windGustVfx;
     [SerializeField] float windGustDamage = 10f;
     [SerializeField] SphereCollider sphere;
     [SerializeField] float windRange = 4f;
@@ -53,7 +54,8 @@ public class Player_SpellCast : MonoBehaviour
     }
     public void ReleaseIce()
     {
-        Quaternion spawnRot = Quaternion.LookRotation(transform.up, -transform.forward);
+        Quaternion spawnRot = Quaternion.LookRotation(-transform.forward ,transform.up );
+        spawnRot *= Quaternion.Euler(0, -180, 0);
         GameObject iceObj = Instantiate(ice, iceSpawn.position, spawnRot);
         Destroy(iceObj, iceWallDuration);
     }
@@ -101,6 +103,8 @@ public class Player_SpellCast : MonoBehaviour
             // Set the initial velocity of the bullet
             fireBallObj.GetComponent<Rigidbody>().velocity = transform.forward * fireBallSpeed * Time.deltaTime;
         }
+        Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.red);
+
     }
 
     public void CastLuminous()
@@ -114,6 +118,8 @@ public class Player_SpellCast : MonoBehaviour
     public void ReleaseWindGust()
     {
         releaseWind = true;
+        GameObject windVfx = Instantiate(windGustVfx, transform.position + transform.up, Quaternion.identity);
+        Destroy(windVfx, 2f);
     }
 
     public void disableWindgust()
@@ -164,5 +170,7 @@ public class Player_SpellCast : MonoBehaviour
             enemiesInRange.Clear();
         }
     }
+
+
     #endregion
 }
