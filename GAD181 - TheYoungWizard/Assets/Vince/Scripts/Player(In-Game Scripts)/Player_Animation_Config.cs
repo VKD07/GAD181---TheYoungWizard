@@ -39,13 +39,12 @@ public class Player_Animation_Config : MonoBehaviour
         {
             Vector3 direction = (hit.point - bulletSpawn.position).normalized;
 
-            GameObject bulletObj = Instantiate(bullet, bulletSpawn.position, Quaternion.identity);
-
+            GameObject bulletObj = Instantiate(bullet, bulletSpawn.position, Quaternion.LookRotation(direction, Vector3.up));
+            
             Rigidbody bulletRigidbody = bulletObj.GetComponent<Rigidbody>();
 
             bulletRigidbody.velocity = direction * bulletSpeed;
         }
-        Debug.DrawRay(ray.origin, ray.direction * 100f, Color.red);
     }
 
     //public void CharacterFall()

@@ -21,7 +21,7 @@ public class LightControl : MonoBehaviour
     void Update()
     {
 
-        if (bossScript.lightsDisabled == true)
+        if (bossScript.lightsDisabled == true && bossScript.bossReplica == false)
         {
             // light controll
             StartDarknessTime();
@@ -45,7 +45,7 @@ public class LightControl : MonoBehaviour
 
     void ControlLight()
     {
-        if (bossScript.lightsDisabled == true)
+        if (bossScript.lightsDisabled == true && bossScript.bossReplica == false)
         {
             //disable lights
             for (int i = 0; i < environmentLights.Length; i++)
@@ -61,14 +61,18 @@ public class LightControl : MonoBehaviour
         else
         {
             //enable lights
-            for (int i = 0; i < environmentLights.Length; i++)
+            if(bossScript.bossReplica == false)
             {
-                if (environmentLights[i].intensity < lightsMaximumIntensity)
+                for (int i = 0; i < environmentLights.Length; i++)
                 {
-                    environmentLights[i].intensity += lightAdjustmentRate * Time.deltaTime;
-                    environmentLights[i].intensity = Mathf.Clamp(environmentLights[i].intensity, 0.0f, lightsMaximumIntensity);
+                    if (environmentLights[i].intensity < lightsMaximumIntensity)
+                    {
+                        environmentLights[i].intensity += lightAdjustmentRate * Time.deltaTime;
+                        environmentLights[i].intensity = Mathf.Clamp(environmentLights[i].intensity, 0.0f, lightsMaximumIntensity);
+                    }
                 }
             }
+            
         }
     }
 }

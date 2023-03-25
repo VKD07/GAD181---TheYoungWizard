@@ -7,15 +7,19 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class BossScript : MonoBehaviour
 {
     [Header("Enemy Attributes")]
-    [SerializeField] float health = 500f;
-    [SerializeField] float idleModeTime = 10f;
-    [SerializeField] bool bossReplica;
+    [SerializeField] float health;
+    float maxHealth;
     public int numberOfSkills = 5;
     float halfHealth;
+
+    [Header("IdleMode")]
+    [SerializeField] float idleModeTime = 10f;
+    public bool damageBoss;
 
     [Header("Target")]
     [SerializeField] GameObject player;
@@ -35,9 +39,10 @@ public class BossScript : MonoBehaviour
     int randomFireBall;
     [SerializeField] GameObject fireBalls;
     [SerializeField] float fireBallsSpeed = 10f;
-    [SerializeField] Transform[] multipleFireBallSpawners;
+    [SerializeField] public Transform[] multipleFireBallSpawners;
 
     [Header("Pounce")]
+    [SerializeField] float stompDamage = 10f;
     [SerializeField] float jumpForce = 100f;
     [SerializeField] float maxJumpHeight = 1f;
     [SerializeField] float stompSpeed = 35f;
@@ -71,8 +76,10 @@ public class BossScript : MonoBehaviour
     bool minionsSpawned = false;
 
     [Header("Replicate Mode")]
-    [SerializeField] GameObject bossClone;
-    [SerializeField] float cloneDuration = 15f;
+    [SerializeField] public GameObject bossClone;
+    [SerializeField] public float cloneDuration = 15f;
+    [SerializeField] public bool bossReplica;
+
 
     //Components
     NavMeshAgent ai;
@@ -81,11 +88,15 @@ public class BossScript : MonoBehaviour
 
     void Start()
     {
+        maxHealth = health;
+        print(maxHealth);
+
         ai = GetComponent<NavMeshAgent>();
         ai.speed = runSpeed;
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         halfHealth = health / 2;
+
     }
 
     // Update is called once per frame
@@ -100,7 +111,7 @@ public class BossScript : MonoBehaviour
             Stage1Skills();
             //else if the boss health is less than half or this is the replica then make it difficult
         }
-        else if (bossReplica == false || health < halfHealth)
+        else if (bossReplica == false && health < halfHealth)
         {
             //increasing difficulty
             numberOfSkills = 7;
@@ -112,6 +123,7 @@ public class BossScript : MonoBehaviour
             Stage1Skills();
             Stage2Skills();
         }
+        HealingMode();
     }
 
     private void Stage1Skills()
@@ -172,15 +184,6 @@ public class BossScript : MonoBehaviour
 
     void Stage2Skills()
     {
-        if (attackNumber == 5)
-        {
-            healingMode(true);
-        }
-        else
-        {
-            healingMode(false);
-        }
-
         if (attackNumber == 6)
         {
             Replicate(true);
@@ -188,6 +191,18 @@ public class BossScript : MonoBehaviour
         else
         {
             Replicate(false);
+        }
+    }
+
+    void HealingMode()
+    {
+        if (attackNumber == 5)
+        {
+            healingMode(true);
+        }
+        else
+        {
+            healingMode(false);
         }
     }
 
@@ -201,12 +216,14 @@ public class BossScript : MonoBehaviour
         {
             if (currentTime < idleModeTime)
             {
+                damageBoss = true;
                 transform.LookAt(player.transform.position);
                 transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
                 currentTime += Time.deltaTime;
             }
             else
             {
+                damageBoss = false;
                 currentTime = 0;
                 attackNumber = UnityEngine.Random.Range(1, numberOfSkills);
             }
@@ -295,6 +312,7 @@ public class BossScript : MonoBehaviour
     {
         if (projectileMode == true && distracted == false)
         {
+            damageBoss = false;
             if (currentTime < projectileModeTime)
             {
                 currentTime += Time.deltaTime;
@@ -316,7 +334,7 @@ public class BossScript : MonoBehaviour
         //second attack, boss will cast a fireball, that will follow the player
         if (fireBallMode == true)
         {
-
+            damageBoss = false;
             randomFireBall = UnityEngine.Random.Range(0, 3);
 
             if (randomFireBall == 1)
@@ -338,6 +356,7 @@ public class BossScript : MonoBehaviour
     {
         if (value == true)
         {
+            damageBoss = false;
             anim.SetTrigger("Jump");
             attackNumber = 0;
         }
@@ -368,6 +387,7 @@ public class BossScript : MonoBehaviour
         if (jumped == false && jumpedToPlayer == true)
         {
             transform.position = Vector3.MoveTowards(transform.position, playerLastPosition, stompSpeed * Time.deltaTime);
+            player.GetComponent<playerCombat>().enableSenses();
         }
 
         if (transform.position == playerLastPosition)
@@ -375,6 +395,7 @@ public class BossScript : MonoBehaviour
             anim.SetTrigger("Fall");
             ai.enabled = true;
             jumpedToPlayer = false;
+            player.GetComponent<playerCombat>().disableSenses();
         }
     }
 
@@ -409,24 +430,25 @@ public class BossScript : MonoBehaviour
     {
         if (value == true)
         {
+            //spawning minions
             if (minionsSpawned == false)
             {
                 anim.SetTrigger("SpawnMinions");
                 minionsSpawned = true;
             }
+            
             if (currentTime < healingDuration)
             {
-                currentTime += Time.deltaTime;
                 anim.SetBool("Distracted", true);
-                if (icedShield == true && health < 500)//<----------------- To Change
+                currentTime += Time.deltaTime;
+                if (icedShield == true)
                 {
-                    iceShieldObj.SetActive(true);
-                    health += healingRate * Time.deltaTime;
+                    if(health < maxHealth)
+                    {
+                        health += healingRate * Time.deltaTime;
+                    }
                 }
-                else
-                {
-                    iceShieldObj.SetActive(false);
-                }
+
             }
             else
             {
@@ -434,8 +456,18 @@ public class BossScript : MonoBehaviour
                 currentTime = 0;
                 attackNumber = 0;
                 minionsSpawned = false;
+                icedShield = false;
                 anim.SetBool("Distracted", false);
             }
+        }
+
+        if(icedShield == true)
+        {
+            iceShieldObj.SetActive(true);
+        }
+        else
+        {
+            iceShieldObj.SetActive(false);
         }
     }
 
@@ -473,11 +505,24 @@ public class BossScript : MonoBehaviour
     //Getter setter method
     public void DamageBoss(float value)
     {
-        health -= value;
+        //boss can only be damage during Idle mode
+        if(damageBoss == true)
+        {
+            anim.SetTrigger("TakeDamage");
+            health -= value;
+        }
     }
 
     public float GetBossHealth()
     {
         return health;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player" && jumpedToPlayer == true)
+        {
+            player.GetComponent<playerCombat>().damagePlayer(stompDamage);
+        }
     }
 }

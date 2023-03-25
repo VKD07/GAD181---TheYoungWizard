@@ -5,6 +5,7 @@ using UnityEngine;
 public class Fireball_Script : MonoBehaviour
 {
     [SerializeField] float fireBallDamage = 30f;
+    [SerializeField] GameObject explosionParticle;
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "dummy")
@@ -18,23 +19,38 @@ public class Fireball_Script : MonoBehaviour
         if (collision.tag == "Boss")
         {
             GameObject boss = collision.gameObject;
-           
+
             boss.GetComponent<BossScript>().DamageBoss(fireBallDamage);
 
-            if(boss.GetComponent<BossScript>().icedShield == true)
+            if (boss.GetComponent<BossScript>().icedShield == true)
             {
                 boss.GetComponent<BossScript>().icedShield = false;
             }
+
+            ExplosionEffect();
+
             Destroy(gameObject);
         }
-
-        if (collision.tag == "CatMinion")
+        else if (collision.tag == "CatMinion")
         {
             GameObject minion = collision.gameObject;
 
             minion.GetComponent<CatMinion>().DamageMinion(fireBallDamage);
+            ExplosionEffect();
 
             Destroy(gameObject);
         }
+        else if (collision.tag == "Environment" || collision.tag == "ground")
+            {
+            ExplosionEffect();
+            }
+        
+    }
+
+    void ExplosionEffect()
+    {
+        GameObject explosion = Instantiate(explosionParticle, transform.position, Quaternion.identity);
+        Destroy(explosion, 2f);
+        Destroy(gameObject);
     }
 }

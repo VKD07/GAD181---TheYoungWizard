@@ -18,6 +18,7 @@ TagManager:
   - windEnemy
   - Boss
   - CatMinion
+  - Environment
   layers:
   - Default
   - TransparentFX
@@ -31,7 +32,7 @@ TagManager:
   - Spells
   - BossBullet
   - FinalBoss
-  - 
+  - ground
   - 
   - 
   - 

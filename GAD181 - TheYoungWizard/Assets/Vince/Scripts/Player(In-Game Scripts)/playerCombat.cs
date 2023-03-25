@@ -249,28 +249,30 @@ public class playerCombat : MonoBehaviour
     public void attack()
     {
         //if the player is moving then dont proceed to the attacking combo
-        if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
-        {
-            anim.SetTrigger("Attack");
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false)
-            {
-                attacking = true;
-                anim.SetTrigger("Attack");
-                anim.SetBool("Attacking", true);
+        //if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
+        //{
+        //    anim.SetTrigger("Attack");
+        //}
+        //else
 
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
-            {
-                anim.SetTrigger("Attack2");
-            }
-            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
-            {
-                anim.SetTrigger("Attack3");
-            }
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false && playerMovement.isMoving == false)
+        {
+            attacking = true;
+            anim.SetTrigger("Attack");
+            anim.SetBool("Attacking", true);
+
         }
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+        {
+            anim.SetTrigger("Attack2");
+        }
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+        {
+            anim.SetTrigger("Attack3");
+            anim.SetBool("Attacking", false);
+        }
+
 
         if (AttackNumber == 3)
         {
@@ -307,20 +309,6 @@ public class playerCombat : MonoBehaviour
             {
                 AttackNumber++;
             }
-        }
-
-        //base layer adjustments
-        if (playerMovement.isMoving == false && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
-        {
-            anim.SetBool("notAttacking", false);
-            anim.SetLayerWeight(0, 0);
-            anim.SetLayerWeight(1, 1);
-        }
-        else if (playerMovement.isMoving == true)
-        {
-            anim.SetBool("notAttacking", true);
-            anim.SetLayerWeight(0, 1);
-            anim.SetLayerWeight(1, 0.4f);
         }
     }
 

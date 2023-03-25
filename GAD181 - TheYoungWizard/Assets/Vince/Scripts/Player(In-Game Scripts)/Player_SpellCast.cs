@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Player_SpellCast : MonoBehaviour
 {
@@ -22,8 +23,13 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] GameObject ice;
     [SerializeField] Transform iceSpawn;
     [SerializeField] float iceWallDuration;
+    GameObject [] boss;
+    GameObject[] iceWalls;
+
 
     [Header("Wind Gust Spell")]
+    [SerializeField] GameObject windGustVfx;
+    [SerializeField] Transform windGustPostion;
     [SerializeField] float windGustDamage = 10f;
     [SerializeField] SphereCollider sphere;
     [SerializeField] float windRange = 4f;
@@ -49,9 +55,30 @@ public class Player_SpellCast : MonoBehaviour
     }
     public void ReleaseIce()
     {
-        Quaternion spawnRot = Quaternion.LookRotation(transform.up, -transform.forward);
+        Quaternion spawnRot = Quaternion.LookRotation(-transform.forward ,transform.up );
+        spawnRot *= Quaternion.Euler(0, -180, 0);
         GameObject iceObj = Instantiate(ice, iceSpawn.position, spawnRot);
         Destroy(iceObj, iceWallDuration);
+    }
+
+    private void fixingIceWallBug()
+    {
+        boss = GameObject.FindGameObjectsWithTag("Boss");
+        iceWalls = GameObject.FindGameObjectsWithTag("frostWall");
+        if(iceWalls.Length <= 0)
+        {
+            for (int i = 0; i < boss.Length; i++)
+            {
+                if (boss[i].GetComponent<Animator>().enabled == false
+                && boss[i].GetComponent<NavMeshAgent>().enabled == false
+                &&boss[i].GetComponent<BossScript>().enabled == false)
+                {
+                    boss[i].GetComponent<Animator>().enabled = true;
+                    boss[i].GetComponent<NavMeshAgent>().enabled = true;
+                    boss[i].GetComponent<BossScript>().enabled = true;
+                }
+            }
+        }
     }
 
     private void ReleaseFireBall()
@@ -77,6 +104,8 @@ public class Player_SpellCast : MonoBehaviour
             // Set the initial velocity of the bullet
             fireBallObj.GetComponent<Rigidbody>().velocity = transform.forward * fireBallSpeed * Time.deltaTime;
         }
+        Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.red);
+
     }
 
     public void CastLuminous()
@@ -90,6 +119,7 @@ public class Player_SpellCast : MonoBehaviour
     public void ReleaseWindGust()
     {
         releaseWind = true;
+        
     }
 
     public void disableWindgust()
@@ -126,6 +156,8 @@ public class Player_SpellCast : MonoBehaviour
     
     private void Update()
     {
+        fixingIceWallBug();
+
         if (releaseWind == true)
         {
             foreach (GameObject enemy in enemiesInRange)
@@ -138,5 +170,12 @@ public class Player_SpellCast : MonoBehaviour
             enemiesInRange.Clear();
         }
     }
+
+    void EnableWindGustVfx()
+    {
+        GameObject windVfx = Instantiate(windGustVfx, windGustPostion.position, Quaternion.identity);
+        Destroy(windVfx, 2f);
+    }
+
     #endregion
 }
