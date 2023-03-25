@@ -48,7 +48,7 @@ public class RoomScene_Player : MonoBehaviour
         PlayerMovement();
         PlayerRayCast();
 
-        Debug.Log("hi");
+        
 
     }
 
