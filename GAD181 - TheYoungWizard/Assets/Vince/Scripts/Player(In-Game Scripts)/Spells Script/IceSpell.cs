@@ -9,15 +9,15 @@ public class IceSpell : MonoBehaviour
     // Update is called once per frame
 
     [SerializeField] float freezeDuration = 2.5f;
+    [SerializeField]List <GameObject> frozenObjects = new List <GameObject>();
     public float currentTime;
-    bool groundHit;
     GameObject [] boss;
     bool bossDetected;
 
     void Update()
     {
        // icePosition();
-        FreezeBoss();
+       // FreezeBoss();
     }
 
     private void FreezeBoss()
@@ -60,11 +60,26 @@ public class IceSpell : MonoBehaviour
             bossDetected = true;
         }
 
-        if (other.tag == "ground")
+        if (other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            groundHit = true;
+            other.gameObject.SendMessage("Freeze");
+            if (!frozenObjects.Contains(other.gameObject))
+            {
+                frozenObjects.Add(other.gameObject);
+            }
+        }
+
+    }
+ 
+
+    private void OnDestroy()
+    {
+        foreach (GameObject obj in frozenObjects)
+        {
+            obj.SendMessage("UnFreeze");
         }
     }
+
     //private void icePosition()
     //{
     //    transform.rotation = Quaternion.Euler(-90f, transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z);
@@ -75,16 +90,6 @@ public class IceSpell : MonoBehaviour
     //        transform.position += Vector3.up * Time.deltaTime;
     //    }
     //}
-
-  
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "ground")
-        {
-            groundHit = false;
-        }
-    }
 
 
 

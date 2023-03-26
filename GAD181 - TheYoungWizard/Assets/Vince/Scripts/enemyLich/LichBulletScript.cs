@@ -33,5 +33,12 @@ public class LichBulletScript : MonoBehaviour
             player.GetComponent<playerCombat>().damagePlayer(bulletDamage);
             Destroy(gameObject);
         }
+
+        if(other.tag == "PlayerForceField")
+        {
+            other.gameObject.GetComponent<Animator>().SetTrigger("Hit");
+            Destroy(gameObject);
+        }
+
     }
 }

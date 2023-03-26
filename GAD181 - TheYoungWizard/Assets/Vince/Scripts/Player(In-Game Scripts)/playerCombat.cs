@@ -56,6 +56,9 @@ public class playerCombat : MonoBehaviour
     public float currentTimeToChangeAnim;
     public float timeLimit = 1f;
 
+    [Header("ForceField")]
+    [SerializeField] PlayerForceField forceField;
+
     //Awareness 
     [SerializeField] GameObject awarenessUI;
 
@@ -248,8 +251,9 @@ public class playerCombat : MonoBehaviour
 
     public void attack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking && !playerMovement.isMoving)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking)
         {
+            playerMovement.stopMoving = true;
             attacking = true;
             anim.SetTrigger("Attack");
             anim.SetBool("Attacking", true);
@@ -257,11 +261,13 @@ public class playerCombat : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 1)
         {
+            playerMovement.stopMoving = true;
             anim.SetTrigger("Attack2");
             AttackNumber++;
         }
         else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 2)
         {
+            playerMovement.stopMoving = true;
             anim.SetTrigger("Attack3");
             AttackNumber++;
         }
@@ -273,6 +279,7 @@ public class playerCombat : MonoBehaviour
 
         if (!targetMode)
         {
+            playerMovement.stopMoving = false;
             ResetAttack();
         }
 
@@ -282,6 +289,7 @@ public class playerCombat : MonoBehaviour
 
             if (currentTimeToChangeAnim >= timeLimit)
             {
+                playerMovement.stopMoving = false;
                 ResetAttack();
             }
         }
@@ -371,7 +379,7 @@ public class playerCombat : MonoBehaviour
     //take damage from enemy
     public void damagePlayer(float damage)
     {
-        if (dodge == false)
+        if (forceField.shieldIsActive == false)
         {
             playerHealth -= damage;
             disableSenses();

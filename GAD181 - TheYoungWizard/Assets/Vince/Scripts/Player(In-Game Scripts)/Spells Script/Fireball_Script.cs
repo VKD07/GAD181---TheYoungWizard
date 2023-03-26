@@ -6,9 +6,15 @@ public class Fireball_Script : MonoBehaviour
 {
     [SerializeField] float fireBallDamage = 30f;
     [SerializeField] GameObject explosionParticle;
+    SphereCollider sphereCollider;
+
+    private void Start()
+    {
+        sphereCollider = GetComponent<SphereCollider>();
+    }
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "dummy")
+        if (collision.gameObject.tag == "dummy")
         {
             Destroy(gameObject);
         }
@@ -16,6 +22,8 @@ public class Fireball_Script : MonoBehaviour
 
     private void OnTriggerEnter(Collider collision)
     {
+
+
         if (collision.tag == "Boss")
         {
             GameObject boss = collision.gameObject;
@@ -40,14 +48,16 @@ public class Fireball_Script : MonoBehaviour
 
             minion.GetComponent<CatMinion>().DamageMinion(fireBallDamage);
             ExplosionEffect();
-
             Destroy(gameObject);
         }
         else if (collision.tag == "Environment" || collision.tag == "ground")
-            {
+        {
             ExplosionEffect();
-            }
-        
+        }else if(collision.tag == "Enemy")
+        {
+            ExplosionEffect();
+        }
+
     }
 
     void ExplosionEffect()

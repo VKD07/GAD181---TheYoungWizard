@@ -520,6 +520,18 @@ public class BossScript : MonoBehaviour
         return health;
     }
 
+    void Freeze()
+    {
+        ai.enabled = false;
+        anim.enabled = false;
+    }
+    void UnFreeze()
+    {
+        ai.enabled = true;
+        anim.enabled = true;
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player" && jumpedToPlayer == true)

@@ -148,4 +148,15 @@ public class CatMinion : MonoBehaviour
             minionHealth -= damage;
         }
     }
+
+    void Freeze()
+    {
+        ai.enabled = false;
+        anim.enabled = false;
+    }
+    void UnFreeze()
+    {
+        ai.enabled = true;
+        anim.enabled = true;
+    }
 }

@@ -34,7 +34,7 @@ public class LichAttributes : LichMainScript
         }
     }
 
-    public void DamageLich(float damage)
+    public void DamageEnemy(float damage)
     {
         if(forceFieldScript.activateShield == false)
         {
@@ -42,5 +42,17 @@ public class LichAttributes : LichMainScript
         }
     }
 
+    void Freeze()
+    {
+        this.gameObject.GetComponent<LichAttack>().enabled = false;
+        this.gameObject.GetComponent<LichChase>().enabled = false;
+        this.gameObject.GetComponent<Animator>().enabled = false;
+    }
 
+    void UnFreeze()
+    {
+        this.gameObject.GetComponent<LichAttack>().enabled = true;
+        this.gameObject.GetComponent<LichChase>().enabled = true;
+        this.gameObject.GetComponent<Animator>().enabled = true;
+    }
 }
