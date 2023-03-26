@@ -5,6 +5,7 @@ using UnityEngine;
 public class bulletScript : MonoBehaviour
 {
     [SerializeField] float bulletDamage = 10f;
+    [SerializeField] GameObject bossImpactVfx;
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag == "dummy")
@@ -21,15 +22,21 @@ public class bulletScript : MonoBehaviour
         {
             GameObject boss = collision.gameObject;
             boss.GetComponent<BossScript>().DamageBoss(bulletDamage);
+            GameObject bossImpact = Instantiate(bossImpactVfx, transform.position, Quaternion.identity);
+            Destroy(bossImpact, 2f);
             Destroy(gameObject);
         }
 
         if (collision.tag == "CatMinion")
         {
-            print("Minion Hit");
             GameObject minion = collision.gameObject;
-            minion.GetComponent<Animator>().SetTrigger("Hit");
             minion.GetComponent<CatMinion>().DamageMinion(bulletDamage);
+            Destroy(gameObject);
+        }
+        
+        if(collision.tag == "Enemy")
+        {
+            collision.gameObject.GetComponent<LichAttributes>().DamageLich(bulletDamage);
             Destroy(gameObject);
         }
     }

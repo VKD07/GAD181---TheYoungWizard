@@ -248,68 +248,78 @@ public class playerCombat : MonoBehaviour
 
     public void attack()
     {
-        //if the player is moving then dont proceed to the attacking combo
-        //if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
-        //{
-        //    anim.SetTrigger("Attack");
-        //}
-        //else
-
-
-        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false && playerMovement.isMoving == false)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking && !playerMovement.isMoving)
         {
             attacking = true;
             anim.SetTrigger("Attack");
             anim.SetBool("Attacking", true);
-
+            AttackNumber++;
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 1)
         {
             anim.SetTrigger("Attack2");
+            AttackNumber++;
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 2)
         {
             anim.SetTrigger("Attack3");
-            anim.SetBool("Attacking", false);
+            AttackNumber++;
         }
 
-
-        if (AttackNumber == 3)
+        if (AttackNumber >= 3)
         {
             AttackNumber = 0;
         }
 
-        //attack animation resets if aiming mode is disabled
-        if (targetMode == false)
+        if (!targetMode)
         {
-            attacking = false;
-            currentTimeToChangeAnim = 0;
-            AttackNumber = 0;
+            ResetAttack();
         }
 
-        //Timer to switch to second animation
-        //If player Starts to attack then start timer
-        if (attacking == true)
+        if (attacking)
         {
-            //if current time doesnt reeach the time limit. Keep counting
-            if (currentTimeToChangeAnim < timeLimit)
+            currentTimeToChangeAnim += Time.deltaTime;
+
+            if (currentTimeToChangeAnim >= timeLimit)
             {
-                currentTimeToChangeAnim = currentTimeToChangeAnim + Time.deltaTime;
-            }
-            //if current time reached the time, then reset the animation to first attack
-            if (currentTimeToChangeAnim > timeLimit)
-            {
-                attacking = false;
-                anim.SetBool("Attacking", attacking);
-                AttackNumber = 0;
-                currentTimeToChangeAnim = 0;
-            }
-            //if the time hasn't reached yet and player pressed left click again, change the attack number
-            if (currentTimeToChangeAnim < timeLimit && Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                AttackNumber++;
+                ResetAttack();
             }
         }
+
+    }
+
+    //public void attack()
+    //{
+    //    int currentAttack;
+    //    if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && attacking == false && playerMovement.isMoving == false)
+    //    {
+    //        attacking = true;
+    //        currentAttack = UnityEngine.Random.Range(1, 3 + 1);
+    //        anim.SetTrigger("Attack" + currentAttack.ToString());
+    //        anim.SetBool("Attacking", true);
+    //    }
+
+    //    if (attacking == true)
+    //    {
+    //        if (currentTimeToChangeAnim < timeLimit)
+    //        {
+    //            currentTimeToChangeAnim += Time.deltaTime;
+    //        }
+    //        else
+    //        {
+    //            attacking = false;
+    //            anim.SetBool("Attacking", false);
+    //            currentTimeToChangeAnim = 0;
+    //        }
+    //    }
+    //}
+
+    private void ResetAttack()
+    {
+        attacking = false;
+        anim.SetBool("Attacking", attacking);
+        AttackNumber = 0;
+        currentTimeToChangeAnim = 0;
     }
 
     private void ItemHandler()

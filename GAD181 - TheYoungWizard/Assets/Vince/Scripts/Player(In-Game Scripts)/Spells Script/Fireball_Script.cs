@@ -19,12 +19,15 @@ public class Fireball_Script : MonoBehaviour
         if (collision.tag == "Boss")
         {
             GameObject boss = collision.gameObject;
+            BossScript bossScript = boss.GetComponent<BossScript>();
 
             boss.GetComponent<BossScript>().DamageBoss(fireBallDamage);
 
-            if (boss.GetComponent<BossScript>().icedShield == true)
+            if (bossScript.icedShield == true)
             {
-                boss.GetComponent<BossScript>().icedShield = false;
+                bossScript.icedShield = false;
+                bossScript.damageBoss = true;
+                bossScript.playStunVfx();
             }
 
             ExplosionEffect();

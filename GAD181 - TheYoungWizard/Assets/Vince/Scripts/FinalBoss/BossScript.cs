@@ -72,6 +72,7 @@ public class BossScript : MonoBehaviour
     [SerializeField] float healingRate;
     [SerializeField] float healingDuration = 8f;
     [SerializeField] GameObject iceShieldObj;
+    [SerializeField] ParticleSystem stunVfx;
     public bool icedShield;
     bool minionsSpawned = false;
 
@@ -457,6 +458,7 @@ public class BossScript : MonoBehaviour
                 attackNumber = 0;
                 minionsSpawned = false;
                 icedShield = false;
+                stunVfx.Stop();
                 anim.SetBool("Distracted", false);
             }
         }
@@ -524,5 +526,10 @@ public class BossScript : MonoBehaviour
         {
             player.GetComponent<playerCombat>().damagePlayer(stompDamage);
         }
+    }
+
+    public void playStunVfx()
+    {
+        stunVfx.Play();
     }
 }

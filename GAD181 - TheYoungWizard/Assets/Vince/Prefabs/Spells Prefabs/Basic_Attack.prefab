@@ -126,7 +126,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25023d731c8c7d747a7b3177d40f0ec0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletDamage: 600
+  bulletDamage: 20
+  bossImpactVfx: {fileID: 1334071670866236, guid: adc6d05559a79b04884668e3791335a6, type: 3}
 --- !u!1001 &4189858638692076931
 PrefabInstance:
   m_ObjectHideFlags: 0
