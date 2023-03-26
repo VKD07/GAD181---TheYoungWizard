@@ -36,7 +36,16 @@ public class bulletScript : MonoBehaviour
         
         if(collision.tag == "Enemy")
         {
-            collision.gameObject.GetComponent<LichAttributes>().DamageLich(bulletDamage);
+            if(collision.gameObject.GetComponent<LichAttributes>().forceFieldScript.activateShield == false)
+            {
+                collision.gameObject.GetComponent<LichAttributes>().DamageLich(bulletDamage);
+            }
+            Destroy(gameObject);
+        }
+
+        if(collision.tag == "ForceField")
+        {
+            collision.gameObject.GetComponent<Animator>().SetTrigger("Hit");
             Destroy(gameObject);
         }
     }

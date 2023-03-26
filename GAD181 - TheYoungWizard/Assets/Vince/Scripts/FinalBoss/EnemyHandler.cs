@@ -26,7 +26,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if (stageCollider[0].bounds.Intersects(playerCollider.bounds))
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 2; i++)
             {
                 enemies[i].SetActive(true);
             }

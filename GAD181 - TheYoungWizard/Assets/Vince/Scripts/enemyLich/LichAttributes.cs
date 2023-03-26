@@ -7,6 +7,7 @@ public class LichAttributes : LichMainScript
 {
     [SerializeField] float health = 100f;
     [SerializeField] Slider healthSlider;
+    [SerializeField] public ForceFieldScript forceFieldScript;
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -35,7 +36,10 @@ public class LichAttributes : LichMainScript
 
     public void DamageLich(float damage)
     {
-        health -= damage;
+        if(forceFieldScript.activateShield == false)
+        {
+            health -= damage;
+        }
     }
 
 
