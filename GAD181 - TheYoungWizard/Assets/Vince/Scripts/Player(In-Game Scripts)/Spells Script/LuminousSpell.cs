@@ -5,7 +5,6 @@ using UnityEngine;
 public class LuminousSpell : MonoBehaviour
 {
     [SerializeField] float luminousDamagePerSecond = 1f;
-    [SerializeField] float bossDistractionDuration = 4f;
     [SerializeField] Collider[] enemies;
     [SerializeField] float radius = 10f;
     [SerializeField] LayerMask layer;

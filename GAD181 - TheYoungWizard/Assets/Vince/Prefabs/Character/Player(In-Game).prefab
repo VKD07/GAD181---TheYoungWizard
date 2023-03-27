@@ -210,10 +210,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: 100
   playerMana: 100
-  fireballManaCost: 20
-  iceSpellManaCost: 20
-  luminousManaCost: 20
-  windGustManaCost: 20
+  fireballManaCost: 10
+  iceSpellManaCost: 5
+  luminousManaCost: 5
+  windGustManaCost: 5
   healthPotionValue: 40
   manaPotionValue: 40
   anim: {fileID: 4934812156967060920}
@@ -537,11 +537,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8326b5c15b10326429f50e4911f8e206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rayCastPosition: {fileID: 0}
+  rayCastPosition: {fileID: 1685214313}
   chestLayer:
     serializedVersion: 2
-    m_Bits: 0
-  rayCastRange: 0
+    m_Bits: 32768
+  rayCastRange: 1
   openChestKey: 102
 --- !u!1 &1879246480219399715
 GameObject:

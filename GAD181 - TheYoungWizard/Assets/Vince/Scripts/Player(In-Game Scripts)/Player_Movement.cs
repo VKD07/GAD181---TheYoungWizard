@@ -50,11 +50,6 @@ public class Player_Movement : MonoBehaviour
     playerCombat pc;
     float rollCurrentTime;
 
-    [SerializeField] float forceStrength = 10f;
-    Rigidbody rb;
-
-
-
     void Start()
     {
         //setting the cursor to visible and lock to the center
@@ -62,7 +57,6 @@ public class Player_Movement : MonoBehaviour
         Cursor.visible = false;
 
         characterController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
         pc = GetComponent<playerCombat>();
 
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -211,7 +205,7 @@ public class Player_Movement : MonoBehaviour
         //}
 
 
-        if (Input.GetKeyDown(rollKey) && rolling == false)
+        if (Input.GetKeyDown(rollKey) && rolling == false && pc.castingSpell == false)
         {
             anim.SetTrigger("Roll");
             pc.RollCamera();

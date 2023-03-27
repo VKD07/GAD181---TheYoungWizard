@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -59,13 +60,16 @@ public class playerCombat : MonoBehaviour
     [Header("ForceField")]
     [SerializeField] PlayerForceField forceField;
 
-    //Awareness 
+    [Header("Damage Indicator")]
     [SerializeField] GameObject awarenessUI;
+    bool sensesEnabled;
+    float damageIndicatorMaxTime = 5f;
+    float currentDmgIndTime;
 
     public bool dodge = false;
     public float shieldDuration = 3f;
 
-    void Start()
+    void Start() 
     {
         //giving control of camera
         cam.m_YAxis.m_MaxSpeed = 2;
@@ -107,6 +111,7 @@ public class playerCombat : MonoBehaviour
 
         //spell cast
         SpellCastAnimation();
+        DisablingDamageIndicator();
     }
 
     private void SpellCastAnimation()
@@ -414,11 +419,25 @@ public class playerCombat : MonoBehaviour
     public void enableSenses()
     {
         awarenessUI.SetActive(true);
+        sensesEnabled = true;
     }
 
     public void disableSenses()
     {
         awarenessUI.SetActive(false);
+    }
+
+    private void DisablingDamageIndicator()
+    {
+        if (sensesEnabled && currentDmgIndTime < damageIndicatorMaxTime)
+        {
+            currentDmgIndTime += Time.deltaTime;
+        }
+        else
+        {
+            currentDmgIndTime= 0;
+            disableSenses();
+        }
     }
 
     //collisions handler

@@ -34,12 +34,12 @@ public class bulletScript : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.tag == "Enemy")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
-            collision.gameObject.GetComponent<LichAttributes>().DamageEnemy(bulletDamage);
+            collision.gameObject.SendMessage("DamageEnemy", bulletDamage);
             Destroy(gameObject);
         }
-
+        
         if (collision.tag == "ForceField")
         {
             collision.gameObject.GetComponent<Animator>().SetTrigger("Hit");
