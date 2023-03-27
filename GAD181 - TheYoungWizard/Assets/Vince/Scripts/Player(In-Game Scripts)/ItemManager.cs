@@ -34,7 +34,13 @@ public class ItemManager : MonoBehaviour
             colorTransparent.a = 1f;
             itemSlots[0].color = colorTransparent;
         }
-        else if (numberOfManaP > 0)
+        else
+        {
+            colorTransparent.a = 0f;
+            itemSlots[0].color = colorTransparent;
+            itemSlots[1].color = colorTransparent;
+        }
+        if (numberOfManaP > 0)
         {
             itemSlots[1].color = colorTransparent;
             colorTransparent.a = 1f;

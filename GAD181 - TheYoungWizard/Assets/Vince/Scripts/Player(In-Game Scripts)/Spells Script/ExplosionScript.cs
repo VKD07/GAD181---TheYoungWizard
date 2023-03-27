@@ -5,6 +5,7 @@ using UnityEngine;
 public class ExplosionScript : MonoBehaviour
 {
     [SerializeField] float radius;
+    [SerializeField] float explosionDamage = 100f;
     [SerializeField] List<Collider> listOfObjects;
     [SerializeField] Collider[] colliders;
     [SerializeField] LayerMask layerMask;
@@ -19,7 +20,7 @@ public class ExplosionScript : MonoBehaviour
             if (!exploded)
             {
                 exploded = true;
-                collider.SendMessage("DamageEnemy", 100);
+                collider.SendMessage("DamageEnemy", explosionDamage);
             }
         }
 

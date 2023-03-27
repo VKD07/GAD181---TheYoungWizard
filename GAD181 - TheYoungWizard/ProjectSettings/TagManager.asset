@@ -21,6 +21,7 @@ TagManager:
   - Environment
   - ForceField
   - PlayerForceField
+  - Chest
   layers:
   - Default
   - TransparentFX
@@ -37,7 +38,7 @@ TagManager:
   - ground
   - Enemy
   - EnemyBullet
-  - 
+  - Chest
   - 
   - 
   - 

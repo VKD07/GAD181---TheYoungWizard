@@ -72,6 +72,8 @@ public class EnemyHandler : MonoBehaviour
         else if (stageCollider[2].bounds.Intersects(playerCollider.bounds) && stageIsClear[1] == true)
         {
             boss.SetActive(true);
+            RenderSettings.fogColor = Color.black;
+
         }
 
     }
