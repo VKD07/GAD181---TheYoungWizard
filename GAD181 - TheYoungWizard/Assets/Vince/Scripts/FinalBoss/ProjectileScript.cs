@@ -8,6 +8,7 @@ public class ProjectileScript : MonoBehaviour
     [SerializeField] float projectileUpSpeed = 1000f;
     [SerializeField] float projectTileTargetSpeed = 20f;
     [SerializeField] GameObject targetIndicator;
+    [SerializeField] GameObject explosionVfx;
     GameObject spawnedIndicator;
     Transform player;
     bool targetLock = false;
@@ -51,6 +52,8 @@ public class ProjectileScript : MonoBehaviour
             //if it reaches its destination it will destroy itself
             if(transform.position == playerLastPosition )
             {
+                GameObject explosionObj = Instantiate(explosionVfx, transform.position, Quaternion.identity);
+                Destroy(explosionObj, 2f);
                 Destroy(gameObject);
             }
         }

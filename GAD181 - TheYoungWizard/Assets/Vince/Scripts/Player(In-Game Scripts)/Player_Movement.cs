@@ -21,6 +21,8 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] KeyCode rollKey = KeyCode.LeftControl;
     public bool isMoving = false;
     CapsuleCollider capsuleCollider;
+    Vector3 newPos;
+    public bool stopMoving;
 
     [Header("Player Jump Settings")]
     [SerializeField] float maxHeightJump = 2f;
@@ -43,15 +45,10 @@ public class Player_Movement : MonoBehaviour
 
     [Header("Character Roll")]
     [SerializeField] float rollForce = 8f;
-    [SerializeField]float rollDuration = 0.5f;
+    [SerializeField] float rollDuration = 0.5f;
     public bool rolling;
     playerCombat pc;
     float rollCurrentTime;
-
-    [SerializeField] float forceStrength = 10f;
-    Rigidbody rb;
-
-    
 
     void Start()
     {
@@ -60,7 +57,6 @@ public class Player_Movement : MonoBehaviour
         Cursor.visible = false;
 
         characterController = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
         pc = GetComponent<playerCombat>();
 
         capsuleCollider = GetComponent<CapsuleCollider>();
@@ -73,7 +69,7 @@ public class Player_Movement : MonoBehaviour
         characterAimMode();
         characterRoll();
         // characterJump();
-      
+
 
     }
 
@@ -82,9 +78,9 @@ public class Player_Movement : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        Vector3 newPos = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+        newPos = new Vector3(horizontalInput, 0f, verticalInput).normalized;
 
-        if (newPos.magnitude > 0.1f && pc.attacking == false)
+        if (newPos.magnitude > 0.1f && pc.attacking == false && stopMoving == false)
         {
 
             //character animation and sprint
@@ -209,7 +205,7 @@ public class Player_Movement : MonoBehaviour
         //}
 
 
-        if (Input.GetKeyDown(rollKey) && rolling == false)
+        if (Input.GetKeyDown(rollKey) && rolling == false && pc.castingSpell == false)
         {
             anim.SetTrigger("Roll");
             pc.RollCamera();
@@ -230,7 +226,7 @@ public class Player_Movement : MonoBehaviour
     private void MovementAnimation(Vector3 newPos)
     {
         //Animation -----------------------------------
-        if (newPos.magnitude > 0.1f)
+        if (newPos.magnitude > 0.1f && stopMoving == false)
         {
             //running
             if (Input.GetKey(KeyCode.LeftShift))

@@ -126,7 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 531cd4eeb924d4a44984add5608b1433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fireBallDamage: 30
+  fireBallDamage: 0
   explosionParticle: {fileID: 1809022330002312, guid: eb3a6eee91eea0943a05e26c48d219ec, type: 3}
 --- !u!1001 &8373228923705216183
 PrefabInstance:

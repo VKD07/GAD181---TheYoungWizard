@@ -13,19 +13,27 @@ public class CatMinion : MonoBehaviour
     [SerializeField] float minionDamage = 5f;
     [SerializeField] float minionSpeed = 4f;
     [SerializeField] float attackRange = 1f;
+    [SerializeField] float attackInterval = 5f;
+    [SerializeField] float jumpForce;
     [SerializeField] Transform rayCastPoint;
     [Header("Minion Settings")]
     [SerializeField] Slider healthSlider;
+    public float currentTime;
+    float jumpTime = 2f;
+    float jumpTimeCurrentTime;
+    bool jump;
     Animator anim;
     bool playerInRange;
     NavMeshAgent ai;
     RaycastHit hit;
-
+    Rigidbody rb;
     private void Start()
     {
         ai = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
         ai.speed = minionSpeed;
+        ai.stoppingDistance = attackRange;
         healthSlider.maxValue = minionHealth;
     }
     // Update is called once per frame
@@ -33,6 +41,7 @@ public class CatMinion : MonoBehaviour
     {
         ChasePlayer();
         UpdateHealth();
+        JumpToPlayer();
     }
 
     private void UpdateHealth()
@@ -46,23 +55,71 @@ public class CatMinion : MonoBehaviour
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer <= attackRange)
         {
-            transform.LookAt(player.transform.position);
+           transform.LookAt(player.transform.position);
             transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
             if (Physics.Raycast(rayCastPoint.position, rayCastPoint.forward, out hit, attackRange, LayerMask.GetMask("Player")))
             {
-                anim.SetTrigger("Attack");
-                playerInRange = true;
+                AttackPlayer();
             }
             else
             {
                 playerInRange = false;
             }
         }
-        else if (distanceToPlayer > attackRange)
+        else if (distanceToPlayer > attackRange || playerInRange == false)
         {
+            currentTime = 0;
             ai.SetDestination(player.transform.position);
+            anim.SetBool("Idle", false);
         }
         Debug.DrawRay(rayCastPoint.position, rayCastPoint.forward * attackRange, Color.red);
+    }
+
+    private void AttackPlayer()
+    {
+        if (currentTime < attackInterval)
+        {
+            anim.SetBool("Idle", true);
+            currentTime += Time.deltaTime;
+        }
+        else
+        {
+            currentTime = 0;
+            anim.SetBool("Idle", false);
+            anim.SetTrigger("Attack");
+        }
+        playerInRange = true;
+    }
+
+    void JumpToPlayer()
+    {
+        if (jump == true && jumpTimeCurrentTime < jumpTime)
+        {
+            jumpTimeCurrentTime += Time.deltaTime;
+            rb.AddForce(transform.forward * jumpForce, ForceMode.Impulse);
+        } else if (jumpTimeCurrentTime > jumpTime || jump == false)
+        {
+            jumpTimeCurrentTime = 0;
+            jump = false;
+            rb.isKinematic = true;
+        }
+    }
+
+    void Jump()
+    {
+        jump = true;
+        rb.isKinematic = false;
+    }
+
+    void DisableJump()
+    {
+        jump = false;
+        player.GetComponent<playerCombat>().disableSenses();
+    }
+
+    void enablePlayerSenses()
+    {
+        player.GetComponent<playerCombat>().enableSenses();
     }
 
     void DamagePlayer()
@@ -76,7 +133,7 @@ public class CatMinion : MonoBehaviour
         }
     }
 
-    public void DamageMinion(float damage)
+    public void DamageEnemy(float damage)
     {
         if(minionHealth <= 0)
         {
@@ -90,5 +147,16 @@ public class CatMinion : MonoBehaviour
         {
             minionHealth -= damage;
         }
+    }
+
+    void Freeze()
+    {
+        ai.enabled = false;
+        anim.enabled = false;
+    }
+    void UnFreeze()
+    {
+        ai.enabled = true;
+        anim.enabled = true;
     }
 }

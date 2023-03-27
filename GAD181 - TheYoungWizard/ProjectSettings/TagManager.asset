@@ -19,6 +19,10 @@ TagManager:
   - Boss
   - CatMinion
   - Environment
+  - ForceField
+  - PlayerForceField
+  - Chest
+  - BossForceField
   layers:
   - Default
   - TransparentFX
@@ -33,9 +37,9 @@ TagManager:
   - BossBullet
   - FinalBoss
   - ground
-  - Path
-  - Frozen Lake
-  - 
+  - Enemy
+  - EnemyBullet
+  - Chest
   - 
   - 
   - 

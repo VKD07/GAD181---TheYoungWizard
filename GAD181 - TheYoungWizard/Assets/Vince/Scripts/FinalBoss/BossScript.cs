@@ -36,6 +36,7 @@ public class BossScript : MonoBehaviour
 
     [Header("Cast FireBall")]
     [SerializeField] GameObject fireBall;
+    [SerializeField] ParticleSystem chargePower;
     int randomFireBall;
     [SerializeField] GameObject fireBalls;
     [SerializeField] float fireBallsSpeed = 10f;
@@ -46,8 +47,11 @@ public class BossScript : MonoBehaviour
     [SerializeField] float jumpForce = 100f;
     [SerializeField] float maxJumpHeight = 1f;
     [SerializeField] float stompSpeed = 35f;
+    [SerializeField] ParticleSystem pounceVfx;
+    [SerializeField] ParticleSystem landVfx;
     bool jumped;
     public bool jumpedToPlayer;
+
 
     [Header("Cat Bite")]
     [SerializeField] float catBiteDuration = 20f;
@@ -72,7 +76,9 @@ public class BossScript : MonoBehaviour
     [SerializeField] float healingRate;
     [SerializeField] float healingDuration = 8f;
     [SerializeField] GameObject iceShieldObj;
-    public bool icedShield;
+    [SerializeField] ParticleSystem stunVfx;
+    [SerializeField] BossForceField forceFieldScript;
+    public bool shieldIsActivated;
     bool minionsSpawned = false;
 
     [Header("Replicate Mode")]
@@ -393,6 +399,7 @@ public class BossScript : MonoBehaviour
         if (transform.position == playerLastPosition)
         {
             anim.SetTrigger("Fall");
+            landVfx.Play();
             ai.enabled = true;
             jumpedToPlayer = false;
             player.GetComponent<playerCombat>().disableSenses();
@@ -430,6 +437,7 @@ public class BossScript : MonoBehaviour
     {
         if (value == true)
         {
+            shieldIsActivated = forceFieldScript.activateShield;
             //spawning minions
             if (minionsSpawned == false)
             {
@@ -441,39 +449,29 @@ public class BossScript : MonoBehaviour
             {
                 anim.SetBool("Distracted", true);
                 currentTime += Time.deltaTime;
-                if (icedShield == true)
+                if (forceFieldScript.activateShield == true)
                 {
                     if(health < maxHealth)
                     {
                         health += healingRate * Time.deltaTime;
                     }
                 }
-
             }
             else
             {
-                iceShieldObj.SetActive(false);
                 currentTime = 0;
                 attackNumber = 0;
                 minionsSpawned = false;
-                icedShield = false;
+                forceFieldScript.activateShield = false;
+                stunVfx.Stop();
                 anim.SetBool("Distracted", false);
             }
-        }
-
-        if(icedShield == true)
-        {
-            iceShieldObj.SetActive(true);
-        }
-        else
-        {
-            iceShieldObj.SetActive(false);
         }
     }
 
     void SpawnMinions()
     {
-        icedShield = true;
+        forceFieldScript.activateShield = true;
         for (int i = 0; i < numberOfMinionsSpawned; i++)
         {
             Instantiate(minions, multipleFireBallSpawners[i].position, Quaternion.identity);
@@ -503,10 +501,10 @@ public class BossScript : MonoBehaviour
 
 
     //Getter setter method
-    public void DamageBoss(float value)
+    public void DamageEnemy(float value)
     {
         //boss can only be damage during Idle mode
-        if(damageBoss == true)
+        if (damageBoss == true || forceFieldScript.activateShield == false)
         {
             anim.SetTrigger("TakeDamage");
             health -= value;
@@ -518,6 +516,18 @@ public class BossScript : MonoBehaviour
         return health;
     }
 
+    void Freeze()
+    {
+        ai.enabled = false;
+        anim.enabled = false;
+    }
+    void UnFreeze()
+    {
+        ai.enabled = true;
+        anim.enabled = true;
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player" && jumpedToPlayer == true)
@@ -525,4 +535,28 @@ public class BossScript : MonoBehaviour
             player.GetComponent<playerCombat>().damagePlayer(stompDamage);
         }
     }
+
+    #region particles
+    public void playStunVfx()
+    {
+        stunVfx.Play();
+    }
+
+    public void PlayChargeParticle()
+    {
+        chargePower.Play();
+    }
+
+    public void StopChargeParticle()
+    {
+        chargePower.Stop();
+    }
+
+    void PlayPounceVfx()
+    {
+        pounceVfx.Play();
+    }
+
+    #endregion
+
 }

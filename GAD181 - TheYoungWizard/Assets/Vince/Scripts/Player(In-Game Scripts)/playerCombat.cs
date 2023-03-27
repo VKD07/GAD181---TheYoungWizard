@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
+using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -56,13 +57,19 @@ public class playerCombat : MonoBehaviour
     public float currentTimeToChangeAnim;
     public float timeLimit = 1f;
 
-    //Awareness 
+    [Header("ForceField")]
+    [SerializeField] PlayerForceField forceField;
+
+    [Header("Damage Indicator")]
     [SerializeField] GameObject awarenessUI;
+    bool sensesEnabled;
+    float damageIndicatorMaxTime = 5f;
+    float currentDmgIndTime;
 
     public bool dodge = false;
     public float shieldDuration = 3f;
 
-    void Start()
+    void Start() 
     {
         //giving control of camera
         cam.m_YAxis.m_MaxSpeed = 2;
@@ -104,6 +111,7 @@ public class playerCombat : MonoBehaviour
 
         //spell cast
         SpellCastAnimation();
+        DisablingDamageIndicator();
     }
 
     private void SpellCastAnimation()
@@ -248,68 +256,83 @@ public class playerCombat : MonoBehaviour
 
     public void attack()
     {
-        //if the player is moving then dont proceed to the attacking combo
-        //if (playerMovement.isMoving == true && Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true)
-        //{
-        //    anim.SetTrigger("Attack");
-        //}
-        //else
-
-
-        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 0 && attacking == false && playerMovement.isMoving == false)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking)
         {
+            playerMovement.stopMoving = true;
             attacking = true;
             anim.SetTrigger("Attack");
             anim.SetBool("Attacking", true);
-
+            AttackNumber++;
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 1)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 1)
         {
+            playerMovement.stopMoving = true;
             anim.SetTrigger("Attack2");
+            AttackNumber++;
         }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && AttackNumber == 2)
+        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 2)
         {
+            playerMovement.stopMoving = true;
             anim.SetTrigger("Attack3");
-            anim.SetBool("Attacking", false);
+            AttackNumber++;
         }
 
-
-        if (AttackNumber == 3)
+        if (AttackNumber >= 3)
         {
             AttackNumber = 0;
         }
 
-        //attack animation resets if aiming mode is disabled
-        if (targetMode == false)
+        if (!targetMode)
         {
-            attacking = false;
-            currentTimeToChangeAnim = 0;
-            AttackNumber = 0;
+            playerMovement.stopMoving = false;
+            ResetAttack();
         }
 
-        //Timer to switch to second animation
-        //If player Starts to attack then start timer
-        if (attacking == true)
+        if (attacking)
         {
-            //if current time doesnt reeach the time limit. Keep counting
-            if (currentTimeToChangeAnim < timeLimit)
+            currentTimeToChangeAnim += Time.deltaTime;
+
+            if (currentTimeToChangeAnim >= timeLimit)
             {
-                currentTimeToChangeAnim = currentTimeToChangeAnim + Time.deltaTime;
-            }
-            //if current time reached the time, then reset the animation to first attack
-            if (currentTimeToChangeAnim > timeLimit)
-            {
-                attacking = false;
-                anim.SetBool("Attacking", attacking);
-                AttackNumber = 0;
-                currentTimeToChangeAnim = 0;
-            }
-            //if the time hasn't reached yet and player pressed left click again, change the attack number
-            if (currentTimeToChangeAnim < timeLimit && Input.GetKeyDown(KeyCode.Mouse0))
-            {
-                AttackNumber++;
+                playerMovement.stopMoving = false;
+                ResetAttack();
             }
         }
+
+    }
+
+    //public void attack()
+    //{
+    //    int currentAttack;
+    //    if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode == true && attacking == false && playerMovement.isMoving == false)
+    //    {
+    //        attacking = true;
+    //        currentAttack = UnityEngine.Random.Range(1, 3 + 1);
+    //        anim.SetTrigger("Attack" + currentAttack.ToString());
+    //        anim.SetBool("Attacking", true);
+    //    }
+
+    //    if (attacking == true)
+    //    {
+    //        if (currentTimeToChangeAnim < timeLimit)
+    //        {
+    //            currentTimeToChangeAnim += Time.deltaTime;
+    //        }
+    //        else
+    //        {
+    //            attacking = false;
+    //            anim.SetBool("Attacking", false);
+    //            currentTimeToChangeAnim = 0;
+    //        }
+    //    }
+    //}
+
+    private void ResetAttack()
+    {
+        attacking = false;
+        anim.SetBool("Attacking", attacking);
+        AttackNumber = 0;
+        currentTimeToChangeAnim = 0;
     }
 
     private void ItemHandler()
@@ -361,7 +384,7 @@ public class playerCombat : MonoBehaviour
     //take damage from enemy
     public void damagePlayer(float damage)
     {
-        if (dodge == false)
+        if (forceField.shieldIsActive == false)
         {
             playerHealth -= damage;
             disableSenses();
@@ -396,11 +419,25 @@ public class playerCombat : MonoBehaviour
     public void enableSenses()
     {
         awarenessUI.SetActive(true);
+        sensesEnabled = true;
     }
 
     public void disableSenses()
     {
         awarenessUI.SetActive(false);
+    }
+
+    private void DisablingDamageIndicator()
+    {
+        if (sensesEnabled && currentDmgIndTime < damageIndicatorMaxTime)
+        {
+            currentDmgIndTime += Time.deltaTime;
+        }
+        else
+        {
+            currentDmgIndTime= 0;
+            disableSenses();
+        }
     }
 
     //collisions handler

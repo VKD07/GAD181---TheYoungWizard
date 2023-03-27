@@ -141,7 +141,7 @@ public class Player_SpellCast : MonoBehaviour
         {
             if(other.gameObject.GetComponent<BossScript>() != null && releaseWind == true)
             {
-                other.gameObject.GetComponent<BossScript>().DamageBoss(windGustDamage);
+                other.gameObject.GetComponent<BossScript>().DamageEnemy(windGustDamage);
             }
         }
     }

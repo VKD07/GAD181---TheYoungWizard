@@ -131,8 +131,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4147e9d140bf3974aa9238ae1bbddb3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  luminousDamage: 5
+  luminousDamagePerSecond: 5
   bossDistractionDuration: 8
+  enemies: []
+  radius: 50
+  layer:
+    serializedVersion: 2
+    m_Bits: 24576
   currentTime: 0
 --- !u!108 &486052432
 Light:
