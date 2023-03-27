@@ -36,6 +36,7 @@ public class BossScript : MonoBehaviour
 
     [Header("Cast FireBall")]
     [SerializeField] GameObject fireBall;
+    [SerializeField] ParticleSystem chargePower;
     int randomFireBall;
     [SerializeField] GameObject fireBalls;
     [SerializeField] float fireBallsSpeed = 10f;
@@ -73,7 +74,8 @@ public class BossScript : MonoBehaviour
     [SerializeField] float healingDuration = 8f;
     [SerializeField] GameObject iceShieldObj;
     [SerializeField] ParticleSystem stunVfx;
-    public bool icedShield;
+    [SerializeField] BossForceField forceFieldScript;
+    public bool shieldIsActivated;
     bool minionsSpawned = false;
 
     [Header("Replicate Mode")]
@@ -431,6 +433,7 @@ public class BossScript : MonoBehaviour
     {
         if (value == true)
         {
+            shieldIsActivated = forceFieldScript.activateShield;
             //spawning minions
             if (minionsSpawned == false)
             {
@@ -442,40 +445,29 @@ public class BossScript : MonoBehaviour
             {
                 anim.SetBool("Distracted", true);
                 currentTime += Time.deltaTime;
-                if (icedShield == true)
+                if (forceFieldScript.activateShield == true)
                 {
                     if(health < maxHealth)
                     {
                         health += healingRate * Time.deltaTime;
                     }
                 }
-
             }
             else
             {
-                iceShieldObj.SetActive(false);
                 currentTime = 0;
                 attackNumber = 0;
                 minionsSpawned = false;
-                icedShield = false;
+                forceFieldScript.activateShield = false;
                 stunVfx.Stop();
                 anim.SetBool("Distracted", false);
             }
-        }
-
-        if(icedShield == true)
-        {
-            iceShieldObj.SetActive(true);
-        }
-        else
-        {
-            iceShieldObj.SetActive(false);
         }
     }
 
     void SpawnMinions()
     {
-        icedShield = true;
+        forceFieldScript.activateShield = true;
         for (int i = 0; i < numberOfMinionsSpawned; i++)
         {
             Instantiate(minions, multipleFireBallSpawners[i].position, Quaternion.identity);
@@ -505,10 +497,10 @@ public class BossScript : MonoBehaviour
 
 
     //Getter setter method
-    public void DamageBoss(float value)
+    public void DamageEnemy(float value)
     {
         //boss can only be damage during Idle mode
-        if(damageBoss == true)
+        if (damageBoss == true || forceFieldScript.activateShield == false)
         {
             anim.SetTrigger("TakeDamage");
             health -= value;
@@ -544,4 +536,15 @@ public class BossScript : MonoBehaviour
     {
         stunVfx.Play();
     }
+
+    public void PlayChargeParticle()
+    {
+        chargePower.Play();
+    }
+
+    public void StopChargeParticle()
+    {
+        chargePower.Stop();
+    }
+
 }

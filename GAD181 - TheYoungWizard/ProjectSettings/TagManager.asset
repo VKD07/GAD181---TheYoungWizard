@@ -22,6 +22,7 @@ TagManager:
   - ForceField
   - PlayerForceField
   - Chest
+  - BossForceField
   layers:
   - Default
   - TransparentFX

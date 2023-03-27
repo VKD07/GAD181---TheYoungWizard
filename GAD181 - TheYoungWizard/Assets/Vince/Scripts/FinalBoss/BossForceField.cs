@@ -1,29 +1,27 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ForceFieldScript : MonoBehaviour
+public class BossForceField : MonoBehaviour
 {
+
     [Header("Material Properties")]
     [SerializeField] Color[] colors;
     [SerializeField] float emissionIntensity = 5f;
+    [SerializeField] public BossScript bossScript;
+
     Renderer render;
     Material renderMaterial;
 
     [Header("Animation")]
-    float maximumScale = 4.372983f;
+    float maximumScale = 2;
     float currentScale;
 
     [Header("Choosing an Element")]
     public int randomElement;
     bool elementChosen;
     public bool activateShield;
-    public int randomStartingTime;
-    public float currentTime;
-    [SerializeField]int minimumStartingTime = 3;
-    [SerializeField]int maximumStartingTime = 7;
-   
+
     void Awake()
     {
         render = GetComponent<Renderer>();
@@ -31,7 +29,6 @@ public class ForceFieldScript : MonoBehaviour
         renderMaterial.SetFloat("_Intensity", emissionIntensity);
         activateShield = false;
         transform.localScale = Vector3.zero;
-        RandomizeStartingTime();
     }
     private void Update()
     {
@@ -42,20 +39,6 @@ public class ForceFieldScript : MonoBehaviour
 
     private void ChooseAnElement()
     {
-        if (!activateShield)
-        {
-            if (currentTime < randomStartingTime)
-            {
-                currentTime += Time.deltaTime;
-            }
-            else
-            {
-                currentTime = 0;
-                activateShield = true;
-                RandomizeStartingTime();
-            }
-        }
-
         if (activateShield && elementChosen == false)
         {
             elementChosen = true;
@@ -80,7 +63,7 @@ public class ForceFieldScript : MonoBehaviour
 
     void DeactivateForceField()
     {
-        if (currentScale > 0 && !activateShield)
+        if (currentScale != 0 && !activateShield)
         {
             currentScale -= Time.deltaTime * 20f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
@@ -89,25 +72,32 @@ public class ForceFieldScript : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (randomElement == 0 && other.tag == "Fireball")
+        if (randomElement == 0 && other.tag == "Fireball" && activateShield == true)
         {
             activateShield = false;
+            InterruptBoss();
+
         }
-        else if(randomElement == 1 && other.tag == "frostWall")
+        else if (randomElement == 1 && other.tag == "frostWall" && activateShield == true)
         {
             activateShield = false;
-        }else if(randomElement == 2 && other.tag == "windGust")
+            InterruptBoss();
+        }
+        else if (randomElement == 2 && other.tag == "windGust" && activateShield == true)
         {
             Player_SpellCast spellCast = FindObjectOfType<Player_SpellCast>();
-            if(spellCast.releaseWind == true) 
-            { 
+            if (spellCast.releaseWind == true)
+            {
                 activateShield = false;
+                InterruptBoss();
             }
         }
     }
 
-    void RandomizeStartingTime()
+    public void InterruptBoss()
     {
-        randomStartingTime = UnityEngine.Random.Range(minimumStartingTime,maximumStartingTime);
+        activateShield = false;
+        bossScript.damageBoss = true;
+        bossScript.playStunVfx();
     }
 }

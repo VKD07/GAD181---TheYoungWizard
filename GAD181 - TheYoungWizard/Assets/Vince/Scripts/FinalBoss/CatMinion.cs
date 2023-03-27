@@ -133,7 +133,7 @@ public class CatMinion : MonoBehaviour
         }
     }
 
-    public void DamageMinion(float damage)
+    public void DamageEnemy(float damage)
     {
         if(minionHealth <= 0)
         {

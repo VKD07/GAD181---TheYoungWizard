@@ -50,7 +50,7 @@ public class BossFireBall_1 : MonoBehaviour
 
         if (collision.gameObject.tag == "Boss" && deflected == true)
         {
-            collision.gameObject.GetComponent<BossScript>().DamageBoss(fireBallDamage);
+            collision.gameObject.GetComponent<BossScript>().DamageEnemy(fireBallDamage);
             Destroy(gameObject);
         }
 
@@ -72,7 +72,7 @@ public class BossFireBall_1 : MonoBehaviour
             Destroy(gameObject);
         }else if(collision.gameObject.tag == "Boss" && deflected == true)
         {
-            collision.gameObject.GetComponent<BossScript>().DamageBoss(fireBallDamage);
+            collision.gameObject.GetComponent<BossScript>().DamageEnemy(fireBallDamage);
             Destroy(gameObject);
         }
     }

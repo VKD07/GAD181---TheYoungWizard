@@ -21,7 +21,7 @@ public class bulletScript : MonoBehaviour
         if (collision.tag == "Boss")
         {
             GameObject boss = collision.gameObject;
-            boss.GetComponent<BossScript>().DamageBoss(bulletDamage);
+            boss.GetComponent<BossScript>().DamageEnemy(bulletDamage);
             GameObject bossImpact = Instantiate(bossImpactVfx, transform.position, Quaternion.identity);
             Destroy(bossImpact, 2f);
             Destroy(gameObject);
@@ -30,7 +30,7 @@ public class bulletScript : MonoBehaviour
         if (collision.tag == "CatMinion")
         {
             GameObject minion = collision.gameObject;
-            minion.GetComponent<CatMinion>().DamageMinion(bulletDamage);
+            minion.GetComponent<CatMinion>().DamageEnemy(bulletDamage);
             Destroy(gameObject);
         }
 

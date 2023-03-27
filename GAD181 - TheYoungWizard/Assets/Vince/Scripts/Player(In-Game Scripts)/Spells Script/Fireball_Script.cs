@@ -29,24 +29,27 @@ public class Fireball_Script : MonoBehaviour
             GameObject boss = collision.gameObject;
             BossScript bossScript = boss.GetComponent<BossScript>();
 
-            boss.GetComponent<BossScript>().DamageBoss(fireBallDamage);
-
-            if (bossScript.icedShield == true)
+            if(bossScript.shieldIsActivated == false && bossScript.damageBoss == false)
             {
-                bossScript.icedShield = false;
-                bossScript.damageBoss = true;
-                bossScript.playStunVfx();
+                boss.GetComponent<BossScript>().DamageEnemy(fireBallDamage);
             }
 
             ExplosionEffect();
-
             Destroy(gameObject);
+        }else if(collision.tag == "BossForceField")
+        {
+            BossForceField bossForceField = collision.gameObject.GetComponent<BossForceField>();
+            if (bossForceField.activateShield == true)
+            {
+                ExplosionEffect();
+                Destroy(gameObject);
+            }
         }
         else if (collision.tag == "CatMinion")
         {
             GameObject minion = collision.gameObject;
 
-            minion.GetComponent<CatMinion>().DamageMinion(fireBallDamage);
+            minion.GetComponent<CatMinion>().DamageEnemy(fireBallDamage);
             ExplosionEffect();
             Destroy(gameObject);
         }
