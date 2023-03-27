@@ -47,8 +47,11 @@ public class BossScript : MonoBehaviour
     [SerializeField] float jumpForce = 100f;
     [SerializeField] float maxJumpHeight = 1f;
     [SerializeField] float stompSpeed = 35f;
+    [SerializeField] ParticleSystem pounceVfx;
+    [SerializeField] ParticleSystem landVfx;
     bool jumped;
     public bool jumpedToPlayer;
+
 
     [Header("Cat Bite")]
     [SerializeField] float catBiteDuration = 20f;
@@ -396,6 +399,7 @@ public class BossScript : MonoBehaviour
         if (transform.position == playerLastPosition)
         {
             anim.SetTrigger("Fall");
+            landVfx.Play();
             ai.enabled = true;
             jumpedToPlayer = false;
             player.GetComponent<playerCombat>().disableSenses();
@@ -532,6 +536,7 @@ public class BossScript : MonoBehaviour
         }
     }
 
+    #region particles
     public void playStunVfx()
     {
         stunVfx.Play();
@@ -546,5 +551,12 @@ public class BossScript : MonoBehaviour
     {
         chargePower.Stop();
     }
+
+    void PlayPounceVfx()
+    {
+        pounceVfx.Play();
+    }
+
+    #endregion
 
 }

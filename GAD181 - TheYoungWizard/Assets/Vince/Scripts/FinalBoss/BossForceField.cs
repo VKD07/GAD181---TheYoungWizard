@@ -63,7 +63,7 @@ public class BossForceField : MonoBehaviour
 
     void DeactivateForceField()
     {
-        if (currentScale != 0 && !activateShield)
+        if (currentScale > 0 && !activateShield)
         {
             currentScale -= Time.deltaTime * 20f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
