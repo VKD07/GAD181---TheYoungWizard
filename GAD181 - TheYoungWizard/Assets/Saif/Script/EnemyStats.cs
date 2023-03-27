@@ -23,16 +23,7 @@ public class EnemyStats : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            currentHealth--;
-            print(currentHealth);
-            hpBar.HealthBarTrack(maxHealth, currentHealth);
-            if(currentHealth <= 0) 
-            {
-                Destroy(gameObject);
-            }
-        }
+
     }
 
 }
