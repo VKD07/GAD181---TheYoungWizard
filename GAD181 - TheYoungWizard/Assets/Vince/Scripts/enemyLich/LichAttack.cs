@@ -57,4 +57,5 @@ public class LichAttack : LichMainScript
     {
         player.GetComponent<playerCombat>().enableSenses();
     }
+    
 }

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -4900933974656077752}
   - component: {fileID: 5005133997823446137}
   - component: {fileID: 5005133997823446136}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LichBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}

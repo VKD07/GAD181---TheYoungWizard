@@ -4,14 +4,38 @@ using UnityEngine;
 
 public class LuminousSpell : MonoBehaviour
 {
-    [SerializeField] float luminousDamage = 5f;
+    [SerializeField] float luminousDamagePerSecond = 1f;
     [SerializeField] float bossDistractionDuration = 4f;
+    [SerializeField] Collider[] enemies;
+    [SerializeField] float radius = 10f;
+    [SerializeField] LayerMask layer;
     GameObject boss;
     public float currentTime;
 
     private void Update()
     {
-       
+        enemies = Physics.OverlapSphere(transform.position, radius, layer);
+
+        foreach (Collider objs in enemies)
+        {
+            objs.SendMessage("LuminousDamage", luminousDamagePerSecond * Time.deltaTime);
+            objs.SendMessage("ReduceDamage", true);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (Collider objs in enemies)
+        {
+            objs.SendMessage("LuminousDamage", luminousDamagePerSecond * Time.deltaTime);
+            objs.SendMessage("ReduceDamage", false);
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 
     private void OnTriggerStay(Collider other)

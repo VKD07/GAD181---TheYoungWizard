@@ -7,6 +7,7 @@ public class LichBulletScript : MonoBehaviour
 {
     [SerializeField] float bulletSpeed = 10f;
     [SerializeField] float bulletDamage = 20f;
+    bool reduceDamage;
     GameObject player;
     public Vector3 bulletDirection;
     Rigidbody rb;
@@ -28,17 +29,32 @@ public class LichBulletScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if (other.tag == "Player")
         {
-            player.GetComponent<playerCombat>().damagePlayer(bulletDamage);
+            if (reduceDamage)
+            {
+                float newDamage = bulletDamage / 2;
+                player.GetComponent<playerCombat>().damagePlayer(newDamage);
+                print(newDamage);
+            }
+            else
+            {
+                player.GetComponent<playerCombat>().damagePlayer(bulletDamage);
+                print(bulletDamage);
+            }
             Destroy(gameObject);
         }
 
-        if(other.tag == "PlayerForceField")
+        if (other.tag == "PlayerForceField")
         {
             other.gameObject.GetComponent<Animator>().SetTrigger("Hit");
             Destroy(gameObject);
         }
-
     }
+
+    void ReduceDamage(bool value)
+    {
+        reduceDamage = value;
+    }
+
 }

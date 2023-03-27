@@ -8,7 +8,7 @@ public class bulletScript : MonoBehaviour
     [SerializeField] GameObject bossImpactVfx;
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag == "dummy")
+        if (collision.gameObject.tag == "dummy")
         {
             print("Dummy hit");
             Destroy(gameObject);
@@ -33,23 +33,20 @@ public class bulletScript : MonoBehaviour
             minion.GetComponent<CatMinion>().DamageMinion(bulletDamage);
             Destroy(gameObject);
         }
-        
-        if(collision.tag == "Enemy")
+
+        if (collision.tag == "Enemy")
         {
-            if(collision.gameObject.GetComponent<LichAttributes>().forceFieldScript.activateShield == false)
-            {
-                collision.gameObject.GetComponent<LichAttributes>().DamageEnemy(bulletDamage);
-            }
+            collision.gameObject.GetComponent<LichAttributes>().DamageEnemy(bulletDamage);
             Destroy(gameObject);
         }
 
-        if(collision.tag == "ForceField")
+        if (collision.tag == "ForceField")
         {
             collision.gameObject.GetComponent<Animator>().SetTrigger("Hit");
             Destroy(gameObject);
         }
 
-        if(collision.tag == "Environment")
+        if (collision.tag == "Environment")
         {
             Destroy(gameObject);
         }

@@ -30,6 +30,7 @@ public class LichAttributes : LichMainScript
             anim.SetTrigger("Dead");
             gameObject.GetComponent<LichAttack>().enabled = false;
             gameObject.GetComponent<LichChase>().enabled = false;
+            forceFieldScript.enabled = false;
             Destroy(gameObject, 3f);
         }
     }
@@ -40,6 +41,11 @@ public class LichAttributes : LichMainScript
         {
             health -= damage;
         }
+    }
+    
+    void LuminousDamage(float value)
+    {
+        health -= value;
     }
 
     void Freeze()

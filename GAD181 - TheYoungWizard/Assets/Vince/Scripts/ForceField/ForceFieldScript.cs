@@ -19,12 +19,19 @@ public class ForceFieldScript : MonoBehaviour
     public int randomElement;
     bool elementChosen;
     public bool activateShield;
+    public int randomStartingTime;
+    public float currentTime;
+    [SerializeField]int minimumStartingTime = 3;
+    [SerializeField]int maximumStartingTime = 7;
    
-    void Start()
+    void Awake()
     {
         render = GetComponent<Renderer>();
         renderMaterial = render.material;
         renderMaterial.SetFloat("_Intensity", emissionIntensity);
+        activateShield = false;
+        transform.localScale = Vector3.zero;
+        RandomizeStartingTime();
     }
     private void Update()
     {
@@ -35,6 +42,20 @@ public class ForceFieldScript : MonoBehaviour
 
     private void ChooseAnElement()
     {
+        if (!activateShield)
+        {
+            if (currentTime < randomStartingTime)
+            {
+                currentTime += Time.deltaTime;
+            }
+            else
+            {
+                currentTime = 0;
+                activateShield = true;
+                RandomizeStartingTime();
+            }
+        }
+
         if (activateShield && elementChosen == false)
         {
             elementChosen = true;
@@ -66,16 +87,28 @@ public class ForceFieldScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (randomElement == 0 && other.tag == "Fireball")
         {
             activateShield = false;
-            Destroy(gameObject, 2f);
-        }else if(randomElement == 1 && other.tag == "frostWall")
+
+        }
+        else if(randomElement == 1 && other.tag == "frostWall")
         {
             activateShield = false;
-            Destroy(gameObject, 2f);
+        }else if(randomElement == 2 && other.tag == "windGust")
+        {
+            Player_SpellCast spellCast = FindObjectOfType<Player_SpellCast>();
+            if(spellCast.releaseWind == true) 
+            { 
+                activateShield = false;
+            }
         }
+    }
+
+    void RandomizeStartingTime()
+    {
+        randomStartingTime = UnityEngine.Random.Range(minimumStartingTime,maximumStartingTime);
     }
 }

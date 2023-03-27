@@ -26,6 +26,11 @@ public class PlayerForceField : MonoBehaviour
     playerCombat pc;
     Player_Movement pm;
 
+    [Header("Colliders")]
+    Collider[] collidedObjects;
+    [SerializeField] float radius = 4f;
+
+
     void Start()
     {
         pc = FindObjectOfType<playerCombat>();
@@ -43,11 +48,17 @@ public class PlayerForceField : MonoBehaviour
         DeactivateForceField();
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
     private void KeyBoardSwitch()
     {
-        if (Input.GetKeyDown(activatePortalKey) && shieldIsActive == false &&  pm.rolling == false)
+        if (Input.GetKeyDown(activatePortalKey))
         {
-            pm.stopMoving = true;
+            pm.enabled = false;
             anim.SetTrigger("Block");
             shieldIsActive = true;
         }
@@ -58,7 +69,7 @@ public class PlayerForceField : MonoBehaviour
         if (shieldIsActive && currentScale < maximumScale)
         {
             pc.disableSenses();
-            forceField.SetActive (true);
+            forceField.SetActive(true);
             currentScale += Time.deltaTime * 30f;
             forceField.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
         }
@@ -66,13 +77,13 @@ public class PlayerForceField : MonoBehaviour
 
     void DeactivateForceField()
     {
-        if(shieldIsActive && currentScale >= maximumScale && currentShieldTime < shieldDuration)
+        if (shieldIsActive && currentScale >= maximumScale && currentShieldTime < shieldDuration)
         {
             currentShieldTime += Time.deltaTime;
         }
-        else if(currentShieldTime >= shieldDuration)
+        else if (currentShieldTime >= shieldDuration)
         {
-            pm.stopMoving = false;
+            pm.enabled = true;
             forceField.transform.localScale = Vector3.zero;
             shieldIsActive = false;
             currentScale = 0;
@@ -80,5 +91,4 @@ public class PlayerForceField : MonoBehaviour
             forceField.SetActive(false);
         }
     }
-
 }
