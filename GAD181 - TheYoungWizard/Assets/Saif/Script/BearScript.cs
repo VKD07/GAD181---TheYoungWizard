@@ -26,6 +26,10 @@ public class BearScript : MainEnemyScript
     private void Update()
     {
         UpdateBearHealth();
+        if(bearHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void UpdateBearHealth()
