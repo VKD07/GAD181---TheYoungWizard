@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Experimental.GlobalIllumination;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class Player_Movement : MonoBehaviour
 {

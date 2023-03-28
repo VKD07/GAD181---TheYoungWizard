@@ -23,6 +23,8 @@ public class ForceFieldScript : MonoBehaviour
     public float currentTime;
     [SerializeField]int minimumStartingTime = 3;
     [SerializeField]int maximumStartingTime = 7;
+    [SerializeField] ParticleSystem explodeVfx;
+    [SerializeField] Material explodeVfxMat;
    
     void Awake()
     {
@@ -92,15 +94,21 @@ public class ForceFieldScript : MonoBehaviour
         if (randomElement == 0 && other.tag == "Fireball")
         {
             activateShield = false;
+            explodeVfxMat.SetColor("_EmissionColor", colors[0] * 2.4f);
+            explodeVfx.Play();
         }
         else if(randomElement == 1 && other.tag == "frostWall")
         {
+            explodeVfxMat.SetColor("_EmissionColor", colors[1] * 2.4f);
+            explodeVfx.Play();
             activateShield = false;
         }else if(randomElement == 2 && other.tag == "windGust")
         {
             Player_SpellCast spellCast = FindObjectOfType<Player_SpellCast>();
             if(spellCast.releaseWind == true) 
-            { 
+            {
+                explodeVfxMat.SetColor("_EmissionColor", colors[2] * 2.4f);
+                explodeVfx.Play();
                 activateShield = false;
             }
         }

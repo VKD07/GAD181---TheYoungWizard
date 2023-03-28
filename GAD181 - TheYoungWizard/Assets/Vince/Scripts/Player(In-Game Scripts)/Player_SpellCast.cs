@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -11,6 +12,7 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] SpellSlot spellManager;
     [SerializeField] Animator playerAnimation;
     [SerializeField] playerCombat combatScript;
+    int spell;
 
     [Header("Fireball Spell")]
     [SerializeField] GameObject fireball;
@@ -23,7 +25,7 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] GameObject ice;
     [SerializeField] Transform iceSpawn;
     [SerializeField] float iceWallDuration;
-    GameObject [] boss;
+    GameObject[] boss;
     GameObject[] iceWalls;
 
 
@@ -43,6 +45,9 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] Transform luminousLightSpawn;
     [SerializeField] float lightDuration;
 
+    [Header("Vfx circles")]
+    [SerializeField] GameObject[] spellCircles; 
+
     private void Start()
     {
         //adjust the wind sphere
@@ -53,12 +58,19 @@ public class Player_SpellCast : MonoBehaviour
     {
         combatScript.castingSpell = false;
     }
+
+    #region iceSpell
     public void ReleaseIce()
     {
         Quaternion spawnRot = Quaternion.LookRotation(-transform.forward ,transform.up );
         spawnRot *= Quaternion.Euler(0, -180, 0);
         GameObject iceObj = Instantiate(ice, iceSpawn.position, spawnRot);
         Destroy(iceObj, iceWallDuration);
+    }
+
+    void enableIceCircleSpell()
+    {
+        spellCircles[0].SetActive(true);
     }
 
     private void fixingIceWallBug()
@@ -80,7 +92,9 @@ public class Player_SpellCast : MonoBehaviour
             }
         }
     }
+    #endregion
 
+    #region fireball Spell
     private void ReleaseFireBall()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -104,22 +118,37 @@ public class Player_SpellCast : MonoBehaviour
             // Set the initial velocity of the bullet
             fireBallObj.GetComponent<Rigidbody>().velocity = transform.forward * fireBallSpeed * Time.deltaTime;
         }
-        Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.red);
 
+        Debug.DrawRay(ray.origin, ray.direction * Mathf.Infinity, Color.red);
     }
 
+    void enableFireCircle()
+    {
+        spellCircles[3].SetActive(true);
+    }
+
+    #endregion
+
+    #region luminousSpell
     public void CastLuminous()
     {
        GameObject lightObj = Instantiate(luminousLight, luminousLightSpawn.position, Quaternion.identity);
         Destroy(lightObj, lightDuration);
     }
 
+    void enableLuminousCircle()
+    {
+        spellCircles[1].SetActive(true);
+    }
+    #endregion
     #region WindGust spell
-
+    void enableWindCircle()
+    {
+        spellCircles[2].SetActive(true);
+    }
     public void ReleaseWindGust()
     {
         releaseWind = true;
-        
     }
 
     public void disableWindgust()
@@ -177,5 +206,16 @@ public class Player_SpellCast : MonoBehaviour
         Destroy(windVfx, 2f);
     }
 
+    #endregion
+
+    #region spellCircleVfx
+  
+    void disableVfxCircle()
+    {
+        for (int i = 0; i < spellCircles.Length; i++)
+        {
+            spellCircles[i].SetActive(false);
+        }
+    }
     #endregion
 }
