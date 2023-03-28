@@ -44,9 +44,9 @@ public class BearScript : MainEnemyScript
 
     public override void Chase()
     {
-        throw new System.NotImplementedException();
+    
+    throw new System.NotImplementedException();
     }
-
     public override void Death()
     {
         throw new System.NotImplementedException();
