@@ -9,22 +9,24 @@ public class ExplosionScript : MonoBehaviour
     [SerializeField] List<Collider> listOfObjects;
     [SerializeField] Collider[] colliders;
     [SerializeField] LayerMask layerMask;
-    bool exploded;
+    public bool exploded;
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        colliders = Physics.OverlapSphere(transform.position, radius, layerMask);
-        foreach (Collider collider in colliders)
+        if (!exploded)
         {
-            if (!exploded)
+            colliders = Physics.OverlapSphere(transform.position, radius, layerMask);
+
+            foreach (Collider collider in colliders)
             {
+
                 exploded = true;
                 collider.SendMessage("DamageEnemy", explosionDamage);
+
             }
         }
 
-        
     }
 
     private void OnDrawGizmosSelected()

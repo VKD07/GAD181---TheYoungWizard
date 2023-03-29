@@ -98,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletSpeed: 2000
   bulletDamage: 10
+  explosionVfx: {fileID: 7935199031643992174, guid: aaac61f8f0923ff4daedff31698a025a, type: 3}
   bulletDirection: {x: 0, y: 0, z: 0}
 --- !u!135 &5005133997823446137
 SphereCollider:
