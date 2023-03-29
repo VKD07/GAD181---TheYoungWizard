@@ -9,8 +9,6 @@ public class BearScript : MainEnemyScript
 {
     [Header("Bear Attributes")]
     [SerializeField] float bearHealth;
-    [SerializeField] float bearSpeed;
-    [SerializeField] float bearDamage;
 
     [Header("Bear Slider")]
     [SerializeField] Slider slider;
@@ -18,8 +16,7 @@ public class BearScript : MainEnemyScript
     private void Start()
     {
         enemyHealth = bearHealth;
-        enemySpeed = bearSpeed;
-        enemyDamage = bearDamage;
+
         slider.maxValue = bearHealth;
     }
 

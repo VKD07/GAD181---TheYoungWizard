@@ -16,14 +16,12 @@ public class WinterLandEnemyAI : MonoBehaviour
     public float attackRange;
     public bool playerSightRange;
     public bool playerAttackRange;
-
     private void Start()
     {
         player = GameObject.Find("Player(In-Game)").transform;
         agent = GetComponent<NavMeshAgent>();
         animEnemy = GetComponent<Animator>();
         thatPlayer.GetComponent<playerCombat>();
-
     }
     private void EnemyChase()
     {
@@ -35,7 +33,7 @@ public class WinterLandEnemyAI : MonoBehaviour
     {
         agent.SetDestination(transform.position);
         transform.LookAt(player);
-        thatPlayer.GetComponent<playerCombat>().damagePlayer(5f);
+        thatPlayer.GetComponent<playerCombat>().damagePlayer(10f);
     }
 
 
@@ -55,9 +53,8 @@ public class WinterLandEnemyAI : MonoBehaviour
         }
         if (playerSightRange && playerAttackRange)
         {
-            
             animEnemy.SetTrigger("Attack1");
-            animEnemy.SetTrigger("Attack2");
+            animEnemy.SetTrigger("Attack2");                       
             animEnemy.SetBool("Run Forward", false);
         }
 

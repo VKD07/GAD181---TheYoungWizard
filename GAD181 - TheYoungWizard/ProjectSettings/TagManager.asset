@@ -23,6 +23,7 @@ TagManager:
   - PlayerForceField
   - Chest
   - BossForceField
+  - CheckPoint
   layers:
   - Default
   - TransparentFX
