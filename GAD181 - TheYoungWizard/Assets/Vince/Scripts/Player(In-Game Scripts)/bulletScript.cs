@@ -46,9 +46,9 @@ public class bulletScript : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.tag == "Environment")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Environment") || collision.gameObject.layer == LayerMask.NameToLayer("ground"))
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
         }
     }
 }

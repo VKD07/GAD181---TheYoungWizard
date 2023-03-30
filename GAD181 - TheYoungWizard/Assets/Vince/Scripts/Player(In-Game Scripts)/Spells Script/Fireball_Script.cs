@@ -53,10 +53,11 @@ public class Fireball_Script : MonoBehaviour
             ExplosionEffect();
             Destroy(gameObject);
         }
-        else if (collision.tag == "Environment" || collision.tag == "ground")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Environment") || collision.gameObject.layer == LayerMask.NameToLayer("ground"))
         {
             ExplosionEffect();
-        }else if(collision.tag == "Enemy")
+        }
+        if(collision.tag == "Enemy")
         {
             ExplosionEffect();
         }
