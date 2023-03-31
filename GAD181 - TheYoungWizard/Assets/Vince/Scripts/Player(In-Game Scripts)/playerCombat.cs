@@ -66,6 +66,11 @@ public class playerCombat : MonoBehaviour
     float damageIndicatorMaxTime = 5f;
     float currentDmgIndTime;
 
+    [Header("Potions Effects")]
+    [SerializeField] ParticleSystem healParticles;
+    [SerializeField] ParticleSystem manaParticles;
+
+
     public bool dodge = false;
     public float shieldDuration = 3f;
 
@@ -341,6 +346,7 @@ public class playerCombat : MonoBehaviour
         if (itemManager.numberOfHealthP > 0 && Input.GetKeyDown(KeyCode.Alpha1) && playerHealth < 100)
         {
             float totalHealthValue = playerHealth + healthPotionValue;
+            healParticles.Play(); //Play Particles of Restoring Health
             //this is to avoid the character having more than 100 health
             if (totalHealthValue > 100)
             {
@@ -363,6 +369,7 @@ public class playerCombat : MonoBehaviour
         else if (itemManager.numberOfManaP > 0 && Input.GetKeyDown(KeyCode.Alpha2) && playerMana < 100)
         {
             float totalManaValue = playerMana + manaPotionValue;
+            manaParticles.Play(); //Play Particles of Restoring Mana
             if (totalManaValue > 100)
             {
                 playerMana = 100;
