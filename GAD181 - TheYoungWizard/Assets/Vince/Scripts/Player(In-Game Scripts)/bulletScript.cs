@@ -50,5 +50,17 @@ public class bulletScript : MonoBehaviour
         {
             Destroy(gameObject, 2f);
         }
+
+        if(collision.tag == "tutorialDummy" || collision.tag == "movingDummy")
+        {
+            MovingDummy dummyScript = collision.gameObject.GetComponent<MovingDummy>();
+            dummyScript.KillDummy();
+            if (dummyScript.startMoving)
+            {
+                dummyScript.startMoving = false;
+                dummyScript.basicAttack.secondTask = true;
+            }
+            Destroy(gameObject);
+        }
     }
 }

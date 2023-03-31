@@ -25,13 +25,24 @@ public class TutorialScene : MonoBehaviour
     public int objNum;
     [Header("Player Components")]
     [SerializeField] Player_Movement pm;
+    [SerializeField] playerCombat pCombat;
     [SerializeField] GameObject thirdPersonCam;
+    [SerializeField] GameObject castMode;
+    [SerializeField] GameObject guideUI;
+    [SerializeField] GameObject playerAttrib;
+
+
     public int dialogNum;
 
     [Header("Check Movement")]
     [SerializeField] bool[] keyboardMovements;
     public int keyPressed;
     public bool keyboardMovementDone;
+
+    [Header("Basic Attack Objective")]
+    [SerializeField] GameObject movingDummy;
+    [SerializeField] Transform dummySpawner;
+    bool dummySpawned;
 
 
     //timer 
@@ -45,6 +56,7 @@ public class TutorialScene : MonoBehaviour
         objectiveBox.SetActive(false);
         thirdPersonCam.SetActive(false);
         pm.enabled = false;
+        pCombat.enabled = false;
         //timer for the cutscene
         Invoke("DisableTimeLine", 11f);
     }
@@ -52,10 +64,10 @@ public class TutorialScene : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateDialogAndObjectiveText();
+        // UpdateDialogAndObjectiveText();
         MovementTutorial();
         BasicPracticeTutorial();
-      
+        SpawnMovingDummy();
     }
 
     private void UpdateDialogAndObjectiveText()
@@ -70,10 +82,10 @@ public class TutorialScene : MonoBehaviour
         if (tutorialSequence[0] == true)
         {
             dialogBox.SetActive(true);
-
+            dialogText.SetText(dialogs[0]);
             if (Input.GetKeyDown(nextBtn))
             {
-                dialogNum++;
+                dialogText.SetText(dialogs[1]);
                 objectiveSequence[0] = true;
                 thirdPersonCam.SetActive(true);
                 DisableCamera();
@@ -137,18 +149,66 @@ public class TutorialScene : MonoBehaviour
     //Starts the Basic attack practice tutorial
     private void BasicPracticeTutorial()
     {
-        if (tutorialSequence[1] == true)
+        if (tutorialSequence[1] == true && objectiveSequence[1] == false)
         {
             dialogBox.SetActive(true);
             objectiveBox.SetActive(false);
-            
-            if(dialogNum < 2)
+            dialogText.SetText(dialogs[2]);
+            pCombat.enabled = true;
+        }
+
+        if (pCombat.enabled == true)
+        {
+            CheckIfDummyIsDestroyed();
+        }
+    }
+
+    void CheckIfDummyIsDestroyed()
+    {
+        GameObject dummy = GameObject.FindGameObjectWithTag("tutorialDummy");
+        objectiveBox.SetActive(true);
+        objectiveDesc.SetText(objectives[1]);
+
+        if (dummy == null && objectiveSequence[1] == false)
+        {
+            dialogText.SetText(dialogs[3]);
+            dialogBox.SetActive(true);
+            objectiveSequence[1] = true;
+        }
+    }
+
+    void SpawnMovingDummy()
+    {
+        if (objectiveSequence[1] == true)
+        {
+            objectiveBox.SetActive(false);
+            if (Input.GetKeyDown(nextBtn))
             {
-                dialogNum++;
+                dialogText.SetText(dialogs[4]);
+                tutorialSequence[1] = false;
+                tutorialSequence[2] = true;
+            }
+        }
+
+        if (tutorialSequence[2] == true)
+        {
+            if (!dummySpawned)
+            {
+                dummySpawned = true;
+                GameObject dummyObj = Instantiate(movingDummy, dummySpawner.position, Quaternion.Euler(0f,-90f,0f));
+            }
+
+            if(dummySpawned)
+            {
+                GameObject findDummy = GameObject.FindGameObjectWithTag("tutorialDummy");
+
+                if(findDummy == null)
+                {   
+                    dialogText.SetText(dialogs[4]);
+                }
             }
         }
     }
-    // -------------------------------------------------------- Continue the Basic attack tutorial
 
     void DisableTimeLine()
     {
