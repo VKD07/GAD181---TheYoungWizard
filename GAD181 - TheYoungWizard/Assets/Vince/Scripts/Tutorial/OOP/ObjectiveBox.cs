@@ -24,11 +24,11 @@ public class ObjectiveBox : MonoBehaviour
         {
             objNum++;
             objectiveDesc.SetText(string.Empty);
-            SetDialogTextNum(objNum);
+            SetObjectiveTextNum(objNum);
         }
     }
 
-    public void SetDialogTextNum(int index)
+    public void SetObjectiveTextNum(int index)
     {
         objectiveDesc.SetText(objectives[index]);
     }

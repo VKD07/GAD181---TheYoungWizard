@@ -17,6 +17,7 @@ public class CutSceneManager : MonoBehaviour
     PlayerComponentsHandler playerComponentsHandler;
     DialogBox dialogBox;
     ObjectiveBox objectiveBox;
+    bool healing;
 
     [Header("Scene Vfx")]
     [SerializeField] GameObject fireBall1;
@@ -28,6 +29,7 @@ public class CutSceneManager : MonoBehaviour
     PlayerMovementTutorial pmTutorial;
     BasicAttackTutorial basicAttackTutorial;
     ShieldTutorial shieldTutorial;
+    HealAndManaTutorial healandManaTutorial;
 
     void Start()
     {
@@ -37,12 +39,13 @@ public class CutSceneManager : MonoBehaviour
         pmTutorial = FindObjectOfType<PlayerMovementTutorial>();
         basicAttackTutorial = FindObjectOfType<BasicAttackTutorial>();
         shieldTutorial = FindObjectOfType<ShieldTutorial>();
+        healandManaTutorial = FindAnyObjectByType<HealAndManaTutorial>();
 
         //disabling text boxes in the beginning
         fireBall1.SetActive(false);
         dialogBox.EnableDialogBox(false);
         objectiveBox.EnableObjectiveBox(false);
-        Invoke("DisableTimeLine", 2f);
+        Invoke("DisableTimeLine", 1f);
     }
 
     // Update is called once per frame
@@ -66,7 +69,7 @@ public class CutSceneManager : MonoBehaviour
             dialogBox.nextLine();
             //enabling objective box
             objectiveBox.EnableObjectiveBox(true);
-            objectiveBox.SetDialogTextNum(0);
+            objectiveBox.SetObjectiveTextNum(0);
             //enabling player control
             sceneCamera.SetActive(false);
             playerComponentsHandler.EnablePlayerMovement(true);
@@ -94,7 +97,7 @@ public class CutSceneManager : MonoBehaviour
         #region Basic Attack Tutorial
         if (tutorialSequence[3])
         {
-            objectiveBox.SetDialogTextNum(1);
+            objectiveBox.SetObjectiveTextNum(1);
             playerComponentsHandler.EnablePlayerCombat();
 
             if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -131,7 +134,7 @@ public class CutSceneManager : MonoBehaviour
                     textIsUpdated = true;
                     objectiveBox.EnableObjectiveBox(false);
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.SetDialogTextNum(2);
+                    dialogBox.nextLine();
                     tutorialSequence[4] = false;
                     tutorialSequence[5] = true;
                     textIsUpdated = false;
@@ -174,21 +177,61 @@ public class CutSceneManager : MonoBehaviour
                 Instantiate(fireBall2, fireBallSpawner.position, Quaternion.identity);
                 shieldTutorial.slowDownTime = true;
                 objectiveBox.EnableObjectiveBox(true);
-                objectiveBox.nextLine();
+                objectiveBox.SetObjectiveTextNum(2);
             }
 
-            if(shieldTutorial.shieldTask1Done())
+            if (shieldTutorial.shieldTask1Done())
             {
                 if (!textIsUpdated)
                 {
+                    textIsUpdated = false;
                     objectiveBox.EnableObjectiveBox(false);
-                    dialogBox.EnableDialogBox(false);
-                    textIsUpdated = true;
+                    dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine();
+                    tutorialSequence[6] = false;
+                    tutorialSequence[7] = true;
                 }
             }
         }
 
+        if (tutorialSequence[7])
+        {
+            if (Input.GetKeyDown(nextBtn))
+            {
+                if (!textIsUpdated)
+                {
+                    dialogBox.nextLine();
+                    tutorialSequence[8] = true;
+                    tutorialSequence[7] = false;
+                }
+            }
+
+        }
+
+
+        if (tutorialSequence[8] == true)
+        {
+            dialogBox.EnableDialogBox(false);
+            objectiveBox.EnableObjectiveBox(true);
+            objectiveBox.SetObjectiveTextNum(3);
+            playerComponentsHandler.EnablePlayerAttrib();
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                objectiveBox.EnableObjectiveBox(false);
+                dialogBox.EnableDialogBox(true);
+
+                if (!textIsUpdated)
+                {
+                    textIsUpdated = true;
+                    dialogBox.nextLine();
+                    textIsUpdated = false;
+                    tutorialSequence[8] = false;
+                }
+            }
+
+        }
+        //------------------ tutorial shield continue. Shield 3 fireballs to move to next task. which is resitance bbreak 
         #endregion
     }
 
@@ -201,7 +244,7 @@ public class CutSceneManager : MonoBehaviour
     IEnumerator DisableScenes(int index, float time)
     {
         yield return new WaitForSeconds(time);
-       // fireBall.SetActive(false);
+        // fireBall.SetActive(false);
         timeLine.SetActive(false);
         sceneCamera.SetActive(false);
         tutorialSequence[index] = false;

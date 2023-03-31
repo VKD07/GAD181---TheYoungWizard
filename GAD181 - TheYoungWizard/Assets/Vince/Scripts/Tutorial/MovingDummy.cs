@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,7 @@ public class MovingDummy : MonoBehaviour
     float currentTimeToMove;
     public bool isDead;
     public bool startMoving;
+    public bool startAttack;
     Vector3 position;
     float angle;
     Animator anim;
@@ -25,6 +27,7 @@ public class MovingDummy : MonoBehaviour
     {
         basicAttack = FindObjectOfType<BasicAttackTutorial>();
         StartMoving();
+        StartAttacking();
     }
 
     private void StartMoving()
@@ -34,6 +37,14 @@ public class MovingDummy : MonoBehaviour
             angle += dummyMoveSpeed * Time.deltaTime;
             position.z = Mathf.Cos(angle) * distance;
             transform.position += position;
+        }
+    }
+
+    void StartAttacking()
+    {
+        if (startAttack)
+        {
+            anim.SetTrigger("Attack");
         }
     }
 

@@ -31,4 +31,9 @@ public class PlayerComponentsHandler : MonoBehaviour
     {
         pCombat.enabled = true;
     }
+
+    public void EnablePlayerAttrib()
+    {
+        playerAttrib.SetActive(true);
+    }
 }

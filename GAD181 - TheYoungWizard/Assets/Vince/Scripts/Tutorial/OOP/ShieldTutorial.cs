@@ -7,6 +7,7 @@ public class ShieldTutorial : MonoBehaviour
 {
     public bool slowDownTime;
     [SerializeField] GameObject playerForceField;
+    int shieldBlock;
     playerCombat pc;
     bool taskOne;
     void Start()
