@@ -22,6 +22,7 @@ public class RoomScene_Player : MonoBehaviour
 
     //Player RayCast
     [Header("RayCast Settings")]
+    [SerializeField] KeyCode mapInterActKey = KeyCode.F;
     [SerializeField] float rayCastLength = 2f;
     [SerializeField] LayerMask mapStationLayer;
 
@@ -99,7 +100,7 @@ public class RoomScene_Player : MonoBehaviour
             hit.rigidbody.GetComponent<MapStation>().floatingText.SetActive(true);
             
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(mapInterActKey))
             {
                 mapUI.SetActive(true);
                 characterAnim.SetBool("Move", false);

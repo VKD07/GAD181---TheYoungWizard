@@ -131,8 +131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4147e9d140bf3974aa9238ae1bbddb3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  luminousDamagePerSecond: 5
-  bossDistractionDuration: 8
+  luminousDamagePerSecond: 1.5
   enemies: []
   radius: 50
   layer:

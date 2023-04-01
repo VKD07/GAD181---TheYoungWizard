@@ -20,10 +20,12 @@ public class MapScript : MonoBehaviour
     [SerializeField] Material portalParticleMaterial;
     [SerializeField] Light portalLight;
     [SerializeField] bool[] portalActive;
+    [SerializeField] GameObject portalVfx;
     public int activePortal;
 
     private void Start()
     {
+        portalVfx.SetActive(false);
     }
 
     private void Update()
@@ -63,6 +65,7 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", blueColor * emissionValue);
         portalLight.color = blueColor;
         activePortal = 1;
+        portalVfx.SetActive(true);
     }
 
     public void MagicalForest()
@@ -73,6 +76,7 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", purpleColor * emissionValue);
         portalLight.color = purpleColor;
         activePortal = 2;
+        portalVfx.SetActive(true);
     }
 
     public void NormalForest()
@@ -82,6 +86,7 @@ public class MapScript : MonoBehaviour
         trailMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalLight.color = greenColor;
+        portalVfx.SetActive(true);
     }
 
     private void PortalToActivate(int portal)
