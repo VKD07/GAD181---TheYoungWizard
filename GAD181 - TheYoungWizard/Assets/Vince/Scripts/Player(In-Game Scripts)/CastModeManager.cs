@@ -29,6 +29,7 @@ public class CastModeManager : MonoBehaviour
     [SerializeField] Sprite defaultIcon;
     public bool castingMode = false;
     public bool doneCombining = false;
+    public bool correctCombination;
     public bool wrongCombination = false;
 
     private void Update()
@@ -172,12 +173,14 @@ public class CastModeManager : MonoBehaviour
                 spellSlot.sprite = spellIcons[i];
                 //Store the current spell available to use
                 availableSpellID = currentSpellID;
+                correctCombination = true;
                 break;
             }
             else
             {
                 //insert the consequences here if the player miscombined the elements------------------------
                 wrongCombination = true;
+                correctCombination = false;
                 spellSlot.sprite = defaultIcon;
 
             }

@@ -13873,9 +13873,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 5.25
-  explosionDamage: 50
+  explosionDamage: 30
   listOfObjects: []
   colliders: []
   layerMask:
     serializedVersion: 2
     m_Bits: 8192
+  exploded: 0

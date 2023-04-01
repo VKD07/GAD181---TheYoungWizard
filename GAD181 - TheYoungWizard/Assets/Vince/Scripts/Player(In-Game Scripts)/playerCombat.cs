@@ -3,9 +3,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Net;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 
 public class playerCombat : MonoBehaviour
 {
@@ -73,8 +73,9 @@ public class playerCombat : MonoBehaviour
 
     public bool dodge = false;
     public float shieldDuration = 3f;
+    public bool tutorial;
 
-    void Start() 
+    void Start()
     {
         //giving control of camera
         cam.m_YAxis.m_MaxSpeed = 2;
@@ -94,16 +95,16 @@ public class playerCombat : MonoBehaviour
     void Update()
     {
         //pause game
-        if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
-        {
-            paused = true;
-            Time.timeScale = 0;
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && paused == true)
-        {
-            paused = false;
-            Time.timeScale = 1;
-        }
+        //if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
+        //{
+        //    paused = true;
+        //    Time.timeScale = 0;
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Escape) && paused == true)
+        //{
+        //    paused = false;
+        //    Time.timeScale = 1;
+        //}
 
         //focusing on targeting the enemy
         aimMode();
@@ -117,6 +118,15 @@ public class playerCombat : MonoBehaviour
         //spell cast
         SpellCastAnimation();
         DisablingDamageIndicator();
+        DeathHandler();
+    }
+
+    private void DeathHandler()
+    {
+        if (playerHealth <= 0 && !tutorial)
+        {
+            SceneManager.LoadScene("RoomScene");
+        }
     }
 
     private void SpellCastAnimation()
@@ -235,7 +245,7 @@ public class playerCombat : MonoBehaviour
                 midRig.m_TrackedObjectOffset.x += 5f * Time.deltaTime;
             }
 
-            if (cam.m_Lens.FieldOfView > 20)
+            if (cam.m_Lens.FieldOfView > 24)
             {
                 cam.m_Lens.FieldOfView -= 60f * Time.deltaTime;
             }
@@ -400,6 +410,15 @@ public class playerCombat : MonoBehaviour
 
     }
 
+    public void damagePlayer2(float damage)
+    {
+
+        playerHealth -= damage;
+        disableSenses();
+        Time.timeScale = 1;
+
+    }
+
     //get player health
     public float GetPlayerHealth()
     {
@@ -442,7 +461,7 @@ public class playerCombat : MonoBehaviour
         }
         else
         {
-            currentDmgIndTime= 0;
+            currentDmgIndTime = 0;
             disableSenses();
         }
     }

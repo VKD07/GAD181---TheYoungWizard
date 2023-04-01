@@ -46,9 +46,24 @@ public class bulletScript : MonoBehaviour
             Destroy(gameObject);
         }
 
-        if (collision.tag == "Environment")
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Environment") || collision.gameObject.layer == LayerMask.NameToLayer("ground"))
         {
-            Destroy(gameObject);
+            Destroy(gameObject, 2f);
+        }
+
+        if(collision.tag == "tutorialDummy" || collision.tag == "movingDummy")
+        {
+            MovingDummy dummyScript = collision.gameObject.GetComponent<MovingDummy>();
+            if(dummyScript.startShielding == false)
+            {
+                dummyScript.KillDummy();
+                if (dummyScript.startMoving)
+                {
+                    dummyScript.startMoving = false;
+                    dummyScript.basicAttack.secondTask = true;
+                }
+                Destroy(gameObject);
+            }
         }
     }
 }

@@ -16,6 +16,8 @@ public class BossForceField : MonoBehaviour
     [Header("Animation")]
     float maximumScale = 2;
     float currentScale;
+    [SerializeField] ParticleSystem explodeVfx;
+    [SerializeField] Material explodeVfxMat;
 
     [Header("Choosing an Element")]
     public int randomElement;
@@ -74,12 +76,16 @@ public class BossForceField : MonoBehaviour
     {
         if (randomElement == 0 && other.tag == "Fireball" && activateShield == true)
         {
+            explodeVfxMat.SetColor("_EmissionColor", colors[0] * 2.4f);
+            explodeVfx.Play();
             activateShield = false;
             InterruptBoss();
 
         }
         else if (randomElement == 1 && other.tag == "frostWall" && activateShield == true)
         {
+            explodeVfxMat.SetColor("_EmissionColor", colors[1] * 2.4f);
+            explodeVfx.Play();
             activateShield = false;
             InterruptBoss();
         }
@@ -88,6 +94,8 @@ public class BossForceField : MonoBehaviour
             Player_SpellCast spellCast = FindObjectOfType<Player_SpellCast>();
             if (spellCast.releaseWind == true)
             {
+                explodeVfxMat.SetColor("_EmissionColor", colors[2] * 2.4f);
+                explodeVfx.Play();
                 activateShield = false;
                 InterruptBoss();
             }
@@ -97,7 +105,11 @@ public class BossForceField : MonoBehaviour
     public void InterruptBoss()
     {
         activateShield = false;
-        bossScript.damageBoss = true;
-        bossScript.playStunVfx();
+        if(bossScript != null)
+        {
+            bossScript.damageBoss = true;
+            bossScript.playStunVfx();
+        }
+     
     }
 }

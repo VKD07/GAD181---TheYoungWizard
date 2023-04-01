@@ -8,4 +8,16 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/RoomScene.unity
+    guid: 8006da79c53bc20408cce27b1e1d0644
+  - enabled: 1
+    path: Assets/Scenes/WinterCave.unity
+    guid: d7d0191877e95494e823446c05d40df3
+  - enabled: 1
+    path: Assets/Scenes/FinalBoss.unity
+    guid: df29c99d705370d4690ba310f71bddba
+  - enabled: 1
+    path: Assets/Scenes/TutorialScene.unity
+    guid: ea2a58647de8a20428bb794d34bf4726
   m_configObjects: {}

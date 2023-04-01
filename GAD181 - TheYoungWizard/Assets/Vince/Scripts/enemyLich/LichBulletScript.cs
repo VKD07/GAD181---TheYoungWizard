@@ -7,6 +7,7 @@ public class LichBulletScript : MonoBehaviour
 {
     [SerializeField] float bulletSpeed = 10f;
     [SerializeField] float bulletDamage = 20f;
+    [SerializeField] GameObject explosionVfx;
     bool reduceDamage;
     GameObject player;
     public Vector3 bulletDirection;
@@ -48,6 +49,8 @@ public class LichBulletScript : MonoBehaviour
         if (other.tag == "PlayerForceField")
         {
             other.gameObject.GetComponent<Animator>().SetTrigger("Hit");
+            GameObject explosion = Instantiate(explosionVfx, transform.position, Quaternion.identity);
+            Destroy(explosion, 2f);
             Destroy(gameObject);
         }
     }
