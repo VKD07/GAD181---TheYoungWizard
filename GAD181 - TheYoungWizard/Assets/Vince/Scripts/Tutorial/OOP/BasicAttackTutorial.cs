@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Schema;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class BasicAttackTutorial : MonoBehaviour

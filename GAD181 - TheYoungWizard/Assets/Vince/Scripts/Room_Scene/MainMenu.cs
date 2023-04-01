@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class MainMenu : MonoBehaviour
 {
@@ -18,6 +19,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        UnityEngine.Cursor.lockState = CursorLockMode.Confined;
+        UnityEngine.Cursor.visible = true;
         player.SetActive(false);
         exitImage.alpha = 0;
     }

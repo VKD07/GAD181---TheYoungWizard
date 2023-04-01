@@ -573,6 +573,22 @@ PrefabInstance:
       propertyPath: spellCastUIAnim
       value: 
       objectReference: {fileID: 2059385879}
+    - target: {fileID: 1518113482479036489, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: fireballManaCost
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1518113482479036489, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: iceSpellManaCost
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1518113482479036489, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: luminousManaCost
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1518113482479036489, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: windGustManaCost
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1518113482479036492, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
       propertyPath: m_Name
       value: Player(In-Game)
@@ -7794,15 +7810,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7033845
+      value: 0.70338446
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.07245876
+      value: 0.07245875
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.70338446
+      value: 0.7033845
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
@@ -28003,6 +28019,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1895759916750706969, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1895759916750706969, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1895759916792913001, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1895759917070297901, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: pc
       value: 
@@ -28023,6 +28051,14 @@ PrefabInstance:
       propertyPath: pc
       value: 
       objectReference: {fileID: 20568427}
+    - target: {fileID: 1895759917491338381, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1895759917491338381, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1895759918302740320, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: playerStats
       value: 
