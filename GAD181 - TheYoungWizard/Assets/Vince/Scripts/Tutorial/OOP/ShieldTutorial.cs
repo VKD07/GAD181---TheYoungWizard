@@ -40,7 +40,7 @@ public class ShieldTutorial : MonoBehaviour
             {
                 Time.timeScale = 0.2f;
                 pc.enableSenses();
-                currentCutSceneTime += Time.deltaTime * 4.5f;
+                currentCutSceneTime += Time.deltaTime * 4f;
             }
             else
             {

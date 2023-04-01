@@ -25,6 +25,7 @@ TagManager:
   - BossForceField
   - tutorialDummy
   - movingDummy
+  - StartingMenu
   layers:
   - Default
   - TransparentFX
