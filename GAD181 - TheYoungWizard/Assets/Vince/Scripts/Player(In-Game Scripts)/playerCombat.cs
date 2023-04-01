@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Net;
 using UnityEngine;
 using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 
 public class playerCombat : MonoBehaviour
 {
@@ -73,7 +72,6 @@ public class playerCombat : MonoBehaviour
 
     public bool dodge = false;
     public float shieldDuration = 3f;
-    public bool tutorial;
 
     void Start()
     {
@@ -95,16 +93,16 @@ public class playerCombat : MonoBehaviour
     void Update()
     {
         //pause game
-        //if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
-        //{
-        //    paused = true;
-        //    Time.timeScale = 0;
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Escape) && paused == true)
-        //{
-        //    paused = false;
-        //    Time.timeScale = 1;
-        //}
+        if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
+        {
+            paused = true;
+            Time.timeScale = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape) && paused == true)
+        {
+            paused = false;
+            Time.timeScale = 1;
+        }
 
         //focusing on targeting the enemy
         aimMode();
@@ -118,15 +116,6 @@ public class playerCombat : MonoBehaviour
         //spell cast
         SpellCastAnimation();
         DisablingDamageIndicator();
-        DeathHandler();
-    }
-
-    private void DeathHandler()
-    {
-        if (playerHealth <= 0 && !tutorial)
-        {
-            SceneManager.LoadScene("RoomScene");
-        }
     }
 
     private void SpellCastAnimation()

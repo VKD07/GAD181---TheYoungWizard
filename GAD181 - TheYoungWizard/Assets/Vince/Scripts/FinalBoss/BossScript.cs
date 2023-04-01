@@ -6,7 +6,6 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Experimental.GlobalIllumination;
-using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 public class BossScript : MonoBehaviour
@@ -16,7 +15,6 @@ public class BossScript : MonoBehaviour
     float maxHealth;
     public int numberOfSkills = 5;
     float halfHealth;
-    float lowHealth;
 
     [Header("IdleMode")]
     [SerializeField] float idleModeTime = 10f;
@@ -86,7 +84,6 @@ public class BossScript : MonoBehaviour
     [SerializeField] public GameObject bossClone;
     [SerializeField] public float cloneDuration = 15f;
     [SerializeField] public bool bossReplica;
-    bool replicated;
 
 
     //Components
@@ -97,12 +94,14 @@ public class BossScript : MonoBehaviour
     void Start()
     {
         maxHealth = health;
+        print(maxHealth);
+
         ai = GetComponent<NavMeshAgent>();
         ai.speed = runSpeed;
         anim = GetComponent<Animator>();
         player = GameObject.FindGameObjectWithTag("Player");
         halfHealth = health / 2;
-        lowHealth = health / 4;
+
     }
 
     // Update is called once per frame
@@ -120,7 +119,7 @@ public class BossScript : MonoBehaviour
         else if (bossReplica == false && health < halfHealth)
         {
             //increasing difficulty
-            numberOfSkills = 6;
+            numberOfSkills = 7;
             idleModeTime = 2;
             runSpeed = 3.5f;
             stompSpeed = 30f;
@@ -130,15 +129,6 @@ public class BossScript : MonoBehaviour
             Stage2Skills();
         }
         HealingMode();
-        DeathHandler();
-    }
-
-    private void DeathHandler()
-    {
-        if (health <= 0)
-        {
-            SceneManager.LoadScene("FinalBoss");
-        }
     }
 
     private void Stage1Skills()
@@ -199,10 +189,13 @@ public class BossScript : MonoBehaviour
 
     void Stage2Skills()
     {
-        if (health <= lowHealth && !replicated)
+        if (attackNumber == 6)
         {
-            replicated = true;
-            SpawnReplica();
+            Replicate(true);
+        }
+        else
+        {
+            Replicate(false);
         }
     }
 
@@ -450,14 +443,14 @@ public class BossScript : MonoBehaviour
                 anim.SetTrigger("SpawnMinions");
                 minionsSpawned = true;
             }
-
+            
             if (currentTime < healingDuration)
             {
                 anim.SetBool("Distracted", true);
                 currentTime += Time.deltaTime;
                 if (forceFieldScript.activateShield == true)
                 {
-                    if (health < maxHealth)
+                    if(health < maxHealth)
                     {
                         health += healingRate * Time.deltaTime;
                     }
@@ -484,9 +477,14 @@ public class BossScript : MonoBehaviour
         }
     }
 
-    void Replicate()
+    void Replicate(bool value)
     {
-        anim.SetTrigger("Replicate");
+        if (value == true)
+        {
+            anim.SetTrigger("Replicate");
+            attackNumber = 0;
+            currentTime = 0;
+        }
     }
 
     void SpawnReplica()
@@ -531,7 +529,7 @@ public class BossScript : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && jumpedToPlayer == true)
+        if(other.tag == "Player" && jumpedToPlayer == true)
         {
             player.GetComponent<playerCombat>().damagePlayer(stompDamage);
         }

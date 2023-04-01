@@ -12,7 +12,6 @@ public class CutSceneManager : MonoBehaviour
     [SerializeField] GameObject timeLine;
     [SerializeField] PlayableAsset[] clips;
     [SerializeField] GameObject sceneCamera;
-    [SerializeField] GameObject sceneCamera2;
     [SerializeField] KeyCode nextBtn = KeyCode.Mouse0;
     public bool textIsUpdated;
     PlayerComponentsHandler playerComponentsHandler;
@@ -96,7 +95,7 @@ public class CutSceneManager : MonoBehaviour
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(0);
                     //enabling player control
-                    sceneCamera2.SetActive(false);
+                    sceneCamera.SetActive(false);
                     playerComponentsHandler.EnablePlayerMovement(true);
                     tutorialSequence[1] = false;
                     tutorialSequence[2] = true;
@@ -590,7 +589,6 @@ public class CutSceneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         timeLine.SetActive(false);
-        sceneCamera2.SetActive(false);
         sceneCamera.SetActive(false);
         tutorialSequence[index] = false;
         tutorialSequence[index + 1] = true;

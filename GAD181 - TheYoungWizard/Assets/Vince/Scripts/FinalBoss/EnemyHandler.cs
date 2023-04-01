@@ -8,7 +8,6 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] Collider[] stageCollider;
     [SerializeField] GameObject [] enemies;
     [SerializeField] GameObject boss;
-    [SerializeField] GameObject bossHealth;
     [SerializeField] bool[] stageIsClear;
     GameObject player;
     Collider playerCollider;
@@ -73,8 +72,6 @@ public class EnemyHandler : MonoBehaviour
         else if (stageCollider[2].bounds.Intersects(playerCollider.bounds) && stageIsClear[1] == true)
         {
             boss.SetActive(true);
-            bossHealth.SetActive(true);
-            stageCollider[0].isTrigger = false;
             RenderSettings.fogColor = Color.black;
 
         }

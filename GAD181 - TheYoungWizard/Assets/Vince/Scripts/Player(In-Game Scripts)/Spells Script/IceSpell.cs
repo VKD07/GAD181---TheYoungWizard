@@ -69,21 +69,8 @@ public class IceSpell : MonoBehaviour
             }
         }
 
-        if(other.gameObject.layer == LayerMask.NameToLayer("BossBullet"))
-        {
-            Destroy(other.gameObject);
-        }
-
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("BossBullet"))
-        {
-            Destroy(collision.gameObject);
-        }
-    }
-
+ 
 
     private void OnDestroy()
     {
