@@ -8,9 +8,16 @@ public class PlayerComponentsHandler : MonoBehaviour
     [SerializeField] Player_Movement pm;
     [SerializeField] playerCombat pCombat;
     [SerializeField] GameObject thirdPersonCam;
-    [SerializeField] GameObject castMode;
-    [SerializeField] GameObject guideUI;
     [SerializeField] GameObject playerAttrib;
+
+    [Header("Player SpellCast UI")]
+    [SerializeField] GameObject castMode;
+    [SerializeField] GameObject spellCast;
+    [SerializeField] GameObject useSpell;
+    [SerializeField] GameObject spellBookGuide;
+    [SerializeField] GameObject spellBookMainUI;
+
+
     void Start()
     {
         thirdPersonCam.SetActive(false);
@@ -18,12 +25,16 @@ public class PlayerComponentsHandler : MonoBehaviour
         pCombat.enabled = false;
         castMode.SetActive(false);
         playerAttrib.SetActive(false);
-         
+        useSpell.SetActive(false);
+        spellCast.SetActive(false);
+        spellBookGuide.SetActive(false);
+        spellBookMainUI.SetActive(false);
+
     }
-    
+
     public void EnablePlayerMovement(bool value)
     {
-        pm.enabled = value;   
+        pm.enabled = value;
         thirdPersonCam.SetActive(value);
     }
 
@@ -32,8 +43,44 @@ public class PlayerComponentsHandler : MonoBehaviour
         pCombat.enabled = true;
     }
 
-    public void EnablePlayerAttrib()
+    public void EnablePlayerAttrib(bool value)
     {
-        playerAttrib.SetActive(true);
+        if (value)
+        {
+            playerAttrib.SetActive(true);
+        }
+        else
+        {
+            playerAttrib.SetActive(false);
+        }
     }
+
+    public void EnableSpellCastUI(bool value)
+    {
+        if (value)
+        {
+            castMode.SetActive(true);
+            spellCast.SetActive(true);
+            useSpell.SetActive(true);
+        }
+        else
+        {
+            castMode.SetActive(false);
+            spellCast.SetActive(false);
+            useSpell.SetActive(false);
+        }
+    }
+
+    public void EnableSpellBook(bool value)
+    {
+        if (value)
+        {
+            spellBookGuide.SetActive(true);
+        }
+        else
+        {
+            spellBookMainUI.SetActive(false);
+        }
+    }
+
 }

@@ -10,6 +10,7 @@ public class DialogBox : MonoBehaviour
     [SerializeField] GameObject dialogBox;
     [SerializeField] TextMeshProUGUI dialogText;
     [SerializeField] float textSpeed = 1f;
+    public bool isTyping;
     public int dialogNum;
 
     private void Start()
@@ -47,6 +48,8 @@ public class DialogBox : MonoBehaviour
         {
             dialogText.text += c;
             yield return new WaitForSeconds(textSpeed);
+            isTyping = true;
         }
+        isTyping = false;
     }
 }

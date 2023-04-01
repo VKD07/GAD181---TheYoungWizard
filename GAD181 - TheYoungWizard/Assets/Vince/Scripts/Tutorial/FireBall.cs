@@ -26,7 +26,8 @@ public class FireBall : MonoBehaviour
 
         if (player != null)
         {
-            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);   
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+            player.GetComponent<playerCombat>().enableSenses();
         }
     }
 
@@ -34,9 +35,9 @@ public class FireBall : MonoBehaviour
     {
         if (other.tag == "Player" || other.tag == "PlayerForceField")
         {
-            player.GetComponent<playerCombat>().damagePlayer(50);
             GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(explosionObj, 2f);
+            player.GetComponent<playerCombat>().damagePlayer2(25);
+            Destroy(explosionObj, 1f);
             Destroy(gameObject);
         }
     }

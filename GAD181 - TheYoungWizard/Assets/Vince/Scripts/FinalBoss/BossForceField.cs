@@ -105,7 +105,11 @@ public class BossForceField : MonoBehaviour
     public void InterruptBoss()
     {
         activateShield = false;
-        bossScript.damageBoss = true;
-        bossScript.playStunVfx();
+        if(bossScript != null)
+        {
+            bossScript.damageBoss = true;
+            bossScript.playStunVfx();
+        }
+     
     }
 }

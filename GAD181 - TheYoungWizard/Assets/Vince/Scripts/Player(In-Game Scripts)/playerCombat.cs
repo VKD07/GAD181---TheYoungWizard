@@ -68,7 +68,7 @@ public class playerCombat : MonoBehaviour
     public bool dodge = false;
     public float shieldDuration = 3f;
 
-    void Start() 
+    void Start()
     {
         //giving control of camera
         cam.m_YAxis.m_MaxSpeed = 2;
@@ -229,7 +229,7 @@ public class playerCombat : MonoBehaviour
                 midRig.m_TrackedObjectOffset.x += 5f * Time.deltaTime;
             }
 
-            if (cam.m_Lens.FieldOfView > 20)
+            if (cam.m_Lens.FieldOfView > 24)
             {
                 cam.m_Lens.FieldOfView -= 60f * Time.deltaTime;
             }
@@ -392,6 +392,15 @@ public class playerCombat : MonoBehaviour
 
     }
 
+    public void damagePlayer2(float damage)
+    {
+
+        playerHealth -= damage;
+        disableSenses();
+        Time.timeScale = 1;
+
+    }
+
     //get player health
     public float GetPlayerHealth()
     {
@@ -434,7 +443,7 @@ public class playerCombat : MonoBehaviour
         }
         else
         {
-            currentDmgIndTime= 0;
+            currentDmgIndTime = 0;
             disableSenses();
         }
     }

@@ -14,8 +14,19 @@ public class MovingDummy : MonoBehaviour
     public bool startAttack;
     Vector3 position;
     float angle;
-    Animator anim;
+    public Animator anim;
     public BasicAttackTutorial basicAttack;
+    [SerializeField] public BossForceField forceField;
+    public bool startShielding;
+    public bool dontDamage;
+    [Header("Fireball")]
+    [SerializeField] GameObject fireball;
+    [SerializeField] Transform fireBallSpawner;
+    public bool shieldTask;
+
+    public float fireInterval = 3f;
+    public float currentFireTime;
+    
 
     private void Start()
     {
@@ -44,7 +55,12 @@ public class MovingDummy : MonoBehaviour
     {
         if (startAttack)
         {
-            anim.SetTrigger("Attack");
+            currentFireTime += Time.deltaTime;
+            if (currentFireTime >= fireInterval)
+            {
+                anim.SetTrigger("Attack");
+                currentFireTime = 0f;
+            }
         }
     }
 
@@ -56,8 +72,28 @@ public class MovingDummy : MonoBehaviour
 
     public void KillDummy()
     {
-        isDead=true;
-        anim.SetBool("Reset", false);
-        anim.SetTrigger("Dead");
+        if (!dontDamage)
+        {
+            isDead = true;
+            anim.SetBool("Reset", false);
+            anim.SetTrigger("Dead");
+        }
+    }
+
+    void spawnFireBall()
+    {
+        if (shieldTask)
+        {
+            
+            Instantiate(fireball, fireBallSpawner.position, Quaternion.identity);
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "playerBullet" && startShielding == true)
+        {
+            forceField.activateShield = true;
+        }
     }
 }
