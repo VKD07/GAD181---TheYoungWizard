@@ -65,7 +65,7 @@ public class GeneralMenu : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                SceneManager.LoadScene("WinterCave");
+                SceneManager.LoadScene("WinterLand");
                 mainMenuOpened = false;
                 mainMenuUI.SetActive(false);
                 HideCursor();

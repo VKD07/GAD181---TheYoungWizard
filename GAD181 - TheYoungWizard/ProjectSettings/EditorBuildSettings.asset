@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/RoomScene.unity
     guid: 8006da79c53bc20408cce27b1e1d0644
   - enabled: 1
-    path: Assets/Scenes/WinterCave.unity
+    path: Assets/Scenes/WinterLand.unity
     guid: d7d0191877e95494e823446c05d40df3
   - enabled: 1
     path: Assets/Scenes/FinalBoss.unity

@@ -18,6 +18,8 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         player.SetActive(false);
         exitImage.alpha = 0;
     }
