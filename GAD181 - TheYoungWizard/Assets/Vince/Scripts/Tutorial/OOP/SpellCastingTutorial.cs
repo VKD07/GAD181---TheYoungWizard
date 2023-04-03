@@ -10,6 +10,7 @@ public class SpellCastingTutorial : MonoBehaviour
     [SerializeField] GameObject spellBookMainUI;
     [SerializeField] GameObject spellBookGuide;
     [SerializeField] SphereCollider dummyForceField;
+    ObjectiveBox objectiveBox;
     public CastModeManager castModeManager;
     public playerCombat pc;
     public MovingDummy tutorialDummy;
@@ -30,9 +31,14 @@ public class SpellCastingTutorial : MonoBehaviour
     float shieldSiwtchInterval = 1f;
     float currentTime;
 
+    [Header("Task Six")]
+    [SerializeField] int totalShieldsBrokenRequired;
+    
+
     void Start()
     {
         tutorialDummy = FindObjectOfType<MovingDummy>();
+        objectiveBox = GetComponent<ObjectiveBox>();
         EnableDummyForceField(false);
     }
 
@@ -51,11 +57,13 @@ public class SpellCastingTutorial : MonoBehaviour
     {
         if (startTaskSix)
         {
-            if(tutorialDummy.forceField.activateShield == false)
+            if(tutorialDummy.forceField.activateShield == false && tutorialDummy.forceField.numberOfBrokenShields < totalShieldsBrokenRequired)
             {
-                shieldBroken++;
 
-                if(currentTime < shieldSiwtchInterval)
+                //updating objective text
+                objectiveBox.SetObjectiveTextNum(9, $"{tutorialDummy.forceField.numberOfBrokenShields} / {totalShieldsBrokenRequired}");
+
+                if (currentTime < shieldSiwtchInterval)
                 {
                     currentTime += Time.deltaTime;
                 }
@@ -66,9 +74,11 @@ public class SpellCastingTutorial : MonoBehaviour
                 }
             }
 
-            if(shieldBroken > 500)
+            if(tutorialDummy.forceField.numberOfBrokenShields >= totalShieldsBrokenRequired)
             {
                 taskSix = true;
+                startTaskSix = false;
+                 
             }
         }
     }

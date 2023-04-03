@@ -7914,15 +7914,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7033845
+      value: 0.70338446
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.07245876
+      value: 0.07245875
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.70338446
+      value: 0.7033845
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
@@ -18242,6 +18242,7 @@ MonoBehaviour:
   startTaskFive: 0
   startTaskSix: 0
   shieldBroken: 0
+  totalShieldsBrokenRequired: 5
 --- !u!114 &1433754915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48301,6 +48302,8 @@ MonoBehaviour:
   explodeVfxMat: {fileID: 2100000, guid: 9726f3760f9ffca40a59f37663ce9955, type: 2}
   randomElement: 0
   activateShield: 0
+  numberOfBrokenShields: 0
+  isDummy: 0
 --- !u!114 &4935784174638690520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48319,6 +48322,7 @@ MonoBehaviour:
   explodeVfxMat: {fileID: 0}
   randomElement: 0
   activateShield: 0
+  numberOfBrokenShields: 0
 --- !u!135 &6585606921817675035
 SphereCollider:
   m_ObjectHideFlags: 0

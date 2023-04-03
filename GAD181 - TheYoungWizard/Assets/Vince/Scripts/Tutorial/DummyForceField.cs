@@ -23,6 +23,9 @@ public class DummyForceField : MonoBehaviour
     bool elementChosen;
     public bool activateShield;
 
+    [Header("Number of Broken Shields")]
+    public int numberOfBrokenShields;
+
     void Awake()
     {
         render = GetComponent<Renderer>();
@@ -81,13 +84,14 @@ public class DummyForceField : MonoBehaviour
             explodeVfxMat.SetColor("_EmissionColor", colors[0] * 2.4f);
             explodeVfx.Play();
             activateShield = false;
-
+            numberOfBrokenShields += 1;
         }
         else if (randomElement == 1 && other.tag == "frostWall" && activateShield == true)
         {
             explodeVfxMat.SetColor("_EmissionColor", colors[1] * 2.4f);
             explodeVfx.Play();
             activateShield = false;
+            numberOfBrokenShields += 1;
         }
         else if (randomElement == 2 && other.tag == "windGust" && activateShield == true)
         {
@@ -97,6 +101,7 @@ public class DummyForceField : MonoBehaviour
                 explodeVfxMat.SetColor("_EmissionColor", colors[2] * 2.4f);
                 explodeVfx.Play();
                 activateShield = false;
+                numberOfBrokenShields += 1;
             }
         }
     }

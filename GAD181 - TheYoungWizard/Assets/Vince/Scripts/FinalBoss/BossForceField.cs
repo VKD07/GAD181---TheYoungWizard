@@ -25,6 +25,10 @@ public class BossForceField : MonoBehaviour
     bool elementChosen;
     public bool activateShield;
 
+    [Header("Number of Broken Shields")]
+    public int numberOfBrokenShields;
+    public bool isDummy;
+
     void Awake()
     {
         render = GetComponent<Renderer>();
@@ -85,6 +89,11 @@ public class BossForceField : MonoBehaviour
             activateShield = false;
             InterruptBoss();
 
+            if (isDummy)
+            {
+                numberOfBrokenShields += 1;
+            }
+
         }
         else if (randomElement == 1 && other.tag == "frostWall" && activateShield == true)
         {
@@ -92,6 +101,11 @@ public class BossForceField : MonoBehaviour
             explodeVfx.Play();
             activateShield = false;
             InterruptBoss();
+
+            if (isDummy)
+            {
+                numberOfBrokenShields += 1;
+            }
         }
         else if (randomElement == 2 && other.tag == "windGust" && activateShield == true)
         {
@@ -102,6 +116,11 @@ public class BossForceField : MonoBehaviour
                 explodeVfx.Play();
                 activateShield = false;
                 InterruptBoss();
+
+                if (isDummy)
+                {
+                    numberOfBrokenShields += 1;
+                }
             }
         }
     }
