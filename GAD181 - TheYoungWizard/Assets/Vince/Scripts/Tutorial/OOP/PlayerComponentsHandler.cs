@@ -71,6 +71,11 @@ public class PlayerComponentsHandler : MonoBehaviour
         }
     }
 
+    public void DisableCastMode(bool value)
+    {
+        pCombat.disableCastMode = value;
+    }
+
     public void EnableSpellBook(bool value)
     {
         if (value)

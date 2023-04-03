@@ -7,6 +7,8 @@ public class ShieldTutorial : MonoBehaviour
 {
     public bool slowDownTime;
     [SerializeField] GameObject playerForceField;
+    [SerializeField] GameObject spaceBtnUI;
+    [SerializeField] ObjectiveBox objectiveBox;
     MovingDummy tutorialDummy;
     int shieldBlock;
     playerCombat pc;
@@ -18,6 +20,10 @@ public class ShieldTutorial : MonoBehaviour
     public float currentTime;
     float cutSceneFireBallDuration = 2.5f;
     public float currentCutSceneTime;
+    [Header("Blocking fireball task")]
+    [SerializeField] int totalBlockedFireBallsrequired;
+    public int currentFireBallsBlocked;
+
     void Start()
     {
         pc = FindObjectOfType<playerCombat>();
@@ -40,6 +46,7 @@ public class ShieldTutorial : MonoBehaviour
             {
                 Time.timeScale = 0.2f;
                 pc.enableSenses();
+                spaceBtnUI.SetActive(true);
                 currentCutSceneTime += Time.deltaTime * 4f;
             }
             else
@@ -55,6 +62,7 @@ public class ShieldTutorial : MonoBehaviour
             Time.timeScale = 1f;
             slowDownTime = false;
             pc.disableSenses();
+            spaceBtnUI.SetActive(false);
         }
     }
 
@@ -62,29 +70,23 @@ public class ShieldTutorial : MonoBehaviour
     {
         if (startTaskTwo)
         {
-            if (currentTime < attackingDuration)
+            if (currentFireBallsBlocked < totalBlockedFireBallsrequired)
             {
                 tutorialDummy.shieldTask = true;
                 tutorialDummy.startAttack = true;
-                currentTime += Time.deltaTime;
+                //Updating the objective text
+                objectiveBox.SetObjectiveTextNum(4, $"{currentFireBallsBlocked} / {totalBlockedFireBallsrequired}");
+
             }
             else
             {
-                currentTime = 0;
                 tutorialDummy.startAttack = false;
                 startTaskTwo = false;
                 taskTwo = true;
             }
-
         }
     }
 
-    //tutorialDummy.startShielding = true;
-
-    //if(tutorialDummy.forceField.activateShield == true)
-    //{
-
-    //}
     public void DisableDummy(bool value)
     {
         tutorialDummy.dontDamage = value;

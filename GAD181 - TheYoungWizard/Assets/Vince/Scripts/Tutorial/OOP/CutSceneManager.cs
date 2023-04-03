@@ -29,6 +29,7 @@ public class CutSceneManager : MonoBehaviour
     bool ScenePlaying;
 
     [Header("Task References")]
+    [SerializeField] GameObject tutorialCollider;
     [SerializeField] GameObject spellBookMainUI;
     PlayerMovementTutorial pmTutorial;
     BasicAttackTutorial basicAttackTutorial;
@@ -65,7 +66,8 @@ public class CutSceneManager : MonoBehaviour
         fireBall1.SetActive(false);
         dialogBox.EnableDialogBox(false);
         objectiveBox.EnableObjectiveBox(false);
-        Invoke("DisableTimeLine", 11f);
+        playerComponentsHandler.DisableCastMode(true);
+        Invoke("DisableTimeLine", 1f);
     }
 
     // Update is called once per frame
@@ -94,7 +96,7 @@ public class CutSceneManager : MonoBehaviour
                     dialogBox.nextLine();
                     //enabling objective box
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(0);
+                    objectiveBox.SetObjectiveTextNum(0, "");
                     //enabling player control
                     sceneCamera2.SetActive(false);
                     playerComponentsHandler.EnablePlayerMovement(true);
@@ -128,7 +130,7 @@ public class CutSceneManager : MonoBehaviour
         {
             if (!countingDownNext)
             {
-                objectiveBox.SetObjectiveTextNum(1);
+                objectiveBox.SetObjectiveTextNum(1, "");
                 playerComponentsHandler.EnablePlayerCombat();
 
                 if (Input.GetKeyDown(KeyCode.Mouse1))
@@ -200,7 +202,7 @@ public class CutSceneManager : MonoBehaviour
                     Instantiate(fireBall2, fireBallSpawner.position, Quaternion.identity);
                     shieldTutorial.slowDownTime = true;
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(2);
+                    objectiveBox.SetObjectiveTextNum(2, "");
                 }
 
                 if (shieldTutorial.shieldTask1Done())
@@ -242,7 +244,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(3);
+                    objectiveBox.SetObjectiveTextNum(3, "");
                     playerComponentsHandler.EnablePlayerAttrib(true);
                 }
 
@@ -286,7 +288,6 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(4);
                     shieldTutorial.startTaskTwo = true;
                 }
 
@@ -294,7 +295,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     tutorialSequence[10] = false;
                     tutorialSequence[11] = true;
-                    objectiveBox.SetObjectiveTextNum(5);
+                    objectiveBox.SetObjectiveTextNum(5, "");
                     countingDownNext = true;
                 }
             }
@@ -359,7 +360,7 @@ public class CutSceneManager : MonoBehaviour
                     dialogBox.EnableDialogBox(false);
                     playerComponentsHandler.EnableSpellBook(true);
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(6);
+                    objectiveBox.SetObjectiveTextNum(6, "");
                     spellCastingTutorial.startTaskTwo = true;
                     countingDownNext = true;
                 }
@@ -398,10 +399,12 @@ public class CutSceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    tutorialCollider.gameObject.SetActive(false);
+                    playerComponentsHandler.DisableCastMode(false);
                     playerComponentsHandler.EnableSpellCastUI(true);
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(7);
+                    objectiveBox.SetObjectiveTextNum(7, "");
                     spellCastingTutorial.startTaskThree = true;
 
                 }
@@ -441,7 +444,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(8);
+                    objectiveBox.SetObjectiveTextNum(8, "");
                     spellCastingTutorial.startTaskFour = true;
                 }
 
@@ -480,7 +483,7 @@ public class CutSceneManager : MonoBehaviour
                     spellCastingTutorial.EnableDummyForceField(true);
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(9);
+                    objectiveBox.SetObjectiveTextNum(9, "");
                     spellCastingTutorial.startTaskFive = true;
                 }
                 if (spellCastingTutorial.TaskFiveDone())
@@ -503,7 +506,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(9);
+                    objectiveBox.SetObjectiveTextNum(9, "");
                     spellCastingTutorial.startTaskSix = true;
                 }
 

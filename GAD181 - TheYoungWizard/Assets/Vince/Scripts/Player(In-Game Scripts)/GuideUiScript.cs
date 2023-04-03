@@ -44,7 +44,6 @@ public class GuideUiScript : MonoBehaviour
                     Time.timeScale = 1f;
                 }
                 spellBookOpened = true;
-                spellBookGuide.enabled = false;
                 spellBookUI.SetActive(true);
             }
             else
@@ -53,7 +52,6 @@ public class GuideUiScript : MonoBehaviour
                 Time.timeScale = 1f;
 
                 spellBookOpened = false;
-                spellBookGuide.enabled = true;
                 spellBookUI.SetActive(false);
             }
         }

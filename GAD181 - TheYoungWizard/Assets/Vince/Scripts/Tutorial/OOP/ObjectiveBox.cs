@@ -17,18 +17,8 @@ public class ObjectiveBox : MonoBehaviour
         objectiveBox.SetActive(value);
     }
 
-    public void nextLine()
+    public void SetObjectiveTextNum(int index, string additionalLine)
     {
-        if (objNum < objectives.Length - 1)
-        {
-            objNum++;
-            objectiveDesc.SetText(string.Empty);
-            SetObjectiveTextNum(objNum);
-        }
-    }
-
-    public void SetObjectiveTextNum(int index)
-    {
-        objectiveDesc.SetText(objectives[index]);
+        objectiveDesc.SetText(objectives[index] + " " + additionalLine);
     }
 }

@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossForceField : MonoBehaviour
+public class DummyForceField : MonoBehaviour
 {
-
     [Header("Material Properties")]
     [SerializeField] Color[] colors;
     [SerializeField] float emissionIntensity = 5f;
-    [SerializeField] public BossScript bossScript;
 
     Renderer render;
     Material renderMaterial;
@@ -83,7 +81,6 @@ public class BossForceField : MonoBehaviour
             explodeVfxMat.SetColor("_EmissionColor", colors[0] * 2.4f);
             explodeVfx.Play();
             activateShield = false;
-            InterruptBoss();
 
         }
         else if (randomElement == 1 && other.tag == "frostWall" && activateShield == true)
@@ -91,7 +88,6 @@ public class BossForceField : MonoBehaviour
             explodeVfxMat.SetColor("_EmissionColor", colors[1] * 2.4f);
             explodeVfx.Play();
             activateShield = false;
-            InterruptBoss();
         }
         else if (randomElement == 2 && other.tag == "windGust" && activateShield == true)
         {
@@ -101,19 +97,9 @@ public class BossForceField : MonoBehaviour
                 explodeVfxMat.SetColor("_EmissionColor", colors[2] * 2.4f);
                 explodeVfx.Play();
                 activateShield = false;
-                InterruptBoss();
             }
         }
     }
 
-    public void InterruptBoss()
-    {
-        activateShield = false;
-        if(bossScript != null)
-        {
-            bossScript.damageBoss = true;
-            bossScript.playStunVfx();
-        }
-     
-    }
+ 
 }

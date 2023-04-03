@@ -24,6 +24,8 @@ TagManager:
   - Chest
   - BossForceField
   - CheckPoint
+  - movingDummy
+  - tutorialDummy
   layers:
   - Default
   - TransparentFX
@@ -42,8 +44,8 @@ TagManager:
   - EnemyBullet
   - Chest
   - Frozen Lake
-  - 
-  - 
+  - tutorialCollider
+  - PlayerBullet
   - 
   - 
   - 
