@@ -21,6 +21,8 @@ public class WinterLandEnemyAI : MonoBehaviour
     public float attackRange;
     public bool playerSightRange;
     public bool playerAttackRange;
+    public Vector3 playerlastposition;
+    
     private void Start()
     {
         player = GameObject.Find("Player(In-Game)").transform;
@@ -28,33 +30,48 @@ public class WinterLandEnemyAI : MonoBehaviour
         animEnemy = GetComponent<Animator>();
         slider.maxValue = currentHealth;
         maxHealth = currentHealth;
+        
 
     }
     public void DamageEnemy(float playerDamage)
     {
         currentHealth -= playerDamage;
     }
+
+    public void LookAtPlayer(bool playerLookAt)
+    {
+        if (currentHealth >= 0)
+        {
+            playerlastposition = player.position;
+        }
+        if (playerLookAt == true) 
+        {
+            transform.LookAt(player);
+        }
+        else if (playerLookAt == false)
+        {
+            transform.LookAt(playerlastposition);  
+        }
+    }
     private void EnemyChase()
     {
         
         agent.SetDestination(player.position);
-        transform.LookAt(player);
         animEnemy.SetBool("Run Forward", true);
     }
     private void EnemyDeath()
     {
+         
         agent.SetDestination(transform.position);
         animEnemy.SetBool("Death",true);
         Destroy(gameObject, 3);
-
+        
 
     }
 
     private void EnemyAttack()
     {
         agent.SetDestination(transform.position);
-        transform.LookAt(player);
-        
         animEnemy.SetTrigger("Attack1");
         animEnemy.SetTrigger("Attack2");
         animEnemy.SetBool("Run Forward", false);
@@ -79,19 +96,23 @@ public class WinterLandEnemyAI : MonoBehaviour
 
 
         if (playerSightRange && !playerAttackRange || currentHealth < maxHealth)
-        {   
+        {
+            LookAtPlayer(true);
             EnemyChase();       
         }
 
         if (playerSightRange && playerAttackRange)
         {
+            LookAtPlayer(true);
             EnemyAttack();
         }
 
 
         if (currentHealth <= 0)
         {
+            LookAtPlayer(false);
             EnemyDeath();
+            
         }
 
     }
