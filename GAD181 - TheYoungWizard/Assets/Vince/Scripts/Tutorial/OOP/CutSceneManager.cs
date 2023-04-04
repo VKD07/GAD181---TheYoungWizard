@@ -14,6 +14,7 @@ public class CutSceneManager : MonoBehaviour
     [SerializeField] GameObject sceneCamera;
     [SerializeField] GameObject sceneCamera2;
     [SerializeField] KeyCode nextBtn = KeyCode.Mouse0;
+    [SerializeField] GameObject dummy;
     public bool textIsUpdated;
     PlayerComponentsHandler playerComponentsHandler;
     DialogBox dialogBox;
@@ -58,16 +59,13 @@ public class CutSceneManager : MonoBehaviour
         spellCastingTutorial = FindObjectOfType<SpellCastingTutorial>();
         spellBook = FindObjectOfType<GuideUiScript>();
         exitScene = FindObjectOfType<ExitScne>();
-
-        //fade in
         
-
         //disabling text boxes in the beginning
         fireBall1.SetActive(false);
         dialogBox.EnableDialogBox(false);
         objectiveBox.EnableObjectiveBox(false);
         playerComponentsHandler.DisableCastMode(true);
-        Invoke("DisableTimeLine", 1f);
+        Invoke("DisableTimeLine", 11f);
     }
 
     // Update is called once per frame
@@ -185,6 +183,7 @@ public class CutSceneManager : MonoBehaviour
                     fireBall1.SetActive(true);
                     sceneCamera.SetActive(true);
                     timeLine.SetActive(true);
+                    dummy.transform.position = new Vector3(677.22f, 0.74f, 350.14f);
                     PlayCutScene();
                     StartCoroutine(DisableScenes(5, 2.5f));
                     countingDownNext = true;
@@ -506,7 +505,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(9, "");
+                   // objectiveBox.SetObjectiveTextNum(9, "");
                     spellCastingTutorial.startTaskSix = true;
                 }
 
@@ -560,6 +559,7 @@ public class CutSceneManager : MonoBehaviour
             {
                 exitScene.startFade = true;
                 playerComponentsHandler.EnableSpellBook(false);
+                playerComponentsHandler.DisablePlayerAnimation();
                 dialogBox.EnableDialogBox(false);
                 tutorialSequence[24] = false;
             }
@@ -572,11 +572,6 @@ public class CutSceneManager : MonoBehaviour
         timeLine.SetActive(false);
         tutorialSequence[0] = true;
         countingDownNext = true;
-    }
-
-    void FadeIn()
-    {
-      
     }
 
     void PlayCutScene()

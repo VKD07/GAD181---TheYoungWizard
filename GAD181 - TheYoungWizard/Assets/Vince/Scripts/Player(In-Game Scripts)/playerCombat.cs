@@ -65,7 +65,7 @@ public class playerCombat : MonoBehaviour
     [Header("Damage Indicator")]
     [SerializeField] GameObject awarenessUI;
     bool sensesEnabled;
-    float damageIndicatorMaxTime = 5f;
+    [SerializeField] float damageIndicatorMaxTime = 5f;
     float currentDmgIndTime;
 
     [Header("Potions Effects")]
