@@ -7910,27 +7910,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4.3355713
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.335541
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 6.247368e-16
+      value: 0.70338446
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 3.4182263e-16
+      value: 0.07245875
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.99473584
+      value: 0.7033845
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.10247285
+      value: -0.07245875
       objectReference: {fileID: 0}
     - target: {fileID: 6172785108523187452, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7946,7 +7946,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6172785108523187452, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.057266556
+      value: 0.057266545
       objectReference: {fileID: 0}
     - target: {fileID: 6172785108523187452, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
@@ -18062,7 +18062,7 @@ MonoBehaviour:
   playerHealVfx: {fileID: 726991815}
   tutorialCollider: {fileID: 2105130380}
   spellBookMainUI: {fileID: 285324975}
-  typingDuration: 1.5
+  typingDuration: 1
   currentTime: 0
   countingDownNext: 0
 --- !u!114 &1433754907
@@ -18208,8 +18208,10 @@ MonoBehaviour:
   spaceBtnUI: {fileID: 387118537}
   objectiveBox: {fileID: 1433754908}
   startTaskTwo: 0
+  taskOne: 0
   attackingDuration: 20
   currentTime: 0
+  cutSceneFireBallDuration: 10
   currentCutSceneTime: 0
   totalBlockedFireBallsrequired: 5
   currentFireBallsBlocked: 0
@@ -18250,7 +18252,7 @@ MonoBehaviour:
   startTaskFive: 0
   startTaskSix: 0
   shieldBroken: 0
-  totalShieldsBrokenRequired: 8
+  totalShieldsBrokenRequired: 5
 --- !u!114 &1433754915
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28305,6 +28307,10 @@ PrefabInstance:
       propertyPath: castEffectObj
       value: 
       objectReference: {fileID: 20568430}
+    - target: {fileID: 1895759917475388946, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 48.398926
+      objectReference: {fileID: 0}
     - target: {fileID: 1895759917475388957, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: pc
       value: 
@@ -29885,7 +29891,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2058214854677870721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.36, y: -1.06, z: 2.935608}
+  m_LocalPosition: {x: 27.45, y: -1.06, z: 2.935608}
   m_LocalScale: {x: 2.4679, y: 2.4679, z: 2.4679}
   m_Children:
   - {fileID: 2060630662314369419}

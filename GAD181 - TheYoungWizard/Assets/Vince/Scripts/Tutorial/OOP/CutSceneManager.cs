@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Playables;
 using UnityEngine.Timeline;
+using UnityEngine.UIElements;
 
 public class CutSceneManager : MonoBehaviour
 {
@@ -44,7 +46,7 @@ public class CutSceneManager : MonoBehaviour
     public float typingDuration = 2f;
     public float currentTime;
     public bool countingDownNext;
-   
+
 
 
     void Start()
@@ -59,13 +61,12 @@ public class CutSceneManager : MonoBehaviour
         spellCastingTutorial = FindObjectOfType<SpellCastingTutorial>();
         spellBook = FindObjectOfType<GuideUiScript>();
         exitScene = FindObjectOfType<ExitScne>();
-        
         //disabling text boxes in the beginning
         fireBall1.SetActive(false);
         dialogBox.EnableDialogBox(false);
         objectiveBox.EnableObjectiveBox(false);
         playerComponentsHandler.DisableCastMode(true);
-        Invoke("DisableTimeLine", 11f);
+        Invoke("DisableTimeLine", 1f);
     }
 
     // Update is called once per frame
@@ -85,13 +86,13 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[1])
+        else if (tutorialSequence[1] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(1);
                     //enabling objective box
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(0, "");
@@ -105,7 +106,7 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[2])
+        else if (tutorialSequence[2] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -114,7 +115,7 @@ public class CutSceneManager : MonoBehaviour
                 if (pmTutorial.KeyboardMovementDone())
                 {
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(2);
                     tutorialSequence[2] = false;
                     tutorialSequence[3] = true;
                     countingDownNext = true;
@@ -124,7 +125,7 @@ public class CutSceneManager : MonoBehaviour
         #endregion
 
         #region Basic Attack Tutorial
-        if (tutorialSequence[3])
+        else if (tutorialSequence[3] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -138,7 +139,7 @@ public class CutSceneManager : MonoBehaviour
                 if (basicAttackTutorial.FirstTaskDone())
                 {
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(3);
                     tutorialSequence[3] = false;
                     tutorialSequence[4] = true;
                     countingDownNext = true;
@@ -146,7 +147,7 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[4])
+        else if (tutorialSequence[4] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -161,7 +162,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     objectiveBox.EnableObjectiveBox(false);
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(4);
                     tutorialSequence[4] = false;
                     tutorialSequence[5] = true;
                     countingDownNext = true;
@@ -171,13 +172,14 @@ public class CutSceneManager : MonoBehaviour
         #endregion
 
         #region Shield Tutorial
-        if (tutorialSequence[5])
+        else if (tutorialSequence[5] && !dialogBox.isTyping)
         {
             shieldTutorial.DisableDummy(true);
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    nextBtn = KeyCode.Clear;
                     basicAttackTutorial.resetDummy();
                     dialogBox.EnableDialogBox(false);
                     fireBall1.SetActive(true);
@@ -185,46 +187,54 @@ public class CutSceneManager : MonoBehaviour
                     timeLine.SetActive(true);
                     dummy.transform.position = new Vector3(677.22f, 0.74f, 350.14f);
                     PlayCutScene();
-                    StartCoroutine(DisableScenes(5, 2.5f));
-                    countingDownNext = true;
+                    StartCoroutine(DisableScenes(5, 3f));
+
                 }
             }
         }
 
-        if (tutorialSequence[6])
+        else if (tutorialSequence[6] && !dialogBox.isTyping)
         {
+            shieldTutorial.slowDownTime = true;
             if (!countingDownNext)
             {
                 if (!fireBallIsSpawned)
                 {
                     fireBallIsSpawned = true;
-                    Instantiate(fireBall2, fireBallSpawner.position, Quaternion.identity);
-                    shieldTutorial.slowDownTime = true;
+                    if (fireBallSpawner != null)
+                    {
+                        Instantiate(fireBall2, fireBallSpawner.position, Quaternion.identity);
+                    }
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(2, "");
                 }
 
                 if (shieldTutorial.shieldTask1Done())
                 {
+                    shieldTutorial.slowDownTime = false;
                     playerComponentsHandler.EnablePlayerAttrib(false);
                     objectiveBox.EnableObjectiveBox(false);
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(5);
                     tutorialSequence[6] = false;
                     tutorialSequence[7] = true;
                     countingDownNext = true;
+
                 }
+
             }
         }
 
-        if (tutorialSequence[7])
+        else if (tutorialSequence[7] && !dialogBox.isTyping)
         {
-            fireBallIsSpawned = false;
+           
+
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
-                    dialogBox.nextLine();
+                    shieldTutorial.taskOne = false;
+                    dialogBox.nextLine(6);
                     tutorialSequence[7] = false;
                     tutorialSequence[8] = true;
                     countingDownNext = true;
@@ -235,7 +245,7 @@ public class CutSceneManager : MonoBehaviour
 
         ///add one more line here fireball Gave damage
 
-        if (tutorialSequence[8])
+        else if (tutorialSequence[8] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -245,32 +255,33 @@ public class CutSceneManager : MonoBehaviour
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(3, "");
                     playerComponentsHandler.EnablePlayerAttrib(true);
-                }
 
+                }
                 if (Input.GetKeyDown(KeyCode.Alpha1)) //-------------------------------- healing
                 {
                     playerHealVfx.Play();
                     objectiveBox.EnableObjectiveBox(false);
                     dialogBox.EnableDialogBox(true);
                     playerComponentsHandler.EnablePlayerAttrib(false);
-                    textIsUpdated = true;
-                    textIsUpdated = false;
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(7);
                     tutorialSequence[8] = false;
                     tutorialSequence[9] = true;
                     countingDownNext = true;
                 }
             }
+
         }
 
+    
 
-        if (tutorialSequence[9])
+
+        else if (tutorialSequence[9] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(8);
                     tutorialSequence[9] = false;
                     tutorialSequence[10] = true;
                     countingDownNext = true;
@@ -279,7 +290,7 @@ public class CutSceneManager : MonoBehaviour
         }
 
 
-        if (tutorialSequence[10])
+        else if (tutorialSequence[10] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -304,7 +315,7 @@ public class CutSceneManager : MonoBehaviour
         ////------------------ tutorial shield continue. Shield 3 fireballs to move to next task. which is resitance bbreak 
 
         #region spellCast tutorial
-        if (tutorialSequence[11])
+        else if (tutorialSequence[11] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -313,7 +324,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     playerComponentsHandler.EnablePlayerAttrib(false);
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(9);
                     objectiveBox.EnableObjectiveBox(false);
                     tutorialSequence[11] = false;
                     tutorialSequence[12] = true;
@@ -322,13 +333,13 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[12])
+        else if (tutorialSequence[12] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(10);
                     tutorialSequence[12] = false;
                     tutorialSequence[13] = true;
                     countingDownNext = true;
@@ -336,13 +347,13 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[13])
+        else if (tutorialSequence[13] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(11);
                     tutorialSequence[13] = false;
                     tutorialSequence[14] = true;
                     countingDownNext = true;
@@ -350,7 +361,7 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[14])
+        else if (tutorialSequence[14] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -368,7 +379,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(true);
                     objectiveBox.EnableObjectiveBox(false);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(12);
                     tutorialSequence[14] = false;
                     tutorialSequence[15] = true;
                     countingDownNext = true;
@@ -376,7 +387,7 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[15])
+        else if (tutorialSequence[15] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -384,7 +395,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     spellBook.spellBookOpened = false;
                     spellBookMainUI.SetActive(false);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(13);
                     tutorialSequence[15] = false;
                     tutorialSequence[16] = true;
                     countingDownNext = true;
@@ -392,7 +403,7 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[16])
+        else if (tutorialSequence[16] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -412,7 +423,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(true);
                     objectiveBox.EnableObjectiveBox(false);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(14);
                     tutorialSequence[16] = false;
                     tutorialSequence[17] = true;
                     countingDownNext = true;
@@ -420,13 +431,13 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[17])
+        else if (tutorialSequence[17] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(15);
                     tutorialSequence[17] = false;
                     tutorialSequence[18] = true;
                     countingDownNext = true;
@@ -435,7 +446,7 @@ public class CutSceneManager : MonoBehaviour
         }
 
 
-        if (tutorialSequence[18])
+        else if (tutorialSequence[18] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -450,7 +461,7 @@ public class CutSceneManager : MonoBehaviour
                 if (spellCastingTutorial.TaskFourDone())
                 {
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(16);
                     objectiveBox.EnableObjectiveBox(false);
                     tutorialSequence[18] = false;
                     tutorialSequence[19] = true;
@@ -459,13 +470,13 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[19])
+        else if (tutorialSequence[19] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(17);
                     tutorialSequence[19] = false;
                     tutorialSequence[20] = true;
                     countingDownNext = true;
@@ -473,7 +484,7 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[20])
+        else if (tutorialSequence[20] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -488,7 +499,7 @@ public class CutSceneManager : MonoBehaviour
                 if (spellCastingTutorial.TaskFiveDone())
                 {
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(18);
                     objectiveBox.EnableObjectiveBox(false);
                     tutorialSequence[20] = false;
                     tutorialSequence[21] = true;
@@ -497,7 +508,7 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[21])
+        else if (tutorialSequence[21] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -505,14 +516,14 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
-                   // objectiveBox.SetObjectiveTextNum(9, "");
+                    // objectiveBox.SetObjectiveTextNum(9, "");
                     spellCastingTutorial.startTaskSix = true;
                 }
 
                 if (spellCastingTutorial.TaskSixDone())
                 {
                     dialogBox.EnableDialogBox(true);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(19);
                     objectiveBox.EnableObjectiveBox(false);
                     tutorialSequence[21] = false;
                     tutorialSequence[22] = true;
@@ -521,7 +532,7 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[22])
+        else if (tutorialSequence[22] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -529,7 +540,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     playerComponentsHandler.EnableSpellCastUI(false);
                     playerComponentsHandler.EnableSpellBook(false);
-                    dialogBox.nextLine();
+                    dialogBox.nextLine(20);
                     tutorialSequence[22] = false;
                     tutorialSequence[23] = true;
                     countingDownNext = true;
@@ -537,13 +548,13 @@ public class CutSceneManager : MonoBehaviour
             }
         }
 
-        if (tutorialSequence[23])
+        else if (tutorialSequence[23] && !dialogBox.isTyping)
         {
             if (Input.GetKeyDown(nextBtn))
             {
                 if (!countingDownNext)
                 {
-                    dialogBox.nextLine();
+                   // dialogBox.nextLine(21);
                     tutorialSequence[23] = false;
                     tutorialSequence[24] = true;
                     countingDownNext = true;
@@ -553,7 +564,7 @@ public class CutSceneManager : MonoBehaviour
         #endregion
 
         #region Exit
-        if (tutorialSequence[24])
+        else if (tutorialSequence[24] && !dialogBox.isTyping)
         {
             if (!countingDownNext)
             {
@@ -587,11 +598,12 @@ public class CutSceneManager : MonoBehaviour
     IEnumerator DisableScenes(int index, float time)
     {
         yield return new WaitForSeconds(time);
-        timeLine.SetActive(false);
+        countingDownNext = true;
+        tutorialSequence[6] = true;
+        nextBtn = KeyCode.Mouse0;
         sceneCamera2.SetActive(false);
         sceneCamera.SetActive(false);
         tutorialSequence[index] = false;
-        tutorialSequence[index + 1] = true;
     }
 
     void typing()
@@ -607,5 +619,5 @@ public class CutSceneManager : MonoBehaviour
         }
     }
 
-  
+
 }

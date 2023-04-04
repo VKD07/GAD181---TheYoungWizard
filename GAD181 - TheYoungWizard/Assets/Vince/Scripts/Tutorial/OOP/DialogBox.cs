@@ -9,7 +9,7 @@ public class DialogBox : MonoBehaviour
     [SerializeField] string[] dialogs;
     [SerializeField] GameObject dialogBox;
     [SerializeField] TextMeshProUGUI dialogText;
-    [SerializeField] float textInterval = 1f;
+    [SerializeField] float textInterval = 0.03f;
     public bool isTyping;
     public int dialogNum;
 
@@ -17,6 +17,23 @@ public class DialogBox : MonoBehaviour
     [SerializeField] AudioSource dialogAudioSource;
     [SerializeField] AudioClip typingSound;
     bool typed;
+
+    private void Update()
+    {
+        if (isTyping)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                textInterval = 0f;
+            }
+        }
+        else
+        {
+            textInterval = 0.03f;
+        }
+
+    }
+
     private void Start()
     {
         dialogText.SetText(string.Empty);
@@ -32,17 +49,30 @@ public class DialogBox : MonoBehaviour
         StartCoroutine(TypeLine());
     }
 
-    public void nextLine()
+    //public void nextLine()
+    //{
+    //    if (!isTyping)
+    //    {
+    //        if (dialogNum < dialogs.Length - 1)
+    //        {
+    //            dialogNum++;
+    //            dialogText.SetText(string.Empty);
+    //            StartCoroutine(TypeLine());
+    //        }
+    //        else
+    //        {
+    //            EnableDialogBox(false);
+    //        }
+    //    }
+    //}
+
+    public void nextLine(int dialog)
     {
-        if (dialogNum < dialogs.Length - 1)
+        if (!isTyping)
         {
-            dialogNum++;
+            dialogNum = dialog;
             dialogText.SetText(string.Empty);
             StartCoroutine(TypeLine());
-        }
-        else
-        {
-            EnableDialogBox(false);
         }
     }
 

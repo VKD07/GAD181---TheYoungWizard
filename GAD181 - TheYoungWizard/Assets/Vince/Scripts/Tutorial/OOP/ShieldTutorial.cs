@@ -13,12 +13,12 @@ public class ShieldTutorial : MonoBehaviour
     int shieldBlock;
     playerCombat pc;
     public bool startTaskTwo;
-    bool taskOne;
+   public bool taskOne;
     bool taskTwo;
 
     public float attackingDuration = 5f;
     public float currentTime;
-    float cutSceneFireBallDuration = 2.5f;
+    public float cutSceneFireBallDuration = 2.5f;
     public float currentCutSceneTime;
     [Header("Blocking fireball task")]
     [SerializeField] int totalBlockedFireBallsrequired;
@@ -45,15 +45,10 @@ public class ShieldTutorial : MonoBehaviour
             if(currentCutSceneTime < cutSceneFireBallDuration)
             {
                 Time.timeScale = 0.2f;
+                currentCutSceneTime += Time.deltaTime *4f;
                 pc.enableSenses();
                 spaceBtnUI.SetActive(true);
-                currentCutSceneTime += Time.deltaTime * 4f;
             }
-            else
-            {
-                Time.timeScale = 0f;
-            }
-           
         }
 
         if (slowDownTime && playerForceField.activeSelf == true)

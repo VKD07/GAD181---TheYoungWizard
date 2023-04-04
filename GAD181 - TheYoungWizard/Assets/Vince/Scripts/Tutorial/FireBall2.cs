@@ -32,6 +32,7 @@ public class FireBall2 : MonoBehaviour
             {
                 Time.timeScale = 0f;
             }
+      
             if (distanceToPlayer <= 3f && Input.GetKeyDown(KeyCode.Space))
             {
                 FindObjectOfType<ShieldTutorial>().slowDownTime = false;
