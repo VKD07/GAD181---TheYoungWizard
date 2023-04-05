@@ -13,6 +13,7 @@ public class enemyAnimation : MonoBehaviour
     NavMeshAgent agent;
     [SerializeField] AudioScript audioScript;
     bool musicIsPlayed;
+    int enemyHp = 50;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -38,7 +39,10 @@ public class enemyAnimation : MonoBehaviour
         {
             chase();
         }
-     
+        if (enemyHp < 0)
+        {
+            animator.SetTrigger("Dead");
+        }
         
     }
     void attack()

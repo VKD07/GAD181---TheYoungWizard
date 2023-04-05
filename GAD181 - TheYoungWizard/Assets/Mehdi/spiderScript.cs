@@ -12,11 +12,13 @@ public class spiderScript : MonoBehaviour
     GameObject player;
     [SerializeField] Player playerScript;
     NavMeshAgent agent;
+    [SerializeField] int spiderHp;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
+        spiderHp = 20;
     }
 
 
@@ -49,7 +51,10 @@ public class spiderScript : MonoBehaviour
             playerScript = null;
         }
         Debug.DrawLine(transform.position, transform.forward * 1f, Color.red);
-
+        if (spiderHp < 0)
+        {
+            animator.SetTrigger("Death");
+        }
 
 
 
