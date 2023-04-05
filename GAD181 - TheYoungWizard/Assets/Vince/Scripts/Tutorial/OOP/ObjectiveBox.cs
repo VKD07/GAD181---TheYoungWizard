@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using TMPro;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 public class ObjectiveBox : MonoBehaviour
 {
     [Header("Objective Box")]
+    [SerializeField] Animator anim;
     [SerializeField] bool[] objectiveSequence;
     [SerializeField] string[] objectives;
     [SerializeField] TextMeshProUGUI objectiveDesc;
@@ -18,18 +18,13 @@ public class ObjectiveBox : MonoBehaviour
         objectiveBox.SetActive(value);
     }
 
-    public void nextLine()
+    public void SetObjectiveTextNum(int index, string additionalLine)
     {
-        if (objNum < objectives.Length - 1)
-        {
-            objNum++;
-            objectiveDesc.SetText(string.Empty);
-            SetObjectiveTextNum(objNum);
-        }
+        objectiveDesc.SetText(objectives[index] + " " + additionalLine);
     }
 
-    public void SetObjectiveTextNum(int index)
+    public void ObjectiveCompleted(bool value)
     {
-        objectiveDesc.SetText(objectives[index]);
+        anim.SetBool("Completed",value);
     }
 }

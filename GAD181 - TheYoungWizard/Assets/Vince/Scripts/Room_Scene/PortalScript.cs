@@ -15,7 +15,10 @@ public class PortalScript : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            SceneManager.LoadScene(mapScript.activePortal);
+            if(mapScript.activePortal > 0)
+            {
+                SceneManager.LoadScene(mapScript.activePortal);
+            }
         }
     }
 }

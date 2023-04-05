@@ -13,6 +13,12 @@ public class bulletScript : MonoBehaviour
             print("Dummy hit");
             Destroy(gameObject);
         }
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            collision.gameObject.SendMessage("DamageEnemy", bulletDamage);
+            Destroy(gameObject);
+        }
+
 
     }
 

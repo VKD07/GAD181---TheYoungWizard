@@ -46,7 +46,7 @@ public class MovingDummy : MonoBehaviour
         if (startMoving)
         {
             angle += dummyMoveSpeed * Time.deltaTime;
-            position.z = Mathf.Cos(angle) * distance;
+            position.z = Mathf.Cos(angle) * distance * Time.deltaTime;
             transform.position += position;
         }
     }
@@ -84,7 +84,6 @@ public class MovingDummy : MonoBehaviour
     {
         if (shieldTask)
         {
-            
             Instantiate(fireball, fireBallSpawner.position, Quaternion.identity);
         }
     }

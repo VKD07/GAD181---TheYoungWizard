@@ -9,9 +9,30 @@ public class DialogBox : MonoBehaviour
     [SerializeField] string[] dialogs;
     [SerializeField] GameObject dialogBox;
     [SerializeField] TextMeshProUGUI dialogText;
-    [SerializeField] float textSpeed = 1f;
+    [SerializeField] float textInterval = 0.03f;
     public bool isTyping;
     public int dialogNum;
+
+    [Header("Sound FX")]
+    [SerializeField] AudioSource dialogAudioSource;
+    [SerializeField] AudioClip typingSound;
+    bool typed;
+
+    private void Update()
+    {
+        if (isTyping)
+        {
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                textInterval = 0f;
+            }
+        }
+        else
+        {
+            textInterval = 0.03f;
+        }
+
+    }
 
     private void Start()
     {
@@ -28,26 +49,46 @@ public class DialogBox : MonoBehaviour
         StartCoroutine(TypeLine());
     }
 
-    public void nextLine()
+    //public void nextLine()
+    //{
+    //    if (!isTyping)
+    //    {
+    //        if (dialogNum < dialogs.Length - 1)
+    //        {
+    //            dialogNum++;
+    //            dialogText.SetText(string.Empty);
+    //            StartCoroutine(TypeLine());
+    //        }
+    //        else
+    //        {
+    //            EnableDialogBox(false);
+    //        }
+    //    }
+    //}
+
+    public void nextLine(int dialog)
     {
-        if (dialogNum < dialogs.Length - 1)
+        if (!isTyping)
         {
-            dialogNum++;
+            dialogNum = dialog;
             dialogText.SetText(string.Empty);
             StartCoroutine(TypeLine());
-        }
-        else
-        {
-            EnableDialogBox(false);
         }
     }
 
     IEnumerator TypeLine()
     {
+
         foreach (char c in dialogs[dialogNum].ToCharArray())
         {
             dialogText.text += c;
-            yield return new WaitForSeconds(textSpeed);
+            if (!typed)
+            {
+                typed = true;
+                dialogAudioSource.PlayOneShot(typingSound, 0.1f);
+            }
+            yield return new WaitForSeconds(textInterval);
+            typed = false;
             isTyping = true;
         }
         isTyping = false;

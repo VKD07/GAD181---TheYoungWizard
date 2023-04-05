@@ -9,6 +9,7 @@ public class PlayerComponentsHandler : MonoBehaviour
     [SerializeField] playerCombat pCombat;
     [SerializeField] GameObject thirdPersonCam;
     [SerializeField] GameObject playerAttrib;
+    [SerializeField] Animator playerAnimator;
 
     [Header("Player SpellCast UI")]
     [SerializeField] GameObject castMode;
@@ -45,42 +46,29 @@ public class PlayerComponentsHandler : MonoBehaviour
 
     public void EnablePlayerAttrib(bool value)
     {
-        if (value)
-        {
-            playerAttrib.SetActive(true);
-        }
-        else
-        {
-            playerAttrib.SetActive(false);
-        }
+        playerAttrib.SetActive(value);
     }
 
     public void EnableSpellCastUI(bool value)
     {
-        if (value)
-        {
-            castMode.SetActive(true);
-            spellCast.SetActive(true);
-            useSpell.SetActive(true);
-        }
-        else
-        {
-            castMode.SetActive(false);
-            spellCast.SetActive(false);
-            useSpell.SetActive(false);
-        }
+        castMode.SetActive(value);
+        spellCast.SetActive(value);
+        useSpell.SetActive(value);
+    }
+
+    public void DisableCastMode(bool value)
+    {
+        pCombat.disableCastMode = value;
     }
 
     public void EnableSpellBook(bool value)
     {
-        if (value)
-        {
-            spellBookGuide.SetActive(true);
-        }
-        else
-        {
-            spellBookMainUI.SetActive(false);
-        }
+        spellBookGuide.SetActive(value);
+    }
+
+    public void DisablePlayerAnimation()
+    {
+        playerAnimator.enabled = false;
     }
 
 }

@@ -2,6 +2,7 @@ using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Net;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -32,6 +33,7 @@ public class playerCombat : MonoBehaviour
     [SerializeField] GameObject castUI;
     [SerializeField] CastModeManager castModeManager;
     [SerializeField] Animator spellCastUIAnim;
+    public bool disableCastMode;
 
     [Header("Spell Cast")]
     [SerializeField] public KeyCode activateSpellKey = KeyCode.E;
@@ -63,7 +65,7 @@ public class playerCombat : MonoBehaviour
     [Header("Damage Indicator")]
     [SerializeField] GameObject awarenessUI;
     bool sensesEnabled;
-    float damageIndicatorMaxTime = 5f;
+    [SerializeField] float damageIndicatorMaxTime = 5f;
     float currentDmgIndTime;
 
     [Header("Potions Effects")]
@@ -218,7 +220,7 @@ public class playerCombat : MonoBehaviour
 
     private void castMode()
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && !disableCastMode)
         {
             if (castUI.activeSelf == false)
             {

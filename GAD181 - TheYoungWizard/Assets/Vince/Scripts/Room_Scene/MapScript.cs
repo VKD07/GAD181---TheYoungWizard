@@ -20,21 +20,30 @@ public class MapScript : MonoBehaviour
     [SerializeField] Material portalParticleMaterial;
     [SerializeField] Light portalLight;
     [SerializeField] bool[] portalActive;
+    [SerializeField] GameObject portalVfx;
     public int activePortal;
+    bool close;
 
     private void Start()
     {
+        portalVfx.SetActive(false);
     }
 
     private void Update()
     {
         closeUI();
+
+        if(mapImage.activeSelf == false)
+        {
+            close = false;
+        }
     }
+  
 
     private void closeUI()
     {
         //closes UI when you press escape button
-        if(mapImage.activeSelf == true && Input.GetKeyDown(KeyCode.Escape))
+        if(mapImage.activeSelf == true && Input.GetKeyDown(KeyCode.Escape) || close)
         {
             mapImage.SetActive(false);
             playerMovement.enabled = true;
@@ -52,6 +61,7 @@ public class MapScript : MonoBehaviour
         thirdPersonCamera.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        close = true;
     }
 
     public void SnowyCavePortal()
@@ -63,6 +73,8 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", blueColor * emissionValue);
         portalLight.color = blueColor;
         activePortal = 1;
+        portalVfx.SetActive(true);
+        close = true;
     }
 
     public void MagicalForest()
@@ -73,6 +85,8 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", purpleColor * emissionValue);
         portalLight.color = purpleColor;
         activePortal = 2;
+        portalVfx.SetActive(true);
+        close = true;
     }
 
     public void NormalForest()
@@ -82,6 +96,8 @@ public class MapScript : MonoBehaviour
         trailMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalLight.color = greenColor;
+        portalVfx.SetActive(true);
+        close = true;
     }
 
     private void PortalToActivate(int portal)

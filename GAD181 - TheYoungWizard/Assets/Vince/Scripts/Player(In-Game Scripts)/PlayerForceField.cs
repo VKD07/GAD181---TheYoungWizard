@@ -73,6 +73,10 @@ public class PlayerForceField : MonoBehaviour
             currentScale += Time.deltaTime * 30f;
             forceField.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
         }
+
+        if (shieldIsActive){
+            pc.disableSenses();
+        }
     }
 
     void DeactivateForceField()

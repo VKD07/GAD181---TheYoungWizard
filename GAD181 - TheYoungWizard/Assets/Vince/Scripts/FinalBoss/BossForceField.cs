@@ -12,6 +12,7 @@ public class BossForceField : MonoBehaviour
 
     Renderer render;
     Material renderMaterial;
+    MeshRenderer meshRenderer;
 
     [Header("Animation")]
     float maximumScale = 2;
@@ -24,9 +25,14 @@ public class BossForceField : MonoBehaviour
     bool elementChosen;
     public bool activateShield;
 
+    [Header("Number of Broken Shields")]
+    public int numberOfBrokenShields;
+    public bool isDummy;
+
     void Awake()
     {
         render = GetComponent<Renderer>();
+        meshRenderer = GetComponent<MeshRenderer>();
         renderMaterial = render.material;
         renderMaterial.SetFloat("_Intensity", emissionIntensity);
         activateShield = false;
@@ -58,6 +64,7 @@ public class BossForceField : MonoBehaviour
     {
         if (currentScale < maximumScale && activateShield)
         {
+            meshRenderer.enabled = true;
             currentScale += Time.deltaTime * 15f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
         }
@@ -69,6 +76,7 @@ public class BossForceField : MonoBehaviour
         {
             currentScale -= Time.deltaTime * 20f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+            meshRenderer.enabled = false;
         }
     }
 
@@ -81,6 +89,11 @@ public class BossForceField : MonoBehaviour
             activateShield = false;
             InterruptBoss();
 
+            if (isDummy)
+            {
+                numberOfBrokenShields += 1;
+            }
+
         }
         else if (randomElement == 1 && other.tag == "frostWall" && activateShield == true)
         {
@@ -88,6 +101,11 @@ public class BossForceField : MonoBehaviour
             explodeVfx.Play();
             activateShield = false;
             InterruptBoss();
+
+            if (isDummy)
+            {
+                numberOfBrokenShields += 1;
+            }
         }
         else if (randomElement == 2 && other.tag == "windGust" && activateShield == true)
         {
@@ -98,6 +116,11 @@ public class BossForceField : MonoBehaviour
                 explodeVfx.Play();
                 activateShield = false;
                 InterruptBoss();
+
+                if (isDummy)
+                {
+                    numberOfBrokenShields += 1;
+                }
             }
         }
     }

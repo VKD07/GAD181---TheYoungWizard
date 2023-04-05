@@ -7,17 +7,23 @@ public class ShieldTutorial : MonoBehaviour
 {
     public bool slowDownTime;
     [SerializeField] GameObject playerForceField;
+    [SerializeField] GameObject spaceBtnUI;
+    [SerializeField] ObjectiveBox objectiveBox;
     MovingDummy tutorialDummy;
     int shieldBlock;
     playerCombat pc;
     public bool startTaskTwo;
-    bool taskOne;
+   public bool taskOne;
     bool taskTwo;
 
     public float attackingDuration = 5f;
     public float currentTime;
-    float cutSceneFireBallDuration = 2.5f;
+    public float cutSceneFireBallDuration = 2.5f;
     public float currentCutSceneTime;
+    [Header("Blocking fireball task")]
+    [SerializeField] int totalBlockedFireBallsrequired;
+    public int currentFireBallsBlocked;
+
     void Start()
     {
         pc = FindObjectOfType<playerCombat>();
@@ -34,27 +40,28 @@ public class ShieldTutorial : MonoBehaviour
 
     private void TaskOne()
     {
-        if (slowDownTime)
+        if (slowDownTime && !taskOne)
         {
             if(currentCutSceneTime < cutSceneFireBallDuration)
             {
                 Time.timeScale = 0.2f;
+                objectiveBox.ObjectiveCompleted(false);
+                objectiveBox.EnableObjectiveBox(true);
+                objectiveBox.SetObjectiveTextNum(2, "");
+                currentCutSceneTime += Time.deltaTime *4f;
                 pc.enableSenses();
-                currentCutSceneTime += Time.deltaTime * 4f;
+                spaceBtnUI.SetActive(true);
             }
-            else
-            {
-                Time.timeScale = 0f;
-            }
-           
         }
 
         if (slowDownTime && playerForceField.activeSelf == true)
         {
             taskOne = true;
+            objectiveBox.ObjectiveCompleted(true);
             Time.timeScale = 1f;
             slowDownTime = false;
             pc.disableSenses();
+            spaceBtnUI.SetActive(false);
         }
     }
 
@@ -62,29 +69,24 @@ public class ShieldTutorial : MonoBehaviour
     {
         if (startTaskTwo)
         {
-            if (currentTime < attackingDuration)
+            if (currentFireBallsBlocked < totalBlockedFireBallsrequired)
             {
                 tutorialDummy.shieldTask = true;
                 tutorialDummy.startAttack = true;
-                currentTime += Time.deltaTime;
+                //Updating the objective text
+                objectiveBox.SetObjectiveTextNum(4, $"{currentFireBallsBlocked} / {totalBlockedFireBallsrequired}");
+
             }
             else
             {
-                currentTime = 0;
+                objectiveBox.SetObjectiveTextNum(4, $"{currentFireBallsBlocked} / {totalBlockedFireBallsrequired}");
                 tutorialDummy.startAttack = false;
                 startTaskTwo = false;
                 taskTwo = true;
             }
-
         }
     }
 
-    //tutorialDummy.startShielding = true;
-
-    //if(tutorialDummy.forceField.activateShield == true)
-    //{
-
-    //}
     public void DisableDummy(bool value)
     {
         tutorialDummy.dontDamage = value;

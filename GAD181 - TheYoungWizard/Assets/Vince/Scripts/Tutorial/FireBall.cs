@@ -7,6 +7,7 @@ public class FireBall : MonoBehaviour
 {
     [SerializeField] GameObject explosion;
     [SerializeField] float speed = 10f;
+    ShieldTutorial shieldTutorial;
     Rigidbody rb;
     GameObject player;
     void Start()
@@ -33,12 +34,22 @@ public class FireBall : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" || other.tag == "PlayerForceField")
+        if (other.tag == "Player")
         {
             GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
             player.GetComponent<playerCombat>().damagePlayer2(25);
             Destroy(explosionObj, 1f);
             Destroy(gameObject);
         }
+
+        if (other.tag == "PlayerForceField")
+        {
+            shieldTutorial = FindObjectOfType<ShieldTutorial>();
+            shieldTutorial.currentFireBallsBlocked += 1;
+            GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(explosionObj, 1f);
+            Destroy(gameObject);
+        }
     }
 }
+

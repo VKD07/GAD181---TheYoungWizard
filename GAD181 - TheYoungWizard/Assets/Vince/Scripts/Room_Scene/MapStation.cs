@@ -16,6 +16,6 @@ public class MapStation : MonoBehaviour
         //keep disabling the UI
         floatingText.SetActive(false);
         //make the floating text keep looking at the camera
-        floatingText.transform.LookAt(thirdPersonCamera.transform.position);
+        //floatingText.transform.LookAt(thirdPersonCamera.transform.position);
     }
 }

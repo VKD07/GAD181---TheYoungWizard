@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Player_Animation_Config : MonoBehaviour
@@ -27,7 +28,7 @@ public class Player_Animation_Config : MonoBehaviour
 
     private void Update()
     {
-        
+      
     }
 
     public void SpawnBullet()
@@ -45,6 +46,8 @@ public class Player_Animation_Config : MonoBehaviour
 
             bulletRigidbody.velocity = direction * bulletSpeed;
         }
+
+        Debug.DrawLine(ray.origin, ray.direction * Mathf.Infinity, Color.red);
     }
 
     //public void CharacterFall()
