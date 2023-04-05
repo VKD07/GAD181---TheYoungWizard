@@ -57,7 +57,7 @@ public class SpellCastingTutorial : MonoBehaviour
     {
         if (startTaskSix)
         {
-            if(tutorialDummy.forceField.activateShield == false && tutorialDummy.forceField.numberOfBrokenShields < totalShieldsBrokenRequired)
+            if(tutorialDummy.forceField.activateShield == false && tutorialDummy.forceField.numberOfBrokenShields <= totalShieldsBrokenRequired)
             {
 
                 //updating objective text

@@ -22,6 +22,7 @@ public class MapScript : MonoBehaviour
     [SerializeField] bool[] portalActive;
     [SerializeField] GameObject portalVfx;
     public int activePortal;
+    bool close;
 
     private void Start()
     {
@@ -31,12 +32,18 @@ public class MapScript : MonoBehaviour
     private void Update()
     {
         closeUI();
+
+        if(mapImage.activeSelf == false)
+        {
+            close = false;
+        }
     }
+  
 
     private void closeUI()
     {
         //closes UI when you press escape button
-        if(mapImage.activeSelf == true && Input.GetKeyDown(KeyCode.Escape))
+        if(mapImage.activeSelf == true && Input.GetKeyDown(KeyCode.Escape) || close)
         {
             mapImage.SetActive(false);
             playerMovement.enabled = true;
@@ -54,6 +61,7 @@ public class MapScript : MonoBehaviour
         thirdPersonCamera.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        close = true;
     }
 
     public void SnowyCavePortal()
@@ -66,6 +74,7 @@ public class MapScript : MonoBehaviour
         portalLight.color = blueColor;
         activePortal = 1;
         portalVfx.SetActive(true);
+        close = true;
     }
 
     public void MagicalForest()
@@ -77,6 +86,7 @@ public class MapScript : MonoBehaviour
         portalLight.color = purpleColor;
         activePortal = 2;
         portalVfx.SetActive(true);
+        close = true;
     }
 
     public void NormalForest()
@@ -87,6 +97,7 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalLight.color = greenColor;
         portalVfx.SetActive(true);
+        close = true;
     }
 
     private void PortalToActivate(int portal)

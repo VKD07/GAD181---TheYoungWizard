@@ -66,7 +66,7 @@ public class CutSceneManager : MonoBehaviour
         dialogBox.EnableDialogBox(false);
         objectiveBox.EnableObjectiveBox(false);
         playerComponentsHandler.DisableCastMode(true);
-        Invoke("DisableTimeLine", 1f);
+        Invoke("DisableTimeLine", 11f);
     }
 
     // Update is called once per frame
@@ -114,6 +114,7 @@ public class CutSceneManager : MonoBehaviour
 
                 if (pmTutorial.KeyboardMovementDone())
                 {
+                    objectiveBox.ObjectiveCompleted(true);
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(2);
                     tutorialSequence[2] = false;
@@ -129,6 +130,7 @@ public class CutSceneManager : MonoBehaviour
         {
             if (!countingDownNext)
             {
+                objectiveBox.ObjectiveCompleted(false);
                 objectiveBox.SetObjectiveTextNum(1, "");
                 playerComponentsHandler.EnablePlayerCombat();
 
@@ -160,7 +162,7 @@ public class CutSceneManager : MonoBehaviour
 
                 if (basicAttackTutorial.SecondTaskDone())
                 {
-                    objectiveBox.EnableObjectiveBox(false);
+                    objectiveBox.ObjectiveCompleted(true);
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(4);
                     tutorialSequence[4] = false;
@@ -179,6 +181,7 @@ public class CutSceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    objectiveBox.EnableObjectiveBox(false);
                     nextBtn = KeyCode.Clear;
                     basicAttackTutorial.resetDummy();
                     dialogBox.EnableDialogBox(false);
@@ -205,15 +208,12 @@ public class CutSceneManager : MonoBehaviour
                     {
                         Instantiate(fireBall2, fireBallSpawner.position, Quaternion.identity);
                     }
-                    objectiveBox.EnableObjectiveBox(true);
-                    objectiveBox.SetObjectiveTextNum(2, "");
                 }
 
                 if (shieldTutorial.shieldTask1Done())
                 {
                     shieldTutorial.slowDownTime = false;
                     playerComponentsHandler.EnablePlayerAttrib(false);
-                    objectiveBox.EnableObjectiveBox(false);
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(5);
                     tutorialSequence[6] = false;
@@ -227,12 +227,12 @@ public class CutSceneManager : MonoBehaviour
 
         else if (tutorialSequence[7] && !dialogBox.isTyping)
         {
-           
-
+            shieldTutorial.slowDownTime = false;
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    objectiveBox.EnableObjectiveBox(false);
                     shieldTutorial.taskOne = false;
                     dialogBox.nextLine(6);
                     tutorialSequence[7] = false;
@@ -253,6 +253,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(false);
                     objectiveBox.EnableObjectiveBox(true);
+                    objectiveBox.ObjectiveCompleted(false);
                     objectiveBox.SetObjectiveTextNum(3, "");
                     playerComponentsHandler.EnablePlayerAttrib(true);
 
@@ -260,8 +261,8 @@ public class CutSceneManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Alpha1)) //-------------------------------- healing
                 {
                     playerHealVfx.Play();
-                    objectiveBox.EnableObjectiveBox(false);
                     dialogBox.EnableDialogBox(true);
+                    objectiveBox.ObjectiveCompleted(true);
                     playerComponentsHandler.EnablePlayerAttrib(false);
                     dialogBox.nextLine(7);
                     tutorialSequence[8] = false;
@@ -281,6 +282,7 @@ public class CutSceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    objectiveBox.EnableObjectiveBox(false);
                     dialogBox.nextLine(8);
                     tutorialSequence[9] = false;
                     tutorialSequence[10] = true;
@@ -297,12 +299,14 @@ public class CutSceneManager : MonoBehaviour
                 if (Input.GetKeyDown(nextBtn))
                 {
                     dialogBox.EnableDialogBox(false);
+                    objectiveBox.ObjectiveCompleted(false);
                     objectiveBox.EnableObjectiveBox(true);
                     shieldTutorial.startTaskTwo = true;
                 }
 
                 if (shieldTutorial.BlockFireBallTaskDone())
                 {
+                    objectiveBox.ObjectiveCompleted(true);
                     tutorialSequence[10] = false;
                     tutorialSequence[11] = true;
                     objectiveBox.SetObjectiveTextNum(5, "");
@@ -319,9 +323,11 @@ public class CutSceneManager : MonoBehaviour
         {
             if (!countingDownNext)
             {
+                objectiveBox.ObjectiveCompleted(false);
                 spellCastingTutorial.startTaskOne = true;
                 if (spellCastingTutorial.TaskOneDone())
                 {
+                    objectiveBox.ObjectiveCompleted(true);
                     playerComponentsHandler.EnablePlayerAttrib(false);
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(9);
@@ -369,6 +375,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(false);
                     playerComponentsHandler.EnableSpellBook(true);
+                    objectiveBox.ObjectiveCompleted(false);
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(6, "");
                     spellCastingTutorial.startTaskTwo = true;
@@ -377,8 +384,8 @@ public class CutSceneManager : MonoBehaviour
 
                 if (spellCastingTutorial.TaskTwoDone())
                 {
+                    objectiveBox.ObjectiveCompleted(true);
                     dialogBox.EnableDialogBox(true);
-                    objectiveBox.EnableObjectiveBox(false);
                     dialogBox.nextLine(12);
                     tutorialSequence[14] = false;
                     tutorialSequence[15] = true;
@@ -393,6 +400,7 @@ public class CutSceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    objectiveBox.EnableObjectiveBox(false);
                     spellBook.spellBookOpened = false;
                     spellBookMainUI.SetActive(false);
                     dialogBox.nextLine(13);
@@ -413,6 +421,7 @@ public class CutSceneManager : MonoBehaviour
                     playerComponentsHandler.DisableCastMode(false);
                     playerComponentsHandler.EnableSpellCastUI(true);
                     dialogBox.EnableDialogBox(false);
+                    objectiveBox.ObjectiveCompleted(false);
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(7, "");
                     spellCastingTutorial.startTaskThree = true;
@@ -421,8 +430,8 @@ public class CutSceneManager : MonoBehaviour
 
                 if (spellCastingTutorial.TaskThreeDone())
                 {
+                    objectiveBox.ObjectiveCompleted(true);
                     dialogBox.EnableDialogBox(true);
-                    objectiveBox.EnableObjectiveBox(false);
                     dialogBox.nextLine(14);
                     tutorialSequence[16] = false;
                     tutorialSequence[17] = true;
@@ -437,6 +446,7 @@ public class CutSceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    objectiveBox.EnableObjectiveBox(false);
                     dialogBox.nextLine(15);
                     tutorialSequence[17] = false;
                     tutorialSequence[18] = true;
@@ -453,6 +463,7 @@ public class CutSceneManager : MonoBehaviour
                 if (Input.GetKeyDown(nextBtn))
                 {
                     dialogBox.EnableDialogBox(false);
+                    objectiveBox.ObjectiveCompleted(false);
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(8, "");
                     spellCastingTutorial.startTaskFour = true;
@@ -462,7 +473,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(16);
-                    objectiveBox.EnableObjectiveBox(false);
+                    objectiveBox.ObjectiveCompleted(true);
                     tutorialSequence[18] = false;
                     tutorialSequence[19] = true;
                     countingDownNext = true;
@@ -476,6 +487,7 @@ public class CutSceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    objectiveBox.EnableObjectiveBox(false);
                     dialogBox.nextLine(17);
                     tutorialSequence[19] = false;
                     tutorialSequence[20] = true;
@@ -492,6 +504,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     spellCastingTutorial.EnableDummyForceField(true);
                     dialogBox.EnableDialogBox(false);
+                    objectiveBox.ObjectiveCompleted(false);
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(9, "");
                     spellCastingTutorial.startTaskFive = true;
@@ -500,7 +513,7 @@ public class CutSceneManager : MonoBehaviour
                 {
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(18);
-                    objectiveBox.EnableObjectiveBox(false);
+                    objectiveBox.ObjectiveCompleted(true);
                     tutorialSequence[20] = false;
                     tutorialSequence[21] = true;
                     countingDownNext = true;
@@ -515,6 +528,7 @@ public class CutSceneManager : MonoBehaviour
                 if (Input.GetKeyDown(nextBtn))
                 {
                     dialogBox.EnableDialogBox(false);
+                    objectiveBox.ObjectiveCompleted(false);
                     objectiveBox.EnableObjectiveBox(true);
                     // objectiveBox.SetObjectiveTextNum(9, "");
                     spellCastingTutorial.startTaskSix = true;
@@ -522,9 +536,9 @@ public class CutSceneManager : MonoBehaviour
 
                 if (spellCastingTutorial.TaskSixDone())
                 {
+                    objectiveBox.ObjectiveCompleted(true);
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(19);
-                    objectiveBox.EnableObjectiveBox(false);
                     tutorialSequence[21] = false;
                     tutorialSequence[22] = true;
                     countingDownNext = true;
@@ -554,7 +568,8 @@ public class CutSceneManager : MonoBehaviour
             {
                 if (!countingDownNext)
                 {
-                   // dialogBox.nextLine(21);
+                    // dialogBox.nextLine(21);
+                    objectiveBox.EnableObjectiveBox(false);
                     tutorialSequence[23] = false;
                     tutorialSequence[24] = true;
                     countingDownNext = true;

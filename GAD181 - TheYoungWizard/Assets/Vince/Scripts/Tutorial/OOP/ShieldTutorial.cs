@@ -40,11 +40,14 @@ public class ShieldTutorial : MonoBehaviour
 
     private void TaskOne()
     {
-        if (slowDownTime)
+        if (slowDownTime && !taskOne)
         {
             if(currentCutSceneTime < cutSceneFireBallDuration)
             {
                 Time.timeScale = 0.2f;
+                objectiveBox.ObjectiveCompleted(false);
+                objectiveBox.EnableObjectiveBox(true);
+                objectiveBox.SetObjectiveTextNum(2, "");
                 currentCutSceneTime += Time.deltaTime *4f;
                 pc.enableSenses();
                 spaceBtnUI.SetActive(true);
@@ -54,6 +57,7 @@ public class ShieldTutorial : MonoBehaviour
         if (slowDownTime && playerForceField.activeSelf == true)
         {
             taskOne = true;
+            objectiveBox.ObjectiveCompleted(true);
             Time.timeScale = 1f;
             slowDownTime = false;
             pc.disableSenses();
@@ -75,6 +79,7 @@ public class ShieldTutorial : MonoBehaviour
             }
             else
             {
+                objectiveBox.SetObjectiveTextNum(4, $"{currentFireBallsBlocked} / {totalBlockedFireBallsrequired}");
                 tutorialDummy.startAttack = false;
                 startTaskTwo = false;
                 taskTwo = true;
