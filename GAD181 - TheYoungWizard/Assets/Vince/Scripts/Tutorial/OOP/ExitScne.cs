@@ -10,7 +10,10 @@ public class ExitScne : MonoBehaviour
     [SerializeField] CanvasGroup gameLogo;
     [SerializeField] Player_Movement playerMovement;
     [SerializeField] playerCombat playerCombat;
+    [SerializeField] Collider exitCollider;
+    [SerializeField] Collider playeCollider;
     bool fadeIn;
+    bool playerCollided;
     public bool startFade;
     bool introTextFadeOut;
 
@@ -47,23 +50,32 @@ public class ExitScne : MonoBehaviour
     {
         if (startFade)
         {
-            if (gameLogo.alpha < 1)
+            if (exitCollider.bounds.Intersects(playeCollider.bounds))
             {
-                playerMovement.enabled = false;
-                playerCombat.enabled = false;
-                gameLogo.alpha += Time.deltaTime * 0.5f;
-            }
-            else
-            {
-                if (exitImage.alpha < 1)
+                playerCollided = true;
+                if (gameLogo.alpha < 1)
                 {
-                    exitImage.alpha += Time.deltaTime * 0.5f;
+                    playerMovement.enabled = false;
+                    playerCombat.enabled = false;
+                    gameLogo.alpha += Time.deltaTime * 0.5f;
                 }
                 else
                 {
-                    SceneManager.LoadScene(0);
+                    if (exitImage.alpha < 1)
+                    {
+                        exitImage.alpha += Time.deltaTime * 0.5f;
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene(0);
+                    }
                 }
             }
         }
+    }
+
+    public bool PlayerCollided()
+    {
+        return playerCollided;
     }
 }
