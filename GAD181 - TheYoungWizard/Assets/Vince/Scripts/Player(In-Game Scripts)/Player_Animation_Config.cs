@@ -6,19 +6,22 @@ using UnityEngine;
 
 public class Player_Animation_Config : MonoBehaviour
 {
-    //responsible for firing bullets
     //[SerializeField] PlayerScript player;
     [SerializeField] Player_Movement pm;
 
-    //Attack
+    [Header("Player Attack Settings")]
     [SerializeField] GameObject bullet;
     [SerializeField] Transform bulletSpawn;
     [SerializeField] float bulletSpeed;
     [SerializeField] LayerMask layerMask;
+    [SerializeField] float bulletMaxDamage = 10f;
+    public bool targetAvailable;
+    float currentDamage;
+    bool enemyDetected;
+    Vector3 direction;
+    RaycastHit hit;
 
-
-
-    //Roll
+    [Header("Player Roll")]
     [SerializeField] CharacterController cr;
     [SerializeField] Rigidbody rb;
     [SerializeField] CinemachineFreeLook cam;
@@ -28,26 +31,48 @@ public class Player_Animation_Config : MonoBehaviour
 
     private void Update()
     {
-      
+        DetectEnemy();
+    }
+
+    private void DetectEnemy()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        {
+            targetAvailable = true;
+            direction = (hit.point - bulletSpawn.position).normalized;
+
+            if (hit.rigidbody != null && hit.rigidbody.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                enemyDetected = true;
+            }
+
+            Debug.DrawLine(ray.origin, ray.direction * Mathf.Infinity, Color.red);
+        }
+        else
+        {
+            enemyDetected = false;
+            targetAvailable = false;
+        }
     }
 
     public void SpawnBullet()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-     
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask))
+        if (targetAvailable)
         {
-            Vector3 direction = (hit.point - bulletSpawn.position).normalized;
-
+            currentDamage = UnityEngine.Random.Range(2,bulletMaxDamage+1);
             GameObject bulletObj = Instantiate(bullet, bulletSpawn.position, Quaternion.LookRotation(direction, Vector3.up));
-            
+
             Rigidbody bulletRigidbody = bulletObj.GetComponent<Rigidbody>();
 
             bulletRigidbody.velocity = direction * bulletSpeed;
+            if (enemyDetected && hit.rigidbody != null)
+            {
+                hit.rigidbody.gameObject.SendMessage("DamageEnemy", currentDamage);
+            }
         }
-
-        Debug.DrawLine(ray.origin, ray.direction * Mathf.Infinity, Color.red);
     }
 
     //public void CharacterFall()

@@ -10,7 +10,8 @@ public class GeneralMenu : MonoBehaviour
     [SerializeField] KeyCode menuKey = KeyCode.Escape;
     [SerializeField] GameObject mainMenuUI;
     [SerializeField] GameObject menuText;
-    bool mainMenuOpened;
+    public GameObject StartingMenu;
+    public bool mainMenuOpened;
     void Start()
     {
     }
@@ -18,29 +19,44 @@ public class GeneralMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        findStartingMenu();
         OpenGeneralMenu();
         SwitchScenes();
     }
 
+    private void findStartingMenu()
+    {
+        StartingMenu = GameObject.FindGameObjectWithTag("StartingMenu");
+    }
+
     private void OpenGeneralMenu()
     {
-        if (Input.GetKeyDown(menuKey))
+        if (StartingMenu == null)
         {
-            if (!mainMenuOpened)
+            menuText.SetActive(true);
+            if (Input.GetKeyDown(menuKey))
             {
-                Time.timeScale = 0f;
-                mainMenuOpened = true;
-                mainMenuUI.SetActive(true);
-                ShowCursor();
-            }
-            else
-            {
-                HideCursor();
-                Time.timeScale = 1f;
-                mainMenuOpened = false;
-                mainMenuUI.SetActive(false);
+                if (!mainMenuOpened)
+                {
+                    Time.timeScale = 0f;
+                    mainMenuOpened = true;
+                    mainMenuUI.SetActive(true);
+                    ShowCursor();
+                }
+                else
+                {
+                    HideCursor();
+                    Time.timeScale = 1f;
+                    mainMenuOpened = false;
+                    mainMenuUI.SetActive(false);
+                }
             }
         }
+        else
+        {
+            menuText.SetActive(false);
+        }
+
     }
 
     private void SwitchScenes()
@@ -60,7 +76,6 @@ public class GeneralMenu : MonoBehaviour
                 SceneManager.LoadScene("TutorialScene");
                 mainMenuOpened = false;
                 mainMenuUI.SetActive(false);
-                HideCursor();
                 Time.timeScale = 1f;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -68,7 +83,6 @@ public class GeneralMenu : MonoBehaviour
                 SceneManager.LoadScene("WinterLand");
                 mainMenuOpened = false;
                 mainMenuUI.SetActive(false);
-                HideCursor();
                 Time.timeScale = 1f;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
@@ -76,7 +90,6 @@ public class GeneralMenu : MonoBehaviour
                 SceneManager.LoadScene("FinalBoss");
                 mainMenuOpened = false;
                 mainMenuUI.SetActive(false);
-                HideCursor();
                 Time.timeScale = 1f;
             }
         }

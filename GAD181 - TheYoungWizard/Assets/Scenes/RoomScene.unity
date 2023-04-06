@@ -1713,7 +1713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -4325,7 +4325,7 @@ GameObject:
   - component: {fileID: 528115109}
   m_Layer: 5
   m_Name: MainMenu
-  m_TagString: StartingMenu
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4370,6 +4370,7 @@ MonoBehaviour:
   alpha: {fileID: 1969730636}
   exitImage: {fileID: 1172284308}
   fadeOutRate: 0.5
+  playerCamera: {fileID: 552002149}
 --- !u!95 &528115109
 Animator:
   serializedVersion: 5
@@ -4544,7 +4545,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 552002147}
   m_LocalRotation: {x: 0.07444303, y: -0.6813287, z: 0.05900127, w: 0.72578806}
-  m_LocalPosition: {x: 1.0122023, y: 1.0954218, z: -4.52756}
+  m_LocalPosition: {x: 3.520153, y: 1.0954218, z: -0.7753949}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 906434699}
@@ -17544,7 +17545,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906434698}
-  m_LocalRotation: {x: 0.114619106, y: 0.5018052, z: -0.16474861, w: 0.84137505}
+  m_LocalRotation: {x: 0.14002098, y: -0.027587473, z: 0.017791037, w: 0.98960423}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -19963,6 +19964,7 @@ MonoBehaviour:
   menuKey: 27
   mainMenuUI: {fileID: 205097251}
   menuText: {fileID: 505797375}
+  StartingMenu: {fileID: 0}
 --- !u!1001 &1246739606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23330,7 +23332,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605629998}
-  m_LocalRotation: {x: 0.08398057, y: 0.5074585, z: -0.14641182, w: 0.84498334}
+  m_LocalRotation: {x: 0.10398125, y: -0.028215557, z: 0.016777191, w: 0.9940374}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -30401,7 +30403,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932591285}
-  m_LocalRotation: {x: 0.099296965, y: 0.50471866, z: -0.15559438, w: 0.84332055}
+  m_LocalRotation: {x: 0.12199862, y: -0.027906567, z: 0.017286338, w: 0.99198735}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -30911,7 +30913,7 @@ GameObject:
   - component: {fileID: 1969730636}
   m_Layer: 5
   m_Name: TitleMenu
-  m_TagString: Untagged
+  m_TagString: StartingMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

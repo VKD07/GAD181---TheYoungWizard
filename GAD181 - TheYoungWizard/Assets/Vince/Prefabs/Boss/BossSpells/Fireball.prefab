@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireBallSpeed: 5
   fireBallSpeedToBoss: 15
-  fireBallDamage: 5
+  fireBallDamage: 10
   projectile1: 1
   deflected: 0
   bossLocation: {fileID: 0}

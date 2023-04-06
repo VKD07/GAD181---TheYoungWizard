@@ -137,7 +137,7 @@ public class CatMinion : MonoBehaviour
     {
         if(minionHealth <= 0)
         {
-            anim.SetTrigger("Dead");
+            anim.SetBool("Die",true);
             healthSlider.gameObject.SetActive(false);
             ai.enabled= false;
             this.enabled = false;

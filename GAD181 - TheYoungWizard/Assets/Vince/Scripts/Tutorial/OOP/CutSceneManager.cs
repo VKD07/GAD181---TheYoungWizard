@@ -28,6 +28,7 @@ public class CutSceneManager : MonoBehaviour
     [SerializeField] GameObject fireBall2;
     [SerializeField] Transform fireBallSpawner;
     [SerializeField] ParticleSystem playerHealVfx;
+    [SerializeField] ParticleSystem glow;
     bool fireBallIsSpawned;
     bool ScenePlaying;
 
@@ -583,11 +584,21 @@ public class CutSceneManager : MonoBehaviour
         {
             if (!countingDownNext)
             {
-                exitScene.startFade = true;
-                playerComponentsHandler.EnableSpellBook(false);
-                playerComponentsHandler.DisablePlayerAnimation();
                 dialogBox.EnableDialogBox(false);
-                tutorialSequence[24] = false;
+                objectiveBox.EnableObjectiveBox(true);
+                objectiveBox.SetObjectiveTextNum(10,"");
+                if (!exitScene.startFade)
+                {
+                    exitScene.startFade = true;
+                    glow.Play();
+                }
+                if (exitScene.PlayerCollided())
+                {
+                    objectiveBox.EnableObjectiveBox(false);
+                    playerComponentsHandler.EnableSpellBook(false);
+                    playerComponentsHandler.DisablePlayerAnimation();
+                    tutorialSequence[24] = false;
+                }
             }
         }
         #endregion
