@@ -10,6 +10,8 @@ public class WinterLandEnemyAI : MonoBehaviour
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] float currentHealth;
     [SerializeField] Slider slider;
+    [SerializeField] Animation deathAnimation;
+    Animator animator;
     float maxHealth;
     public GameObject thatPlayer;
     public float attackDamage;
@@ -25,6 +27,7 @@ public class WinterLandEnemyAI : MonoBehaviour
     
     private void Start()
     {
+        animator = GetComponent<Animator>();
         player = GameObject.Find("Player(In-Game)").transform;
         agent = GetComponent<NavMeshAgent>();
         animEnemy = GetComponent<Animator>();
@@ -40,13 +43,14 @@ public class WinterLandEnemyAI : MonoBehaviour
 
     public void LookAtPlayer(bool playerLookAt)
     {
-        if (currentHealth >= 0)
+        if (currentHealth > 0)
         {
             playerlastposition = player.position;
         }
         if (playerLookAt == true) 
         {
             transform.LookAt(player);
+            
         }
         else if (playerLookAt == false)
         {
@@ -57,11 +61,15 @@ public class WinterLandEnemyAI : MonoBehaviour
     {
         
         agent.SetDestination(player.position);
+        
         animEnemy.SetBool("Run Forward", true);
     }
     private void EnemyDeath()
     {
-         
+        
+        animEnemy.ResetTrigger("Attack2");
+        animEnemy.ResetTrigger("Attack1");
+        animEnemy.SetBool("Run Forward", false);
         agent.SetDestination(transform.position);
         animEnemy.SetBool("Death",true);
         Destroy(gameObject, 3);
@@ -72,6 +80,7 @@ public class WinterLandEnemyAI : MonoBehaviour
     private void EnemyAttack()
     {
         agent.SetDestination(transform.position);
+        
         animEnemy.SetTrigger("Attack1");
         animEnemy.SetTrigger("Attack2");
         animEnemy.SetBool("Run Forward", false);
@@ -94,21 +103,25 @@ public class WinterLandEnemyAI : MonoBehaviour
         playerAttackRange = Physics.CheckSphere(transform.position, attackRange, thePlayer);
         UpdateEnemyHealth();
 
-
-        if (playerSightRange && !playerAttackRange || currentHealth < maxHealth)
+        if (currentHealth > 0)
         {
-            LookAtPlayer(true);
-            EnemyChase();       
+            if (playerSightRange && !playerAttackRange || currentHealth < maxHealth)
+            {
+                 LookAtPlayer(true);
+                 EnemyChase();
+                
+
+            }
+            if (playerSightRange && playerAttackRange)
+            {
+                EnemyAttack();
+
+            }
         }
 
-        if (playerSightRange && playerAttackRange)
-        {
-            LookAtPlayer(true);
-            EnemyAttack();
-        }
 
 
-        if (currentHealth <= 0)
+        else if (currentHealth <= 0)
         {
             LookAtPlayer(false);
             EnemyDeath();
