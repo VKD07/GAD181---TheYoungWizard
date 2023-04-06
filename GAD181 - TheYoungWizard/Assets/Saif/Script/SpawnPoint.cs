@@ -5,12 +5,12 @@ using UnityEngine;
 public class SpawnPoint : MonoBehaviour
 {
 
-    [SerializeField] GameObject player;
-    public Vector3 spawnPoint;
-
+   // [SerializeField] GameObject player;
+    //public Vector3 spawnPoint;
+    [SerializeField] ParticleSystem campFire;
     private void Start()
     {
-        spawnPoint = player.transform.position;
+     //   spawnPoint = player.transform.position;
     }
 
     private void Update()
@@ -19,11 +19,15 @@ public class SpawnPoint : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter(Collider other)
+  /*  private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "CheckPoint") 
         {
         spawnPoint = player.transform.position;
         }
+    }*/
+    public void PlayTheCampFire()
+    {
+        campFire.Play();
     }
 }

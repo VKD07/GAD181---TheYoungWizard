@@ -75,5 +75,10 @@ public class bulletScript : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+        if (collision.tag == "CheckPoint")
+        {
+            collision.GetComponent<SpawnPoint>().PlayTheCampFire();
+
+        }
     }
 }
