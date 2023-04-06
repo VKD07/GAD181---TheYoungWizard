@@ -10,8 +10,6 @@ public class WinterLandEnemyAI : MonoBehaviour
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] float currentHealth;
     [SerializeField] Slider slider;
-    [SerializeField] Animation deathAnimation;
-    Animator animator;
     float maxHealth;
     public GameObject thatPlayer;
     public float attackDamage;
@@ -27,7 +25,6 @@ public class WinterLandEnemyAI : MonoBehaviour
     
     private void Start()
     {
-        animator = GetComponent<Animator>();
         player = GameObject.Find("Player(In-Game)").transform;
         agent = GetComponent<NavMeshAgent>();
         animEnemy = GetComponent<Animator>();
@@ -49,12 +46,12 @@ public class WinterLandEnemyAI : MonoBehaviour
         }
         if (playerLookAt == true) 
         {
-            transform.LookAt(player);
+            transform.LookAt(new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z));
             
         }
         else if (playerLookAt == false)
         {
-            transform.LookAt(playerlastposition);  
+            transform.LookAt(new Vector3(playerlastposition.x, transform.position.y, playerlastposition.z));  
         }
     }
     private void EnemyChase()
