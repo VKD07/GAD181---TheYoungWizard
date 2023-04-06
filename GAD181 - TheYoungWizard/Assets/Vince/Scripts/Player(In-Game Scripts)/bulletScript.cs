@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,17 @@ public class bulletScript : MonoBehaviour
 {
     [SerializeField] float bulletDamage = 10f;
     [SerializeField] GameObject bossImpactVfx;
+
+    private void Update()
+    {
+        DeathHandler();
+    }
+
+    private void DeathHandler()
+    {
+        Destroy(gameObject, 5f);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "dummy")
@@ -13,13 +25,6 @@ public class bulletScript : MonoBehaviour
             print("Dummy hit");
             Destroy(gameObject);
         }
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            collision.gameObject.SendMessage("DamageEnemy", bulletDamage);
-            Destroy(gameObject);
-        }
-
-
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -27,7 +32,7 @@ public class bulletScript : MonoBehaviour
         if (collision.tag == "Boss")
         {
             GameObject boss = collision.gameObject;
-            boss.GetComponent<BossScript>().DamageEnemy(bulletDamage);
+            //boss.GetComponent<BossScript>().DamageEnemy(bulletDamage);
             GameObject bossImpact = Instantiate(bossImpactVfx, transform.position, Quaternion.identity);
             Destroy(bossImpact, 2f);
             Destroy(gameObject);
@@ -35,16 +40,16 @@ public class bulletScript : MonoBehaviour
 
         if (collision.tag == "CatMinion")
         {
-            GameObject minion = collision.gameObject;
-            minion.GetComponent<CatMinion>().DamageEnemy(bulletDamage);
+           // GameObject minion = collision.gameObject;
+           // minion.GetComponent<CatMinion>().DamageEnemy(bulletDamage);
             Destroy(gameObject);
         }
 
-        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            collision.gameObject.SendMessage("DamageEnemy", bulletDamage);
-            Destroy(gameObject);
-        }
+        //if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        //{
+        //    collision.gameObject.SendMessage("DamageEnemy", bulletDamage);
+        //    Destroy(gameObject);
+        //}
         
         if (collision.tag == "ForceField")
         {

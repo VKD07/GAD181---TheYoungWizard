@@ -10,6 +10,7 @@ public class EnemyHandler : MonoBehaviour
     [SerializeField] GameObject boss;
     [SerializeField] GameObject bossHealth;
     [SerializeField] bool[] stageIsClear;
+    [SerializeField] AudioHandler audioHandler;
     GameObject player;
     Collider playerCollider;
 
@@ -51,6 +52,7 @@ public class EnemyHandler : MonoBehaviour
     {
         if (stageCollider[0].bounds.Intersects(playerCollider.bounds))
         {
+            audioHandler.PlayEnemyEncounterMusic();
             for (int i = 0; i < 2; i++)
             {
                 if (enemies[i] != null)

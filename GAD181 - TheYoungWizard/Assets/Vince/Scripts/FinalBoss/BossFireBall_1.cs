@@ -31,8 +31,11 @@ public class BossFireBall_1 : MonoBehaviour
             
         }else
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
-            Target(player, fireBallSpeed);
+            if (projectile1)
+            {
+                player = GameObject.FindGameObjectWithTag("Player").transform;
+                Target(player, fireBallSpeed);
+            }
         }
     }
 

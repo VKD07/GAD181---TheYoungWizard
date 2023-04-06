@@ -79,6 +79,7 @@ public class playerCombat : MonoBehaviour
 
     void Start()
     {
+        CursorLoc();
         //giving control of camera
         cam.m_YAxis.m_MaxSpeed = 2;
         cam.m_XAxis.m_MaxSpeed = 200;
@@ -89,8 +90,13 @@ public class playerCombat : MonoBehaviour
         //instantiating midrig values
         cam.m_Lens.FieldOfView = 33f;
         midRig.m_TrackedObjectOffset.x = 0.25f;
-
         playerMovement = GetComponent<Player_Movement>();
+    }
+
+    private void CursorLoc()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
