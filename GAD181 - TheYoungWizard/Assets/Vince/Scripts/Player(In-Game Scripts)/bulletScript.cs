@@ -45,12 +45,11 @@ public class bulletScript : MonoBehaviour
             Destroy(gameObject);
         }
 
-        //if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        //{
-        //    collision.gameObject.SendMessage("DamageEnemy", bulletDamage);
-        //    Destroy(gameObject);
-        //}
-        
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
+            Destroy(gameObject);
+        }
+
         if (collision.tag == "ForceField")
         {
             collision.gameObject.GetComponent<Animator>().SetTrigger("Hit");

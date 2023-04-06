@@ -78,8 +78,10 @@ public class EnemyHandler : MonoBehaviour
             bossHealth.SetActive(true);
             stageCollider[0].isTrigger = false;
             RenderSettings.fogColor = Color.black;
-
+            stageCollider[3].enabled = true;
         }
+
+      
 
     }
 }
