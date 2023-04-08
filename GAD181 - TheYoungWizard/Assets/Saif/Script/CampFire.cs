@@ -7,12 +7,10 @@ public class CampFire : MonoBehaviour
     [SerializeField] ParticleSystem campFire;
 
 
-
-    public void PlayFire()
-    {
+    
+   public void PlayFire()
+   {
         campFire.Play();
-    }
-            
-
-
+   }
+        
 }

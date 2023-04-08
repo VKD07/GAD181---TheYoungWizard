@@ -10,6 +10,7 @@ public class WinterLandEnemyAI : MonoBehaviour
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] float currentHealth;
     [SerializeField] Slider slider;
+    
     float maxHealth;
     public GameObject thatPlayer;
     public float attackDamage;
@@ -22,6 +23,8 @@ public class WinterLandEnemyAI : MonoBehaviour
     public bool playerSightRange;
     public bool playerAttackRange;
     public Vector3 playerlastposition;
+    float timer = 0f;
+    float playerHP;
     
     private void Start()
     {
@@ -30,7 +33,10 @@ public class WinterLandEnemyAI : MonoBehaviour
         animEnemy = GetComponent<Animator>();
         slider.maxValue = currentHealth;
         maxHealth = currentHealth;
+        thatPlayer = GameObject.Find("Player(In-Game)");
         
+
+
 
     }
     public void DamageEnemy(float playerDamage)
@@ -82,6 +88,7 @@ public class WinterLandEnemyAI : MonoBehaviour
         animEnemy.SetBool("Run Forward", false);
     }
 
+
     private void EnemyDealDamage()
     {
         thatPlayer.GetComponent<playerCombat>().damagePlayer(attackDamage);
@@ -95,33 +102,44 @@ public class WinterLandEnemyAI : MonoBehaviour
 
     private void Update()
     {
+        timer += 1f * Time.deltaTime;
         playerSightRange = Physics.CheckSphere(transform.position, sightRange, thePlayer);
         playerAttackRange = Physics.CheckSphere(transform.position, attackRange, thePlayer);
         UpdateEnemyHealth();
-
+        
         if (currentHealth > 0)
         {
             if (playerSightRange && !playerAttackRange || currentHealth < maxHealth)
             {
                  LookAtPlayer(true);
                  EnemyChase();
-                
+                if (timer > 3)
+                {
+                    GetComponent<WinterEnemySounds>().PlayChaseSound();
+                    timer = 0;
+                }
 
             }
             if (playerSightRange && playerAttackRange)
             {
                 EnemyAttack();
                 LookAtPlayer(true);
+                timer = 0;
             }
         }
-
-
 
         else if (currentHealth <= 0)
         {
             LookAtPlayer(false);
             EnemyDeath();
             
+        }
+
+        playerHP = thatPlayer.GetComponent<playerCombat>().GetPlayerHealth();
+        if (playerHP == 0)
+        {
+            animEnemy.SetTrigger("PlayerDead");
+            agent.SetDestination(transform.position);
         }
 
     }

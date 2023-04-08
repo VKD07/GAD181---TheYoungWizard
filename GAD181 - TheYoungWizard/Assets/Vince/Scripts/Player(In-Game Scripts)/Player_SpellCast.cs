@@ -217,10 +217,10 @@ public class Player_SpellCast : MonoBehaviour
             enableSpeedBoost = true;
         }
 
-        speedBoost();
+       // speedBoost();
     }
 
-    private void speedBoost()
+   /* private void speedBoost()
     {
         if(enableSpeedBoost && speedBoostTime < speedBoostDuration)
         {
@@ -235,7 +235,7 @@ public class Player_SpellCast : MonoBehaviour
             enableSpeedBoost = false;
             speedBoostTime = 0f;
         }
-    }
+    }*/
 
     void EnableWindGustVfx()
     {

@@ -27,6 +27,7 @@ TagManager:
   - movingDummy
   - tutorialDummy
   - Nest
+  - StartingMenu
   layers:
   - Default
   - TransparentFX

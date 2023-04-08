@@ -75,7 +75,8 @@ public class playerCombat : MonoBehaviour
     [SerializeField] ParticleSystem healParticles;
     [SerializeField] ParticleSystem manaParticles;
 
-   // public Vector3 spawnPoint;
+    [Header("Respawn Point")]
+     public Vector3 spawnPoint;
 
     public bool dodge = false;
     public float shieldDuration = 3f;
@@ -95,7 +96,7 @@ public class playerCombat : MonoBehaviour
         cam.m_Lens.FieldOfView = 33f;
         midRig.m_TrackedObjectOffset.x = 0.25f;
         playerMovement = GetComponent<Player_Movement>();
-       // spawnPoint = transform.position;
+        spawnPoint = transform.position;
     }
 
     private void CursorLoc()
@@ -132,14 +133,19 @@ public class playerCombat : MonoBehaviour
         SpellCastAnimation();
         DisablingDamageIndicator();
         DeathHandler();
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            transform.position = spawnPoint;
+        }
     }
 
     private void DeathHandler()
     {
         if (playerHealth <= 0 && !tutorial)
         {
-            SceneManager.LoadScene("WinterLand");
-            //transform.position = spawnPoint;
+           // SceneManager.LoadScene("RoomScene");
+           transform.position = spawnPoint;
+           playerHealth = 100;
             
         }
     }
@@ -500,4 +506,10 @@ public class playerCombat : MonoBehaviour
             cam.m_Lens.FieldOfView += 80f * Time.deltaTime;
         }
     }
-}
+    public void RespawnPoint(Vector3 point)
+    {
+        spawnPoint = point;
+    }
+
+    }
+
