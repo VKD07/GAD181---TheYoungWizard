@@ -128,6 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletDamage: 5
   bossImpactVfx: {fileID: 1334071670866236, guid: adc6d05559a79b04884668e3791335a6, type: 3}
+  mrPlayer: {fileID: 1518113482479036492, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
 --- !u!1001 &4189858638692076931
 PrefabInstance:
   m_ObjectHideFlags: 0

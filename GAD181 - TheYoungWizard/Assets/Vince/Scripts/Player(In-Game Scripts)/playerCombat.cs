@@ -72,6 +72,7 @@ public class playerCombat : MonoBehaviour
     [SerializeField] ParticleSystem healParticles;
     [SerializeField] ParticleSystem manaParticles;
 
+   // public Vector3 spawnPoint;
 
     public bool dodge = false;
     public float shieldDuration = 3f;
@@ -91,6 +92,7 @@ public class playerCombat : MonoBehaviour
         cam.m_Lens.FieldOfView = 33f;
         midRig.m_TrackedObjectOffset.x = 0.25f;
         playerMovement = GetComponent<Player_Movement>();
+       // spawnPoint = transform.position;
     }
 
     private void CursorLoc()
@@ -133,7 +135,9 @@ public class playerCombat : MonoBehaviour
     {
         if (playerHealth <= 0 && !tutorial)
         {
-            SceneManager.LoadScene("RoomScene");
+            SceneManager.LoadScene("WinterLand");
+            //transform.position = spawnPoint;
+            
         }
     }
 

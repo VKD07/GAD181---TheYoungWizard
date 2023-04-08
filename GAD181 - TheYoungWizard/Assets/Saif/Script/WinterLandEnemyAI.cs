@@ -77,7 +77,6 @@ public class WinterLandEnemyAI : MonoBehaviour
     private void EnemyAttack()
     {
         agent.SetDestination(transform.position);
-        
         animEnemy.SetTrigger("Attack1");
         animEnemy.SetTrigger("Attack2");
         animEnemy.SetBool("Run Forward", false);
@@ -112,7 +111,7 @@ public class WinterLandEnemyAI : MonoBehaviour
             if (playerSightRange && playerAttackRange)
             {
                 EnemyAttack();
-
+                LookAtPlayer(true);
             }
         }
 
