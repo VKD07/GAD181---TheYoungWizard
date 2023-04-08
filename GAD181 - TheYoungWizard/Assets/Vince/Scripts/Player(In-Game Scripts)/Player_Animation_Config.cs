@@ -9,7 +9,7 @@ public class Player_Animation_Config : MonoBehaviour
 {
     //[SerializeField] PlayerScript player;
     [SerializeField] Player_Movement pm;
-    [SerializeField] float xAxisMouseSensitivity = 80f;
+    [SerializeField] public float xAxisMouseSensitivity = 80f;
 
     [Header("Player Attack Settings")]
     [SerializeField] GameObject bullet;
@@ -100,7 +100,7 @@ public class Player_Animation_Config : MonoBehaviour
         //cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
         //giving mouse controll again
         cam.m_YAxis.m_MaxSpeed = 2;
-        cam.m_XAxis.m_MaxSpeed = xAxisMouseSensitivity;
+        cam.m_XAxis.m_MaxSpeed = pm.xMouseSensitivity;
     }
 
     //disabling cr if picking up item;

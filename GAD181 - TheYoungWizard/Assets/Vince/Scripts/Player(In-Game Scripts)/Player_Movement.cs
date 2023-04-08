@@ -13,6 +13,7 @@ public class Player_Movement : MonoBehaviour
 
     [Header("Player Movement Settings")]
     //[SerializeField] Animator characterAnim;
+    [SerializeField] public float xMouseSensitivity = 150;
     [SerializeField] float gravity = 3f;
     [SerializeField] public float currentspeed;
     [SerializeField] public float walkingSpeed;
@@ -60,6 +61,7 @@ public class Player_Movement : MonoBehaviour
         pc = GetComponent<playerCombat>();
 
         capsuleCollider = GetComponent<CapsuleCollider>();
+        thirdPersonCamera.GetComponent<CinemachineFreeLook>().m_XAxis.m_MaxSpeed = xMouseSensitivity;
     }
 
     // Update is called once per frame

@@ -61,6 +61,7 @@ public class CastModeManager : MonoBehaviour
     }
     private void OnEnable()
     {
+        playerAudio.PlayOneShot(choosingElementFx, 0.1f);
         refreshSpell();
         //activatinng effects
         castEffectObj.SetActive(true);

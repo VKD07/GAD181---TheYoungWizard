@@ -106,16 +106,16 @@ public class playerCombat : MonoBehaviour
     void Update()
     {
         //pause game
-        //if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
-        //{
-        //    paused = true;
-        //    Time.timeScale = 0;
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Escape) && paused == true)
-        //{
-        //    paused = false;
-        //    Time.timeScale = 1;
-        //}
+        if (Input.GetKeyDown(KeyCode.Slash) && paused == false)
+        {
+            paused = true;
+            Time.timeScale = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.Slash) && paused == true)
+        {
+            paused = false;
+            Time.timeScale = 1;
+        }
 
         //focusing on targeting the enemy
         aimMode();
@@ -250,7 +250,14 @@ public class playerCombat : MonoBehaviour
         {
             targetMode = true;
             targetSight.SetActive(true);
-            cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+            if (!playerMovement.isMoving)
+            {
+                cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+            }
+            else
+            {
+                cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
+            }
             if (midRig.m_TrackedObjectOffset.x < 0.95f)
             {
                 midRig.m_TrackedObjectOffset.x += 5f * Time.deltaTime;
