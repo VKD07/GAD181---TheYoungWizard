@@ -1,3 +1,4 @@
+using Cinemachine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public class ShieldTutorial : MonoBehaviour
     [SerializeField] GameObject playerForceField;
     [SerializeField] GameObject spaceBtnUI;
     [SerializeField] ObjectiveBox objectiveBox;
+    [SerializeField] CinemachineBrain cineMachineBrain;
     MovingDummy tutorialDummy;
     int shieldBlock;
     playerCombat pc;
@@ -44,6 +46,7 @@ public class ShieldTutorial : MonoBehaviour
         {
             if(currentCutSceneTime < cutSceneFireBallDuration)
             {
+                cineMachineBrain.m_IgnoreTimeScale = true;
                 Time.timeScale = 0.2f;
                 objectiveBox.ObjectiveCompleted(false);
                 objectiveBox.EnableObjectiveBox(true);
@@ -56,6 +59,7 @@ public class ShieldTutorial : MonoBehaviour
 
         if (slowDownTime && playerForceField.activeSelf == true)
         {
+            cineMachineBrain.m_IgnoreTimeScale = false;
             taskOne = true;
             objectiveBox.ObjectiveCompleted(true);
             Time.timeScale = 1f;

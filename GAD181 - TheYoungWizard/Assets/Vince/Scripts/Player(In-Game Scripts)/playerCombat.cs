@@ -44,8 +44,11 @@ public class playerCombat : MonoBehaviour
 
     [Header("Aim Mode")]
     CinemachineComposer midRig;
+    [SerializeField] CinemachineBrain cinemachineBrain;
     [SerializeField] CinemachineFreeLook cam;
     [SerializeField] GameObject targetSight;
+    [SerializeField] float normalFOV = 40f;
+    [SerializeField] float aimFOV = 30f;
     public bool targetMode = false;
     public static bool rolled = false;
 
@@ -247,13 +250,13 @@ public class playerCombat : MonoBehaviour
         {
             targetMode = true;
             targetSight.SetActive(true);
-
+            cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
             if (midRig.m_TrackedObjectOffset.x < 0.95f)
             {
                 midRig.m_TrackedObjectOffset.x += 5f * Time.deltaTime;
             }
 
-            if (cam.m_Lens.FieldOfView > 24)
+            if (cam.m_Lens.FieldOfView > aimFOV)
             {
                 cam.m_Lens.FieldOfView -= 60f * Time.deltaTime;
             }
@@ -263,12 +266,12 @@ public class playerCombat : MonoBehaviour
         {
             targetMode = false;
             targetSight.SetActive(false);
-
+            cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
             if (midRig.m_TrackedObjectOffset.x > 0.2371475f)
             {
                 midRig.m_TrackedObjectOffset.x -= 5f * Time.deltaTime;
             }
-            if (cam.m_Lens.FieldOfView < 30)
+            if (cam.m_Lens.FieldOfView < normalFOV)
             {
                 cam.m_Lens.FieldOfView += 60f * Time.deltaTime;
             }

@@ -11,6 +11,7 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] SpellSlot spellManager;
     [SerializeField] Animator playerAnimation;
     [SerializeField] playerCombat combatScript;
+    [SerializeField] Player_Movement playerMovement;
     int spell;
 
     [Header("Fireball Spell")]
@@ -32,14 +33,22 @@ public class Player_SpellCast : MonoBehaviour
     [SerializeField] GameObject windGustVfx;
     [SerializeField] Transform windGustPostion;
     [SerializeField] float windGustDamage = 10f;
+    [SerializeField] float totalSpeed = 8f;
     [SerializeField] SphereCollider sphere;
     [SerializeField] float windRange = 4f;
     [SerializeField] List<GameObject> enemiesInRange;
     [SerializeField] float knockBackForce = 5f;
     [SerializeField] List <string> enemyTagsAffected;
+    [SerializeField] float speedBoostDuration = 5f;
     public bool releaseWind = false;
+    public bool enableSpeedBoost;
+    int otherLayer;
+    string otherTag;
+    public float speedBoostTime;
+    float playerWalkingSpeed;
+    float playerRunningSpeed;
 
-    [Header("Luminous Spell")]
+   [Header("Luminous Spell")]
     [SerializeField] GameObject luminousLight;
     [SerializeField] Transform luminousLightSpawn;
     [SerializeField] float lightDuration;
@@ -51,6 +60,9 @@ public class Player_SpellCast : MonoBehaviour
     {
         //adjust the wind sphere
         sphere.radius = windRange;
+        //initializing player movement for wind gust spell
+        playerWalkingSpeed = playerMovement.walkingSpeed;
+        playerRunningSpeed = playerMovement.runSpeed;
     }
 
     public void enableMovement()
@@ -157,7 +169,9 @@ public class Player_SpellCast : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (enemyTagsAffected.Contains(other.tag))
+        otherLayer = other.gameObject.layer;
+        otherTag = LayerMask.LayerToName(otherLayer);
+        if (enemyTagsAffected.Contains(otherTag))
         {
             enemiesInRange.Add(other.gameObject);
         }
@@ -165,7 +179,9 @@ public class Player_SpellCast : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (enemyTagsAffected.Contains(other.tag))
+        otherLayer = other.gameObject.layer;
+        otherTag = LayerMask.LayerToName(otherLayer);
+        if (enemyTagsAffected.Contains(otherTag))
         {
             if(other.gameObject.GetComponent<BossScript>() != null && releaseWind == true)
             {
@@ -176,6 +192,8 @@ public class Player_SpellCast : MonoBehaviour
     
     private void OnTriggerExit(Collider other)
     {
+        otherLayer = other.gameObject.layer;
+        otherTag = LayerMask.LayerToName(otherLayer);
         if (enemyTagsAffected.Contains(other.tag))
         {
             enemiesInRange.Remove(other.gameObject);
@@ -190,12 +208,32 @@ public class Player_SpellCast : MonoBehaviour
         {
             foreach (GameObject enemy in enemiesInRange)
             {
-                Rigidbody enemyRb = enemy.GetComponent<Rigidbody>();
-                Vector3 knowckBackDirection = enemy.transform.position - transform.position;
-                knowckBackDirection.y = 0;
-                enemyRb.AddForce(knowckBackDirection * knockBackForce, ForceMode.Impulse);
+                Vector3 directionToEnemy = enemy.transform.position - transform.position;
+                directionToEnemy.y = 0f; // Set the y direction to zero to prevent enemies from being pushed upwards
+                enemy.transform.position += directionToEnemy.normalized * knockBackForce * Time.deltaTime;
+                enemy.SendMessage("DamageEnemy", windGustDamage);
             }
             enemiesInRange.Clear();
+            enableSpeedBoost = true;
+        }
+
+        speedBoost();
+    }
+
+    private void speedBoost()
+    {
+        if(enableSpeedBoost && speedBoostTime < speedBoostDuration)
+        {
+            playerMovement.runSpeed = totalSpeed;
+            playerMovement.walkingSpeed = totalSpeed;
+            speedBoostTime += Time.deltaTime;
+        }
+        else
+        {
+            playerMovement.runSpeed = playerRunningSpeed;
+            playerMovement.walkingSpeed = playerWalkingSpeed;
+            enableSpeedBoost = false;
+            speedBoostTime = 0f;
         }
     }
 

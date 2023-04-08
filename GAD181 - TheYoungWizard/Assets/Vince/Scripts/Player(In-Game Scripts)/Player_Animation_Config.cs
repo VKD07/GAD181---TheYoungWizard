@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -8,6 +9,7 @@ public class Player_Animation_Config : MonoBehaviour
 {
     //[SerializeField] PlayerScript player;
     [SerializeField] Player_Movement pm;
+    [SerializeField] float xAxisMouseSensitivity = 80f;
 
     [Header("Player Attack Settings")]
     [SerializeField] GameObject bullet;
@@ -15,6 +17,7 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] float bulletSpeed;
     [SerializeField] LayerMask layerMask;
     [SerializeField] float bulletMaxDamage = 10f;
+    [SerializeField] float bulletMinimumDamage = 2f;
     public bool targetAvailable;
     float currentDamage;
     bool enemyDetected;
@@ -62,7 +65,7 @@ public class Player_Animation_Config : MonoBehaviour
     {
         if (targetAvailable)
         {
-            currentDamage = UnityEngine.Random.Range(2,bulletMaxDamage+1);
+            currentDamage = UnityEngine.Random.Range(bulletMinimumDamage,bulletMaxDamage+1);
             GameObject bulletObj = Instantiate(bullet, bulletSpawn.position, Quaternion.LookRotation(direction, Vector3.up));
 
             Rigidbody bulletRigidbody = bulletObj.GetComponent<Rigidbody>();
@@ -97,7 +100,7 @@ public class Player_Animation_Config : MonoBehaviour
         //cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
         //giving mouse controll again
         cam.m_YAxis.m_MaxSpeed = 2;
-        cam.m_XAxis.m_MaxSpeed = 200;
+        cam.m_XAxis.m_MaxSpeed = xAxisMouseSensitivity;
     }
 
     //disabling cr if picking up item;
