@@ -14,9 +14,9 @@ public class Player_Movement : MonoBehaviour
     [Header("Player Movement Settings")]
     //[SerializeField] Animator characterAnim;
     [SerializeField] float gravity = 3f;
-    [SerializeField] float currentspeed;
-    [SerializeField] float walkingSpeed;
-    [SerializeField] float runSpeed;
+    [SerializeField] public float currentspeed;
+    [SerializeField] public float walkingSpeed;
+    [SerializeField] public float runSpeed;
     [SerializeField] KeyCode rollKey = KeyCode.LeftControl;
     public bool isMoving = false;
     CapsuleCollider capsuleCollider;
@@ -41,6 +41,7 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] float velocity;
     [SerializeField] float smoothTime;
     [SerializeField] GameObject thirdPersonCamera;
+    [SerializeField] float adsCharacterRot = 5f;
 
     [Header("Character Roll")]
     [SerializeField] float rollForce = 8f;
@@ -68,7 +69,6 @@ public class Player_Movement : MonoBehaviour
         characterAimMode();
         characterRoll();
         // characterJump();
-
 
     }
 
@@ -171,11 +171,13 @@ public class Player_Movement : MonoBehaviour
         //sight adjust character rotation
         if (Input.GetKey(KeyCode.Mouse1) && rolling == false)
         {
-            transform.LookAt(transform.position + mainCamera.transform.forward);
+            Vector3 targetDirection = mainCamera.transform.forward;
+            targetDirection.y = 0f;
+            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
             float xRotation = Mathf.Clamp(transform.eulerAngles.x, -5f, 12f);
 
-            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y, transform.eulerAngles.z);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * adsCharacterRot);
         }
     }
 
@@ -213,7 +215,8 @@ public class Player_Movement : MonoBehaviour
         if (rolling == true && rollCurrentTime < rollDuration)
         {
             rollCurrentTime += Time.deltaTime;
-            characterController.Move(transform.forward * rollForce * Time.deltaTime);
+            Vector3 moveDirection = transform.forward * rollForce + Vector3.down * gravity;
+            characterController.Move(moveDirection * Time.deltaTime);
         }
         if (rollCurrentTime >= rollDuration)
         {

@@ -6,21 +6,22 @@ using UnityEngine.UI;
 
 public class CastModeManager : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] Player_Movement playerScript;
     [SerializeField] playerCombat pc;
     [SerializeField] float castModeTimer;
-    //animators effects
+    [Header("Animator Effects")]
     [SerializeField] Animator spellCastUiAnim;
     [SerializeField] Animator centerCircleAnim;
     [SerializeField] GameObject castEffectObj;
     [SerializeField] Animator castEffect;
-    //arrays of elements and slots
+    [Header("Arrays of Element slots")]
     [SerializeField] Sprite[] spriteElements;
     [SerializeField] Image[] elementSlots;
     [SerializeField] bool[] elementState;
     [SerializeField] GameObject[] selectionSlots;
 
-    //Spells 
+    [Header("Spells")]
     public int[] spellIDs;
     public int currentSpellID;
     public int availableSpellID;
@@ -31,6 +32,11 @@ public class CastModeManager : MonoBehaviour
     public bool doneCombining = false;
     public bool correctCombination;
     public bool wrongCombination = false;
+
+    [Header("Sound Effects")]
+    [SerializeField] AudioSource playerAudio;
+    [SerializeField] AudioClip choosingElementFx;
+    [SerializeField] AudioClip correctCombiFx;
 
     private void Update()
     {
@@ -136,6 +142,9 @@ public class CastModeManager : MonoBehaviour
             //adding the element ID
             currentSpellID += 5;
 
+            //sound effects
+            playerAudio.PlayOneShot(choosingElementFx, 0.1f);
+
         }
         //if player choosed 2nd element
         else if (Input.GetKeyDown(KeyCode.W))
@@ -148,6 +157,7 @@ public class CastModeManager : MonoBehaviour
             elementSlots[elementValue].sprite = spriteElements[1];
             selectionSlots[elementValue].SetActive(false);
             currentSpellID += 15;
+            playerAudio.PlayOneShot(choosingElementFx, 0.1f);
         }
         // if player choosed 3rd element
         else if (Input.GetKeyDown(KeyCode.E))
@@ -160,6 +170,7 @@ public class CastModeManager : MonoBehaviour
             elementSlots[elementValue].sprite = spriteElements[2];
             selectionSlots[elementValue].SetActive(false);
             currentSpellID += 20;
+            playerAudio.PlayOneShot(choosingElementFx, 0.1f);
         }
     }
 
@@ -174,6 +185,7 @@ public class CastModeManager : MonoBehaviour
                 //Store the current spell available to use
                 availableSpellID = currentSpellID;
                 correctCombination = true;
+                playerAudio.PlayOneShot(correctCombiFx, 0.1f);
                 break;
             }
             else

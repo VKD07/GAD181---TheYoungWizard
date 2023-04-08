@@ -621,10 +621,18 @@ PrefabInstance:
       propertyPath: cinemachineBrain
       value: 
       objectReference: {fileID: 562454948}
+    - target: {fileID: 1518113482044829417, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: xAxisMouseSensitivity
+      value: 150
+      objectReference: {fileID: 0}
     - target: {fileID: 1518113482479036488, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
       propertyPath: mainCamera
       value: 
       objectReference: {fileID: 562454947}
+    - target: {fileID: 1518113482479036488, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: adsCharacterRot
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 1518113482479036488, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
       propertyPath: thirdPersonCamera
       value: 
@@ -677,6 +685,10 @@ PrefabInstance:
       propertyPath: spellCastUIAnim
       value: 
       objectReference: {fileID: 2059385879}
+    - target: {fileID: 1518113482479036489, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: cinemachineBrain
+      value: 
+      objectReference: {fileID: 562454948}
     - target: {fileID: 1518113482479036489, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
       propertyPath: fireballManaCost
       value: 0
@@ -857,6 +869,22 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.93573916
       objectReference: {fileID: 0}
+    - target: {fileID: 4303054032047262357, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.60473
+      objectReference: {fileID: 0}
+    - target: {fileID: 4303054032047262357, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.60473
+      objectReference: {fileID: 0}
+    - target: {fileID: 4303054032047262357, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.60473
+      objectReference: {fileID: 0}
+    - target: {fileID: 4303054032047262357, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.13178
+      objectReference: {fileID: 0}
     - target: {fileID: 4425017068726693505, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
       propertyPath: m_LocalRotation.w
       value: 0.95280325
@@ -990,13 +1018,25 @@ PrefabInstance:
       value: -2.101
       objectReference: {fileID: 0}
     - target: {fileID: 6237384537317442307, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: totalSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6237384537317442307, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
       propertyPath: spellManager
       value: 
       objectReference: {fileID: 2059385878}
     - target: {fileID: 6237384537317442307, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: playerMovement
+      value: 
+      objectReference: {fileID: 20568429}
+    - target: {fileID: 6237384537317442307, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
       propertyPath: castModeManager
       value: 
       objectReference: {fileID: 2059385877}
+    - target: {fileID: 6237384537317442307, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+      propertyPath: speedBoostDuration
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6237384537317442307, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
       propertyPath: spellCircles.Array.size
       value: 4
@@ -8197,6 +8237,14 @@ PrefabInstance:
       propertyPath: m_XAxis.Value
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 2608626010863739288, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
+      propertyPath: m_XAxis.m_MaxSpeed
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 2608626010863739288, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
+      propertyPath: m_XAxis.m_AccelTime
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 2608626010863739289, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalPosition.x
       value: 661.5419
@@ -8247,19 +8295,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70338446
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.07245875
-      objectReference: {fileID: 0}
-    - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
-      propertyPath: m_LocalRotation.y
       value: 0.7033845
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.07245876
+      objectReference: {fileID: 0}
+    - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.70338446
+      objectReference: {fileID: 0}
+    - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.07245875
+      value: -0.07245876
       objectReference: {fileID: 0}
     - target: {fileID: 6172785108523187452, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -18645,6 +18693,7 @@ MonoBehaviour:
   playerForceField: {fileID: 115685636}
   spaceBtnUI: {fileID: 387118537}
   objectiveBox: {fileID: 1433754908}
+  cineMachineBrain: {fileID: 562454948}
   startTaskTwo: 0
   taskOne: 0
   attackingDuration: 20
@@ -28950,6 +28999,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 20568428}
     m_Modifications:
+    - target: {fileID: 950950561847122791, guid: 58e2294d5957df1468541ed8372d7dc6, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3669617
+      objectReference: {fileID: 0}
+    - target: {fileID: 950950561847122791, guid: 58e2294d5957df1468541ed8372d7dc6, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.36696175
+      objectReference: {fileID: 0}
+    - target: {fileID: 950950561847122791, guid: 58e2294d5957df1468541ed8372d7dc6, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 953163884111568701, guid: 58e2294d5957df1468541ed8372d7dc6, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2462266171316369326, guid: 58e2294d5957df1468541ed8372d7dc6, type: 3}
       propertyPath: m_Name
       value: SpellCirclesVfx
