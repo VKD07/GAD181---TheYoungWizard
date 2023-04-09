@@ -374,6 +374,13 @@ public class BossScript : MonoBehaviour
         }
     }
 
+    public void setStompSpeedAndAttackNumber(int speed, int attack)
+    {
+        stompSpeed = speed;
+        attackNumber = attack;
+    }
+
+
     void JumpEnable()
     {
         jumped = true;
@@ -557,6 +564,7 @@ public class BossScript : MonoBehaviour
     {
         pounceVfx.Play();
     }
+
 
     #endregion
 
