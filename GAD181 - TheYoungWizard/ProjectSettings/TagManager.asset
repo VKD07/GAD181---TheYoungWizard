@@ -28,6 +28,7 @@ TagManager:
   - tutorialDummy
   - Nest
   - StartingMenu
+  - Icicle
   layers:
   - Default
   - TransparentFX

@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class MovingLand : MonoBehaviour
 {
+    Animator movingAnimation;
+
+    private void Start()
+    {
+        movingAnimation = GetComponent<Animator>();
+    }
     private void OnTriggerEnter(Collider other)
     {
-        other.transform.SetParent(transform); 
+        
+        if (other.gameObject.tag == "Player")
+        {
+            other.transform.SetParent(transform);
+            movingAnimation.SetTrigger("PlayerIsOn");
+        }
     }
     private void OnTriggerExit(Collider other)
     {
