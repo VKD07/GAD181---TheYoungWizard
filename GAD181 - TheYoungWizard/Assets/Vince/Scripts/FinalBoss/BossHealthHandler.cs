@@ -7,6 +7,7 @@ public class BossHealthHandler : MonoBehaviour
 {
     [SerializeField] GameObject[] rockHealth;
     [SerializeField] GameObject[] shatteredRock;
+    [SerializeField] ParticleSystem powerBeam;
     BossScript bossScript;
 
     void Start()
@@ -36,6 +37,7 @@ public class BossHealthHandler : MonoBehaviour
         {
             ShatteredRock(4);
         }
+
     }
 
     void ShatteredRock(int rockNum)
@@ -50,5 +52,10 @@ public class BossHealthHandler : MonoBehaviour
         //GameObject cloneObj = Instantiate(bossScript.bossClone, bossScript.multipleFireBallSpawners[0].position, Quaternion.identity);
         //Destroy(cloneObj, bossScript.cloneDuration);
         Destroy(rockHealth[rockNum]);
+    }
+
+    public void ReleaseCharge()
+    {
+        powerBeam.Play();
     }
 }

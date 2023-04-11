@@ -23,9 +23,11 @@ public class FInalBossTimeLine : MonoBehaviour
     [SerializeField] Animator bossAnim;
     [SerializeField] Transform playerTransform;
     [SerializeField] Animator playerAnim;
+    [SerializeField] Transform bossPos;
 
     [Header("VFX")]
     [SerializeField] GameObject playerCharge;
+    [SerializeField] Animator catAnim;
 
 
     //timers
@@ -114,6 +116,7 @@ public class FInalBossTimeLine : MonoBehaviour
             {
                 currentDelayTime = 0;
                 bossAnim.SetBool("FinalCharge", true);
+                playerTransform.position = new Vector3(-28.25f, -4.479403f, -54.2f);
                 playerTransform.rotation = Quaternion.Euler(0f, 348.836f, 0f);//make the character face the player
                 sequence[4] = false;
                 sequence[5] = true;
@@ -130,8 +133,45 @@ public class FInalBossTimeLine : MonoBehaviour
             {
                 cameras[6].SetActive(false);
                 cameras[7].SetActive(true);
+                sequence[5] = false;
+                sequence[6] = true;
+                currentDelayTime = 0;
                 playerAnim.SetBool("PowerCharge", true);
                 playerCharge.SetActive(true);
+            }
+        }
+        else if (sequence[6])
+        {
+            if(currentDelayTime < 6)
+            {
+                currentDelayTime += Time.deltaTime;
+            }
+            else
+            {
+                cameras[7].SetActive(false);
+                cameras[8].SetActive(true);
+                bossPos.position = new Vector3(-27.7f, -5.289988f, -39f);
+                sequence[6] = false;
+                sequence[7] = true;
+                currentDelayTime = 0f;
+            }
+        }
+
+        else if (sequence[7])
+        {
+            if(currentDelayTime < 1) //---------- cat and player beam collides
+            {
+                currentDelayTime += Time.deltaTime;
+            }
+            else
+            {
+                Time.timeScale = 0.2f;
+                currentDelayTime = 0;
+                catAnim.SetBool("ReleaseCharge", true);
+                catAnim.SetBool("FinalCharge", false);
+                playerAnim.SetBool("PowerCharge", false);
+                playerAnim.SetBool("FinalBeam", true);
+                sequence[7] = false;
             }
         }
     }
