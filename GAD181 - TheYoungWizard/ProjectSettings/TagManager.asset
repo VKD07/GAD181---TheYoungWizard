@@ -29,6 +29,8 @@ TagManager:
   - Nest
   - StartingMenu
   - Icicle
+  - PenguinRight
+  - PenguinLeft
   layers:
   - Default
   - TransparentFX

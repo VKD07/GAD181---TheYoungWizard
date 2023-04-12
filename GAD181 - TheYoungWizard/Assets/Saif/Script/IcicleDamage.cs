@@ -25,7 +25,7 @@ public class IcicleDamage : MonoBehaviour
 
     void Update()
     {
-        transform.position -= transform.up * 10 * Time.deltaTime;
-        Destroy(gameObject, 5);
+        transform.position -= transform.up * 30 * Time.deltaTime;
+        Destroy(gameObject, 1);
     }
 }

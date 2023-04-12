@@ -1,23 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.ShaderGraph.Internal.KeywordDependentCollection;
+using UnityEngine.UIElements;
 
 public class IcicleDrop : MonoBehaviour
 {
     [SerializeField] GameObject theIcicle;
+    int randomTime;
+    float angle;
+    float cloudSpeed = 1f;
+    float distance = 5f;
+    Vector3 position;
     void Start()
     {
-        
-        InvokeRepeating("EnemySpanwer", 0.5f, 5f);
-       
+
+        Invoke("IcicleSpanwer", 0.5f);
     }
 
-    void EnemySpanwer()
+    void MovingAround()
+    {
+        angle += cloudSpeed * Time.deltaTime;
+        position.z = Mathf.Cos(angle) * distance * Time.deltaTime;
+        transform.position += position;
+    }
+
+    void IcicleSpanwer()
     {
         Instantiate(theIcicle, transform.position, Quaternion.identity);
+        randomTime = Random.Range(3, 10);
+        Invoke("IcicleSpanwer", randomTime);
     }
     void Update()
     {
-        
+        MovingAround();
     }
 }

@@ -610,7 +610,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4096
   sightRange: 100
-  attackRange: 3
+  attackRange: -3
   playerSightRange: 0
   playerAttackRange: 0
   playerlastposition: {x: 0, y: 0, z: 0}
