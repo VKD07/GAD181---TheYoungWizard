@@ -12,6 +12,7 @@ public class BossFireBall_1 : MonoBehaviour
     Player_SpellCast spellCast;
     public bool deflected = false;
     public Transform bossLocation;
+    public bool playerIsHit;
     private void Start()
     {
         spellCast = FindObjectOfType<Player_SpellCast>();
@@ -71,6 +72,7 @@ public class BossFireBall_1 : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            playerIsHit = true;
             collision.gameObject.GetComponent<playerCombat>().damagePlayer(fireBallDamage);
             Destroy(gameObject);
         }else if(collision.gameObject.tag == "Boss" && deflected == true)

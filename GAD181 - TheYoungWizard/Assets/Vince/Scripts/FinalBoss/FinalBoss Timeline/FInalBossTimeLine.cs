@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,6 +34,10 @@ public class FInalBossTimeLine : MonoBehaviour
     [SerializeField] GameObject playerCanvas;
     [SerializeField] BossHealthHandler bossHealth;
 
+    [SerializeField] playerCombat pc;
+    [SerializeField] Player_Movement pm;
+    [SerializeField] PlayerForceField playerForceField;
+
     [Header("VFX")]
     [SerializeField] GameObject playerCharge;
     [SerializeField] GameObject playerBeam;
@@ -51,6 +56,13 @@ public class FInalBossTimeLine : MonoBehaviour
     float currentDelayTime;
     void Start()
     {
+        LockMouse();
+
+        //character scripts
+        pc.enabled = false;
+        pm.enabled = false;
+        playerForceField.enabled = false;
+
         dialogBox = GetComponent<DialogBox>();
         playerCanvas.SetActive(false);
         flashBangImg = flashBangUI.GetComponent<Image>();
@@ -69,23 +81,25 @@ public class FInalBossTimeLine : MonoBehaviour
         }
         else if (sequence[1]) //----------- ice shard challenge
         {
+            pc.enabled = true;
             playerCanvas.SetActive(true);
             director.SetActive(false);
             cameras[2].SetActive(true);
-            Time.timeScale = 0.1f;
+            Time.timeScale = 0.05f;
             firstChallenge.startChallenge = true;
             if (firstChallenge.challengeDone)
             {
+                Time.timeScale = 1f;
+                pc.enabled = false;
                 playerCanvas.SetActive(false);
                 sequence[1] = false;
-                Time.timeScale = 1f;
                 StartCoroutine(DisableCamera(2, 2f, 2));
             }
         }
         else if (sequence[2])
         {
             bossScript.enabled = true;
-            StartCoroutine(DisableBossScript(4.5f));
+            StartCoroutine(DisableBossScript(5f));
 
             if (currentPounceTime < pounceDuration)
             {
@@ -117,6 +131,7 @@ public class FInalBossTimeLine : MonoBehaviour
             }
             else
             {
+                pm.enabled = false;
                 cameras[5].SetActive(false);
                 cameras[6].SetActive(true);
                 currentDelayTime = 0;
@@ -127,6 +142,8 @@ public class FInalBossTimeLine : MonoBehaviour
 
         if (sequence[4]) //--After jumpung
         {
+            bossAnim.SetTrigger("Fall2");
+           // bossPos.position = new Vector3(-27.7f, -5.289988f, -43.77f);
             if (currentDelayTime < 2)
             {
                 currentDelayTime += Time.deltaTime;
@@ -151,6 +168,7 @@ public class FInalBossTimeLine : MonoBehaviour
             }
             else
             {
+                pc.enabled = true;
                 playerCanvas.SetActive(true);
                 playerCharge.SetActive(true);
                 playerAnim.SetBool("PowerCharge", true);
@@ -162,6 +180,7 @@ public class FInalBossTimeLine : MonoBehaviour
 
             if (firstChallenge.challenge3Done)
             {
+                pc.enabled = false;
                 playerCanvas.SetActive(false);
                 sequence[5] = false;
                 sequence[6] = true;
@@ -352,10 +371,16 @@ public class FInalBossTimeLine : MonoBehaviour
         }
     }
 
+    private void LockMouse()
+    {
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+    }
+
     IEnumerator DisableCamera(int cameraNum, float time, int sequenceNum)
     {
         yield return new WaitForSeconds(time);
-
         cameras[cameraNum].SetActive(false);
         cameras[cameraNum + 1].SetActive(true);
         sequence[sequenceNum] = true;

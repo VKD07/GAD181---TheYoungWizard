@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class FirstChallenge : MonoBehaviour
@@ -12,14 +13,19 @@ public class FirstChallenge : MonoBehaviour
     [SerializeField] GameObject sceneTimer;
     [SerializeField] Slider timerSlider;
     [SerializeField] float timerMaxDuration = 10f;
+    [SerializeField] GameObject deathScreen;
 
     [Header("Challenges")]
     [Header("Challenge 1")]
+    [SerializeField] float firstChallengeTimeRate = 20f;
     public bool startChallenge;
     public bool challengeDone;
+    bool iceShard;
+
     [Header("Challenge 2")]
     public bool startChallenge2;
     public bool challenge2Done;
+    [SerializeField] float secondChallengeTimeRate = 10f;
     [Header("Challenge 3")]
     public bool startChallenge3;
     public bool challenge3Done;
@@ -42,14 +48,13 @@ public class FirstChallenge : MonoBehaviour
     [SerializeField] Transform beamBlocker;
     [SerializeField] float bossBeamPowerRate;
     [SerializeField] float playerBeamPowerRate;
-    int bossBeamPos;
-    int playerBeamPos;
     Slider beamSlider;
 
     [Header("Character Components")]
     public CastModeManager spellCast;
     [SerializeField] BossScript bossScript;
     [SerializeField] Player_Movement playerMovement;
+    [SerializeField] Animator playerAnim;
     [SerializeField] playerCombat pc;
 
     private void Start()
@@ -81,7 +86,7 @@ public class FirstChallenge : MonoBehaviour
                 sceneTimer.SetActive(true);
                 spellImage.sprite = spellCast.spellIcons[0];
                 spellImage.color = new Color(spellImage.color.r, spellImage.color.g, spellImage.color.b, 1f);
-                timerSlider.value -= pounceSceneTimerRate * Time.deltaTime;
+                timerSlider.value -= firstChallengeTimeRate * Time.deltaTime;
             }
             else if (timerSlider.value <= 0)
             {
@@ -91,15 +96,27 @@ public class FirstChallenge : MonoBehaviour
                 challengeDone = true;
             }
 
-            if (spellCast.availableSpellID == 30 && Input.GetKeyDown(KeyCode.E))
+            if (spellCast.availableSpellID == 30 && startChallenge)
             {
+                startChallenge = false;
+                if (!iceShard)
+                {
+                    playerAnim.SetTrigger("IceSpell");
+                    iceShard = true;
+                }
                 timerSlider.value = timerMaxDuration;
                 sceneTimer.SetActive(false);
                 challengeDone = true;
+            }//failed
+            else if (timerSlider.value <= 0)
+            {
+                startChallenge = false;
+                SceneManager.LoadScene(4);
             }
 
             if (challengeDone)
             {
+                startChallenge = false;
                 sceneTimer.SetActive(false);
             }
         }
@@ -109,10 +126,32 @@ public class FirstChallenge : MonoBehaviour
     {
         if (startChallenge2)
         {
+            playerMovement.enabled = true;
+
+            //timer
+            if (timerSlider.value > 0)
+            {
+                sceneTimer.SetActive(true);
+                timerSlider.value -= secondChallengeTimeRate * Time.deltaTime;
+            }
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
+                timerSlider.value = timerMaxDuration;
+                sceneTimer.SetActive(false);
+                startChallenge2 = false;
+                Time.timeScale = 1f;
                 challenge2Done = true;
             }
+            else if (timerSlider.value <= 0)//challenge 2 failed
+            {
+                startChallenge2 = false;
+                timerSlider.value = timerMaxDuration;
+                sceneTimer.SetActive(false);
+                challenge2Done = true;
+                SceneManager.LoadScene(4);
+            }
+
+           
         }
     }
 

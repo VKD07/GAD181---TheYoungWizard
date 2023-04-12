@@ -65,11 +65,13 @@ public class playerCombat : MonoBehaviour
 
     [Header("ForceField")]
     [SerializeField] PlayerForceField forceField;
+    [SerializeField] KeyCode dodgeKey = KeyCode.LeftControl;
 
     [Header("Damage Indicator")]
     [SerializeField] GameObject awarenessUI;
     bool sensesEnabled;
     [SerializeField] float damageIndicatorMaxTime = 5f;
+    [SerializeField] bool enableTimeScale;
     float currentDmgIndTime;
 
     [Header("Potions Effects")]
@@ -203,7 +205,7 @@ public class playerCombat : MonoBehaviour
     //player has shield while rolling
     private void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(dodgeKey))
         {
             dodge = true;
         }
@@ -214,7 +216,10 @@ public class playerCombat : MonoBehaviour
 
             if (casting == false)
             {
-                Time.timeScale = 1;
+                if (!enableTimeScale)
+                {
+                    Time.timeScale = 1;
+                }
             }
 
             shieldDuration -= 0.3f * Time.deltaTime;

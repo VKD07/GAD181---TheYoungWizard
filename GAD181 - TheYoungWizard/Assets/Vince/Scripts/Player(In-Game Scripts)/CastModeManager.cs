@@ -10,6 +10,7 @@ public class CastModeManager : MonoBehaviour
     [SerializeField] Player_Movement playerScript;
     [SerializeField] playerCombat pc;
     [SerializeField] float castModeTimer;
+    [SerializeField] bool disableMovement;
     [Header("Animator Effects")]
     [SerializeField] Animator spellCastUiAnim;
     [SerializeField] Animator centerCircleAnim;
@@ -54,7 +55,10 @@ public class CastModeManager : MonoBehaviour
             castingMode = false;
             ResetSpell();
             this.gameObject.SetActive(false);
-            playerScript.enabled = true;
+            if(!disableMovement)
+            {
+                playerScript.enabled = true;
+            }
             Time.timeScale = 1f;
         }
         CastMode();
@@ -82,8 +86,10 @@ public class CastModeManager : MonoBehaviour
         Time.timeScale = 1;
         doneCombining = false;
         castingMode = false;
-        playerScript.enabled = true;
-
+        if (!disableMovement)
+        {
+            playerScript.enabled = true;
+        }
         settingSpellSprite();
 
         //resets spell combinations after UI is disabled;
