@@ -40,6 +40,7 @@ public class playerCombat : MonoBehaviour
     [SerializeField] SpellSlot spellManager;
     [SerializeField] Animator sliderAnimation;
     [HideInInspector] public bool casting = false;
+    public bool disableSlowDownTime = false;
     public bool castingSpell = false;
 
     [Header("Aim Mode")]
@@ -238,7 +239,10 @@ public class playerCombat : MonoBehaviour
                 //activate cast mode UI
                 castUI.SetActive(true);
                 //slow down time
-                Time.timeScale = 0.1f;
+                if (!disableSlowDownTime)
+                {
+                    Time.timeScale = 0.1f;
+                }
             }
         }
     }

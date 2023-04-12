@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class FInalBossTimeLine : MonoBehaviour
 {
@@ -24,10 +25,18 @@ public class FInalBossTimeLine : MonoBehaviour
     [SerializeField] Transform playerTransform;
     [SerializeField] Animator playerAnim;
     [SerializeField] Transform bossPos;
+    [SerializeField] GameObject playerCanvas;
+    [SerializeField] BossHealthHandler bossHealth;
 
     [Header("VFX")]
     [SerializeField] GameObject playerCharge;
+    [SerializeField] GameObject playerBeam;
+    [SerializeField] GameObject bossBeam;
     [SerializeField] Animator catAnim;
+    [SerializeField] GameObject flashBangUI;
+    [SerializeField] float flashRate = 200f;
+    Image flashBangImg;
+    float imgAlpha = 1f;
 
 
     //timers
@@ -37,6 +46,8 @@ public class FInalBossTimeLine : MonoBehaviour
     float currentDelayTime;
     void Start()
     {
+        playerCanvas.SetActive(false);
+        flashBangImg = flashBangUI.GetComponent<Image>();
         sceneDirector = director.GetComponent<PlayableDirector>();
         StartCoroutine(DisableCamera(0, 2f, 0));
     }
@@ -50,14 +61,16 @@ public class FInalBossTimeLine : MonoBehaviour
             StartCoroutine(DisableCamera(1, 3f, 1));
 
         }
-        else if (sequence[1])
+        else if (sequence[1]) //----------- ice shard challenge
         {
+            playerCanvas.SetActive(true);
             director.SetActive(false);
             cameras[2].SetActive(true);
             Time.timeScale = 0.1f;
             firstChallenge.startChallenge = true;
             if (firstChallenge.challengeDone)
             {
+                playerCanvas.SetActive(false);
                 sequence[1] = false;
                 Time.timeScale = 1f;
                 StartCoroutine(DisableCamera(2, 2f, 2));
@@ -128,21 +141,29 @@ public class FInalBossTimeLine : MonoBehaviour
             if (currentDelayTime < 2)
             {
                 currentDelayTime += Time.deltaTime;
+
             }
             else
             {
+                playerCanvas.SetActive(true);
+                playerCharge.SetActive(true);
+                playerAnim.SetBool("PowerCharge", true);
                 cameras[6].SetActive(false);
                 cameras[7].SetActive(true);
+                currentDelayTime = 0;
+                firstChallenge.startChallenge3 = true;
+            }
+
+            if (firstChallenge.challenge3Done)
+            {
+                playerCanvas.SetActive(false);
                 sequence[5] = false;
                 sequence[6] = true;
-                currentDelayTime = 0;
-                playerAnim.SetBool("PowerCharge", true);
-                playerCharge.SetActive(true);
             }
         }
         else if (sequence[6])
         {
-            if(currentDelayTime < 6)
+            if (currentDelayTime < 4)
             {
                 currentDelayTime += Time.deltaTime;
             }
@@ -159,7 +180,7 @@ public class FInalBossTimeLine : MonoBehaviour
 
         else if (sequence[7])
         {
-            if(currentDelayTime < 1) //---------- cat and player beam collides
+            if (currentDelayTime < 1) //---------- cat and player beam collides
             {
                 currentDelayTime += Time.deltaTime;
             }
@@ -172,7 +193,108 @@ public class FInalBossTimeLine : MonoBehaviour
                 playerAnim.SetBool("PowerCharge", false);
                 playerAnim.SetBool("FinalBeam", true);
                 sequence[7] = false;
+                sequence[8] = true;
             }
+        }
+
+        else if (sequence[8]) //--------------- tap challenge
+        {
+            if (currentDelayTime < 1)
+            {
+                currentDelayTime += Time.deltaTime;
+            }
+            else
+            {
+                firstChallenge.startFinalChallenge = true;
+                Time.timeScale = 1f;
+                currentDelayTime = 0;
+            }
+
+            if (firstChallenge.finalChallengeDone)
+            {
+                sequence[8] = false;
+                sequence[9] = true;
+            }
+
+        }
+        else if (sequence[9]) //--------------- FlashBang Effect
+        {
+            if (currentDelayTime < 7)
+            {
+                bossAnim.SetTrigger("Dead");
+                currentDelayTime += Time.deltaTime;
+                flashBangUI.SetActive(true);
+                flashBangUI.transform.localScale += Vector3.one * flashRate * Time.deltaTime;
+                flashBangUI.transform.localScale = Vector3.Min(flashBangUI.transform.localScale, new Vector3(500f, 500f, 500f));
+            }
+            else
+            {
+                playerBeam.SetActive(false);
+                playerAnim.SetBool("FinalBeam", false);
+                bossAnim.SetBool("ReleaseCharge", false);
+                playerCharge.SetActive(false);
+                bossBeam.SetActive(false);
+                currentDelayTime = 0;
+                sequence[9] = false;
+                sequence[10] = true;
+            }
+        }
+        else if (sequence[10])
+        {
+            if (currentDelayTime < 5)
+            {
+                currentDelayTime += Time.deltaTime;
+                imgAlpha -= 0.4f * Time.deltaTime;
+                flashBangImg.color = new Color(flashBangImg.color.r, flashBangImg.color.g, flashBangImg.color.b, imgAlpha);
+                bossHealth.ShatteredRock(4);
+                cameras[8].SetActive(false);
+                cameras[9].SetActive(true);
+            }
+            else
+            {
+                sequence[10] = false;
+                sequence[11] = true;
+                currentDelayTime = 0;
+            }
+        }
+
+        else if (sequence[11])
+        {
+            if (currentDelayTime < 2)
+            {
+                currentDelayTime += Time.deltaTime;
+            }
+            else
+            {
+                currentDelayTime = 0;
+                cameras[9].SetActive(false);
+                cameras[10].SetActive(true);
+                sequence[11] = false;
+                sequence[12] = true;
+            }
+        }
+
+        else if (sequence[12])
+        {
+            if (currentDelayTime < 2)
+            {
+                currentDelayTime += Time.deltaTime;
+            }
+            else
+            {
+                currentDelayTime = 0;
+                cameras[10].SetActive(false);
+                cameras[11].SetActive(true);
+                sequence[12] = false;
+                sequence[13] = true;
+            }
+        }
+
+        else if (sequence[13])
+        {
+            director.SetActive(true);
+            sceneDirector.Play(scene[1]);
+            //fix--------- not playing whener director is enabled
         }
     }
 
