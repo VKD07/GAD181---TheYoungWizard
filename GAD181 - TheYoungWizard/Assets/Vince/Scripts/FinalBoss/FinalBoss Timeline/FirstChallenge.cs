@@ -30,6 +30,7 @@ public class FirstChallenge : MonoBehaviour
     [SerializeField] Image spellImage;
     public int randomSpell;
     bool spellIsChosen;
+    int previousSpell;
 
     [Header("Final Challenge")]
     public bool startFinalChallenge;
@@ -137,13 +138,15 @@ public class FirstChallenge : MonoBehaviour
             {
                 if (!spellIsChosen)
                 {
-                    spellCast.availableSpellID = 0;
-                    spellIsChosen = true;
-                    randomSpell = Random.Range(0, spellNumbers.Length);
+                    do
+                    {
+                        randomSpell = Random.Range(0, spellNumbers.Length);
+                    } while (previousSpell == randomSpell);
                     spellChosen = spellNumbers[randomSpell];
+                    previousSpell = randomSpell;
                     spellImage.sprite = spellCast.spellIcons[randomSpell];
-
-
+                    spellIsChosen = true;
+                    spellCast.availableSpellID = 0;
                 }
 
                 if (spellChosen == spellCast.availableSpellID)
@@ -196,9 +199,9 @@ public class FirstChallenge : MonoBehaviour
             }
         }
         //win situation
-        if(beamSlider.value <= 0)
+        if (beamSlider.value <= 0)
         {
-           finalChallengeDone = true;
+            finalChallengeDone = true;
             startFinalChallenge = false;
             beamSliderUI.SetActive(false);
         }//Lose situation

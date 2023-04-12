@@ -18,6 +18,11 @@ public class FInalBossTimeLine : MonoBehaviour
 
     [Header("Challenges script")]
     [SerializeField] FirstChallenge firstChallenge;
+    [SerializeField] EndingScene endingScene;
+
+    [Header("Dialog")]
+    [SerializeField] GameObject dialogBoxObj;
+    DialogBox dialogBox;
 
     [Header("Character Components")]
     [SerializeField] BossScript bossScript;
@@ -46,6 +51,7 @@ public class FInalBossTimeLine : MonoBehaviour
     float currentDelayTime;
     void Start()
     {
+        dialogBox = GetComponent<DialogBox>();
         playerCanvas.SetActive(false);
         flashBangImg = flashBangUI.GetComponent<Image>();
         sceneDirector = director.GetComponent<PlayableDirector>();
@@ -244,7 +250,7 @@ public class FInalBossTimeLine : MonoBehaviour
             if (currentDelayTime < 5)
             {
                 currentDelayTime += Time.deltaTime;
-                imgAlpha -= 0.4f * Time.deltaTime;
+                imgAlpha -= 0.5f * Time.deltaTime;
                 flashBangImg.color = new Color(flashBangImg.color.r, flashBangImg.color.g, flashBangImg.color.b, imgAlpha);
                 bossHealth.ShatteredRock(4);
                 cameras[8].SetActive(false);
@@ -276,15 +282,13 @@ public class FInalBossTimeLine : MonoBehaviour
 
         else if (sequence[12])
         {
-            if (currentDelayTime < 2)
+            if (currentDelayTime < 5)
             {
                 currentDelayTime += Time.deltaTime;
             }
             else
             {
                 currentDelayTime = 0;
-                cameras[10].SetActive(false);
-                cameras[11].SetActive(true);
                 sequence[12] = false;
                 sequence[13] = true;
             }
@@ -292,9 +296,59 @@ public class FInalBossTimeLine : MonoBehaviour
 
         else if (sequence[13])
         {
-            director.SetActive(true);
-            sceneDirector.Play(scene[1]);
-            //fix--------- not playing whener director is enabled
+            if (currentDelayTime < 5)
+            {
+                currentDelayTime += Time.deltaTime;
+                playerTransform.position = new Vector3(-26.4f, -4.49f, -42.32f);
+                cameras[10].SetActive(false);
+                cameras[11].SetActive(true);
+            }
+            else
+            {
+                currentDelayTime = 0;
+                sequence[13] = false;
+                sequence[14] = true;
+            }
+        }
+        else if (sequence[14])
+        {
+
+            if (currentDelayTime < 4)
+            {
+                currentDelayTime += Time.deltaTime;
+                cameras[11].SetActive(false);
+                cameras[12].SetActive(true);
+            }
+            else
+            {
+                currentDelayTime = 0;
+                dialogBox.EnableDialogBox(true);
+                dialogBox.SetDialogTextNum(0);
+                sequence[14] = false;
+                sequence[15] = true;
+            }
+        }
+
+        else if (sequence[15])
+        {
+            if (currentDelayTime < 5)
+            {
+                currentDelayTime += Time.deltaTime;
+            }
+            else
+            {
+                currentDelayTime = 0;
+                dialogBox.EnableDialogBox(false);
+                sequence[15] = false;
+                sequence[16] = true;
+            }
+        }
+
+        else if (sequence[16])
+        {
+            cameras[12].SetActive(false);
+            cameras[13].SetActive(true);
+            endingScene.startEndScene = true;
         }
     }
 
