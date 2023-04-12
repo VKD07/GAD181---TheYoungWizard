@@ -209,7 +209,7 @@ public class FInalBossTimeLine : MonoBehaviour
             {
                 currentDelayTime += Time.deltaTime;
             }
-            else
+            else if(!firstChallenge.challenge3Failed)
             {
                 Time.timeScale = 0.2f;
                 currentDelayTime = 0;
@@ -219,6 +219,16 @@ public class FInalBossTimeLine : MonoBehaviour
                 playerAnim.SetBool("FinalBeam", true);
                 sequence[7] = false;
                 sequence[8] = true;
+            }
+            else
+            {
+                //Reset scene -------------------------------------
+                firstChallenge.DisableBeamBox();
+                Time.timeScale = 0.2f;
+                currentDelayTime = 0;
+                catAnim.SetBool("ReleaseCharge", true);
+                catAnim.SetBool("FinalCharge", false);
+                StartCoroutine(ResetScene(0.3f));
             }
         }
 
@@ -392,5 +402,22 @@ public class FInalBossTimeLine : MonoBehaviour
         yield return new WaitForSeconds(time);
         bossScript.enabled = false;
         Time.timeScale = 1f;
+    }
+
+    IEnumerator ResetScene(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Time.timeScale = 1f;
+        if (currentDelayTime < 0.4)
+        {
+            currentDelayTime += Time.deltaTime;
+            flashBangUI.SetActive(true);
+            flashBangUI.transform.localScale = new Vector3(500f, 500f, 500f);
+        }
+        else
+        {
+            SceneManager.LoadScene(4);
+            currentDelayTime = 0;
+        }
     }
 }

@@ -29,6 +29,7 @@ public class FirstChallenge : MonoBehaviour
     [Header("Challenge 3")]
     public bool startChallenge3;
     public bool challenge3Done;
+    public bool challenge3Failed;
     [SerializeField] int[] spellNumbers;
     [SerializeField] int numberOfSpellsToComplete = 4;
     [SerializeField] int currentSpellsDone;
@@ -127,6 +128,7 @@ public class FirstChallenge : MonoBehaviour
         if (startChallenge2)
         {
             playerMovement.enabled = true;
+            playerMovement.stopMoving = true;
 
             //timer
             if (timerSlider.value > 0)
@@ -165,10 +167,10 @@ public class FirstChallenge : MonoBehaviour
             {
                 timerSlider.value -= spellsChallengeTimerRate * Time.deltaTime;
                 sceneTimer.SetActive(true);
-
             }
             else if (timerSlider.value <= 0)
             {
+                challenge3Failed = true;
                 //--reset scene
                 sceneTimer.SetActive(false);
                 challenge3Done = true;
@@ -248,6 +250,11 @@ public class FirstChallenge : MonoBehaviour
         {
 
         }
+    }
+
+    public void DisableBeamBox()
+    {
+        beamBlocker.gameObject.SetActive(false);
     }
 
 }

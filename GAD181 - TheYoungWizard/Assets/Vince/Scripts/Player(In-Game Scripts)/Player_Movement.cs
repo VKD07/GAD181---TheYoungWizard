@@ -19,6 +19,7 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] public float walkingSpeed;
     [SerializeField] public float runSpeed;
     [SerializeField] KeyCode rollKey = KeyCode.LeftControl;
+    [SerializeField] bool disableAimMode;
     public bool isMoving = false;
     CapsuleCollider capsuleCollider;
     Vector3 newPos;
@@ -171,15 +172,18 @@ public class Player_Movement : MonoBehaviour
     private void characterAimMode()
     {
         //sight adjust character rotation
-        if (Input.GetKey(KeyCode.Mouse1) && rolling == false)
+        if (!disableAimMode)
         {
-            Vector3 targetDirection = mainCamera.transform.forward;
-            targetDirection.y = 0f;
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            if (Input.GetKey(KeyCode.Mouse1) && rolling == false)
+            {
+                Vector3 targetDirection = mainCamera.transform.forward;
+                targetDirection.y = 0f;
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
-            float xRotation = Mathf.Clamp(transform.eulerAngles.x, -5f, 12f);
+                float xRotation = Mathf.Clamp(transform.eulerAngles.x, -5f, 12f);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * adsCharacterRot);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * adsCharacterRot);
+            }
         }
     }
 

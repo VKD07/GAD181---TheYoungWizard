@@ -44,6 +44,7 @@ public class playerCombat : MonoBehaviour
     public bool castingSpell = false;
 
     [Header("Aim Mode")]
+    [SerializeField] bool disablePlayerAttack;
     CinemachineComposer midRig;
     [SerializeField] CinemachineBrain cinemachineBrain;
     [SerializeField] CinemachineFreeLook cam;
@@ -298,49 +299,51 @@ public class playerCombat : MonoBehaviour
 
     public void attack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking)
+        if (!disablePlayerAttack)
         {
-            playerMovement.stopMoving = true;
-            attacking = true;
-            anim.SetTrigger("Attack");
-            anim.SetBool("Attacking", true);
-            AttackNumber++;
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 1)
-        {
-            playerMovement.stopMoving = true;
-            anim.SetTrigger("Attack2");
-            AttackNumber++;
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 2)
-        {
-            playerMovement.stopMoving = true;
-            anim.SetTrigger("Attack3");
-            AttackNumber++;
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking)
+            {
+                playerMovement.stopMoving = true;
+                attacking = true;
+                anim.SetTrigger("Attack");
+                anim.SetBool("Attacking", true);
+                AttackNumber++;
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 1)
+            {
+                playerMovement.stopMoving = true;
+                anim.SetTrigger("Attack2");
+                AttackNumber++;
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 2)
+            {
+                playerMovement.stopMoving = true;
+                anim.SetTrigger("Attack3");
+                AttackNumber++;
+            }
 
-        if (AttackNumber >= 3)
-        {
-            AttackNumber = 0;
-        }
+            if (AttackNumber >= 3)
+            {
+                AttackNumber = 0;
+            }
 
-        if (!targetMode)
-        {
-            playerMovement.stopMoving = false;
-            ResetAttack();
-        }
-
-        if (attacking)
-        {
-            currentTimeToChangeAnim += Time.deltaTime;
-
-            if (currentTimeToChangeAnim >= timeLimit)
+            if (!targetMode)
             {
                 playerMovement.stopMoving = false;
                 ResetAttack();
             }
-        }
 
+            if (attacking)
+            {
+                currentTimeToChangeAnim += Time.deltaTime;
+
+                if (currentTimeToChangeAnim >= timeLimit)
+                {
+                    playerMovement.stopMoving = false;
+                    ResetAttack();
+                }
+            }
+        }
     }
 
     //public void attack()
