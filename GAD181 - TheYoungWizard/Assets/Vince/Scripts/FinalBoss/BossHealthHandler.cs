@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossHealthHandler : MonoBehaviour
 {
@@ -39,7 +40,7 @@ public class BossHealthHandler : MonoBehaviour
             }
             else if (bossScript.GetBossHealth() <= 0 && rockHealth[4] != null)
             {
-                ShatteredRock(4);
+                SceneManager.LoadScene(4);
             }
         }
     }

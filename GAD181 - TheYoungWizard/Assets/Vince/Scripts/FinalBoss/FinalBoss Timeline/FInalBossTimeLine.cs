@@ -48,6 +48,9 @@ public class FInalBossTimeLine : MonoBehaviour
     Image flashBangImg;
     float imgAlpha = 1f;
 
+    [Header("Sound")]
+    [SerializeField] TimelineAudioHandler audio;
+
 
     //timers
     float pounceDuration = 2f;
@@ -164,7 +167,6 @@ public class FInalBossTimeLine : MonoBehaviour
             if (currentDelayTime < 2)
             {
                 currentDelayTime += Time.deltaTime;
-
             }
             else
             {
@@ -236,6 +238,7 @@ public class FInalBossTimeLine : MonoBehaviour
         {
             if (currentDelayTime < 1)
             {
+                audio.playBeamSound = true;
                 currentDelayTime += Time.deltaTime;
             }
             else
@@ -256,6 +259,8 @@ public class FInalBossTimeLine : MonoBehaviour
         {
             if (currentDelayTime < 7)
             {
+                audio.fadingRate = 0.02f;
+                audio.startFading = true;
                 bossAnim.SetTrigger("Dead");
                 currentDelayTime += Time.deltaTime;
                 flashBangUI.SetActive(true);
@@ -278,6 +283,7 @@ public class FInalBossTimeLine : MonoBehaviour
         {
             if (currentDelayTime < 5)
             {
+                audio.PlayEndingMusic();
                 currentDelayTime += Time.deltaTime;
                 imgAlpha -= 0.5f * Time.deltaTime;
                 flashBangImg.color = new Color(flashBangImg.color.r, flashBangImg.color.g, flashBangImg.color.b, imgAlpha);

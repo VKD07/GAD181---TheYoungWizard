@@ -12,14 +12,16 @@ public class EndingScene : MonoBehaviour
     [SerializeField] CanvasGroup blckImage;
     [SerializeField] CanvasGroup titleImage;
     public bool startEndScene;
+    bool starting;
     void Start()
     {
-        
+        blckImage.alpha = 1.0f;
     }
 
     void Update()
     {
         StartEndScene();
+        BlackImageFadeOut();
     }
 
     private void StartEndScene()
@@ -52,7 +54,31 @@ public class EndingScene : MonoBehaviour
         {
             titleImage.alpha = 1f;
             //Ending
-            SceneManager.LoadScene(0);
+            StartCoroutine(ResetScene(10));
         }
+    }
+
+    void BlackImageFadeOut()
+    {
+        if (!starting)
+        {
+            if (blckImage.alpha > 0)
+            {
+                blckImage.alpha -= 1f * Time.deltaTime;
+            }
+            else
+            {
+                blackImage.SetActive(false);
+                blckImage.alpha = 0;
+                starting = true;
+            }
+        }
+    }
+    
+    IEnumerator ResetScene(float time)
+    {
+        yield return new WaitForSeconds(time);
+        SceneManager.LoadScene(0);
+
     }
 }
