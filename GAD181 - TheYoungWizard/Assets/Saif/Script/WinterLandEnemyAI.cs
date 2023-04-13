@@ -112,7 +112,7 @@ public class WinterLandEnemyAI : MonoBehaviour
         
         if (currentHealth > 0)
         {
-            if (playerDistance < sightRange)
+            if (playerDistance < sightRange || currentHealth < maxHealth)
             {
                  LookAtPlayer(true);
                  EnemyChase(true);

@@ -28,7 +28,7 @@ public class IcicleDrop : MonoBehaviour
     void IcicleSpanwer()
     {
         Instantiate(theIcicle, transform.position, Quaternion.identity);
-        randomTime = Random.Range(3, 10);
+        randomTime = Random.Range(7, 10);
         Invoke("IcicleSpanwer", randomTime);
     }
     void Update()

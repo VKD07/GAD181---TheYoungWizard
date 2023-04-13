@@ -598,10 +598,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 4811414280572456156}
-  currentHealth: 20
+  currentHealth: 15
   slider: {fileID: 6794872497584853948}
   thatPlayer: {fileID: 0}
-  attackDamage: 1
+  attackDamage: 5
   player: {fileID: 0}
   sightRange: 100
   attackRange: 1
@@ -622,7 +622,7 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
