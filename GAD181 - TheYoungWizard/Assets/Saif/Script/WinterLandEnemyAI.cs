@@ -10,13 +10,12 @@ public class WinterLandEnemyAI : MonoBehaviour
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] float currentHealth;
     [SerializeField] Slider slider;
-    
     float maxHealth;
     public GameObject thatPlayer;
     public float attackDamage;
     public Transform player;
-    public LayerMask thePlayer;
-    public LayerMask theGround;
+   //public LayerMask thePlayer;
+   // public LayerMask theGround;
     Animator animEnemy;
     public float sightRange;
     public float attackRange;
@@ -25,7 +24,8 @@ public class WinterLandEnemyAI : MonoBehaviour
     public Vector3 playerlastposition;
     float timer = 0f;
     float playerHP;
-    
+    float playerDistance;
+
     private void Start()
     {
         player = GameObject.Find("Player(In-Game)").transform;
@@ -60,12 +60,14 @@ public class WinterLandEnemyAI : MonoBehaviour
             transform.LookAt(new Vector3(playerlastposition.x, transform.position.y, playerlastposition.z));  
         }
     }
-    private void EnemyChase()
+    private void EnemyChase(bool playerSeen)
     {
-        
+        if(playerSeen == true) 
+        { 
         agent.SetDestination(player.position);
         
         animEnemy.SetBool("Run Forward", true);
+        }
     }
     private void EnemyDeath()
     {
@@ -103,25 +105,27 @@ public class WinterLandEnemyAI : MonoBehaviour
     private void Update()
     {
         timer += 1f * Time.deltaTime;
-        playerSightRange = Physics.CheckSphere(transform.position, sightRange, thePlayer);
-        playerAttackRange = Physics.CheckSphere(transform.position, attackRange, thePlayer);
+        //  playerSightRange = Physics.CheckSphere(transform.position, sightRange, thePlayer);
+        // playerAttackRange = Physics.CheckSphere(transform.position, attackRange, thePlayer);
+        playerDistance = Vector3.Distance(player.transform.position, transform.position);
         UpdateEnemyHealth();
         
         if (currentHealth > 0)
         {
-            if (playerSightRange && !playerAttackRange || currentHealth < maxHealth)
+            if (playerDistance < sightRange)
             {
                  LookAtPlayer(true);
-                 EnemyChase();
-                if (timer > 3)
+                 EnemyChase(true);
+                if (timer > 2)
                 {
                     GetComponent<WinterEnemySounds>().PlayChaseSound();
                     timer = 0;
                 }
 
             }
-            if (playerSightRange && playerAttackRange)
+            if (playerDistance < attackRange)
             {
+                EnemyChase(false);
                 EnemyAttack();
                 LookAtPlayer(true);
                 timer = 0;

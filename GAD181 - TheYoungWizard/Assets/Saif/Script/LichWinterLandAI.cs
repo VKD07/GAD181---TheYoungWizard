@@ -9,21 +9,17 @@ public class LichWinterLandAI : MonoBehaviour
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] float currentHealth;
     [SerializeField] Slider slider;
-
+    
     float maxHealth;
     public GameObject thatPlayer;
-    // public float attackDamage;
     public Transform player;
     public LayerMask thePlayer;
-    public LayerMask theGround;
-    Animator animEnemy;
+    public Animator animEnemy;
     public float sightRange;
-    public float attackRange;
     public bool playerSightRange;
-    public bool playerAttackRange;
     public Vector3 playerlastposition;
     float timer = 0f;
-    float playerHP;
+    
 
     private void Start()
     {
@@ -33,6 +29,8 @@ public class LichWinterLandAI : MonoBehaviour
         slider.maxValue = currentHealth;
         maxHealth = currentHealth;
         thatPlayer = GameObject.Find("Player(In-Game)");
+        timer = 15;
+
 
     }
     public void DamageEnemy(float playerDamage)
@@ -58,7 +56,7 @@ public class LichWinterLandAI : MonoBehaviour
     }
     private void EnemyChase()
     {
-
+        animEnemy.SetBool("Idle", false);
         agent.SetDestination(player.position);
 
     }
@@ -84,15 +82,21 @@ public class LichWinterLandAI : MonoBehaviour
 
     private void Update()
     {
-    
+        
         playerSightRange = Physics.CheckSphere(transform.position, sightRange, thePlayer);
-        playerAttackRange = Physics.CheckSphere(transform.position, attackRange, thePlayer);
         UpdateEnemyHealth();
-
+        animEnemy.SetBool("Idle", true);
         if (currentHealth > 0)
         {
-            if (playerSightRange && !playerAttackRange || currentHealth < maxHealth)
+            if (playerSightRange || currentHealth < maxHealth)
             {
+                timer += 1 * Time.deltaTime;
+                if (timer > 15)
+                {
+                  GetComponent<WolfSummoner>().CallWolf();
+                    timer = 0;
+                }
+                
                 LookAtPlayer(true);
                 EnemyChase();
 

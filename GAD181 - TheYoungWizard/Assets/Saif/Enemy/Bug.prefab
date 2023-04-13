@@ -603,14 +603,8 @@ MonoBehaviour:
   thatPlayer: {fileID: 0}
   attackDamage: 1
   player: {fileID: 0}
-  thePlayer:
-    serializedVersion: 2
-    m_Bits: 128
-  theGround:
-    serializedVersion: 2
-    m_Bits: 4096
   sightRange: 100
-  attackRange: -3
+  attackRange: 1
   playerSightRange: 0
   playerAttackRange: 0
   playerlastposition: {x: 0, y: 0, z: 0}

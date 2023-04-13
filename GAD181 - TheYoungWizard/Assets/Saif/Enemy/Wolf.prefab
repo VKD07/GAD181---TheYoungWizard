@@ -1148,16 +1148,10 @@ MonoBehaviour:
   currentHealth: 50
   slider: {fileID: 8176556448492691370}
   thatPlayer: {fileID: 0}
-  attackDamage: 0
+  attackDamage: 5
   player: {fileID: 0}
-  thePlayer:
-    serializedVersion: 2
-    m_Bits: 128
-  theGround:
-    serializedVersion: 2
-    m_Bits: 4096
-  sightRange: 5
-  attackRange: 1
+  sightRange: 10
+  attackRange: 2
   playerSightRange: 0
   playerAttackRange: 0
   playerlastposition: {x: 0, y: 0, z: 0}
@@ -1224,7 +1218,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.508
   m_Pitch: 1
   Loop: 0
   Mute: 0
