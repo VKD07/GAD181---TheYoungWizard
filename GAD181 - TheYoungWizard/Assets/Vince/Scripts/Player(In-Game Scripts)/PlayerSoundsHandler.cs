@@ -9,6 +9,12 @@ public class PlayerSoundsHandler : MonoBehaviour
     [SerializeField] AudioClip footStep;
     [Header("Attack")]
     [SerializeField] AudioClip basicAttack;
+    [Header("Spells")]
+    [SerializeField] AudioClip spellCircle;
+    [SerializeField] AudioClip iceSpell;
+    [SerializeField] AudioClip fireBall;
+    [SerializeField] AudioClip windGust;
+    [SerializeField] AudioClip luminous;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -22,5 +28,30 @@ public class PlayerSoundsHandler : MonoBehaviour
     void PlayBasicAttackSFX()
     {
         audioSource.PlayOneShot(basicAttack, 0.05f);
+    }
+
+    void PlaySpellCircleSound()
+    {
+        audioSource.PlayOneShot(spellCircle);
+    }
+
+    void PlayIceSpellSFX()
+    {
+        audioSource.PlayOneShot(iceSpell);
+    }
+
+    void PlayFireBallSound()
+    {
+        audioSource.PlayOneShot(fireBall);
+    }
+
+    void PlayWindGustSound()
+    {
+        audioSource.PlayOneShot(windGust);
+    }
+
+    void PlayLuminous()
+    {
+        audioSource.PlayOneShot(luminous);
     }
 }

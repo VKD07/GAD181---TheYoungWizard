@@ -49,7 +49,7 @@ public class FInalBossTimeLine : MonoBehaviour
     float imgAlpha = 1f;
 
     [Header("Sound")]
-    [SerializeField] TimelineAudioHandler audio;
+    [SerializeField] TimelineAudioHandler audioSource;
 
 
     //timers
@@ -146,13 +146,14 @@ public class FInalBossTimeLine : MonoBehaviour
         if (sequence[4]) //--After jumpung
         {
             bossAnim.SetTrigger("Fall2");
-           // bossPos.position = new Vector3(-27.7f, -5.289988f, -43.77f);
+            // bossPos.position = new Vector3(-27.7f, -5.289988f, -43.77f);
             if (currentDelayTime < 2)
             {
                 currentDelayTime += Time.deltaTime;
             }
             else //-- cat starts charging power
             {
+                audioSource.PlayCatCharge();
                 currentDelayTime = 0;
                 bossAnim.SetBool("FinalCharge", true);
                 playerTransform.position = new Vector3(-28.25f, -4.479403f, -54.2f);
@@ -170,6 +171,7 @@ public class FInalBossTimeLine : MonoBehaviour
             }
             else
             {
+                audioSource.PlayPlayerCharge();
                 pc.enabled = true;
                 playerCanvas.SetActive(true);
                 playerCharge.SetActive(true);
@@ -211,8 +213,9 @@ public class FInalBossTimeLine : MonoBehaviour
             {
                 currentDelayTime += Time.deltaTime;
             }
-            else if(!firstChallenge.challenge3Failed)
+            else if (!firstChallenge.challenge3Failed)
             {
+                audioSource.PlayBeamExplosion2();
                 Time.timeScale = 0.2f;
                 currentDelayTime = 0;
                 catAnim.SetBool("ReleaseCharge", true);
@@ -238,11 +241,12 @@ public class FInalBossTimeLine : MonoBehaviour
         {
             if (currentDelayTime < 1)
             {
-                audio.playBeamSound = true;
+                audioSource.playBeamSound = true;
                 currentDelayTime += Time.deltaTime;
             }
             else
             {
+                audioSource.PlayBeamCollidedCharge();
                 firstChallenge.startFinalChallenge = true;
                 Time.timeScale = 1f;
                 currentDelayTime = 0;
@@ -259,8 +263,9 @@ public class FInalBossTimeLine : MonoBehaviour
         {
             if (currentDelayTime < 7)
             {
-                audio.fadingRate = 0.02f;
-                audio.startFading = true;
+                audioSource.startFading = true;
+                audioSource.PlayBeamExplosion();
+                audioSource.fadingRate = 0.05f;
                 bossAnim.SetTrigger("Dead");
                 currentDelayTime += Time.deltaTime;
                 flashBangUI.SetActive(true);
@@ -283,7 +288,8 @@ public class FInalBossTimeLine : MonoBehaviour
         {
             if (currentDelayTime < 5)
             {
-                audio.PlayEndingMusic();
+                audioSource.startFading = false;
+                audioSource.PlayEndingMusic();
                 currentDelayTime += Time.deltaTime;
                 imgAlpha -= 0.5f * Time.deltaTime;
                 flashBangImg.color = new Color(flashBangImg.color.r, flashBangImg.color.g, flashBangImg.color.b, imgAlpha);

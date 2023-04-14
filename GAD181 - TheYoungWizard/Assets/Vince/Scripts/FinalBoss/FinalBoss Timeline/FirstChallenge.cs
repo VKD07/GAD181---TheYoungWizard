@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,6 +15,9 @@ public class FirstChallenge : MonoBehaviour
     [SerializeField] Slider timerSlider;
     [SerializeField] float timerMaxDuration = 10f;
     [SerializeField] GameObject deathScreen;
+    RectTransform sceneTimerPos;
+    [SerializeField] GameObject keyboardUI;
+    [SerializeField] Animator beamUIAnim;
 
     [Header("Challenges")]
     [Header("Challenge 1")]
@@ -50,6 +54,9 @@ public class FirstChallenge : MonoBehaviour
     [SerializeField] float bossBeamPowerRate;
     [SerializeField] float playerBeamPowerRate;
     Slider beamSlider;
+    float shakeMaxTime;
+    float currentTimeShake;
+    bool shakeTheUI;
 
     [Header("Character Components")]
     public CastModeManager spellCast;
@@ -60,8 +67,9 @@ public class FirstChallenge : MonoBehaviour
 
     private void Start()
     {
+        sceneTimerPos = sceneTimer.GetComponent<RectTransform>();
         beamSlider = beamSliderUI.GetComponent<Slider>();
-        beamSlider.value = 50;
+        beamSlider.value = 60f;
         timerSlider.maxValue = timerMaxDuration;
         timerSlider.value = timerMaxDuration;
     }
@@ -74,19 +82,20 @@ public class FirstChallenge : MonoBehaviour
         Challenge2();
         Challenge3();
         FinalChallenge();
-
+        shakeBeamUI();
     }
 
     private void Challenge1()
     {
         if (startChallenge)
         {
+            setTimerPosition(0, -197);
             //timer
             if (timerSlider.value > 0)
             {
                 sceneTimer.SetActive(true);
                 spellImage.sprite = spellCast.spellIcons[0];
-                spellImage.color = new Color(spellImage.color.r, spellImage.color.g, spellImage.color.b, 1f);
+                setSpellIconAlpha(1);
                 timerSlider.value -= firstChallengeTimeRate * Time.deltaTime;
             }
             else if (timerSlider.value <= 0)
@@ -127,6 +136,9 @@ public class FirstChallenge : MonoBehaviour
     {
         if (startChallenge2)
         {
+            setSpellIconAlpha(0);
+            keyboardUI.SetActive(true);
+            setTimerPosition(40, -291);
             playerMovement.enabled = true;
             playerMovement.stopMoving = true;
 
@@ -138,6 +150,8 @@ public class FirstChallenge : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
+                setSpellIconAlpha(1);
+                keyboardUI.SetActive(false);
                 timerSlider.value = timerMaxDuration;
                 sceneTimer.SetActive(false);
                 startChallenge2 = false;
@@ -146,6 +160,8 @@ public class FirstChallenge : MonoBehaviour
             }
             else if (timerSlider.value <= 0)//challenge 2 failed
             {
+                setSpellIconAlpha(1);
+                keyboardUI.SetActive(false);
                 startChallenge2 = false;
                 timerSlider.value = timerMaxDuration;
                 sceneTimer.SetActive(false);
@@ -153,7 +169,7 @@ public class FirstChallenge : MonoBehaviour
                 SceneManager.LoadScene(4);
             }
 
-           
+
         }
     }
 
@@ -161,6 +177,7 @@ public class FirstChallenge : MonoBehaviour
     {
         if (startChallenge3)
         {
+            setTimerPosition(37, -355);
             pc.castingSpell = true;
             playerMovement.enabled = false;
             if (timerSlider.value > 0)
@@ -218,10 +235,10 @@ public class FirstChallenge : MonoBehaviour
         if (startFinalChallenge)
         {
             beamSliderUI.SetActive(true);
-            beamSlider.value += bossPower * Time.deltaTime;
+            beamSlider.value += bossPower;
 
 
-            beamBlocker.position += -beamBlocker.transform.forward * bossBeamPowerRate;
+            beamBlocker.position -= beamBlocker.transform.forward * bossBeamPowerRate;
             beamBlocker.position = new Vector3(
             beamBlocker.position.x,
             beamBlocker.position.y,
@@ -230,7 +247,8 @@ public class FirstChallenge : MonoBehaviour
 
             if (Input.GetKeyDown(beamChallengeBtn))
             {
-                beamSlider.value -= playerPower * Time.deltaTime;
+                shakeTheUI = true;
+                beamSlider.value -= playerPower;
                 beamBlocker.position += beamBlocker.transform.forward * playerBeamPowerRate;
                 beamBlocker.position = new Vector3(
                 beamBlocker.position.x,
@@ -240,21 +258,52 @@ public class FirstChallenge : MonoBehaviour
             }
         }
         //win situation
-        if (beamSlider.value <= 0)
+        if (beamSlider.value <= 25)
         {
             finalChallengeDone = true;
             startFinalChallenge = false;
             beamSliderUI.SetActive(false);
         }//Lose situation
-        else
+        else if (beamSlider.value <= 77.7)
         {
 
         }
     }
 
+    void setSpellIconAlpha(int alpha)
+    {
+        spellImage.color = new Color(spellImage.color.r, spellImage.color.g, spellImage.color.b, alpha);
+    }
+
+    void setTimerPosition(float x, float y)
+    {
+        sceneTimerPos.localPosition = new Vector3(x, y, 0);
+    }
+
     public void DisableBeamBox()
     {
         beamBlocker.gameObject.SetActive(false);
+    }
+
+    void shakeBeamUI()
+    {
+        if (shakeTheUI)
+        {
+            if (currentTimeShake < 0.1)
+            {
+                beamUIAnim.SetBool("Shake", true);
+                currentTimeShake += Time.deltaTime;
+            }
+            else
+            {
+                currentTimeShake = 0;
+                shakeTheUI = false;
+            }
+        }
+        else
+        {
+            beamUIAnim.SetBool("Shake", false);
+        }
     }
 
 }

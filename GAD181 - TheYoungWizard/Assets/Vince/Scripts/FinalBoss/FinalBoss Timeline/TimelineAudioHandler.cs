@@ -5,20 +5,24 @@ using UnityEngine;
 public class TimelineAudioHandler : MonoBehaviour
 {
     [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioSource audioSource2;
     [SerializeField] AudioClip musicSound1;
     [SerializeField] AudioClip beamMusic;
     [SerializeField] AudioClip endingMusic;
+    [SerializeField] AudioClip catCharge;
+    [SerializeField] AudioClip playerCharge;
+    [SerializeField] AudioClip beamExplosion;
     [SerializeField] float audioMaxVolume = 0.1f;
     public bool startFading;
     public bool musicIsPlaying;
+    bool catChargePlaying;
+    bool beamExplosionPlaying;
+    bool beamExplosionPlaying2;
+    bool playerChargePlaying;
+    bool beamCollidedIsPlaying;
     bool endingMusicIsPlaying;
     public bool playBeamSound;
-    public float fadingRate = 0.1f;
-
-    private void Start()
-    {
-    }
-
+    public float fadingRate = 0.3f;
     private void Update()
     {
         if (startFading)
@@ -48,15 +52,64 @@ public class TimelineAudioHandler : MonoBehaviour
         }
 
     }
+    public void PlayCatCharge()
+    {
+        if (!catChargePlaying)
+        {
+            catChargePlaying = true;
+            audioSource.PlayOneShot(catCharge);
+        }
+    }
+
+    public void PlayPlayerCharge()
+    {
+        if (!playerChargePlaying)
+        {
+            playerChargePlaying = true;
+            audioSource.PlayOneShot(playerCharge);
+        }
+    }
+    public void PlayBeamCollidedCharge()
+    {
+        if(!beamCollidedIsPlaying)
+        {
+            beamCollidedIsPlaying = true;
+            audioSource2.clip = playerCharge;
+            audioSource2.loop = true;
+            audioSource2.Play();
+        }
+    }
+
+
+    public void PlayBeamExplosion()
+    {
+        if (!beamExplosionPlaying)
+        {
+            beamExplosionPlaying = true;
+            audioSource2.Stop();
+            audioSource.PlayOneShot(beamExplosion);
+        }
+    }
+
+    public void PlayBeamExplosion2()
+    {
+        if (!beamExplosionPlaying2)
+        {
+            audioSource.PlayOneShot(beamExplosion, 0.5f);
+            beamExplosionPlaying2 = true;
+        }
+    }
 
     public void PlayEndingMusic()
     {
         if(!endingMusicIsPlaying)
         {
-            audioSource.Stop();
-            endingMusicIsPlaying = true;
             audioSource.volume = audioMaxVolume;
-            audioSource.PlayOneShot(endingMusic);
+            audioSource.Stop();
+            audioSource.clip = endingMusic;
+            audioSource.loop = true;
+            audioSource.Play();
+            endingMusicIsPlaying = true;
         }
     }
 

@@ -1448,6 +1448,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   footStep: {fileID: 8300000, guid: 91a8b8dd3e345064eb329a0926575e5f, type: 3}
   basicAttack: {fileID: 8300000, guid: 6de00fa2c4adf1f4fa6aa23b9bf9dc5a, type: 3}
+  spellCircle: {fileID: 8300000, guid: 8e29e6b3fbddd5e4fba8b6ffc56fd8eb, type: 3}
+  iceSpell: {fileID: 8300000, guid: ccf5b5e6faa8ff64daeecf9784bc7c43, type: 3}
+  fireBall: {fileID: 8300000, guid: 4224ef9b15ce27448a978a4c2c70af91, type: 3}
+  windGust: {fileID: 8300000, guid: 23b5fd6c8bbf90a48bbf33655ad07c87, type: 3}
+  luminous: {fileID: 8300000, guid: f81b2a5c6c293044eb2f7f0e236635ad, type: 3}
 --- !u!1001 &22481443
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8295,15 +8300,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7033845
+      value: 0.70338446
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.07245876
+      value: 0.07245875
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.70338446
+      value: 0.7033845
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
@@ -28486,6 +28491,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 20568427}
     - target: {fileID: 1895759917070297902, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: playerAudio
+      value: 
+      objectReference: {fileID: 20568434}
+    - target: {fileID: 1895759917070297902, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: playerScript
       value: 
       objectReference: {fileID: 20568429}
@@ -28493,6 +28502,14 @@ PrefabInstance:
       propertyPath: castEffectObj
       value: 
       objectReference: {fileID: 20568430}
+    - target: {fileID: 1895759917070297902, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: correctCombiFx
+      value: 
+      objectReference: {fileID: 8300000, guid: 6447bf99c8cacd140b577632886dfc18, type: 3}
+    - target: {fileID: 1895759917070297902, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: choosingElementFx
+      value: 
+      objectReference: {fileID: 8300000, guid: 70eb206c3f82c024fb2366e04b495345, type: 3}
     - target: {fileID: 1895759917475388946, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 48.398926
