@@ -5786,7 +5786,7 @@ MonoBehaviour:
   finalChallengeDone: 0
   beamSliderUI: {fileID: 323112095}
   bossPower: 0.08
-  playerPower: 1.3
+  playerPower: 1.6
   beamChallengeBtn: 323
   beamBlocker: {fileID: 2121577468}
   bossBeamPowerRate: 0.005
@@ -21300,6 +21300,121 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2501539842113063889, guid: d6a75f88dc4803c469dcb57d3e6704f3, type: 3}
   m_PrefabInstance: {fileID: 602998596343728103}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1105613403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105613402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bed6c54b8e466c4d95c04b4ef88b108, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fireballProjectile: {fileID: 8300000, guid: cfe23dddd2108ac49b69a4f0627a58bc, type: 3}
+  fireballCast: {fileID: 8300000, guid: ccf5b5e6faa8ff64daeecf9784bc7c43, type: 3}
+  chargingSound: {fileID: 8300000, guid: fabb0b0788fed574cba75addc7e15305, type: 3}
+  jumpLaunch: {fileID: 8300000, guid: e04dc58d715393742a9f6f9cf6844f55, type: 3}
+  groundImpact: {fileID: 8300000, guid: 589bd50bc0f0f7d47b1bd8696e3793ed, type: 3}
+  darkness: {fileID: 8300000, guid: 3a35c6b5ce81d5948b7e552d4bec6728, type: 3}
+  summon: {fileID: 8300000, guid: b249fc4d159529242bf442870a1aa421, type: 3}
+--- !u!82 &1105613404
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1105613402}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &1105613406 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 766081290, guid: d6a75f88dc4803c469dcb57d3e6704f3, type: 3}
@@ -38925,10 +39040,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b397b08b9aadc4c8f2bc3823821238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spellVolume: 0.5
   footStep: {fileID: 8300000, guid: 91a8b8dd3e345064eb329a0926575e5f, type: 3}
   basicAttack: {fileID: 8300000, guid: 6de00fa2c4adf1f4fa6aa23b9bf9dc5a, type: 3}
+  spellCircle: {fileID: 0}
   iceSpell: {fileID: 8300000, guid: ccf5b5e6faa8ff64daeecf9784bc7c43, type: 3}
   fireBall: {fileID: 8300000, guid: 4224ef9b15ce27448a978a4c2c70af91, type: 3}
+  windGust: {fileID: 0}
+  luminous: {fileID: 0}
 --- !u!4 &1965275578 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 465098, guid: a7d0bab3996f4c44299aaa2169c9bcae, type: 3}

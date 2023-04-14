@@ -16,6 +16,7 @@ public class BossFireBall_1 : MonoBehaviour
     private void Start()
     {
         spellCast = FindObjectOfType<Player_SpellCast>();
+        StartCoroutine(Destroy(15));
     }
     void Update()
     {
@@ -82,5 +83,10 @@ public class BossFireBall_1 : MonoBehaviour
         }
     }
 
+    IEnumerator Destroy(float time)
+    {
+        yield return new WaitForSeconds(time);
+        Destroy(gameObject);
+    }
 
 }

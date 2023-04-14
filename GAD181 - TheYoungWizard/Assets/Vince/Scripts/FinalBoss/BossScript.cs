@@ -88,6 +88,9 @@ public class BossScript : MonoBehaviour
     [SerializeField] public bool bossReplica;
     bool replicated;
 
+    [Header("Boss SFX")]
+    [SerializeField] BossSFXHandler bossSFXHandler;
+
 
     //Components
     NavMeshAgent ai;
@@ -411,7 +414,7 @@ public class BossScript : MonoBehaviour
 
         if (transform.position == playerLastPosition)
         {
-            anim.SetTrigger("Fall");
+            bossSFXHandler.PlayGroundImpact();
             landVfx.Play();
             ai.enabled = true;
             jumpedToPlayer = false;

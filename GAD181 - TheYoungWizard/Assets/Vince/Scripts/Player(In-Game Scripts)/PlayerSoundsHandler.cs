@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerSoundsHandler : MonoBehaviour
 {
+    [Header("Audio Settings")]
+    [SerializeField] float spellVolume = 0.5f;
     AudioSource audioSource;
     [Header("Movement")]
     [SerializeField] AudioClip footStep;
@@ -37,21 +39,21 @@ public class PlayerSoundsHandler : MonoBehaviour
 
     void PlayIceSpellSFX()
     {
-        audioSource.PlayOneShot(iceSpell);
+        audioSource.PlayOneShot(iceSpell, spellVolume);
     }
 
     void PlayFireBallSound()
     {
-        audioSource.PlayOneShot(fireBall);
+        audioSource.PlayOneShot(fireBall, 0.08f);
     }
 
     void PlayWindGustSound()
     {
-        audioSource.PlayOneShot(windGust);
+        audioSource.PlayOneShot(windGust, spellVolume);
     }
 
     void PlayLuminous()
     {
-        audioSource.PlayOneShot(luminous);
+        audioSource.PlayOneShot(luminous, spellVolume);
     }
 }
