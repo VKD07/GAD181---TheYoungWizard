@@ -9,6 +9,7 @@ public class PlayerOpenChest : MonoBehaviour
     [SerializeField] LayerMask chestLayer;
     [SerializeField] float rayCastRange;
     [SerializeField] KeyCode openChestKey = KeyCode.F;
+    [SerializeField] ParticleSystem playerBeam;
     RaycastHit hit;
     Animator anim;
 
@@ -32,6 +33,14 @@ public class PlayerOpenChest : MonoBehaviour
                 chest.GetComponent<Animator>().SetTrigger("OpenChest");
                 chest.GetComponent<chestScript>().playChestParticle();
             }
+        }
+    }
+
+    public void PlayBeam()
+    {
+        if(playerBeam != null)
+        {
+            playerBeam.Play();
         }
     }
 }

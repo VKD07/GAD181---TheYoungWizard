@@ -13,22 +13,31 @@ public class CatMinion : MonoBehaviour
     [SerializeField] float minionDamage = 5f;
     [SerializeField] float minionSpeed = 4f;
     [SerializeField] float attackRange = 1f;
-    [SerializeField] float attackInterval = 5f;
+    [SerializeField] float attackInterval;
     [SerializeField] float jumpForce;
     [SerializeField] Transform rayCastPoint;
+    [SerializeField] LayerMask layerMask;
     [Header("Minion Settings")]
     [SerializeField] Slider healthSlider;
+    public float distanceToPlayer;
     public float currentTime;
     float jumpTime = 2f;
     float jumpTimeCurrentTime;
     bool jump;
+    bool attacking;
     Animator anim;
     bool playerInRange;
     NavMeshAgent ai;
     RaycastHit hit;
     Rigidbody rb;
+    GameObject playerForceField;
+
+    [Header("VFX")]
+    [SerializeField] GameObject shieldBlock;
+
     private void Start()
     {
+        attackInterval = UnityEngine.Random.Range(3, 8);
         ai = GetComponent<NavMeshAgent>();
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -52,14 +61,15 @@ public class CatMinion : MonoBehaviour
     private void ChasePlayer()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer <= attackRange)
         {
-           transform.LookAt(player.transform.position);
+            transform.LookAt(player.transform.position);
             transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, transform.eulerAngles.z);
-            if (Physics.Raycast(rayCastPoint.position, rayCastPoint.forward, out hit, attackRange, LayerMask.GetMask("Player")))
+            if (Physics.Raycast(rayCastPoint.position, rayCastPoint.forward, out hit, attackRange, layerMask))
             {
                 AttackPlayer();
+
             }
             else
             {
@@ -74,7 +84,6 @@ public class CatMinion : MonoBehaviour
         }
         Debug.DrawRay(rayCastPoint.position, rayCastPoint.forward * attackRange, Color.red);
     }
-
     private void AttackPlayer()
     {
         if (currentTime < attackInterval)
@@ -84,6 +93,7 @@ public class CatMinion : MonoBehaviour
         }
         else
         {
+            attackInterval = UnityEngine.Random.Range(3, 8);
             currentTime = 0;
             anim.SetBool("Idle", false);
             anim.SetTrigger("Attack");
@@ -91,13 +101,27 @@ public class CatMinion : MonoBehaviour
         playerInRange = true;
     }
 
+    private void PlayerShield()
+    {
+        if (hit.rigidbody != null && hit.rigidbody.gameObject != null && hit.rigidbody.gameObject.tag == "PlayerForceField")
+        {
+            GameObject explosionObj = Instantiate(shieldBlock, hit.point, Quaternion.identity);
+            Destroy(explosionObj, 1f);
+        }
+    }
+
+
     void JumpToPlayer()
     {
         if (jump == true && jumpTimeCurrentTime < jumpTime)
         {
             jumpTimeCurrentTime += Time.deltaTime;
-            rb.AddForce(transform.forward * jumpForce, ForceMode.Impulse);
-        } else if (jumpTimeCurrentTime > jumpTime || jump == false)
+            if (distanceToPlayer > 2)
+            {
+                rb.AddForce(transform.forward * jumpForce, ForceMode.Impulse);
+            }
+        }
+        else if (jumpTimeCurrentTime > jumpTime || jump == false)
         {
             jumpTimeCurrentTime = 0;
             jump = false;
@@ -135,11 +159,11 @@ public class CatMinion : MonoBehaviour
 
     public void DamageEnemy(float damage)
     {
-        if(minionHealth <= 0)
+        if (minionHealth <= 0)
         {
-            anim.SetBool("Die",true);
+            anim.SetBool("Die", true);
             healthSlider.gameObject.SetActive(false);
-            ai.enabled= false;
+            ai.enabled = false;
             this.enabled = false;
             Destroy(gameObject, 2f);
         }

@@ -30,7 +30,12 @@ public class chestScript : MonoBehaviour
     private void Update()
     {
         //find the item manager game object
-        itemManager = GameObject.Find("ItemManager").GetComponent<ItemManager>();
+        itemManager = GameObject.Find("ItemManager")?.GetComponent<ItemManager>();
+        if (itemManager == null)
+        {
+            return;
+        }
+
         TakeItemsInside();
     }
     private void TakeItemsInside()

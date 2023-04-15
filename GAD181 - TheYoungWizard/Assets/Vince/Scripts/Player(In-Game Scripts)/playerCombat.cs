@@ -40,9 +40,11 @@ public class playerCombat : MonoBehaviour
     [SerializeField] SpellSlot spellManager;
     [SerializeField] Animator sliderAnimation;
     [HideInInspector] public bool casting = false;
+    public bool disableSlowDownTime = false;
     public bool castingSpell = false;
 
     [Header("Aim Mode")]
+    [SerializeField] bool disablePlayerAttack;
     CinemachineComposer midRig;
     [SerializeField] CinemachineBrain cinemachineBrain;
     [SerializeField] CinemachineFreeLook cam;
@@ -64,19 +66,22 @@ public class playerCombat : MonoBehaviour
 
     [Header("ForceField")]
     [SerializeField] PlayerForceField forceField;
+    [SerializeField] KeyCode dodgeKey = KeyCode.LeftControl;
 
     [Header("Damage Indicator")]
     [SerializeField] GameObject awarenessUI;
     bool sensesEnabled;
     [SerializeField] float damageIndicatorMaxTime = 5f;
+    [SerializeField] bool enableTimeScale;
     float currentDmgIndTime;
 
     [Header("Potions Effects")]
     [SerializeField] ParticleSystem healParticles;
     [SerializeField] ParticleSystem manaParticles;
 
-    //[Header("Respawn Point")]
-    //public Vector3 spawnPoint;
+    [Header("SFX")]
+    [SerializeField] PlayerSoundsHandler sfx;
+
 
     public bool dodge = false;
     public float shieldDuration = 3f;
@@ -96,7 +101,6 @@ public class playerCombat : MonoBehaviour
         cam.m_Lens.FieldOfView = 33f;
         midRig.m_TrackedObjectOffset.x = 0.25f;
         playerMovement = GetComponent<Player_Movement>();
-        //spawnPoint = transform.position;
     }
 
     private void CursorLoc()
@@ -109,16 +113,16 @@ public class playerCombat : MonoBehaviour
     void Update()
     {
         //pause game
-        //if (Input.GetKeyDown(KeyCode.Escape) && paused == false)
-        //{
-        //    paused = true;
-        //    Time.timeScale = 0;
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Escape) && paused == true)
-        //{
-        //    paused = false;
-        //    Time.timeScale = 1;
-        //}
+        if (Input.GetKeyDown(KeyCode.Slash) && paused == false)
+        {
+            paused = true;
+            Time.timeScale = 0;
+        }
+        else if (Input.GetKeyDown(KeyCode.Slash) && paused == true)
+        {
+            paused = false;
+            Time.timeScale = 1;
+        }
 
         //focusing on targeting the enemy
         aimMode();
@@ -133,20 +137,13 @@ public class playerCombat : MonoBehaviour
         SpellCastAnimation();
         DisablingDamageIndicator();
         DeathHandler();
-       /* if (Input.GetKeyDown(KeyCode.M))
-        {
-            transform.position = spawnPoint;
-        }*/
     }
 
     private void DeathHandler()
     {
         if (playerHealth <= 0 && !tutorial)
         {
-           SceneManager.LoadScene("RoomScene");
-           //transform.position = spawnPoint;
-          //playerHealth = 100;
-            
+            SceneManager.LoadScene("RoomScene");
         }
     }
 
@@ -212,7 +209,7 @@ public class playerCombat : MonoBehaviour
     //player has shield while rolling
     private void Dodge()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetKeyDown(dodgeKey))
         {
             dodge = true;
         }
@@ -223,7 +220,10 @@ public class playerCombat : MonoBehaviour
 
             if (casting == false)
             {
-                Time.timeScale = 1;
+                if (!enableTimeScale)
+                {
+                    Time.timeScale = 1;
+                }
             }
 
             shieldDuration -= 0.3f * Time.deltaTime;
@@ -248,7 +248,10 @@ public class playerCombat : MonoBehaviour
                 //activate cast mode UI
                 castUI.SetActive(true);
                 //slow down time
-                Time.timeScale = 0.1f;
+                if (!disableSlowDownTime)
+                {
+                    Time.timeScale = 0.1f;
+                }
             }
         }
     }
@@ -260,7 +263,14 @@ public class playerCombat : MonoBehaviour
         {
             targetMode = true;
             targetSight.SetActive(true);
-            cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+            if (!playerMovement.isMoving)
+            {
+                cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.FixedUpdate;
+            }
+            else
+            {
+                cinemachineBrain.m_UpdateMethod = CinemachineBrain.UpdateMethod.SmartUpdate;
+            }
             if (midRig.m_TrackedObjectOffset.x < 0.95f)
             {
                 midRig.m_TrackedObjectOffset.x += 5f * Time.deltaTime;
@@ -292,49 +302,51 @@ public class playerCombat : MonoBehaviour
 
     public void attack()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking)
+        if (!disablePlayerAttack)
         {
-            playerMovement.stopMoving = true;
-            attacking = true;
-            anim.SetTrigger("Attack");
-            anim.SetBool("Attacking", true);
-            AttackNumber++;
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 1)
-        {
-            playerMovement.stopMoving = true;
-            anim.SetTrigger("Attack2");
-            AttackNumber++;
-        }
-        else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 2)
-        {
-            playerMovement.stopMoving = true;
-            anim.SetTrigger("Attack3");
-            AttackNumber++;
-        }
+            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking)
+            {
+                playerMovement.stopMoving = true;
+                attacking = true;
+                anim.SetTrigger("Attack");
+                anim.SetBool("Attacking", true);
+                AttackNumber++;
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 1)
+            {
+                playerMovement.stopMoving = true;
+                anim.SetTrigger("Attack2");
+                AttackNumber++;
+            }
+            else if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && attacking && AttackNumber == 2)
+            {
+                playerMovement.stopMoving = true;
+                anim.SetTrigger("Attack3");
+                AttackNumber++;
+            }
 
-        if (AttackNumber >= 3)
-        {
-            AttackNumber = 0;
-        }
+            if (AttackNumber >= 3)
+            {
+                AttackNumber = 0;
+            }
 
-        if (!targetMode)
-        {
-            playerMovement.stopMoving = false;
-            ResetAttack();
-        }
-
-        if (attacking)
-        {
-            currentTimeToChangeAnim += Time.deltaTime;
-
-            if (currentTimeToChangeAnim >= timeLimit)
+            if (!targetMode)
             {
                 playerMovement.stopMoving = false;
                 ResetAttack();
             }
-        }
 
+            if (attacking)
+            {
+                currentTimeToChangeAnim += Time.deltaTime;
+
+                if (currentTimeToChangeAnim >= timeLimit)
+                {
+                    playerMovement.stopMoving = false;
+                    ResetAttack();
+                }
+            }
+        }
     }
 
     //public void attack()
@@ -376,6 +388,7 @@ public class playerCombat : MonoBehaviour
         //if slot 1 is full and player wanted to use it
         if (itemManager.numberOfHealthP > 0 && Input.GetKeyDown(KeyCode.Alpha1) && playerHealth < 100)
         {
+            sfx.PlayhealSfx();
             float totalHealthValue = playerHealth + healthPotionValue;
             healParticles.Play(); //Play Particles of Restoring Health
             //this is to avoid the character having more than 100 health
@@ -399,6 +412,7 @@ public class playerCombat : MonoBehaviour
         } //if slot 2 is full and player wants to use it
         else if (itemManager.numberOfManaP > 0 && Input.GetKeyDown(KeyCode.Alpha2) && playerMana < 100)
         {
+            sfx.PlayManaSfx();
             float totalManaValue = playerMana + manaPotionValue;
             manaParticles.Play(); //Play Particles of Restoring Mana
             if (totalManaValue > 100)
@@ -506,10 +520,4 @@ public class playerCombat : MonoBehaviour
             cam.m_Lens.FieldOfView += 80f * Time.deltaTime;
         }
     }
-   /*public void RespawnPoint(Vector3 point)
-    {
-        spawnPoint = point;
-    }*/
-
-    }
-
+}

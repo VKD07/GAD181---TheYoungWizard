@@ -13,11 +13,14 @@ public class Player_Movement : MonoBehaviour
 
     [Header("Player Movement Settings")]
     //[SerializeField] Animator characterAnim;
+    [SerializeField] public float xMouseSensitivity = 150;
     [SerializeField] float gravity = 3f;
     [SerializeField] public float currentspeed;
     [SerializeField] public float walkingSpeed;
     [SerializeField] public float runSpeed;
-    [SerializeField] KeyCode rollKey = KeyCode.LeftControl;
+    [SerializeField] public KeyCode rollKey = KeyCode.LeftControl;
+    [SerializeField] bool enableOneTimeRoll;
+    [SerializeField] bool disableAimMode;
     public bool isMoving = false;
     CapsuleCollider capsuleCollider;
     Vector3 newPos;
@@ -60,6 +63,7 @@ public class Player_Movement : MonoBehaviour
         pc = GetComponent<playerCombat>();
 
         capsuleCollider = GetComponent<CapsuleCollider>();
+        thirdPersonCamera.GetComponent<CinemachineFreeLook>().m_XAxis.m_MaxSpeed = xMouseSensitivity;
     }
 
     // Update is called once per frame
@@ -169,15 +173,18 @@ public class Player_Movement : MonoBehaviour
     private void characterAimMode()
     {
         //sight adjust character rotation
-        if (Input.GetKey(KeyCode.Mouse1) && rolling == false)
+        if (!disableAimMode)
         {
-            Vector3 targetDirection = mainCamera.transform.forward;
-            targetDirection.y = 0f;
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
+            if (Input.GetKey(KeyCode.Mouse1) && rolling == false)
+            {
+                Vector3 targetDirection = mainCamera.transform.forward;
+                targetDirection.y = 0f;
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
-            float xRotation = Mathf.Clamp(transform.eulerAngles.x, -5f, 12f);
+                float xRotation = Mathf.Clamp(transform.eulerAngles.x, -5f, 12f);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * adsCharacterRot);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * adsCharacterRot);
+            }
         }
     }
 
@@ -218,10 +225,15 @@ public class Player_Movement : MonoBehaviour
             Vector3 moveDirection = transform.forward * rollForce + Vector3.down * gravity;
             characterController.Move(moveDirection * Time.deltaTime);
         }
-        if (rollCurrentTime >= rollDuration)
+        else if (rollCurrentTime >= rollDuration)
         {
             rollCurrentTime = 0;
             rolling = false;
+
+            if (enableOneTimeRoll)
+            {
+                rollKey = KeyCode.PageUp;
+            }
         }
     }
 

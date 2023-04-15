@@ -29,6 +29,11 @@ public class BossForceField : MonoBehaviour
     public int numberOfBrokenShields;
     public bool isDummy;
 
+    [Header("SFX")]
+    [SerializeField] BossSFXHandler sfx;
+    bool shieldActiveSfx;
+    bool shieldDeactiveSfx;
+
     void Awake()
     {
         render = GetComponent<Renderer>();
@@ -67,6 +72,13 @@ public class BossForceField : MonoBehaviour
             meshRenderer.enabled = true;
             currentScale += Time.deltaTime * 15f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+
+            if (!shieldActiveSfx)
+            {
+                shieldDeactiveSfx = false;
+                shieldActiveSfx = true;
+                sfx.ActivateShieldSfx();
+            }
         }
     }
 
@@ -77,6 +89,13 @@ public class BossForceField : MonoBehaviour
             currentScale -= Time.deltaTime * 20f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
             meshRenderer.enabled = false;
+
+            if (!shieldDeactiveSfx)
+            {
+                sfx.ExplodingShieldSound();
+                shieldDeactiveSfx = true;
+                shieldActiveSfx = false;
+            }
         }
     }
 
@@ -128,11 +147,11 @@ public class BossForceField : MonoBehaviour
     public void InterruptBoss()
     {
         activateShield = false;
-        if(bossScript != null)
+        if (bossScript != null)
         {
             bossScript.damageBoss = true;
             bossScript.playStunVfx();
         }
-     
+
     }
 }

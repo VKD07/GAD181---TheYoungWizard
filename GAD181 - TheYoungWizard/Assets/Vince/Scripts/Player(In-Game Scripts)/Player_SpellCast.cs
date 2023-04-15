@@ -208,6 +208,7 @@ public class Player_SpellCast : MonoBehaviour
         {
             foreach (GameObject enemy in enemiesInRange)
             {
+                if (enemy == null) { return; }
                 Vector3 directionToEnemy = enemy.transform.position - transform.position;
                 directionToEnemy.y = 0f; // Set the y direction to zero to prevent enemies from being pushed upwards
                 enemy.transform.position += directionToEnemy.normalized * knockBackForce * Time.deltaTime;

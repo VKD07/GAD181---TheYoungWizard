@@ -88,6 +88,9 @@ public class BossScript : MonoBehaviour
     [SerializeField] public bool bossReplica;
     bool replicated;
 
+    [Header("Boss SFX")]
+    [SerializeField] BossSFXHandler bossSFXHandler;
+
 
     //Components
     NavMeshAgent ai;
@@ -374,6 +377,13 @@ public class BossScript : MonoBehaviour
         }
     }
 
+    public void setStompSpeedAndAttackNumber(int speed, int attack)
+    {
+        stompSpeed = speed;
+        attackNumber = attack;
+    }
+
+
     void JumpEnable()
     {
         jumped = true;
@@ -404,7 +414,7 @@ public class BossScript : MonoBehaviour
 
         if (transform.position == playerLastPosition)
         {
-            anim.SetTrigger("Fall");
+            bossSFXHandler.PlayGroundImpact();
             landVfx.Play();
             ai.enabled = true;
             jumpedToPlayer = false;
@@ -557,6 +567,7 @@ public class BossScript : MonoBehaviour
     {
         pounceVfx.Play();
     }
+
 
     #endregion
 
