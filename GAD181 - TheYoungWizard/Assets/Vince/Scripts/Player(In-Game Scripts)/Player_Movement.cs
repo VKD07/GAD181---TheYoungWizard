@@ -18,7 +18,8 @@ public class Player_Movement : MonoBehaviour
     [SerializeField] public float currentspeed;
     [SerializeField] public float walkingSpeed;
     [SerializeField] public float runSpeed;
-    [SerializeField] KeyCode rollKey = KeyCode.LeftControl;
+    [SerializeField] public KeyCode rollKey = KeyCode.LeftControl;
+    [SerializeField] bool enableOneTimeRoll;
     [SerializeField] bool disableAimMode;
     public bool isMoving = false;
     CapsuleCollider capsuleCollider;
@@ -224,10 +225,15 @@ public class Player_Movement : MonoBehaviour
             Vector3 moveDirection = transform.forward * rollForce + Vector3.down * gravity;
             characterController.Move(moveDirection * Time.deltaTime);
         }
-        if (rollCurrentTime >= rollDuration)
+        else if (rollCurrentTime >= rollDuration)
         {
             rollCurrentTime = 0;
             rolling = false;
+
+            if (enableOneTimeRoll)
+            {
+                rollKey = KeyCode.PageUp;
+            }
         }
     }
 

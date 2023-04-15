@@ -6,13 +6,17 @@ public class TimelineAudioHandler : MonoBehaviour
 {
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioSource audioSource2;
+    [SerializeField] AudioSource audioSource3;
     [SerializeField] AudioClip musicSound1;
     [SerializeField] AudioClip beamMusic;
     [SerializeField] AudioClip endingMusic;
     [SerializeField] AudioClip catCharge;
     [SerializeField] AudioClip playerCharge;
     [SerializeField] AudioClip beamExplosion;
+    [SerializeField] AudioClip beamCast;
+    [SerializeField] AudioClip characterCharge;
     [SerializeField] float audioMaxVolume = 0.1f;
+    bool characterCharging;
     public bool startFading;
     public bool musicIsPlaying;
     bool catChargePlaying;
@@ -61,14 +65,7 @@ public class TimelineAudioHandler : MonoBehaviour
         }
     }
 
-    public void PlayPlayerCharge()
-    {
-        if (!playerChargePlaying)
-        {
-            playerChargePlaying = true;
-            audioSource.PlayOneShot(playerCharge);
-        }
-    }
+ 
     public void PlayBeamCollidedCharge()
     {
         if(!beamCollidedIsPlaying)
@@ -87,6 +84,7 @@ public class TimelineAudioHandler : MonoBehaviour
         {
             beamExplosionPlaying = true;
             audioSource2.Stop();
+            audioSource3.Stop();
             audioSource.PlayOneShot(beamExplosion);
         }
     }
@@ -125,6 +123,11 @@ public class TimelineAudioHandler : MonoBehaviour
         }
     }
 
+    public void PlayBeamCast()
+    {
+        audioSource.PlayOneShot(beamCast, 1f);
+    }
+
     public IEnumerator FadeOut(AudioClip audio, float fadeTime)
     {
         audioSource.volume = 0f;
@@ -134,6 +137,24 @@ public class TimelineAudioHandler : MonoBehaviour
         {
             audioSource.volume -= Time.deltaTime * 0.5f / fadeTime;
             yield return null;
+        }
+    }
+
+    public void PlayCharacterCharge()
+    {
+        if (!characterCharging)
+        {
+            characterCharging = true;
+            audioSource3.PlayOneShot(characterCharge, 0.3f);
+        }
+    }
+
+    public void PlayChargeSound()
+    {
+        if (!playerChargePlaying)
+        {
+            playerChargePlaying = true;
+            audioSource3.Play();
         }
     }
 }

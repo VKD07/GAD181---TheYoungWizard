@@ -50,6 +50,7 @@ public class FInalBossTimeLine : MonoBehaviour
 
     [Header("Sound")]
     [SerializeField] TimelineAudioHandler audioSource;
+    [SerializeField] AudioSource beamBlockerAudioSource;
 
 
     //timers
@@ -102,7 +103,7 @@ public class FInalBossTimeLine : MonoBehaviour
         else if (sequence[2])
         {
             bossScript.enabled = true;
-            StartCoroutine(DisableBossScript(5f));
+            StartCoroutine(DisableBossScript(5f)); //-------------- Rolling challenge
 
             if (currentPounceTime < pounceDuration)
             {
@@ -171,7 +172,8 @@ public class FInalBossTimeLine : MonoBehaviour
             }
             else
             {
-                audioSource.PlayPlayerCharge();
+                audioSource.PlayCharacterCharge();
+                audioSource.PlayChargeSound();
                 pc.enabled = true;
                 playerCanvas.SetActive(true);
                 playerCharge.SetActive(true);
@@ -198,6 +200,7 @@ public class FInalBossTimeLine : MonoBehaviour
             }
             else
             {
+                audioSource.PlayBeamCast();
                 cameras[7].SetActive(false);
                 cameras[8].SetActive(true);
                 bossPos.position = new Vector3(-27.7f, -5.289988f, -39f);
@@ -215,9 +218,9 @@ public class FInalBossTimeLine : MonoBehaviour
             }
             else if (!firstChallenge.challenge3Failed)
             {
-                audioSource.PlayBeamExplosion2();
                 Time.timeScale = 0.2f;
                 currentDelayTime = 0;
+                StartCoroutine(PlayBeamExplosionSound(0.3f));
                 catAnim.SetBool("ReleaseCharge", true);
                 catAnim.SetBool("FinalCharge", false);
                 playerAnim.SetBool("PowerCharge", false);
@@ -236,7 +239,6 @@ public class FInalBossTimeLine : MonoBehaviour
                 StartCoroutine(ResetScene(0.3f));
             }
         }
-
         else if (sequence[8]) //--------------- tap challenge
         {
             if (currentDelayTime < 1)
@@ -257,7 +259,6 @@ public class FInalBossTimeLine : MonoBehaviour
                 sequence[8] = false;
                 sequence[9] = true;
             }
-
         }
         else if (sequence[9]) //--------------- FlashBang Effect
         {
@@ -353,7 +354,6 @@ public class FInalBossTimeLine : MonoBehaviour
         }
         else if (sequence[14])
         {
-
             if (currentDelayTime < 4)
             {
                 currentDelayTime += Time.deltaTime;
@@ -420,16 +420,15 @@ public class FInalBossTimeLine : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         Time.timeScale = 1f;
-        if (currentDelayTime < 0.4)
-        {
-            currentDelayTime += Time.deltaTime;
-            flashBangUI.SetActive(true);
-            flashBangUI.transform.localScale = new Vector3(500f, 500f, 500f);
-        }
-        else
-        {
-            SceneManager.LoadScene(4);
-            currentDelayTime = 0;
-        }
+        currentDelayTime += Time.deltaTime;
+        flashBangUI.SetActive(true);
+        flashBangUI.transform.localScale = new Vector3(500f, 500f, 500f);
+        SceneManager.LoadScene(4);
+    }
+
+    IEnumerator PlayBeamExplosionSound(float time)
+    {
+        yield return new WaitForSeconds(time);
+        beamBlockerAudioSource.Play();
     }
 }

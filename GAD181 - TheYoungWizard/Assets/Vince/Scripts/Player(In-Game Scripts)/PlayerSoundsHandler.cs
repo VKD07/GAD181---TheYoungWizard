@@ -9,6 +9,7 @@ public class PlayerSoundsHandler : MonoBehaviour
     AudioSource audioSource;
     [Header("Movement")]
     [SerializeField] AudioClip footStep;
+    [SerializeField] AudioClip rolling;
     [Header("Attack")]
     [SerializeField] AudioClip basicAttack;
     [Header("Spells")]
@@ -55,5 +56,10 @@ public class PlayerSoundsHandler : MonoBehaviour
     void PlayLuminous()
     {
         audioSource.PlayOneShot(luminous, spellVolume);
+    }
+
+    void PlayRollingSound()
+    {
+        audioSource.PlayOneShot(rolling, 0.09f);
     }
 }

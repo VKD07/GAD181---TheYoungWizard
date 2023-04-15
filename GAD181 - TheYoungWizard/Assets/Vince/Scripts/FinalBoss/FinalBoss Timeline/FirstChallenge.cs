@@ -59,6 +59,7 @@ public class FirstChallenge : MonoBehaviour
     bool shakeTheUI;
 
     [Header("Character Components")]
+    [SerializeField] GameObject damageIndicator;
     public CastModeManager spellCast;
     [SerializeField] BossScript bossScript;
     [SerializeField] Player_Movement playerMovement;
@@ -150,6 +151,7 @@ public class FirstChallenge : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
+                damageIndicator.SetActive(false);
                 setSpellIconAlpha(1);
                 keyboardUI.SetActive(false);
                 timerSlider.value = timerMaxDuration;
@@ -169,7 +171,6 @@ public class FirstChallenge : MonoBehaviour
                 SceneManager.LoadScene(4);
             }
 
-
         }
     }
 
@@ -180,13 +181,14 @@ public class FirstChallenge : MonoBehaviour
             setTimerPosition(37, -355);
             pc.castingSpell = true;
             playerMovement.enabled = false;
-            if (timerSlider.value > 0)
+            if (timerSlider.value > 0 && challenge3Done == false)
             {
                 timerSlider.value -= spellsChallengeTimerRate * Time.deltaTime;
                 sceneTimer.SetActive(true);
             }
             else if (timerSlider.value <= 0)
             {
+                timerSlider.value = 0;
                 challenge3Failed = true;
                 //--reset scene
                 sceneTimer.SetActive(false);
@@ -220,7 +222,6 @@ public class FirstChallenge : MonoBehaviour
             if (currentSpellsDone >= numberOfSpellsToComplete)
             {
                 challenge3Done = true;
-
             }
 
             if (challenge3Done)
@@ -256,17 +257,17 @@ public class FirstChallenge : MonoBehaviour
                 Mathf.Clamp(beamBlocker.position.z, -52f, -43f)
                 );
             }
-        }
-        //win situation
-        if (beamSlider.value <= 25)
-        {
-            finalChallengeDone = true;
-            startFinalChallenge = false;
-            beamSliderUI.SetActive(false);
-        }//Lose situation
-        else if (beamSlider.value <= 77.7)
-        {
-
+            //win situation
+            if (beamSlider.value <= 25)
+            {
+                finalChallengeDone = true;
+                startFinalChallenge = false;
+                beamSliderUI.SetActive(false);
+            }//Lose situation
+            else if (beamSlider.value >= 76)
+            {
+                SceneManager.LoadScene(4);
+            }
         }
     }
 

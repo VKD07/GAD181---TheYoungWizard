@@ -11,11 +11,14 @@ public class BossHealthHandler : MonoBehaviour
     [SerializeField] ParticleSystem powerBeam;
     [SerializeField] GameObject bossPowerBeam;
     [SerializeField] bool finalCutScene;
+    [SerializeField] AudioClip shatteredRockSfx;
+    AudioSource audioSource;
     BossScript bossScript;
 
     void Start()
     {
         bossScript = GetComponent<BossScript>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -53,6 +56,7 @@ public class BossHealthHandler : MonoBehaviour
         }
 
         GameObject shatteredObj = Instantiate(shatteredRock[rockNum], rockHealth[rockNum].transform.position, rockHealth[rockNum].transform.rotation);
+        audioSource.PlayOneShot(shatteredRockSfx, 0.5f);
         //spawn a repica everytime a rock is shattered
         //GameObject cloneObj = Instantiate(bossScript.bossClone, bossScript.multipleFireBallSpawners[0].position, Quaternion.identity);
         //Destroy(cloneObj, bossScript.cloneDuration);
