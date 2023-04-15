@@ -25,6 +25,10 @@ public class ForceFieldScript : MonoBehaviour
     [SerializeField]int maximumStartingTime = 7;
     [SerializeField] ParticleSystem explodeVfx;
     [SerializeField] Material explodeVfxMat;
+    [Header("SFX")]
+    [SerializeField] LichSFX lichSfx;
+    bool shieldActivatedSfx;
+    bool shieldDeactivatedSfx;
    
     void Awake()
     {
@@ -77,6 +81,13 @@ public class ForceFieldScript : MonoBehaviour
         {
             currentScale += Time.deltaTime * 15f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+
+            if (!shieldActivatedSfx)
+            {
+                shieldDeactivatedSfx = false;
+                shieldActivatedSfx = true;
+                lichSfx.PlayShieldSFX();
+            }
         }
     }
 
@@ -86,6 +97,13 @@ public class ForceFieldScript : MonoBehaviour
         {
             currentScale -= Time.deltaTime * 20f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+
+            if (!shieldDeactivatedSfx)
+            {
+                shieldActivatedSfx = false;
+                shieldDeactivatedSfx = true;
+                lichSfx.PlayBrokenShieldSFX();
+            }
         }
     }
 

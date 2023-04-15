@@ -79,6 +79,9 @@ public class playerCombat : MonoBehaviour
     [SerializeField] ParticleSystem healParticles;
     [SerializeField] ParticleSystem manaParticles;
 
+    [Header("SFX")]
+    [SerializeField] PlayerSoundsHandler sfx;
+
 
     public bool dodge = false;
     public float shieldDuration = 3f;
@@ -385,6 +388,7 @@ public class playerCombat : MonoBehaviour
         //if slot 1 is full and player wanted to use it
         if (itemManager.numberOfHealthP > 0 && Input.GetKeyDown(KeyCode.Alpha1) && playerHealth < 100)
         {
+            sfx.PlayhealSfx();
             float totalHealthValue = playerHealth + healthPotionValue;
             healParticles.Play(); //Play Particles of Restoring Health
             //this is to avoid the character having more than 100 health
@@ -408,6 +412,7 @@ public class playerCombat : MonoBehaviour
         } //if slot 2 is full and player wants to use it
         else if (itemManager.numberOfManaP > 0 && Input.GetKeyDown(KeyCode.Alpha2) && playerMana < 100)
         {
+            sfx.PlayManaSfx();
             float totalManaValue = playerMana + manaPotionValue;
             manaParticles.Play(); //Play Particles of Restoring Mana
             if (totalManaValue > 100)

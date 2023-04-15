@@ -18,6 +18,11 @@ public class PlayerSoundsHandler : MonoBehaviour
     [SerializeField] AudioClip fireBall;
     [SerializeField] AudioClip windGust;
     [SerializeField] AudioClip luminous;
+    [Header("Shield")]
+    [SerializeField] AudioClip characterShield;
+    [Header("Consumables")]
+    [SerializeField] AudioClip healSfx;
+    [SerializeField] AudioClip manaSfx;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -30,12 +35,12 @@ public class PlayerSoundsHandler : MonoBehaviour
 
     void PlayBasicAttackSFX()
     {
-        audioSource.PlayOneShot(basicAttack, 0.05f);
+        audioSource.PlayOneShot(basicAttack, 0.1f);
     }
 
     void PlaySpellCircleSound()
     {
-        audioSource.PlayOneShot(spellCircle);
+        audioSource.PlayOneShot(spellCircle, 0.3f);
     }
 
     void PlayIceSpellSFX()
@@ -61,5 +66,20 @@ public class PlayerSoundsHandler : MonoBehaviour
     void PlayRollingSound()
     {
         audioSource.PlayOneShot(rolling, 0.09f);
+    }
+
+    void PlayCharacterShield()
+    {
+        audioSource.PlayOneShot(characterShield, 0.1f);
+    }
+
+    public void PlayhealSfx()
+    {
+        audioSource.PlayOneShot(healSfx, 0.3f);
+    }
+
+    public void PlayManaSfx()
+    {
+        audioSource.PlayOneShot(manaSfx, 0.3f);
     }
 }
