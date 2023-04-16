@@ -14,8 +14,6 @@ public class WinterLandEnemyAI : MonoBehaviour
     public GameObject thatPlayer;
     public float attackDamage;
     public Transform player;
-   //public LayerMask thePlayer;
-   // public LayerMask theGround;
     Animator animEnemy;
     public float sightRange;
     public float attackRange;
@@ -71,7 +69,7 @@ public class WinterLandEnemyAI : MonoBehaviour
     }
     private void EnemyDeath()
     {
-        
+        GetComponent<BoxCollider>().enabled = false;
         animEnemy.ResetTrigger("Attack2");
         animEnemy.ResetTrigger("Attack1");
         animEnemy.SetBool("Run Forward", false);
@@ -105,8 +103,6 @@ public class WinterLandEnemyAI : MonoBehaviour
     private void Update()
     {
         timer += 1f * Time.deltaTime;
-        //  playerSightRange = Physics.CheckSphere(transform.position, sightRange, thePlayer);
-        // playerAttackRange = Physics.CheckSphere(transform.position, attackRange, thePlayer);
         playerDistance = Vector3.Distance(player.transform.position, transform.position);
         UpdateEnemyHealth();
         

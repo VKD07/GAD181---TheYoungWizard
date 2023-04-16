@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class LichWinterLandAI : MonoBehaviour
+public class LichFireBlaster : MonoBehaviour
 {
     [SerializeField] public NavMeshAgent agent;
     [SerializeField] float currentHealth;
@@ -21,8 +21,6 @@ public class LichWinterLandAI : MonoBehaviour
     public float attackRange;
     public bool playerSightRange;
     public Vector3 playerlastposition;
-    public float wolfSpawnTimer = 0f;
-    public float wolfTimeSpawn;
     float playerDistance;
 
     private void Start()
@@ -33,9 +31,6 @@ public class LichWinterLandAI : MonoBehaviour
         slider.maxValue = currentHealth;
         maxHealth = currentHealth;
         thatPlayer = GameObject.FindGameObjectWithTag("Player");
-        wolfSpawnTimer = 15;
-
-
     }
     public void DamageEnemy(float playerDamage)
     {
@@ -76,7 +71,7 @@ public class LichWinterLandAI : MonoBehaviour
     }
     private void EnemyAttack()
     {
-        
+
         animEnemy.SetTrigger("Attack");
         animEnemy.SetBool("Walk", false);
 
@@ -98,25 +93,18 @@ public class LichWinterLandAI : MonoBehaviour
 
         playerDistance = Vector3.Distance(player.transform.position, transform.position);
         UpdateEnemyHealth();
- 
+
         if (currentHealth > 0)
         {
             if (sightRange > playerDistance || currentHealth < maxHealth)
             {
-                wolfSpawnTimer += 1 * Time.deltaTime;
-                if (wolfSpawnTimer > wolfTimeSpawn)
-                {
-                  GetComponent<WolfSummoner>().CallWolf();
-                    wolfSpawnTimer = 0;
-                }
-                
                 LookAtPlayer(true);
                 EnemyChase();
 
             }
             if (playerDistance < attackRange)
             {
-                
+
                 EnemyAttack();
                 LookAtPlayer(true);
             }
@@ -142,7 +130,4 @@ public class LichWinterLandAI : MonoBehaviour
     {
         player.GetComponent<playerCombat>().enableSenses();
     }
-
 }
-
-

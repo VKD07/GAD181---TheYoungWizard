@@ -15,12 +15,8 @@ public class MovingLand : MonoBehaviour
         
         if (other.gameObject.tag == "Player")
         {
-            other.transform.SetParent(transform);
             movingAnimation.SetTrigger("PlayerIsOn");
         }
     }
-    private void OnTriggerExit(Collider other)
-    {
-        other.transform.SetParent(null);
-    }
+    
 }

@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: 18e5909568dbc2f4ea2ecdb3d2286565
+guid: 0c8663d390e34c24094015d6aedb27da
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - theLich: {instanceID: 0}
-  - player: {instanceID: 0}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
