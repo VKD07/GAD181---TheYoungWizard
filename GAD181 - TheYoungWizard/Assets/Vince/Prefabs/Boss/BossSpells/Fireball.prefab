@@ -130,8 +130,10 @@ MonoBehaviour:
   fireBallSpeedToBoss: 15
   fireBallDamage: 10
   projectile1: 1
+  explosionVFX: {fileID: 2823263075756790159, guid: 9e6aa5a630b3c4142a83336d5a4ad248, type: 3}
   deflected: 0
   bossLocation: {fileID: 0}
+  playerIsHit: 0
 --- !u!1001 &2848198304102474932
 PrefabInstance:
   m_ObjectHideFlags: 0

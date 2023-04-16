@@ -57,7 +57,10 @@ public class FInalBossTimeLine : MonoBehaviour
     float pounceDuration = 2f;
     float currentPounceTime;
     float delayDuration = 1.5f;
-    float currentDelayTime;
+    public float currentDelayTime;
+    public float typingDuration = 2f;
+    public float currentTime;
+    public bool countingDownNext;
     void Start()
     {
         LockMouse();
@@ -77,6 +80,7 @@ public class FInalBossTimeLine : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        typing();
         if (sequence[0])
         {
             sequence[0] = false;
@@ -338,7 +342,7 @@ public class FInalBossTimeLine : MonoBehaviour
 
         else if (sequence[13])
         {
-            if (currentDelayTime < 5)
+            if (currentDelayTime < 4)
             {
                 currentDelayTime += Time.deltaTime;
                 playerTransform.position = new Vector3(-26.4f, -4.49f, -42.32f);
@@ -354,17 +358,13 @@ public class FInalBossTimeLine : MonoBehaviour
         }
         else if (sequence[14])
         {
-            if (currentDelayTime < 4)
+            cameras[11].SetActive(false);
+            cameras[12].SetActive(true);
+            if (!countingDownNext)
             {
-                currentDelayTime += Time.deltaTime;
-                cameras[11].SetActive(false);
-                cameras[12].SetActive(true);
-            }
-            else
-            {
-                currentDelayTime = 0;
+                countingDownNext = true;
                 dialogBox.EnableDialogBox(true);
-                dialogBox.SetDialogTextNum(0);
+                dialogBox.nextLine(0);
                 sequence[14] = false;
                 sequence[15] = true;
             }
@@ -372,20 +372,38 @@ public class FInalBossTimeLine : MonoBehaviour
 
         else if (sequence[15])
         {
-            if (currentDelayTime < 5)
+            if (!countingDownNext)
             {
-                currentDelayTime += Time.deltaTime;
-            }
-            else
-            {
-                currentDelayTime = 0;
-                dialogBox.EnableDialogBox(false);
+                countingDownNext = true;
+                dialogBox.nextLine(1);
                 sequence[15] = false;
                 sequence[16] = true;
             }
         }
 
         else if (sequence[16])
+        {
+            if (!countingDownNext)
+            {
+                countingDownNext = true;
+                dialogBox.nextLine(2);
+                sequence[16] = false;
+                sequence[17] = true;
+            }
+        }
+
+        else if (sequence[17])
+        {
+            if (!countingDownNext)
+            {
+                dialogBox.EnableDialogBox(false);
+                sequence[17] = false;
+                sequence[18] = true;
+                countingDownNext = true;
+            }
+        }
+
+        else if (sequence[18])
         {
             cameras[12].SetActive(false);
             cameras[13].SetActive(true);
@@ -430,5 +448,18 @@ public class FInalBossTimeLine : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         beamBlockerAudioSource.Play();
+    }
+
+    void typing()
+    {
+        if (countingDownNext && currentTime < typingDuration)
+        {
+            currentTime += Time.deltaTime;
+        }
+        else
+        {
+            currentTime = 0;
+            countingDownNext = false;
+        }
     }
 }

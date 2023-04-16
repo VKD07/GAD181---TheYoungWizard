@@ -4610,6 +4610,12 @@ MonoBehaviour:
   bossHealth: {fileID: 1368682246}
   stageIsClear: 000000
   audioHandler: {fileID: 0}
+  audioSource: {fileID: 0}
+  runeStone: {fileID: 0}
+  bossLighting: {fileID: 0}
+  enemiesDead: 0
+  finalStage: 0
+  spawnBoss: 0
 --- !u!4 &260303732 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 445924, guid: ffc6869ab4137a74d89484a41f685f9d, type: 3}
@@ -5687,7 +5693,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogs:
-  - Rest In Peace Buddy.
+  - 'Furball: You have been neglecting me ever since your training.'
+  - 'Furball: All I just want is attention....'
+  - 'Kael: Im sorry buddy. Let''s go home now.'
   dialogBox: {fileID: 313200505}
   dialogText: {fileID: 627526818}
   textInterval: 0.03
@@ -5748,6 +5756,10 @@ MonoBehaviour:
   flashRate: 250
   audioSource: {fileID: 1284696879}
   beamBlockerAudioSource: {fileID: 2121577469}
+  currentDelayTime: 0
+  typingDuration: 4
+  currentTime: 0
+  countingDownNext: 0
 --- !u!114 &304382374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21321,6 +21333,8 @@ MonoBehaviour:
   groundImpact: {fileID: 8300000, guid: 589bd50bc0f0f7d47b1bd8696e3793ed, type: 3}
   darkness: {fileID: 8300000, guid: 3a35c6b5ce81d5948b7e552d4bec6728, type: 3}
   summon: {fileID: 8300000, guid: b249fc4d159529242bf442870a1aa421, type: 3}
+  explodingShield: {fileID: 0}
+  activateShield: {fileID: 0}
 --- !u!82 &1105613404
 AudioSource:
   m_ObjectHideFlags: 0
@@ -39151,6 +39165,9 @@ MonoBehaviour:
   fireBall: {fileID: 8300000, guid: 4224ef9b15ce27448a978a4c2c70af91, type: 3}
   windGust: {fileID: 0}
   luminous: {fileID: 0}
+  characterShield: {fileID: 0}
+  healSfx: {fileID: 0}
+  manaSfx: {fileID: 0}
 --- !u!4 &1965275578 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 465098, guid: a7d0bab3996f4c44299aaa2169c9bcae, type: 3}
@@ -45466,6 +45483,7 @@ MonoBehaviour:
   enableTimeScale: 1
   healParticles: {fileID: 4109030048757072308}
   manaParticles: {fileID: 5747799353952397614}
+  sfx: {fileID: 0}
   dodge: 0
   shieldDuration: 0.2
   tutorial: 0

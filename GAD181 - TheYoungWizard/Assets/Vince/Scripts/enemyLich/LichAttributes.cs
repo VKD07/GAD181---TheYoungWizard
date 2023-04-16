@@ -8,8 +8,10 @@ public class LichAttributes : LichMainScript
     [SerializeField] float health = 100f;
     [SerializeField] Slider healthSlider;
     [SerializeField] public ForceFieldScript forceFieldScript;
+    EnemyHandler enemyHandler;
     void Start()
     {
+        enemyHandler = FindObjectOfType<EnemyHandler>();
         anim = GetComponent<Animator>();
         healthSlider.maxValue = health;
         healthSlider.value = health;
@@ -60,5 +62,13 @@ public class LichAttributes : LichMainScript
         this.gameObject.GetComponent<LichAttack>().enabled = true;
         this.gameObject.GetComponent<LichChase>().enabled = true;
         this.gameObject.GetComponent<Animator>().enabled = true;
+    }
+
+    private void OnDestroy()
+    {
+        if(enemyHandler != null)
+        {
+            enemyHandler.enemiesDead += 1;
+        }
     }
 }

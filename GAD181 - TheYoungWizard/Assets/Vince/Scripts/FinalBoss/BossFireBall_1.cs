@@ -9,6 +9,7 @@ public class BossFireBall_1 : MonoBehaviour
     [SerializeField] float fireBallSpeedToBoss = 15f;
     [SerializeField] float fireBallDamage = 20f;
     [SerializeField] bool projectile1 = false;
+    [SerializeField] GameObject explosionVFX;
     Player_SpellCast spellCast;
     public bool deflected = false;
     public Transform bossLocation;
@@ -50,15 +51,16 @@ public class BossFireBall_1 : MonoBehaviour
     {
         if (collision.tag == "frostWall")
         {
+            ExplosionVFX();
             Destroy(gameObject);
         }
 
         if (collision.gameObject.tag == "Boss" && deflected == true)
         {
+            ExplosionVFX();
             collision.gameObject.GetComponent<BossScript>().DamageEnemy(fireBallDamage);
             Destroy(gameObject);
         }
-
     }
 
     private void OnTriggerStay(Collider other)
@@ -73,14 +75,23 @@ public class BossFireBall_1 : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            ExplosionVFX();
             playerIsHit = true;
             collision.gameObject.GetComponent<playerCombat>().damagePlayer(fireBallDamage);
             Destroy(gameObject);
         }else if(collision.gameObject.tag == "Boss" && deflected == true)
         {
+            ExplosionVFX();
             collision.gameObject.GetComponent<BossScript>().DamageEnemy(fireBallDamage);
             Destroy(gameObject);
         }
+    }
+
+
+    private void ExplosionVFX()
+    {
+        GameObject explosionObj = Instantiate(explosionVFX, transform.position, Quaternion.identity);
+        Destroy(explosionObj, 3f);
     }
 
     IEnumerator Destroy(float time)
@@ -88,5 +99,7 @@ public class BossFireBall_1 : MonoBehaviour
         yield return new WaitForSeconds(time);
         Destroy(gameObject);
     }
+
+
 
 }

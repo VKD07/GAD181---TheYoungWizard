@@ -11,12 +11,6 @@ public class PlayerOpenChest : MonoBehaviour
     [SerializeField] KeyCode openChestKey = KeyCode.F;
     [SerializeField] ParticleSystem playerBeam;
     RaycastHit hit;
-    Animator anim;
-
-    private void Start()
-    {
-        anim = GetComponent<Animator>();
-    }
 
     private void Update()
     {

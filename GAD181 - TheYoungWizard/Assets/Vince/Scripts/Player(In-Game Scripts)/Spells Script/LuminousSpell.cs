@@ -17,8 +17,11 @@ public class LuminousSpell : MonoBehaviour
 
         foreach (Collider objs in enemies)
         {
-            objs.SendMessage("LuminousDamage", luminousDamagePerSecond * Time.deltaTime);
-            objs.SendMessage("ReduceDamage", true);
+            if (objs != null)
+            {
+                objs.SendMessage("LuminousDamage", luminousDamagePerSecond * Time.deltaTime);
+                objs.SendMessage("ReduceDamage", true);
+            }
         }
     }
 

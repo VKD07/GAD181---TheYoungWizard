@@ -14,6 +14,7 @@ public class BossHealthHandler : MonoBehaviour
     [SerializeField] AudioClip shatteredRockSfx;
     AudioSource audioSource;
     BossScript bossScript;
+    public bool firstRockShattered;
 
     void Start()
     {
@@ -27,6 +28,7 @@ public class BossHealthHandler : MonoBehaviour
         {
             if (bossScript.GetBossHealth() <= 800 && rockHealth[0] != null)
             {
+                firstRockShattered = true;
                 ShatteredRock(0);
             }
             else if (bossScript.GetBossHealth() <= 600 && rockHealth[1] != null)
@@ -41,9 +43,9 @@ public class BossHealthHandler : MonoBehaviour
             {
                 ShatteredRock(3);
             }
-            else if (bossScript.GetBossHealth() <= 0 && rockHealth[4] != null)
+            else if (bossScript.GetBossHealth() <= 50 && rockHealth[4] != null)
             {
-                SceneManager.LoadScene(4);
+                SceneManager.LoadScene("FinalBoss 1");//final cutscene
             }
         }
     }
