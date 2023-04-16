@@ -85,7 +85,7 @@ public class WinterLandEnemyAI : MonoBehaviour
 
     private void EnemyDealDamage()
     {
-        thatPlayer.GetComponent<playerCombat>().damagePlayer(attackDamage);
+        thatPlayer.GetComponent<playerCombat>().damagePlayer(attackDamage, false);
     }
     private void UpdateEnemyHealth()
     {

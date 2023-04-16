@@ -452,9 +452,9 @@ public class CutSceneHandler : MonoBehaviour
 
             else if (sequence[24])
             {
-                if(bossHealthHandler.firstRockShattered)
+                if (bossHealthHandler.firstRockShattered)
                 {
-                    if(currentCameraTimer < cameraTimer)
+                    if (currentCameraTimer < cameraTimer)
                     {
                         currentCameraTimer += Time.deltaTime;
                         sceneCamera[3].SetActive(true);
@@ -466,7 +466,7 @@ public class CutSceneHandler : MonoBehaviour
                     else
                     {
                         currentCameraTimer = 0;
-                       
+
                         sequence[24] = false;
                         sequence[25] = true;
                     }
@@ -476,14 +476,11 @@ public class CutSceneHandler : MonoBehaviour
             {
                 if (!countingDownNext)
                 {
-                    if (Input.GetKeyDown(nextKey))
-                    {
-                        dialogBox.EnableDialogBox(true);
-                        dialogBox.nextLine(20);
-                        sequence[25] = false;
-                        sequence[26] = true;
-                        countingDownNext = true;
-                    }
+                    dialogBox.EnableDialogBox(true);
+                    dialogBox.nextLine(20);
+                    sequence[25] = false;
+                    sequence[26] = true;
+                    countingDownNext = true;
                 }
             }
             else if (sequence[26])

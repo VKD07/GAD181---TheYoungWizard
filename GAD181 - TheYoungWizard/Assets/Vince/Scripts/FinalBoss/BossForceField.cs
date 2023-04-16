@@ -89,7 +89,7 @@ public class BossForceField : MonoBehaviour
     {
         if (currentScale > 0 && !activateShield)
         {
-            healingVFX.SetActive(false);
+            
             currentScale -= Time.deltaTime * 20f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
             meshRenderer.enabled = false;
@@ -99,6 +99,11 @@ public class BossForceField : MonoBehaviour
                 sfx.ExplodingShieldSound();
                 shieldDeactiveSfx = true;
                 shieldActiveSfx = false;
+            }
+
+            if (healingVFX != null)
+            {
+                healingVFX.SetActive(false);
             }
         }
     }

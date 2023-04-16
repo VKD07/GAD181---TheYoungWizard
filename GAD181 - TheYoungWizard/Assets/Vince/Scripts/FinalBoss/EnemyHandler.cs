@@ -61,7 +61,7 @@ public class EnemyHandler : MonoBehaviour
 
     private void DetectPlayer()
     {
-        if (runeStone.unlocked)
+        if (runeStone != null && runeStone.unlocked)
         {
             stageCollider[0].isTrigger = true;
         }

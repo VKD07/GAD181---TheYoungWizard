@@ -447,6 +447,7 @@ public class FInalBossTimeLine : MonoBehaviour
     IEnumerator PlayBeamExplosionSound(float time)
     {
         yield return new WaitForSeconds(time);
+        TriggerVirtualCameraShake(1, 2);
         beamBlockerAudioSource.Play();
     }
 
@@ -461,5 +462,10 @@ public class FInalBossTimeLine : MonoBehaviour
             currentTime = 0;
             countingDownNext = false;
         }
+    }
+
+    void TriggerVirtualCameraShake(float time, float intensity)
+    {
+        CameraShake.instance.ShakeVirtualCamera(time, intensity);
     }
 }

@@ -12,6 +12,10 @@ public class ObjectiveBox : MonoBehaviour
     [SerializeField] string[] objectives;
     [SerializeField] TextMeshProUGUI objectiveDesc;
     [SerializeField] GameObject objectiveBox;
+
+    [Header("SFX")]
+    [SerializeField] SFXHandler sfx;
+
     int objNum;
     public void EnableObjectiveBox(bool value)
     {
@@ -26,5 +30,10 @@ public class ObjectiveBox : MonoBehaviour
     public void ObjectiveCompleted(bool value)
     {
         anim.SetBool("Completed",value);
+
+        if(value)
+        {
+            sfx.PlaySuccessSfx();
+        }
     }
 }

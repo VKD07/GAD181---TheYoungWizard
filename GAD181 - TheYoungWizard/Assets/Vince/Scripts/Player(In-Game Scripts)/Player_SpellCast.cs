@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class Player_SpellCast : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] float cameraShakeIntensity = 0.4f;
     [SerializeField] CastModeManager castModeManager;
     [SerializeField] SpellSlot spellManager;
     [SerializeField] Animator playerAnimation;
@@ -256,4 +257,9 @@ public class Player_SpellCast : MonoBehaviour
         }
     }
     #endregion
+
+    public void TriggerCameraShake()
+    {
+      //  CameraShake.instance.ShakeCamera(0.5f, cameraShakeIntensity);
+    }
 }

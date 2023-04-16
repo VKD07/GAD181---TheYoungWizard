@@ -89,7 +89,7 @@ public class playerCombat : MonoBehaviour
 
     void Start()
     {
-        CursorLoc();
+        CursorLock();
         //giving control of camera
         cam.m_YAxis.m_MaxSpeed = 2;
         cam.m_XAxis.m_MaxSpeed = 200;
@@ -103,7 +103,7 @@ public class playerCombat : MonoBehaviour
         playerMovement = GetComponent<Player_Movement>();
     }
 
-    private void CursorLoc()
+    private void CursorLock()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -434,9 +434,9 @@ public class playerCombat : MonoBehaviour
         }
     }
     //take damage from enemy
-    public void damagePlayer(float damage)
+    public void damagePlayer(float damage , bool ignoreShield)
     {
-        if (forceField.shieldIsActive == false)
+        if (forceField.shieldIsActive == false || ignoreShield)
         {
             playerHealth -= damage;
             disableSenses();

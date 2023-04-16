@@ -9,7 +9,7 @@ public class TheVoid : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            other.GetComponent<playerCombat>().damagePlayer(999f);
+            other.GetComponent<playerCombat>().damagePlayer(999f, false);
         }
         
     }

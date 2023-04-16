@@ -23,6 +23,7 @@ public class Player_Animation_Config : MonoBehaviour
     bool enemyDetected;
     Vector3 direction;
     RaycastHit hit;
+    public float distanceToPlayer;
 
     [Header("Player Roll")]
     [SerializeField] CharacterController cr;
@@ -51,6 +52,11 @@ public class Player_Animation_Config : MonoBehaviour
             {
                 enemyDetected = true;
             }
+
+            distanceToPlayer = Vector3.Distance(hit.point, transform.position);
+           
+
+          //  if(distanceToPlayer < )
 
             Debug.DrawLine(ray.origin, ray.direction * Mathf.Infinity, Color.red);
         }
@@ -112,5 +118,13 @@ public class Player_Animation_Config : MonoBehaviour
     public void enableCharacterController()
     {
         pm.characterController.enabled = true;
+    }
+
+    public void TriggerAttackCameraShake()
+    {
+        if (distanceToPlayer <= 5)
+        {
+            CameraShake.instance.ShakeCamera(0.5f, 0.8f);
+        }
     }
 }
