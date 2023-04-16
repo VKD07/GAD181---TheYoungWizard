@@ -20,6 +20,11 @@ public class DialogBox : MonoBehaviour
 
     private void Update()
     {
+        ClickToSpeedUpText();
+    }
+
+    private void ClickToSpeedUpText()
+    {
         if (isTyping)
         {
             if (Input.GetKeyDown(KeyCode.Mouse0))
@@ -31,7 +36,6 @@ public class DialogBox : MonoBehaviour
         {
             textInterval = 0.03f;
         }
-
     }
 
     private void Start()

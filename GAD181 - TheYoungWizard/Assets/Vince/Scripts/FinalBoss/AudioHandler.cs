@@ -6,7 +6,11 @@ public class AudioHandler : MonoBehaviour
 {
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip enemyEncounter;
+    [SerializeField] AudioClip bossRevealMusic;
+    [SerializeField] AudioClip bossFightMusic;
     public bool musicIsPlaying;
+    bool bossRevealMusicIsPlaying;
+    bool bossFightMusicIsPlaying;
     public void PlayEnemyEncounterMusic()
     {
         if (!musicIsPlaying)
@@ -21,10 +25,34 @@ public class AudioHandler : MonoBehaviour
         audioSource.volume = 0f;
         audioSource.PlayOneShot(audio);
 
-        while (audioSource.volume < 0.2f)
+        while(audioSource.volume < 0.2f)
         {
             audioSource.volume += Time.deltaTime * 0.5f / fadeTime;
             yield return null;
+        }
+    }
+
+    public void PlayBossReveal()
+    {
+        if (!bossRevealMusicIsPlaying)
+        {
+            audioSource.volume = 0.3f;
+            bossRevealMusicIsPlaying = true;
+            audioSource.Stop();
+            audioSource.clip = bossRevealMusic;
+            audioSource.Play();
+        }
+    }
+
+    public void PlayBossFightMusic()
+    {
+        if (!bossFightMusicIsPlaying)
+        {
+            audioSource.volume = 0.3f;
+            bossFightMusicIsPlaying = true;
+            audioSource.Stop();
+            audioSource.clip = bossFightMusic;
+            audioSource.Play();
         }
     }
 }

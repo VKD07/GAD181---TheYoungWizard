@@ -79,6 +79,7 @@ public class BossScript : MonoBehaviour
     [SerializeField] GameObject iceShieldObj;
     [SerializeField] ParticleSystem stunVfx;
     [SerializeField] BossForceField forceFieldScript;
+    [SerializeField] GameObject healingVFX;
     public bool shieldIsActivated;
     bool minionsSpawned = false;
 
@@ -217,6 +218,7 @@ public class BossScript : MonoBehaviour
         }
         else
         {
+            healingVFX.SetActive(false);
             healingMode(false);
         }
     }
@@ -469,12 +471,14 @@ public class BossScript : MonoBehaviour
                 {
                     if (health < maxHealth)
                     {
+                        healingVFX.SetActive(true);
                         health += healingRate * Time.deltaTime;
                     }
                 }
             }
             else
             {
+                healingVFX.SetActive(false);
                 currentTime = 0;
                 attackNumber = 0;
                 minionsSpawned = false;
@@ -520,6 +524,11 @@ public class BossScript : MonoBehaviour
             anim.SetTrigger("TakeDamage");
             health -= value;
         }
+    }
+
+    void LuminousDamage(float value)
+    {
+        health -= value;
     }
 
     public float GetBossHealth()

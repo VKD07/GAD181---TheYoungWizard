@@ -29,6 +29,9 @@ public class BossForceField : MonoBehaviour
     public int numberOfBrokenShields;
     public bool isDummy;
 
+    [Header("VFX")]
+    [SerializeField] GameObject healingVFX;
+
     [Header("SFX")]
     [SerializeField] BossSFXHandler sfx;
     bool shieldActiveSfx;
@@ -86,6 +89,7 @@ public class BossForceField : MonoBehaviour
     {
         if (currentScale > 0 && !activateShield)
         {
+            healingVFX.SetActive(false);
             currentScale -= Time.deltaTime * 20f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
             meshRenderer.enabled = false;

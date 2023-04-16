@@ -6,13 +6,21 @@ using UnityEngine;
 public class EnemyHandler : MonoBehaviour
 {
     [SerializeField] Collider[] stageCollider;
-    [SerializeField] GameObject [] enemies;
+    [SerializeField] GameObject[] enemies;
     [SerializeField] GameObject boss;
     [SerializeField] GameObject bossHealth;
     [SerializeField] bool[] stageIsClear;
     [SerializeField] AudioHandler audioHandler;
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] StoneSpell runeStone;
+    [SerializeField] GameObject bossLighting;
+    public int enemiesDead;
     GameObject player;
     Collider playerCollider;
+    public bool finalStage;
+    public bool spawnBoss;
+    GameObject luminous;
+    bool musicIsPlayed;
 
     private void Start()
     {
@@ -29,30 +37,38 @@ public class EnemyHandler : MonoBehaviour
 
     private void StageHandler()
     {
-        for (int i = 0; i < 2; i++)
+
+        if (enemiesDead == 2)
         {
-            if (enemies[i] == null)
+            stageCollider[1].GetComponent<BoxCollider>().isTrigger = true;
+            stageIsClear[0] = true;
+        }
+        else if (stageIsClear[0] == true && enemiesDead == 5)
+        {
+            stageIsClear[1] = true;
+            stageCollider[2].GetComponent<BoxCollider>().isTrigger = true;
+            if (audioSource.volume > 0 && !musicIsPlayed)
             {
-                stageCollider[1].GetComponent<BoxCollider>().isTrigger = true;
-                stageIsClear[0] = true;
+                audioSource.volume -= 0.05f * Time.deltaTime;
+            }
+            else
+            {
+                musicIsPlayed = true;
             }
         }
 
-        for (int i = 2; i < enemies.Length; i++)
-        {
-            if (stageIsClear[0] == true && enemies[i] == null)
-            {
-                stageIsClear[1] = true;
-                stageCollider[2].GetComponent<BoxCollider>().isTrigger = true;
-            }
-        }
     }
 
     private void DetectPlayer()
     {
-        if (stageCollider[0].bounds.Intersects(playerCollider.bounds))
+        if (runeStone.unlocked)
+        {
+            stageCollider[0].isTrigger = true;
+        }
+        if (stageCollider[0].bounds.Intersects(playerCollider.bounds) && runeStone.unlocked)
         {
             audioHandler.PlayEnemyEncounterMusic();
+
             for (int i = 0; i < 2; i++)
             {
                 if (enemies[i] != null)
@@ -74,14 +90,28 @@ public class EnemyHandler : MonoBehaviour
         }
         else if (stageCollider[2].bounds.Intersects(playerCollider.bounds) && stageIsClear[1] == true)
         {
-            boss.SetActive(true);
-            bossHealth.SetActive(true);
+            finalStage = true;
             stageCollider[0].isTrigger = false;
-            RenderSettings.fogColor = Color.black;
             stageCollider[3].enabled = true;
         }
 
-      
+        //boss meets kael if luminous is lighten up
 
+        if (finalStage)
+        {
+            luminous = GameObject.FindGameObjectWithTag("luminous");
+            if (luminous != null)
+            {
+                if (!spawnBoss)
+                {
+                    RenderSettings.fogColor = Color.black;
+                    spawnBoss = true;
+                    bossLighting.SetActive(true);
+                    boss.SetActive(true);
+                }
+            }
+        }
     }
+
+
 }
