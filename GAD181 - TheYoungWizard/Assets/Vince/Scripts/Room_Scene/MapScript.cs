@@ -20,9 +20,9 @@ public class MapScript : MonoBehaviour
     [SerializeField] Material portalParticleMaterial;
     [SerializeField] Light portalLight;
     [SerializeField] bool[] portalActive;
-    [SerializeField] GameObject portalVfx;
+    [SerializeField] public GameObject portalVfx;
     public int activePortal;
-    bool close;
+    public bool close;
 
     private void Start()
     {
@@ -92,6 +92,17 @@ public class MapScript : MonoBehaviour
     public void NormalForest()
     {
         Color greenColor = new Color(0.3443396f, 1f, 0.3612598f);
+        portalMaterial.SetColor("_EmissionColor", greenColor);
+        trailMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
+        portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
+        portalLight.color = greenColor;
+        portalVfx.SetActive(true);
+        close = true;
+    }
+
+    public void RedPortal()
+    {
+        Color greenColor = new Color(1f, 0.3066038f, 0.3066038f);
         portalMaterial.SetColor("_EmissionColor", greenColor);
         trailMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
