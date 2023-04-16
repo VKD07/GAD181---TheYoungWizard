@@ -598,10 +598,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 4811414280572456156}
-  currentHealth: 15
+  currentHealth: 35
   slider: {fileID: 6794872497584853948}
   thatPlayer: {fileID: 0}
-  attackDamage: 5
+  attackDamage: 2
   player: {fileID: 0}
   sightRange: 100
   attackRange: 1

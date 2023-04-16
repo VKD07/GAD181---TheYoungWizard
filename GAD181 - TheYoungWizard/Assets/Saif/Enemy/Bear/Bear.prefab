@@ -2094,7 +2094,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 6200000212395038958}
-  currentHealth: 50
+  currentHealth: 100
   slider: {fileID: 2225820014337947224}
   thatPlayer: {fileID: 0}
   attackDamage: 10

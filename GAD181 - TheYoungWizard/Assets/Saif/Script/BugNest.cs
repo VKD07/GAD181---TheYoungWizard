@@ -15,7 +15,7 @@ public class BugNest : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
-            InvokeRepeating("EnemySpanwer", 0.5f, 4f);
+            InvokeRepeating("EnemySpanwer", 0.5f, 3f);
            // GetComponent<BoxCollider>().enabled = false;
 
         }
@@ -25,7 +25,7 @@ public class BugNest : MonoBehaviour
         if (other.gameObject.tag == "Player")
         {
             CancelInvoke();
-            GetComponent<BoxCollider>().enabled = false;;
+           // GetComponent<BoxCollider>().enabled = false;;
         }
     }
 
