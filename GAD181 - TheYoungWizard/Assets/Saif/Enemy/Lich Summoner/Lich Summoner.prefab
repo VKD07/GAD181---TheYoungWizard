@@ -626,14 +626,13 @@ GameObject:
   m_Component:
   - component: {fileID: 7105959078185229679}
   - component: {fileID: 7196716291871881625}
-  - component: {fileID: 6924363880867024303}
   - component: {fileID: 7100126979250818704}
   - component: {fileID: 1409391964636197291}
   - component: {fileID: 1315537553970628670}
   - component: {fileID: 2641889295989911735}
   - component: {fileID: 7100126979250818705}
   m_Layer: 13
-  m_Name: Lich - Winter Land
+  m_Name: Lich Summoner
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -669,7 +668,7 @@ Animator:
   m_GameObject: {fileID: 7100126979250818711}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 3dc717adf98c7b043a3e77ed0130d470, type: 3}
-  m_Controller: {fileID: 9100000, guid: 5018b6a413653234e97dba9c6ff101d9, type: 2}
+  m_Controller: {fileID: 9100000, guid: 872c07413e53c694eac10a26da1b154b, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -679,22 +678,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
---- !u!114 &6924363880867024303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7100126979250818711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e234c9946d7ae4d489d953fee3c43a04, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bullet: {fileID: 5005133997823446135, guid: 17c925759f603bb43b2edfcb783d8275, type: 3}
-  bulletSpawnPoint: {fileID: 1408078153512713826}
-  fireRate: 3
-  currentTime: 3
 --- !u!114 &7100126979250818704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -708,17 +691,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 1409391964636197291}
-  currentHealth: 150
+  currentHealth: 100
   slider: {fileID: 1408078152954095572}
+  bullet: {fileID: 5005133997823446135, guid: 17c925759f603bb43b2edfcb783d8275, type: 3}
+  bulletSpawnPoint: {fileID: 1408078153512713826}
+  playerAttackRange: 0
   thatPlayer: {fileID: 0}
   player: {fileID: 0}
   thePlayer:
     serializedVersion: 2
     m_Bits: 128
   animEnemy: {fileID: 0}
-  sightRange: 10
+  sightRange: 20
+  attackRange: 15
   playerSightRange: 0
   playerlastposition: {x: 0, y: 0, z: 0}
+  wolfSpawnTimer: 0
+  wolfTimeSpawn: 10
 --- !u!195 &1409391964636197291
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -2009,7 +2009,7 @@ GameObject:
   - component: {fileID: 4398565215791459627}
   - component: {fileID: 2736292776967548761}
   m_Layer: 13
-  m_Name: Bear_4
+  m_Name: Bear
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
