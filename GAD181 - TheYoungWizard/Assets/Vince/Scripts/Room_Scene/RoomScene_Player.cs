@@ -30,14 +30,15 @@ public class RoomScene_Player : MonoBehaviour
     [Header("Map InterAction")]
     [SerializeField] GameObject mapUI;
     [SerializeField] GameObject thirdPersonCamera;
-    
 
-
+    [Header("Audio")]
+    AudioSource audioSource;
+    [SerializeField] AudioClip footSteps;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-
+        audioSource = GetComponent<AudioSource>();
         //setting the cursor to visible and lock to the center
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -114,4 +115,8 @@ public class RoomScene_Player : MonoBehaviour
         Debug.DrawRay(transform.position, transform.forward * rayCastLength, Color.red);
     }
 
+    public void PlayFootSteps()
+    {
+        audioSource.PlayOneShot(footSteps, 0.2f);
+    }
 }

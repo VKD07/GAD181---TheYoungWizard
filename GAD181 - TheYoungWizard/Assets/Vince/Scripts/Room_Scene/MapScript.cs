@@ -21,7 +21,9 @@ public class MapScript : MonoBehaviour
     [SerializeField] Light portalLight;
     [SerializeField] bool[] portalActive;
     [SerializeField] public GameObject portalVfx;
+    [SerializeField] KeyCode exitMapKey = KeyCode.Escape;
     public int activePortal;
+    public bool disableMapClosing;
     public bool close;
 
     private void Start()
@@ -43,13 +45,16 @@ public class MapScript : MonoBehaviour
     private void closeUI()
     {
         //closes UI when you press escape button
-        if(mapImage.activeSelf == true && Input.GetKeyDown(KeyCode.Escape) || close)
+        if (!disableMapClosing)
         {
-            mapImage.SetActive(false);
-            playerMovement.enabled = true;
-            thirdPersonCamera.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            if (mapImage.activeSelf == true && Input.GetKeyDown(exitMapKey) || close)
+            {
+                mapImage.SetActive(false);
+                playerMovement.enabled = true;
+                thirdPersonCamera.SetActive(true);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
         }
     }
 
@@ -74,6 +79,7 @@ public class MapScript : MonoBehaviour
         portalLight.color = blueColor;
         activePortal = 1;
         portalVfx.SetActive(true);
+        ShakeCamera();
         close = true;
     }
 
@@ -86,6 +92,7 @@ public class MapScript : MonoBehaviour
         portalLight.color = purpleColor;
         activePortal = 2;
         portalVfx.SetActive(true);
+        ShakeCamera();
         close = true;
     }
 
@@ -97,6 +104,7 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalLight.color = greenColor;
         portalVfx.SetActive(true);
+        ShakeCamera();
         close = true;
     }
 
@@ -108,7 +116,6 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalLight.color = greenColor;
         portalVfx.SetActive(true);
-        close = true;
     }
 
     private void PortalToActivate(int portal)
@@ -125,5 +132,11 @@ public class MapScript : MonoBehaviour
                 portalActive[i] = false;
             }
         }
+    }
+
+    public void ShakeCamera()
+    {
+        CameraShake.instance.finalCutScene = false;
+        CameraShake.instance.ShakeCamera(1, 2);
     }
 }

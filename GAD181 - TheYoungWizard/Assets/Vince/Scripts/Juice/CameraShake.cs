@@ -37,7 +37,7 @@ public class CameraShake : MonoBehaviour
             {
                 SetShakeIntensity(Mathf.Lerp(startingIntensity, 0f, 1 - (shakeTime / totalShakeTime)));
             }
-            else if (finalCutScene && virtualCamera != null && BossHealthHandler.instance.finalCutScene)
+            else if (finalCutScene && virtualCamera.Length > 0)
             {
                 SetVirtualCameraShakeIntensity(Mathf.Lerp(startingIntensity, 0f, 1 - (shakeTime / totalShakeTime)));
             }

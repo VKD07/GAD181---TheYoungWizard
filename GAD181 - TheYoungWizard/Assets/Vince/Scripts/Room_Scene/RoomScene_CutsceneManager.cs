@@ -9,11 +9,16 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     [SerializeField] RoomScene_Player playerScript;
     [SerializeField] GameObject thirdPersonCamera;
     [SerializeField] Transform playerTransform;
-    [SerializeField] MapScript mapScript;
     [SerializeField] Animator playerAnim;
+
+    [Header("Environment Components")]
+    [SerializeField] MapScript mapScript;
     [SerializeField] GameObject furBall;
     [SerializeField] Transform portal;
     [SerializeField] MainMenu menu;
+    [SerializeField] GameObject mapYellowMark;
+    [SerializeField] GameObject mapUI;
+    bool mapIsOpened;
 
     [Header("Dialog Box")]
     [SerializeField] GameObject dialogCanvas;
@@ -35,7 +40,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     float currentCameraTimer;
 
     [Header("Audio")]
-    [SerializeField] AudioHandler audioHandler;
+    [SerializeField] RoomCutScene_AudioHandler audioHandler;
 
     [Header("VFX")]
     [SerializeField] GameObject windParticle;
@@ -43,9 +48,11 @@ public class RoomScene_CutsceneManager : MonoBehaviour
 
     void Awake()
     {
-        LockCursor();
+        LockCursor(true);
+        mapYellowMark.SetActive(false);
         EnablePlayerComponents(false);
         mainMenuCamera.SetActive(false);
+        audioHandler.PlayWhooshSFX(2);
         sceneCamera[0].SetActive(true);
         StartCoroutine(FirstDialog(5f));
     }
@@ -143,6 +150,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    audioHandler.PlayCatSound();
                     sceneCamera[2].SetActive(true);
                     sceneCamera[1].SetActive(false);
                     dialogBox.nextLine(6);
@@ -174,7 +182,9 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
-                    StartCoroutine(ActivateRedPortal(3f));
+                    CameraShake.instance.ShakeVirtualCamera(2, 1);
+                    audioHandler.PlayPortalSceneMusic();
+                    StartCoroutine(ActivateRedPortal(2f));
                     dialogBox.EnableDialogBox(false);
                     sceneCamera[0].SetActive(false);
                     sceneCamera[3].SetActive(true);
@@ -186,6 +196,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
         {
             if (!countingDownNext)
             {
+                CameraShake.instance.ShakeVirtualCamera(2, 1);
                 furBall.SetActive(false);
                 windParticle.SetActive(true);
                 scrollAnimation.SetTrigger("TakeScrolls");
@@ -270,20 +281,21 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             }
         }
 
-        else if (sequence[14]) // Give access to player control
+        else if (sequence[14])
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextKey))
                 {
-                    cinemachineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseIn;
+                    mapYellowMark.SetActive(true);
                     dialogBox.EnableDialogBox(false);
+                    cinemachineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseIn;
+                    cinemachineBrain.m_DefaultBlend.m_Time = 2f;
                     sceneCamera[5].SetActive(false);
+                    sceneCamera[6].SetActive(true);
                     playerAnim.SetBool("Suprised", false);
-                    menu.cameraControl = true;
                     mapScript.portalVfx.SetActive(false);
                     windParticle.SetActive(false);
-                    EnablePlayerComponents(true);
                     sequence[14] = false;
                     sequence[15] = true;
                     countingDownNext = true;
@@ -291,10 +303,82 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             }
         }
 
-        //player interacts with the map
-        // Kael: seems like my spells are scattered in this 3 places. I have to go there and find them!
+        else if (sequence[15]) // goes to the back of kael. dialog: Kael: That map over there can help me access the portal!
+        {
+            if (!countingDownNext)
+            {
+                dialogBox.EnableDialogBox(true);
+                dialogBox.nextLine(13);
+                sequence[15] = false;
+                sequence[16] = true;
+                countingDownNext = true;
+            }
+        }
 
+        else if (sequence[16]) // goes to the back of kael. dialog: Kael: That map over there can help me access the portal!
+        {
+            if (!countingDownNext)
+            {
+                if (Input.GetKeyDown(nextKey))
+                {
+                    audioHandler.PlayWhooshSFX(0);
+                    dialogBox.EnableDialogBox(false);
+                    EnablePlayerComponents(true);
+                    sceneCamera[6].SetActive(false);
+                    menu.cameraControl = true;
+                    sequence[16] = false;
+                    sequence[17] = true;
+                    countingDownNext = true;
+                }
+            }
+        }
 
+        else if (sequence[17]) // kael opens the portal
+        {
+            if (!countingDownNext)
+            {
+                if (mapUI.activeSelf)
+                {
+                    mapScript.disableMapClosing = true;
+                    LockCursor(true);
+                    dialogBox.EnableDialogBox(true);
+                    dialogBox.nextLine(14);
+                    sequence[17] = false;
+                    sequence[18] = true;
+                    countingDownNext = true;
+                }
+            }
+        }
+
+        else if (sequence[18])
+        {
+            if (!countingDownNext)
+            {
+                if (Input.GetKeyDown(nextKey))
+                {
+                    dialogBox.nextLine(15);
+                    sequence[18] = false;
+                    sequence[19] = true;
+                    countingDownNext = true;
+                }
+            }
+        }
+
+        else if (sequence[19]) // give back player controls
+        {
+            if (!countingDownNext)
+            {
+                if (Input.GetKeyDown(nextKey))
+                {
+                    mapScript.disableMapClosing = false;
+                    LockCursor(false);
+                    dialogBox.EnableDialogBox(false);
+                    sequence[19] = false;
+                    sequence[20] = true;
+                    countingDownNext = true;
+                }
+            }
+        }
     }
 
     void EnablePlayerComponents(bool value)
@@ -303,10 +387,18 @@ public class RoomScene_CutsceneManager : MonoBehaviour
         thirdPersonCamera.SetActive(value);
     }
 
-    void LockCursor()
+    void LockCursor(bool value)
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        if (value)
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+
+        Cursor.visible = !value;
     }
 
     void EnablePlayerControl()
@@ -318,6 +410,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     IEnumerator ActivateRedPortal(float time)
     {
         yield return new WaitForSeconds(time);
+        audioHandler.PlayRedPortal();
         mapScript.RedPortal();
         sequence[7] = false;
         sequence[8] = true;
