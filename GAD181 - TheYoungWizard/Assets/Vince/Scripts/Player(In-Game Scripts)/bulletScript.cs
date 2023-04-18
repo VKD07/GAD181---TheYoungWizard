@@ -8,11 +8,14 @@ public class bulletScript : MonoBehaviour
 {
     [SerializeField] float bulletDamage = 10f;
     [SerializeField] GameObject bossImpactVfx;
+    private Vector3 savePoint;
+    private GameObject player;
     [SerializeField] GameObject explosion;
 
     private void Update()
     {
         DeathHandler();
+        player = GameObject.Find("Player(In-Game)");
     }
 
     private void DeathHandler()
@@ -83,11 +86,13 @@ public class bulletScript : MonoBehaviour
                 explodeVFX();
             }
         }
-        if (collision.tag == "CheckPoint")
+        /*if((collision.tag == "CheckPoint"))
         {
-            collision.GetComponent<SpawnPoint>().PlayTheCampFire();
+            collision.GetComponent<CampFire>().PlayFire();
+            savePoint = new Vector3 (collision.gameObject.transform.position.x, player.transform.position.y, collision.gameObject.transform.position.z);
+            player.GetComponent<playerCombat>().RespawnPoint(savePoint);
+        }*/
 
-        }
     }
 
     public void explodeVFX()

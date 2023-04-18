@@ -26,6 +26,11 @@ TagManager:
   - CheckPoint
   - movingDummy
   - tutorialDummy
+  - Nest
+  - StartingMenu
+  - Icicle
+  - PenguinRight
+  - PenguinLeft
   layers:
   - Default
   - TransparentFX

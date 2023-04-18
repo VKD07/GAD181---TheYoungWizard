@@ -14,15 +14,16 @@ public class WinterLandEnemyAI : MonoBehaviour
     public GameObject thatPlayer;
     public float attackDamage;
     public Transform player;
-    public LayerMask thePlayer;
-    public LayerMask theGround;
     Animator animEnemy;
     public float sightRange;
     public float attackRange;
     public bool playerSightRange;
     public bool playerAttackRange;
     public Vector3 playerlastposition;
-    
+    float timer = 0f;
+    float playerHP;
+    float playerDistance;
+
     private void Start()
     {
         player = GameObject.Find("Player(In-Game)").transform;
@@ -30,7 +31,10 @@ public class WinterLandEnemyAI : MonoBehaviour
         animEnemy = GetComponent<Animator>();
         slider.maxValue = currentHealth;
         maxHealth = currentHealth;
+        thatPlayer = GameObject.Find("Player(In-Game)");
         
+
+
 
     }
     public void DamageEnemy(float playerDamage)
@@ -54,16 +58,18 @@ public class WinterLandEnemyAI : MonoBehaviour
             transform.LookAt(new Vector3(playerlastposition.x, transform.position.y, playerlastposition.z));  
         }
     }
-    private void EnemyChase()
+    private void EnemyChase(bool playerSeen)
     {
-        
+        if(playerSeen == true) 
+        { 
         agent.SetDestination(player.position);
         
         animEnemy.SetBool("Run Forward", true);
+        }
     }
     private void EnemyDeath()
     {
-        
+        GetComponent<BoxCollider>().enabled = false;
         animEnemy.ResetTrigger("Attack2");
         animEnemy.ResetTrigger("Attack1");
         animEnemy.SetBool("Run Forward", false);
@@ -77,11 +83,11 @@ public class WinterLandEnemyAI : MonoBehaviour
     private void EnemyAttack()
     {
         agent.SetDestination(transform.position);
-        
         animEnemy.SetTrigger("Attack1");
         animEnemy.SetTrigger("Attack2");
         animEnemy.SetBool("Run Forward", false);
     }
+
 
     private void EnemyDealDamage()
     {
@@ -96,33 +102,44 @@ public class WinterLandEnemyAI : MonoBehaviour
 
     private void Update()
     {
-        playerSightRange = Physics.CheckSphere(transform.position, sightRange, thePlayer);
-        playerAttackRange = Physics.CheckSphere(transform.position, attackRange, thePlayer);
+        timer += 1f * Time.deltaTime;
+        playerDistance = Vector3.Distance(player.transform.position, transform.position);
         UpdateEnemyHealth();
-
+        
         if (currentHealth > 0)
         {
-            if (playerSightRange && !playerAttackRange || currentHealth < maxHealth)
+            if (playerDistance < sightRange || currentHealth < maxHealth)
             {
                  LookAtPlayer(true);
-                 EnemyChase();
-                
+                 EnemyChase(true);
+                if (timer > 2)
+                {
+                    GetComponent<WinterEnemySounds>().PlayChaseSound();
+                    timer = 0;
+                }
 
             }
-            if (playerSightRange && playerAttackRange)
+            if (playerDistance < attackRange)
             {
+                EnemyChase(false);
                 EnemyAttack();
-
+                LookAtPlayer(true);
+                timer = 0;
             }
         }
-
-
 
         else if (currentHealth <= 0)
         {
             LookAtPlayer(false);
             EnemyDeath();
             
+        }
+
+        playerHP = thatPlayer.GetComponent<playerCombat>().GetPlayerHealth();
+        if (playerHP == 0)
+        {
+            animEnemy.SetTrigger("PlayerDead");
+            agent.SetDestination(transform.position);
         }
 
     }
