@@ -89,8 +89,8 @@ public class bulletScript : MonoBehaviour
         if((collision.tag == "CheckPoint"))
         {
             collision.GetComponent<CampFire>().PlayFire();
-           // savePoint = new Vector3 (collision.gameObject.transform.position.x, player.transform.position.y, collision.gameObject.transform.position.z);
-            //player.GetComponent<playerCombat>().RespawnPoint(savePoint);
+            savePoint = collision.GetComponent<CampFire>().firePlacement;
+            player.GetComponent<playerCombat>().RespawnPoint(savePoint);
         }
 
     }

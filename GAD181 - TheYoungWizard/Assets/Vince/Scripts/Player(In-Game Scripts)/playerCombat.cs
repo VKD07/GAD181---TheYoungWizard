@@ -81,6 +81,10 @@ public class playerCombat : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] PlayerSoundsHandler sfx;
+   
+    [Header("SFX")]
+    Vector3 savePoint;
+
 
 
     public bool dodge = false;
@@ -143,7 +147,8 @@ public class playerCombat : MonoBehaviour
     {
         if (playerHealth <= 0 && !tutorial)
         {
-            SceneManager.LoadScene("RoomScene");
+            //SceneManager.LoadScene("RoomScene");
+            transform.position = savePoint;
         }
     }
 
@@ -519,5 +524,9 @@ public class playerCombat : MonoBehaviour
         {
             cam.m_Lens.FieldOfView += 80f * Time.deltaTime;
         }
+    }
+    public void RespawnPoint(Vector3 respawn)
+    {
+        savePoint = respawn;
     }
 }
