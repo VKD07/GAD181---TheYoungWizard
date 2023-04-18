@@ -39,6 +39,11 @@ public class CastModeManager : MonoBehaviour
     [SerializeField] AudioClip choosingElementFx;
     [SerializeField] AudioClip correctCombiFx;
 
+    [Header("Locked Spell")]
+    [SerializeField] public bool windGustLocked = true;
+    [SerializeField] public bool IceSpellLocked = true;
+    [SerializeField] public bool luminousLocked = true;
+
     private void Update()
     {
         //after you finished casting
@@ -187,13 +192,29 @@ public class CastModeManager : MonoBehaviour
         {
             if (spellIDs[i] == currentSpellID && doneCombining == true)
             {
-                wrongCombination = false;
-                spellSlot.sprite = spellIcons[i];
-                //Store the current spell available to use
-                availableSpellID = currentSpellID;
-                correctCombination = true;
-                playerAudio.PlayOneShot(correctCombiFx, 0.1f);
-                break;
+                //Spell lock
+                if (IceSpellLocked && currentSpellID == 30)
+                {
+                    return;
+                }
+                else if (windGustLocked && currentSpellID == 35)
+                {
+                    return;
+                }
+                else if (luminousLocked && currentSpellID == 40)
+                {
+                    return;
+                }
+                else
+                {
+                    wrongCombination = false;
+                    spellSlot.sprite = spellIcons[i];
+                    //Store the current spell available to use
+                    availableSpellID = currentSpellID;
+                    correctCombination = true;
+                    playerAudio.PlayOneShot(correctCombiFx, 0.1f);
+                    break;
+                }
             }
             else
             {

@@ -16,7 +16,7 @@ public class MainMenu : MonoBehaviour
     [SerializeField] float fadeOutRate = 0.5f;
     [SerializeField] CinemachineFreeLook playerCamera;
     bool startGame;
-    bool cameraControl;
+    public bool cameraControl;
     bool fadeOut;
     // Update is called once per frame
 
@@ -66,14 +66,14 @@ public class MainMenu : MonoBehaviour
             {
                 alpha.alpha -= Time.deltaTime * fadeOutRate;
                 player.SetActive(true);
-                mainMenuCamera.SetActive(false);
+                //mainMenuCamera.SetActive(false);
             }
             else
             {
-                cameraControl = true;
+               // cameraControl = true;
                 startGame = false;
                 alpha.alpha = 0;
-                mainMenuUi.SetActive(false);
+                //mainMenuUi.SetActive(false);
             }
         }
     }

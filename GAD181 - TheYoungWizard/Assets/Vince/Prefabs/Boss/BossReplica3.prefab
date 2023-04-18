@@ -73335,6 +73335,7 @@ MonoBehaviour:
   activateShield: 0
   numberOfBrokenShields: 0
   isDummy: 0
+  healingVFX: {fileID: 0}
   sfx: {fileID: 5496190996488108501}
 --- !u!1 &7306694403751970628
 GameObject:
@@ -73577,6 +73578,8 @@ MonoBehaviour:
   stompSpeed: 25
   pounceVfx: {fileID: 6245445037185439738}
   landVfx: {fileID: 6197755455566227287}
+  cameraShakeIntensity: 2
+  cameraShakeDuration: 2
   jumpedToPlayer: 0
   catBiteDuration: 15
   runSpeed: 5
@@ -73596,6 +73599,7 @@ MonoBehaviour:
   iceShieldObj: {fileID: 5496190995807000971}
   stunVfx: {fileID: 5104897403200389657}
   forceFieldScript: {fileID: 7737515344072409358}
+  healingVFX: {fileID: 0}
   shieldIsActivated: 0
   bossClone: {fileID: 1522091250139845897, guid: f6257b8fb84e1a448aa89bc07c1328a3, type: 3}
   cloneDuration: 25
@@ -73671,6 +73675,7 @@ MonoBehaviour:
   bossPowerBeam: {fileID: 0}
   finalCutScene: 0
   shatteredRockSfx: {fileID: 0}
+  firstRockShattered: 0
 --- !u!114 &5496190996950991070
 MonoBehaviour:
   m_ObjectHideFlags: 0

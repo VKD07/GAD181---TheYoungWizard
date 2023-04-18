@@ -10,10 +10,7 @@ public class CharacterSprintEffect : MonoBehaviour
 
     public void PlayFastSteps()
     {
-
-            fastStep.Play();
-
-        
+        fastStep.Play();
     }
 
 

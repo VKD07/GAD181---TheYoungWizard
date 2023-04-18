@@ -6,11 +6,12 @@ using UnityEngine.SceneManagement;
 
 public class BossHealthHandler : MonoBehaviour
 {
+    public static BossHealthHandler instance { get; private set; }
     [SerializeField] GameObject[] rockHealth;
     [SerializeField] GameObject[] shatteredRock;
     [SerializeField] ParticleSystem powerBeam;
     [SerializeField] GameObject bossPowerBeam;
-    [SerializeField] bool finalCutScene;
+    [SerializeField] public bool finalCutScene;
     [SerializeField] AudioClip shatteredRockSfx;
     AudioSource audioSource;
     BossScript bossScript;
@@ -18,6 +19,7 @@ public class BossHealthHandler : MonoBehaviour
 
     void Start()
     {
+        instance = this;
         bossScript = GetComponent<BossScript>();
         audioSource = GetComponent<AudioSource>();
     }

@@ -152,7 +152,7 @@ public class CatMinion : MonoBehaviour
         {
             if (playerInRange == true)
             {
-                player.GetComponent<playerCombat>().damagePlayer(minionDamage);
+                player.GetComponent<playerCombat>().damagePlayer(minionDamage, false);
             }
         }
     }

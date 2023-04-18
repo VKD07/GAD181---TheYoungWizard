@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ public class bulletScript : MonoBehaviour
     [SerializeField] GameObject bossImpactVfx;
     private Vector3 savePoint;
     private GameObject player;
+    [SerializeField] GameObject explosion;
 
     private void Update()
     {
@@ -39,6 +41,7 @@ public class bulletScript : MonoBehaviour
             GameObject bossImpact = Instantiate(bossImpactVfx, transform.position, Quaternion.identity);
             Destroy(bossImpact, 2f);
             Destroy(gameObject);
+            explodeVFX();
         }
 
         if (collision.tag == "CatMinion")
@@ -46,22 +49,26 @@ public class bulletScript : MonoBehaviour
            // GameObject minion = collision.gameObject;
            // minion.GetComponent<CatMinion>().DamageEnemy(bulletDamage);
             Destroy(gameObject);
+            explodeVFX();
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
         {
             Destroy(gameObject);
+            explodeVFX();
         }
 
         if (collision.tag == "ForceField")
         {
             collision.gameObject.GetComponent<Animator>().SetTrigger("Hit");
             Destroy(gameObject);
+            explodeVFX();
         }
 
         if (collision.gameObject.layer == LayerMask.NameToLayer("Environment") || collision.gameObject.layer == LayerMask.NameToLayer("ground"))
         {
             Destroy(gameObject, 2f);
+            explodeVFX();
         }
 
         if(collision.tag == "tutorialDummy" || collision.tag == "movingDummy")
@@ -76,6 +83,7 @@ public class bulletScript : MonoBehaviour
                     dummyScript.basicAttack.secondTask = true;
                 }
                 Destroy(gameObject);
+                explodeVFX();
             }
         }
         if((collision.tag == "CheckPoint"))
@@ -84,6 +92,13 @@ public class bulletScript : MonoBehaviour
            // savePoint = new Vector3 (collision.gameObject.transform.position.x, player.transform.position.y, collision.gameObject.transform.position.z);
             //player.GetComponent<playerCombat>().RespawnPoint(savePoint);
         }
+
+    }
+
+    public void explodeVFX()
+    {
+        GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
+        Destroy(explosionObj, 3f);
 
     }
 }

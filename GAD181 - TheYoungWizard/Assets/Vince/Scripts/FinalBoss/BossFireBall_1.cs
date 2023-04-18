@@ -77,12 +77,18 @@ public class BossFireBall_1 : MonoBehaviour
         {
             ExplosionVFX();
             playerIsHit = true;
-            collision.gameObject.GetComponent<playerCombat>().damagePlayer(fireBallDamage);
+            collision.gameObject.GetComponent<playerCombat>().damagePlayer(fireBallDamage, true);
             Destroy(gameObject);
         }else if(collision.gameObject.tag == "Boss" && deflected == true)
         {
             ExplosionVFX();
             collision.gameObject.GetComponent<BossScript>().DamageEnemy(fireBallDamage);
+            Destroy(gameObject);
+        }
+
+        if (collision.gameObject.tag == "frostWall")
+        {
+            ExplosionVFX();
             Destroy(gameObject);
         }
     }

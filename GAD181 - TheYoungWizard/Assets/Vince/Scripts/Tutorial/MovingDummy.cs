@@ -26,10 +26,14 @@ public class MovingDummy : MonoBehaviour
 
     public float fireInterval = 3f;
     public float currentFireTime;
+
+    AudioSource audioSource;
+    [SerializeField] AudioClip fireBallSfx;
     
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
     }
 
@@ -84,6 +88,7 @@ public class MovingDummy : MonoBehaviour
     {
         if (shieldTask)
         {
+            audioSource.PlayOneShot(fireBallSfx);
             Instantiate(fireball, fireBallSpawner.position, Quaternion.identity);
         }
     }

@@ -15,7 +15,7 @@ public class ThePenguins : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            player.GetComponent<playerCombat>().damagePlayer(damage);
+            player.GetComponent<playerCombat>().damagePlayer(damage, false);
             GetComponent<BoxCollider>().enabled = false;
         }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -60,6 +61,7 @@ public class Fireball_Script : MonoBehaviour
         if(collision.tag == "Enemy")
         {
             ExplosionEffect();
+            Destroy(gameObject);
         }
 
     }

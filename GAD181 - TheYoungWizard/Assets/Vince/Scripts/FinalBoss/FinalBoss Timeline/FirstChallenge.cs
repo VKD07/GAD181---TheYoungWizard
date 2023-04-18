@@ -235,6 +235,7 @@ public class FirstChallenge : MonoBehaviour
     {
         if (startFinalChallenge)
         {
+            TriggerVirtualCameraShake(1, 0.5f, true);
             beamSliderUI.SetActive(true);
             beamSlider.value += bossPower;
 
@@ -266,8 +267,11 @@ public class FirstChallenge : MonoBehaviour
             }//Lose situation
             else if (beamSlider.value >= 76)
             {
-                SceneManager.LoadScene(4);
+              SceneManager.LoadScene(4);
             }
+        }
+        else
+        {
         }
     }
 
@@ -306,5 +310,10 @@ public class FirstChallenge : MonoBehaviour
             beamUIAnim.SetBool("Shake", false);
         }
     }
-
+    
+    void TriggerVirtualCameraShake(float time, float intensity, bool value)
+    {
+        CameraShake.instance.ShakeVirtualCamera(time, intensity);
+        CameraShake.instance.disableLerping = value;
+    }
 }

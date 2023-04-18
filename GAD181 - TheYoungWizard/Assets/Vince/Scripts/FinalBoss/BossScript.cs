@@ -50,6 +50,8 @@ public class BossScript : MonoBehaviour
     [SerializeField] float stompSpeed = 35f;
     [SerializeField] ParticleSystem pounceVfx;
     [SerializeField] ParticleSystem landVfx;
+    [SerializeField] float cameraShakeIntensity = 2f;
+    [SerializeField] float cameraShakeDuration = 4f;
     bool jumped;
     public bool jumpedToPlayer;
 
@@ -218,7 +220,10 @@ public class BossScript : MonoBehaviour
         }
         else
         {
-            healingVFX.SetActive(false);
+            if(healingVFX!= null)
+            {
+                healingVFX.SetActive(false);
+            }
             healingMode(false);
         }
     }
@@ -416,6 +421,15 @@ public class BossScript : MonoBehaviour
 
         if (transform.position == playerLastPosition)
         {
+            if (BossHealthHandler.instance.finalCutScene)
+            {
+                TriggerVirtualCameraShake();
+            }
+            else
+            {
+                TriggerCameraShake();
+            }
+
             bossSFXHandler.PlayGroundImpact();
             landVfx.Play();
             ai.enabled = true;
@@ -428,7 +442,7 @@ public class BossScript : MonoBehaviour
     {
         if (playerInRange == true)
         {
-            player.GetComponent<playerCombat>().damagePlayer(biteDamage);
+            player.GetComponent<playerCombat>().damagePlayer(biteDamage, false);
         }
     }
 
@@ -552,7 +566,7 @@ public class BossScript : MonoBehaviour
     {
         if (other.tag == "Player" && jumpedToPlayer == true)
         {
-            player.GetComponent<playerCombat>().damagePlayer(stompDamage);
+            player.GetComponent<playerCombat>().damagePlayer(stompDamage, true);
         }
     }
 
@@ -576,8 +590,21 @@ public class BossScript : MonoBehaviour
     {
         pounceVfx.Play();
     }
-
-
     #endregion
 
+    public void TriggerCameraShake()
+    {
+        if(!BossHealthHandler.instance.finalCutScene)
+        {
+            CameraShake.instance.ShakeCamera(cameraShakeDuration, cameraShakeIntensity);
+        }
+    }
+
+    public void TriggerVirtualCameraShake()
+    {
+        if (BossHealthHandler.instance.finalCutScene)
+        {
+            CameraShake.instance.ShakeVirtualCamera(2, 2);
+        }
+    }
 }
