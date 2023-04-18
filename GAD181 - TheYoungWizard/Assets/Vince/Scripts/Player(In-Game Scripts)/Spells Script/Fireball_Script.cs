@@ -61,6 +61,7 @@ public class Fireball_Script : MonoBehaviour
         if(collision.tag == "Enemy")
         {
             ExplosionEffect();
+            Destroy(gameObject);
         }
 
     }

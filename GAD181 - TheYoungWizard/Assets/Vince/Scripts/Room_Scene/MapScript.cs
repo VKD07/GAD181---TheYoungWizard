@@ -22,17 +22,22 @@ public class MapScript : MonoBehaviour
     [SerializeField] bool[] portalActive;
     [SerializeField] public GameObject portalVfx;
     [SerializeField] KeyCode exitMapKey = KeyCode.Escape;
+    MapUnlockHandler unlockHandler;
     public int activePortal;
     public bool disableMapClosing;
     public bool close;
 
+    [SerializeField] Button[] islandButton;
+    [SerializeField] GameObject [] lockImage;
     private void Start()
     {
         portalVfx.SetActive(false);
+        FirstLevel();
     }
 
     private void Update()
     {
+        CheckIfIslandIsUnlocked();
         closeUI();
 
         if(mapImage.activeSelf == false)
@@ -104,6 +109,7 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalLight.color = greenColor;
         portalVfx.SetActive(true);
+        activePortal = 3;
         ShakeCamera();
         close = true;
     }
@@ -138,5 +144,33 @@ public class MapScript : MonoBehaviour
     {
         CameraShake.instance.finalCutScene = false;
         CameraShake.instance.ShakeCamera(1, 2);
+    }
+
+    private void FirstLevel()
+    {
+        for (int i = 0; i < islandButton.Length; i++)
+        {
+            islandButton[i].interactable = false;
+        }
+    }
+
+    public void CheckIfIslandIsUnlocked()
+    {
+        unlockHandler = FindObjectOfType<MapUnlockHandler>();
+
+        if(unlockHandler != null)
+        {
+            if(unlockHandler.unlockSnowIsland)
+            {
+                islandButton[0].interactable = true;
+                lockImage[0].SetActive(false);
+            }
+
+            if(unlockHandler.unlockUnknownIsland)
+            {
+                islandButton[1].interactable = true;
+                lockImage[1].SetActive(false);
+            }
+        }
     }
 }

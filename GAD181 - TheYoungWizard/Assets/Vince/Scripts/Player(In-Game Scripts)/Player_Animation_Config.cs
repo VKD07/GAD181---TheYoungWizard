@@ -20,7 +20,7 @@ public class Player_Animation_Config : MonoBehaviour
     [SerializeField] float bulletMinimumDamage = 2f;
     public bool targetAvailable;
     float currentDamage;
-    bool enemyDetected;
+    public bool enemyDetected;
     Vector3 direction;
     RaycastHit hit;
     public float distanceToPlayer;
