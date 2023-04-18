@@ -30,6 +30,7 @@ public class StoneSpell : MonoBehaviour
     [SerializeField] SpellUnlockHandler spellUnlockHandler;
     [SerializeField] Island islandToUnlock;
     [SerializeField] Spells spellsToUnlock;
+    [SerializeField] bool disableGoingBack;
     CanvasGroup notifAlpha;
     bool showMessage;
     public bool unlocked;
@@ -139,6 +140,10 @@ public class StoneSpell : MonoBehaviour
     IEnumerator GoBackToRoom(float time)
     {
         yield return new WaitForSeconds(time);
-        SceneManager.LoadScene("RoomScene 1");
+        if (!disableGoingBack)
+        {
+            SceneManager.LoadScene("RoomScene 1");
+
+        }
     }
 }

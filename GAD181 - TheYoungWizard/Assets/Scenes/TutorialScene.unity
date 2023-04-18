@@ -8474,15 +8474,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.70338446
+      value: 0.7033845
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.07245875
+      value: 0.07245876
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.7033845
+      value: 0.70338446
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
@@ -18706,7 +18706,7 @@ MonoBehaviour:
   - Press "1" to heal
   - Block the FireBalls
   - Take down the dummy
-  - '''P'' to open the spell book'
+  - '''TAB'' to open the spell book'
   - 'Make a spell by combining elements:             ''R'' to enter spell cast mode'
   - Press 'E' to use the spell                                     'Right-Click'
     for accurate aim
@@ -28695,10 +28695,38 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.13875988
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.13875988
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.13875988
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571741, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a0b869114f58a65499f6a97a6d1c3773, type: 3}
     - target: {fileID: 713672369, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 713672371, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1085962105078222051, guid: 340971e1f92f00548a7c71c4c821264e, type: 3}
     - target: {fileID: 836586914, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -28716,6 +28744,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1895759916792913001, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1895759916848097285, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -28747,6 +28779,10 @@ PrefabInstance:
       propertyPath: choosingElementFx
       value: 
       objectReference: {fileID: 8300000, guid: 70eb206c3f82c024fb2366e04b495345, type: 3}
+    - target: {fileID: 1895759917475388945, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1895759917475388946, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 48.398926
@@ -28755,6 +28791,10 @@ PrefabInstance:
       propertyPath: pc
       value: 
       objectReference: {fileID: 20568427}
+    - target: {fileID: 1895759917475388957, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: openSpellBookKey
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1895759917491338381, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0

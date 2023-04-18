@@ -14788,6 +14788,30 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.13805552
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.13805552
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571740, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.13805552
+      objectReference: {fileID: 0}
+    - target: {fileID: 390571741, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a0b869114f58a65499f6a97a6d1c3773, type: 3}
     - target: {fileID: 713672369, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -14867,6 +14891,10 @@ PrefabInstance:
     - target: {fileID: 1895759917475388957, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: disableTimePause
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1895759917475388957, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
+      propertyPath: openSpellBookKey
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 1895759917491338381, guid: ae0f8e996365f5e4a8b56fd4c36bcb6f, type: 3}
       propertyPath: m_AnchorMax.x
@@ -45589,6 +45617,7 @@ MonoBehaviour:
   bulletMaxDamage: 10
   bulletMinimumDamage: 2
   targetAvailable: 0
+  enemyDetected: 0
   distanceToPlayer: 0
   cr: {fileID: 1518113482911177631}
   rb: {fileID: 1518113482911177626}

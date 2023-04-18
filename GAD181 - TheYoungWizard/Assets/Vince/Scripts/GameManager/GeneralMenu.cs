@@ -73,19 +73,33 @@ public class GeneralMenu : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                SceneManager.LoadScene("TutorialScene");
+                SceneManager.LoadScene("Room Scene 1");
                 mainMenuOpened = false;
                 mainMenuUI.SetActive(false);
                 Time.timeScale = 1f;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                SceneManager.LoadScene("WinterLand");
+                SceneManager.LoadScene("TutorialScene");
                 mainMenuOpened = false;
                 mainMenuUI.SetActive(false);
                 Time.timeScale = 1f;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                SceneManager.LoadScene("Forest Level");
+                mainMenuOpened = false;
+                mainMenuUI.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                SceneManager.LoadScene("WinterLand");
+                mainMenuOpened = false;
+                mainMenuUI.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
             {
                 SceneManager.LoadScene("FinalBoss");
                 mainMenuOpened = false;

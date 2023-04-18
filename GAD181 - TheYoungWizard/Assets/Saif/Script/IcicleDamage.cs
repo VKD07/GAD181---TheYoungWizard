@@ -21,7 +21,7 @@ public class IcicleDamage : MonoBehaviour
     {
         if(other.tag == "Player")
         {
-            player.GetComponent<playerCombat>().damagePlayer(damage);
+            player.GetComponent<playerCombat>().damagePlayer(damage, false);
             Destroy(gameObject);
         }
         

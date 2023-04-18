@@ -60402,9 +60402,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2389287144374338880}
     - target: {fileID: 1876482783972678467, guid: 03960f1108f2d8543bf9c9f961f4ae61, type: 3}
+      propertyPath: islandToUnlock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876482783972678467, guid: 03960f1108f2d8543bf9c9f961f4ae61, type: 3}
       propertyPath: spellImageIcon
       value: 
       objectReference: {fileID: 1847473731}
+    - target: {fileID: 1876482783972678467, guid: 03960f1108f2d8543bf9c9f961f4ae61, type: 3}
+      propertyPath: spellsToUnlock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1876482783972678467, guid: 03960f1108f2d8543bf9c9f961f4ae61, type: 3}
+      propertyPath: disableGoingBack
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1876482783972903430, guid: 03960f1108f2d8543bf9c9f961f4ae61, type: 3}
       propertyPath: m_RootOrder
       value: 11
@@ -60587,6 +60599,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2424041823950347774, guid: c11c1110a465ae7468c690631382d450, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a0b869114f58a65499f6a97a6d1c3773, type: 3}
+    - target: {fileID: 2424041823950347775, guid: c11c1110a465ae7468c690631382d450, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2424041823950347775, guid: c11c1110a465ae7468c690631382d450, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 1500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2424041823950347775, guid: c11c1110a465ae7468c690631382d450, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.14055401
+      objectReference: {fileID: 0}
+    - target: {fileID: 2424041823950347775, guid: c11c1110a465ae7468c690631382d450, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.14055401
+      objectReference: {fileID: 0}
+    - target: {fileID: 2424041823950347775, guid: c11c1110a465ae7468c690631382d450, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.14055401
+      objectReference: {fileID: 0}
     - target: {fileID: 4318101757962887738, guid: c11c1110a465ae7468c690631382d450, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -60615,6 +60651,10 @@ PrefabInstance:
       propertyPath: pc
       value: 
       objectReference: {fileID: 1518113482911177624}
+    - target: {fileID: 4318101758418937150, guid: c11c1110a465ae7468c690631382d450, type: 3}
+      propertyPath: openSpellBookKey
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 4318101758434412462, guid: c11c1110a465ae7468c690631382d450, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
