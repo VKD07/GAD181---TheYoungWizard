@@ -78,12 +78,12 @@ public class bulletScript : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-        /*if((collision.tag == "CheckPoint"))
+        if((collision.tag == "CheckPoint"))
         {
             collision.GetComponent<CampFire>().PlayFire();
-            savePoint = new Vector3 (collision.gameObject.transform.position.x, player.transform.position.y, collision.gameObject.transform.position.z);
-            player.GetComponent<playerCombat>().RespawnPoint(savePoint);
-        }*/
+           // savePoint = new Vector3 (collision.gameObject.transform.position.x, player.transform.position.y, collision.gameObject.transform.position.z);
+            //player.GetComponent<playerCombat>().RespawnPoint(savePoint);
+        }
 
     }
 }
