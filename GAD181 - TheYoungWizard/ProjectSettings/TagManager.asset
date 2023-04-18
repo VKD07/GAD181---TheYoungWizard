@@ -3,7 +3,34 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CastMode
+  - Item
+  - ItemManager
+  - playerBullet
+  - dummy
+  - Fireball
+  - Enemy
+  - frostWall
+  - luminous
+  - windGust
+  - ground
+  - windEnemy
+  - Boss
+  - CatMinion
+  - Environment
+  - ForceField
+  - PlayerForceField
+  - Chest
+  - BossForceField
+  - CheckPoint
+  - movingDummy
+  - tutorialDummy
+  - Nest
+  - StartingMenu
+  - Icicle
+  - PenguinRight
+  - PenguinLeft
   layers:
   - Default
   - TransparentFX
@@ -12,20 +39,20 @@ TagManager:
   - Water
   - UI
   - Map Station
-  - Enemy
   - Player
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - dummyBullet
+  - Spells
+  - BossBullet
+  - FinalBoss
+  - ground
+  - Enemy
+  - EnemyBullet
+  - Chest
+  - Frozen Lake
+  - tutorialCollider
+  - PlayerBullet
+  - enemyForceField
+  - StoneSpell
   - 
   - 
   - 

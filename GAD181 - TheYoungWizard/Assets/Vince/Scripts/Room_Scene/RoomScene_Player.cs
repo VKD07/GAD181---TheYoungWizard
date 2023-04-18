@@ -22,6 +22,7 @@ public class RoomScene_Player : MonoBehaviour
 
     //Player RayCast
     [Header("RayCast Settings")]
+    [SerializeField] KeyCode mapInterActKey = KeyCode.F;
     [SerializeField] float rayCastLength = 2f;
     [SerializeField] LayerMask mapStationLayer;
 
@@ -29,7 +30,7 @@ public class RoomScene_Player : MonoBehaviour
     [Header("Map InterAction")]
     [SerializeField] GameObject mapUI;
     [SerializeField] GameObject thirdPersonCamera;
- 
+    
 
 
 
@@ -55,9 +56,7 @@ public class RoomScene_Player : MonoBehaviour
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Vertical");
         Vector3 newPos = new Vector3(horizontal, 0f, vertical).normalized;
-
-
-      
+        
 
         if (newPos.magnitude > 0.1f)
         {
@@ -101,7 +100,7 @@ public class RoomScene_Player : MonoBehaviour
             hit.rigidbody.GetComponent<MapStation>().floatingText.SetActive(true);
             
 
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(mapInterActKey))
             {
                 mapUI.SetActive(true);
                 characterAnim.SetBool("Move", false);

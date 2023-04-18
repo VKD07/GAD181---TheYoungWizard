@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 18e5909568dbc2f4ea2ecdb3d2286565
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - theLich: {instanceID: 0}
+  - player: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
