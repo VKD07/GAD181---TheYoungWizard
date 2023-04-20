@@ -30,6 +30,11 @@ public class PlayerForceField : MonoBehaviour
     Collider[] collidedObjects;
     [SerializeField] float radius = 4f;
 
+    [Header("Attack settings")]
+    public bool startAttackDelay;
+    [SerializeField] float attackDelayTime = 0.2f;
+    public float currentAttackTime;
+
 
     void Start()
     {
@@ -46,6 +51,7 @@ public class PlayerForceField : MonoBehaviour
         KeyBoardSwitch();
         ActivateForceField();
         DeactivateForceField();
+        AttackDelay();
     }
 
     private void OnDrawGizmosSelected()
@@ -74,7 +80,10 @@ public class PlayerForceField : MonoBehaviour
             forceField.transform.localScale = new Vector3(currentScale, currentScale, currentScale);
         }
 
-        if (shieldIsActive){
+        if (shieldIsActive)
+        {
+            currentAttackTime = 0;
+            startAttackDelay = true;
             pc.disableSenses();
         }
     }
@@ -93,6 +102,19 @@ public class PlayerForceField : MonoBehaviour
             currentScale = 0;
             currentShieldTime = 0;
             forceField.SetActive(false);
+        }
+    }
+
+    private void AttackDelay()
+    {
+        if(startAttackDelay && currentAttackTime < attackDelayTime)
+        {
+            currentAttackTime += Time.deltaTime;
+        }
+        else if(currentAttackTime >= attackDelayTime)
+        {
+            currentAttackTime = 0f;
+            startAttackDelay = false;
         }
     }
 }

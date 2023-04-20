@@ -13,10 +13,17 @@ public class GuideUiScript : MonoBehaviour
     [SerializeField] Image spellBookGuide;
     [SerializeField] Image SpellCastModeGuide;
     [SerializeField] Image useSpellGuide;
+    [SerializeField] Image spellBookIcon;
+    [SerializeField] Sprite openedSpellBook;
+    [SerializeField] Sprite spellBookClosed;
+    [Header("SFX")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip spellBookSfx;
     [Header("References")]
     [SerializeField] playerCombat pc;
     [SerializeField] bool disableTimePause;
     public bool spellBookOpened;
+    [SerializeField] FirstChallenge challengeScript;
 
     void Start()
     {
@@ -35,6 +42,16 @@ public class GuideUiScript : MonoBehaviour
         {
             if (!spellBookOpened)
             {
+                //for the final cutscene
+                if(challengeScript != null)
+                {
+                    challengeScript.stopTimer = true;
+                }
+                //end
+
+                EnableMouse(true);
+                audioSource.PlayOneShot(spellBookSfx, 0.5f);
+                spellBookIcon.sprite = openedSpellBook;
                 if (disableTimePause)
                 {
                     Time.timeScale = 0f;
@@ -48,11 +65,18 @@ public class GuideUiScript : MonoBehaviour
             }
             else
             {
-
+                EnableMouse(false);
                 Time.timeScale = 1f;
-
+                spellBookIcon.sprite = spellBookClosed;
                 spellBookOpened = false;
                 spellBookUI.SetActive(false);
+
+                //for the final cutscene
+                if (challengeScript != null)
+                {
+                    challengeScript.stopTimer = false;
+                }
+                //end
             }
         }
     }
@@ -69,5 +93,19 @@ public class GuideUiScript : MonoBehaviour
         combineUI.SetActive(false);
         SpellCastModeGuide.enabled = true;
         useSpellGuide.enabled = true;
+    }
+
+    void EnableMouse(bool enable)
+    {
+        Cursor.visible = enable;
+
+        if(enable)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
     }
 }

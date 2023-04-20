@@ -299,14 +299,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '[1] Room Scene
+  m_text: '[1] Intial Story
 
-    [2] Tutorial Scene
+    [2] Skip Story
 
-    [3] Snow Scene
+    [3] Tutorial Scene
 
-    [4] Magical
-    Cave'
+    [4]
+    Forest Scene
+
+    [5] Snow Scene
+
+    [6] Magical Cave'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 31d2d45d3795e714fa99546b4c4e4013, type: 2}
   m_sharedMaterial: {fileID: -1498353454677529916, guid: 31d2d45d3795e714fa99546b4c4e4013, type: 2}
@@ -391,7 +395,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6447164381100997866
 RectTransform:
   m_ObjectHideFlags: 0
@@ -522,7 +526,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6447164381974219090
 RectTransform:
   m_ObjectHideFlags: 0

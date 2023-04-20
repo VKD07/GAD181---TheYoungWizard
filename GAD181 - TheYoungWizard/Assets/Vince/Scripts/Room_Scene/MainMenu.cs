@@ -9,7 +9,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField] public bool mainMenuActive;
     [SerializeField] GameObject mainMenuCamera;
     [SerializeField] GameObject mainMenuUi;
-    [SerializeField] KeyCode mainMenuKeyCode = KeyCode.Return;
     [SerializeField] GameObject player;
     [SerializeField] CanvasGroup alpha;
     [SerializeField] CanvasGroup exitImage;
@@ -104,7 +103,7 @@ public class MainMenu : MonoBehaviour
         else
         {
             playerCamera.m_YAxis.m_MaxSpeed = 2;
-            playerCamera.m_XAxis.m_MaxSpeed = 300f;
+            playerCamera.m_XAxis.m_MaxSpeed = 250f;
         }
     }
 }

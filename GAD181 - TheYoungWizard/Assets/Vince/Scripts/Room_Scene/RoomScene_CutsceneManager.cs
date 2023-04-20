@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RoomScene_CutsceneManager : MonoBehaviour
 {
@@ -10,15 +11,20 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     [SerializeField] GameObject thirdPersonCamera;
     [SerializeField] Transform playerTransform;
     [SerializeField] Animator playerAnim;
+    bool playerControl;
 
     [Header("Environment Components")]
     [SerializeField] MapScript mapScript;
     [SerializeField] GameObject furBall;
     [SerializeField] Transform portal;
     [SerializeField] MainMenu menu;
+    [SerializeField] GameObject portalParticle;
     [SerializeField] GameObject mapYellowMark;
     [SerializeField] GameObject mapUI;
-    bool mapIsOpened;
+    [SerializeField] GameObject scrolls;
+    [SerializeField] GameObject windVfx;
+    [SerializeField] MainMenu mainMenuScript;
+    bool portalDisabled;
 
     [Header("Dialog Box")]
     [SerializeField] GameObject dialogCanvas;
@@ -30,6 +36,14 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     public float typingDuration = 2f;
     public float currentTime;
     public bool countingDownNext;
+
+    [Header("Skip settings")]
+    [SerializeField] KeyCode skipKey = KeyCode.F;
+    [SerializeField] GameObject skipUI;
+    [SerializeField] float skipDuration = 5f;
+    Slider skipSLider;
+    public bool skipNarrative;
+    bool playerPositioned;
 
 
     [Header("Cameras")]
@@ -48,6 +62,8 @@ public class RoomScene_CutsceneManager : MonoBehaviour
 
     void Awake()
     {
+        skipSLider = skipUI.GetComponent<Slider>();
+        skipUI.SetActive(true);
         LockCursor(true);
         mapYellowMark.SetActive(false);
         EnablePlayerComponents(false);
@@ -61,6 +77,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     {
         typing();
         KaelDialog();
+        SkipNarrative();
     }
 
     IEnumerator FirstDialog(float time) //kael starts talking
@@ -384,7 +401,14 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     void EnablePlayerComponents(bool value)
     {
         playerScript.enabled = value;
-        thirdPersonCamera.SetActive(value);
+        if (mapUI.activeSelf)
+        {
+            thirdPersonCamera.SetActive(!value);
+        }
+        else
+        {
+            thirdPersonCamera.SetActive(value);
+        }
     }
 
     void LockCursor(bool value)
@@ -427,6 +451,65 @@ public class RoomScene_CutsceneManager : MonoBehaviour
         {
             currentTime = 0;
             countingDownNext = false;
+        }
+    }
+
+    void SkipNarrative()
+    {
+        if (Input.GetKey(skipKey))
+        {
+            skipUI.SetActive(true);
+            if(skipSLider.value < skipDuration)
+            {
+                skipSLider.value += Time.deltaTime * 2f;
+            }
+            else
+            {
+                skipNarrative = true;
+                skipUI.SetActive(false);
+            }
+        }
+
+        if (skipNarrative)
+        {
+            //cinemachine
+            cinemachineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseIn;
+            cinemachineBrain.m_DefaultBlend.m_Time = 1f;
+            mainMenuScript.cameraControl = true;
+            //player control
+            dialogBox.EnableDialogBox(false);
+            EnablePlayerComponents(true);
+            playerAnim.SetBool("Suprised", false);
+            //environment disable
+            furBall.SetActive(false);
+            mapYellowMark.SetActive(true);
+            scrolls.SetActive(false);
+            if (!portalDisabled)
+            {
+                portalDisabled = true;
+                portalParticle.SetActive(false);
+            }
+            windVfx.SetActive(false);
+            dialogBox.enabled = false;
+            //audio
+            audioHandler.PlayPortalSceneMusic();
+
+            if (!playerPositioned)
+            {
+                playerPositioned = true;
+                playerTransform.position = new Vector3(-6.73f, -1.247f, -7.89f);
+                playerTransform.rotation = Quaternion.Euler(0f, -626.796f, 0f);
+            }
+
+            for (int i = 0; i < sequence.Length; i++)
+            {
+                sequence[i] = false;
+            }
+
+            for (int i = 0; i < sceneCamera.Length; i++)
+            {
+                sceneCamera[i].SetActive(false);
+            }
         }
     }
 }

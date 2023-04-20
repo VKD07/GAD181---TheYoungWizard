@@ -31,6 +31,7 @@ TagManager:
   - Icicle
   - PenguinRight
   - PenguinLeft
+  - mainMenu
   layers:
   - Default
   - TransparentFX

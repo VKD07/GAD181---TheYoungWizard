@@ -19,6 +19,12 @@ public class Fireball_Script : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            ExplosionEffect();
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider collision)
@@ -59,6 +65,12 @@ public class Fireball_Script : MonoBehaviour
             ExplosionEffect();
         }
         if(collision.tag == "Enemy")
+        {
+            ExplosionEffect();
+            Destroy(gameObject);
+        }
+
+        if(collision.tag == "ForceField")
         {
             ExplosionEffect();
             Destroy(gameObject);

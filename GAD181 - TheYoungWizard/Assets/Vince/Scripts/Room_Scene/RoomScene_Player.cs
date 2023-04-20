@@ -20,6 +20,7 @@ public class RoomScene_Player : MonoBehaviour
     [SerializeField] float velocity;
     [SerializeField] float smoothTime;
 
+
     //Player RayCast
     [Header("RayCast Settings")]
     [SerializeField] KeyCode mapInterActKey = KeyCode.F;
@@ -30,6 +31,7 @@ public class RoomScene_Player : MonoBehaviour
     [Header("Map InterAction")]
     [SerializeField] GameObject mapUI;
     [SerializeField] GameObject thirdPersonCamera;
+    [SerializeField] MainMenu mainMenu;
 
     [Header("Audio")]
     AudioSource audioSource;
@@ -61,7 +63,6 @@ public class RoomScene_Player : MonoBehaviour
 
         if (newPos.magnitude > 0.1f)
         {
-            
             //player rotation
             float targetAngle = Mathf.Atan2(newPos.x, newPos.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
             //player rotate to the target angle with smoothness
@@ -100,9 +101,9 @@ public class RoomScene_Player : MonoBehaviour
             //enable float UI text from mapStation
             hit.rigidbody.GetComponent<MapStation>().floatingText.SetActive(true);
             
-
             if (Input.GetKeyDown(mapInterActKey))
             {
+
                 mapUI.SetActive(true);
                 characterAnim.SetBool("Move", false);
                 this.enabled = false;

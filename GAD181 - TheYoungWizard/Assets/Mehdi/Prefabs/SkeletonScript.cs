@@ -34,6 +34,10 @@ public class SkeletonScript : MonoBehaviour
     //unlock spell
     [SerializeField] GameObject runeStone;
 
+    bool attacking;
+    bool shieldExploded;
+
+
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -60,7 +64,7 @@ public class SkeletonScript : MonoBehaviour
         }
 
         Death();
-
+        playerShield();
         UpdateHealthSlider();
 
     }
@@ -155,8 +159,9 @@ public class SkeletonScript : MonoBehaviour
 
     public void playerShield()
     {
-        if (hit.transform.name == "Player_ForceField")
+        if (attacking && hit.transform.name == "Player_ForceField"  && !shieldExploded)
         {
+            shieldExploded = true;
             GameObject explosion = Instantiate(playerShieldExplosion, hit.point, Quaternion.identity);
             Destroy(explosion, 1f);
         }
@@ -180,5 +185,16 @@ public class SkeletonScript : MonoBehaviour
     public void PlayFootStep()
     {
         audioSource.PlayOneShot(footStep);
+    }
+
+    public void Attacking()
+    {
+        attacking = true;
+    }
+
+    public void NotAttacking()
+    {
+        attacking = false;
+        shieldExploded = false;
     }
 }

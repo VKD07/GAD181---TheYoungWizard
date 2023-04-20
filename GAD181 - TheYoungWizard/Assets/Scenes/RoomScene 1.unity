@@ -1277,6 +1277,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6447164381100997861, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6447164381619930040, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -1323,6 +1327,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6447164382274362225, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4346,7 +4354,6 @@ MonoBehaviour:
   mainMenuActive: 1
   mainMenuCamera: {fileID: 810353259}
   mainMenuUi: {fileID: 1969730632}
-  mainMenuKeyCode: 13
   player: {fileID: 1435057302}
   alpha: {fileID: 1969730636}
   exitImage: {fileID: 1172284308}
@@ -17956,7 +17963,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906434698}
-  m_LocalRotation: {x: 0.140057, y: -0.057662092, z: 0.028077073, w: 0.98806417}
+  m_LocalRotation: {x: 0.14005703, y: -0.05766216, z: 0.028077066, w: 0.98806417}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -33913,9 +33920,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 11527490}
     m_Modifications:
     - target: {fileID: 844950881841221833, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 844950881841221833, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1806151692}
+    - target: {fileID: 844950881906433624, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 844950882481647267, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
       propertyPath: m_Name
       value: Game Map
@@ -34021,9 +34036,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 552002147}
     - target: {fileID: 844950882527358561, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 844950882527358561, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 1806151692}
+    - target: {fileID: 844950882573252945, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 844950882801814177, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 844950882801814177, guid: bfef60369fbb4c247a7bd83d03b92361, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 

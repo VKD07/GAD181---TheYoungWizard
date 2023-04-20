@@ -31,6 +31,7 @@ public class StoneSpell : MonoBehaviour
     [SerializeField] Island islandToUnlock;
     [SerializeField] Spells spellsToUnlock;
     [SerializeField] bool disableGoingBack;
+    [SerializeField] GameObject spellBookUnlock;
     CanvasGroup notifAlpha;
     bool showMessage;
     public bool unlocked;
@@ -53,14 +54,17 @@ public class StoneSpell : MonoBehaviour
         mapUnlockHandler = FindObjectOfType<MapUnlockHandler>();
         spellUnlockHandler = FindObjectOfType<SpellUnlockHandler>();
 
-        if (mapUnlockHandler != null && unlocked)
+        if (unlocked)
         {
-            MapUnlock();
-        }
+            if (mapUnlockHandler != null)
+            {
+                MapUnlock();
+            }
 
-        if (spellUnlockHandler != null)
-        {
-            SpellUnlock();
+            if (spellUnlockHandler != null)
+            {
+                SpellUnlock();
+            }
         }
     }
 
@@ -82,14 +86,17 @@ public class StoneSpell : MonoBehaviour
     {
         if (spellsToUnlock == Spells.WindGust)
         {
+            spellBookUnlock.SetActive(true);
             spellUnlockHandler.unlockWindGust = true;
         }
         else if (spellsToUnlock == Spells.FrostWall)
         {
+            spellBookUnlock.SetActive(true);
             spellUnlockHandler.unlockIceWall = true;
         }
         else if (spellsToUnlock == Spells.Luminous)
         {
+            spellBookUnlock.SetActive(true);
             spellUnlockHandler.unlockLuminous = true;
         }
     }
@@ -143,7 +150,6 @@ public class StoneSpell : MonoBehaviour
         if (!disableGoingBack)
         {
             SceneManager.LoadScene("RoomScene 1");
-
         }
     }
 }

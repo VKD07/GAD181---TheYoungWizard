@@ -23,8 +23,10 @@ public class spiderScript : MonoBehaviour
     public float currentAttackTime;
     bool jump;
     Rigidbody rb;
+    bool attacking;
     public float distanceToPlayer;
     float randomTimeToAttack;
+    bool shieldExploded;
     RaycastHit hit;
 
     //slider
@@ -55,7 +57,7 @@ public class spiderScript : MonoBehaviour
         }
 
         Death();
-
+        playerShield();
         UpdateHealthSlider();
 
     }
@@ -80,7 +82,6 @@ public class spiderScript : MonoBehaviour
 
     void attack()
     {
-
         if (Physics.Raycast(raycastOrigin.transform.position, raycastOrigin.transform.forward, out hit, rayCastLength, layerMask))
         {
             attackTime = randomTimeToAttack;
@@ -149,8 +150,9 @@ public class spiderScript : MonoBehaviour
 
     public void playerShield()
     {
-        if (hit.transform.name == "Player_ForceField")
+        if (hit.transform.name == "Player_ForceField" && attacking && !shieldExploded)
         {
+            shieldExploded = true;
             GameObject explosion = Instantiate(playerShieldExplosion, hit.point, Quaternion.identity);
             Destroy(explosion, 1f);
         }
@@ -164,5 +166,16 @@ public class spiderScript : MonoBehaviour
     public void DamageEnemy(float damage)
     {
         spiderHp -= damage;
+    }
+
+    public void Attacking()
+    {
+        attacking = true;
+    }
+
+    public void NotAttacking()
+    {
+        attacking = false;
+        shieldExploded = false;
     }
 }

@@ -81,11 +81,9 @@ public class playerCombat : MonoBehaviour
 
     [Header("SFX")]
     [SerializeField] PlayerSoundsHandler sfx;
-   
-    [Header("SFX")]
+
+    [Header("CheckPoint")]
     Vector3 savePoint;
-
-
 
     public bool dodge = false;
     public float shieldDuration = 3f;
@@ -149,6 +147,7 @@ public class playerCombat : MonoBehaviour
         {
             //SceneManager.LoadScene("RoomScene");
             transform.position = savePoint;
+            playerHealth = 100;
         }
     }
 
@@ -309,7 +308,7 @@ public class playerCombat : MonoBehaviour
     {
         if (!disablePlayerAttack)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking && !forceField.startAttackDelay)
             {
                 playerMovement.stopMoving = true;
                 attacking = true;
@@ -391,7 +390,7 @@ public class playerCombat : MonoBehaviour
     private void ItemHandler()
     {
         //if slot 1 is full and player wanted to use it
-        if (itemManager.numberOfHealthP > 0 && Input.GetKeyDown(KeyCode.Alpha1) && playerHealth < 100)
+        if (itemManager.numberOfHealthP > 0 && Input.GetKeyDown(KeyCode.Alpha1) && playerHealth < 100 && !forceField.shieldIsActive)
         {
             sfx.PlayhealSfx();
             float totalHealthValue = playerHealth + healthPotionValue;
@@ -452,7 +451,6 @@ public class playerCombat : MonoBehaviour
 
     public void damagePlayer2(float damage)
     {
-
         playerHealth -= damage;
         disableSenses();
         Time.timeScale = 1;

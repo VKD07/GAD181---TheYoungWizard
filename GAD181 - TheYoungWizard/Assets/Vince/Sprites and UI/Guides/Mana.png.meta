@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9f9a78f98dcc3dd44afd5dd3365efeac
+guid: 2c83ec4dd5d7faa45931ced5754f1fee
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 1386405993210242556
-    second: Luminous_Strike_0
+      213: 4975741955291382485
+    second: Mana_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -131,13 +131,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Luminous_Strike_0
+      name: Mana_0
       rect:
         serializedVersion: 2
-        x: 192
-        y: 96
-        width: 615
-        height: 805
+        x: 170
+        y: 718
+        width: 208
+        height: 192
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -145,8 +145,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cf5e4c3c7e08d3310800000000000000
-      internalID: 1386405993210242556
+      spriteID: 5d2862b12f26d0540800000000000000
+      internalID: 4975741955291382485
       vertices: []
       indices: 
       edges: []
@@ -154,7 +154,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 77ebe40f481aa7b478b96ac243e9f81a
     internalID: 0
     vertices: []
     indices: 

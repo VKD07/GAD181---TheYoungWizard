@@ -11,6 +11,7 @@ public class bulletScript : MonoBehaviour
     private Vector3 savePoint;
     private GameObject player;
     [SerializeField] GameObject explosion;
+    bool exploded;
 
     private void Update()
     {
@@ -97,8 +98,11 @@ public class bulletScript : MonoBehaviour
 
     public void explodeVFX()
     {
-        GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
-        Destroy(explosionObj, 3f);
-
+        if (!exploded)
+        {
+            exploded = true;
+            GameObject explosionObj = Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(explosionObj, 3f);
+        }
     }
 }

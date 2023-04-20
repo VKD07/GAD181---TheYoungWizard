@@ -12,6 +12,7 @@ public class RoomCutScene_AudioHandler : MonoBehaviour
     bool portalMusicIsPlaying;
     bool catMeowPlayed;
     bool redPortalPlayed;
+    bool whooshPlayed;
 
 
     public void PlayPortalSceneMusic()

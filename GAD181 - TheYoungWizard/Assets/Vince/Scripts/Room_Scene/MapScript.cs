@@ -32,7 +32,7 @@ public class MapScript : MonoBehaviour
     private void Start()
     {
         portalVfx.SetActive(false);
-        FirstLevel();
+       FirstLevel();
     }
 
     private void Update()
