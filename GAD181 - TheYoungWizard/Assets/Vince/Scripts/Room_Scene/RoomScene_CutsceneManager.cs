@@ -334,12 +334,13 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             }
         }
 
-        else if (sequence[16]) // goes to the back of kael. dialog: Kael: That map over there can help me access the portal!
+        else if (sequence[16]) // goes to the back of kael. dialog: Kael: That map over there can help me access the portal! 
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    skipUI.SetActive(false);
                     audioHandler.PlayWhooshSFX(0);
                     dialogBox.EnableDialogBox(false);
                     EnablePlayerComponents(true);

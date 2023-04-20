@@ -8,10 +8,17 @@ public class Fireball_Script : MonoBehaviour
     [SerializeField] float fireBallDamage = 30f;
     [SerializeField] GameObject explosionParticle;
     SphereCollider sphereCollider;
+    private Vector3 savePoint;
+    private GameObject player;
 
     private void Start()
     {
         sphereCollider = GetComponent<SphereCollider>();
+    }
+
+    private void Update()
+    {
+        
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -72,6 +79,21 @@ public class Fireball_Script : MonoBehaviour
 
         if(collision.tag == "ForceField")
         {
+            ExplosionEffect();
+            Destroy(gameObject);
+        }
+
+        if (collision.tag == "CheckPoint")
+        {
+            collision.GetComponent<CampFire>().PlayFire();
+            savePoint = collision.GetComponent<CampFire>().firePlacement;
+            player.GetComponent<playerCombat>().RespawnPoint(savePoint);
+        }
+
+        if (collision.gameObject.tag == "SkeletonGate")
+        {
+            print("gate");
+            collision.gameObject.GetComponent<BossDoor>().destroyGate = true;
             ExplosionEffect();
             Destroy(gameObject);
         }

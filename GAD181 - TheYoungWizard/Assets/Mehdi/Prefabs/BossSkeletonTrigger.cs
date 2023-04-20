@@ -8,15 +8,20 @@ public class BossSkeletonTrigger : MonoBehaviour
     [SerializeField] GameObject boss;
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip clip;
+    bool musicPlayed;
 
     private void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player")
         {
-            triggerCollider[1].SetActive(true);
-            boss.SetActive(true);
-            audioSource.clip = clip;
-            audioSource.Play();
+            if(!musicPlayed )
+            {
+                musicPlayed = true;
+                triggerCollider[1].SetActive(true);
+                boss.SetActive(true);
+                audioSource.clip = clip;
+                audioSource.Play();
+            }
         }
     }
 }

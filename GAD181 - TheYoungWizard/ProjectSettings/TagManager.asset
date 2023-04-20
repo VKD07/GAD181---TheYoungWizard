@@ -32,6 +32,7 @@ TagManager:
   - PenguinRight
   - PenguinLeft
   - mainMenu
+  - SkeletonGate
   layers:
   - Default
   - TransparentFX
@@ -68,4 +69,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: PlayerCanvas
+    uniqueID: 1647998451
     locked: 0

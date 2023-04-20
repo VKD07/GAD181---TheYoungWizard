@@ -32,6 +32,7 @@ public class StoneSpell : MonoBehaviour
     [SerializeField] Spells spellsToUnlock;
     [SerializeField] bool disableGoingBack;
     [SerializeField] GameObject spellBookUnlock;
+    public bool headBackToRoom;
     CanvasGroup notifAlpha;
     bool showMessage;
     public bool unlocked;
@@ -72,7 +73,10 @@ public class StoneSpell : MonoBehaviour
     {
         if (islandToUnlock == Island.snowIsland)
         {
-            StartCoroutine(GoBackToRoom(5));
+            if (headBackToRoom)
+            {
+                StartCoroutine(GoBackToRoom(5));
+            }
             mapUnlockHandler.unlockSnowIsland = true;
         }
         else if (islandToUnlock == Island.UnknownIsland)

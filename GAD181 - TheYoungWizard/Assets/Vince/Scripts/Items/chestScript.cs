@@ -15,7 +15,7 @@ public class chestScript : MonoBehaviour
     [Header("Chest Components")]
     [SerializeField] Sprite[] itemIcons;
     [SerializeField] ItemManager itemManager;
-    bool chestIsOpen;
+    public bool chestIsOpen;
     bool itemsTaken;
 
     [Header("Audio")]
