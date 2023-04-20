@@ -150,7 +150,7 @@ public class spiderScript : MonoBehaviour
 
     public void playerShield()
     {
-        if (hit.transform.name == "Player_ForceField" && attacking && !shieldExploded)
+        if (attacking && !shieldExploded && hit.transform.name == "Player_ForceField")
         {
             shieldExploded = true;
             GameObject explosion = Instantiate(playerShieldExplosion, hit.point, Quaternion.identity);

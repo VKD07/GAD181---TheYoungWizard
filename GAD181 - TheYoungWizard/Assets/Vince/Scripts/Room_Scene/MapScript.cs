@@ -31,7 +31,7 @@ public class MapScript : MonoBehaviour
     [SerializeField] GameObject [] lockImage;
     private void Start()
     {
-        portalVfx.SetActive(false);
+       portalVfx.SetActive(false);
        FirstLevel();
     }
 

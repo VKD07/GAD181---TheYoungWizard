@@ -22243,7 +22243,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 110.5, y: -15.6}
   m_SizeDelta: {x: 1640, y: 1510}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -25932,6 +25932,9 @@ MonoBehaviour:
   catMeow: {fileID: 8300000, guid: 09ba652c88c03724caad0d7e6a45af0c, type: 3}
   redPortalOpen: {fileID: 8300000, guid: b5d93ec2ca0b1034da6f7a15e800a244, type: 3}
   whoosh: {fileID: 8300000, guid: eee0595328876734a8ee0f7807d515b1, type: 3}
+  skipSoundEffect: {fileID: 8300000, guid: e54d5d8d9d398fa4aa3b769d35746df3, type: 3}
+  skipSlider: {fileID: 8300000, guid: 0c33f5583582eaf4abde4bddb4e05ee0, type: 3}
+  skipSliderPlaying: 0
 --- !u!1001 &1677664966
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31995,13 +31998,14 @@ GameObject:
   m_Component:
   - component: {fileID: 1872388068}
   - component: {fileID: 1872388069}
+  - component: {fileID: 1872388070}
   m_Layer: 5
   m_Name: SkipSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1872388068
 RectTransform:
   m_ObjectHideFlags: 0
@@ -32074,6 +32078,18 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!225 &1872388070
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1872388067}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1873500980
 PrefabInstance:
   m_ObjectHideFlags: 0

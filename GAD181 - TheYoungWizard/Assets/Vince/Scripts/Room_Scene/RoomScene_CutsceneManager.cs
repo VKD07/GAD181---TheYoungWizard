@@ -41,7 +41,8 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     [SerializeField] KeyCode skipKey = KeyCode.F;
     [SerializeField] GameObject skipUI;
     [SerializeField] float skipDuration = 5f;
-    Slider skipSLider;
+    CanvasGroup skipSliderCanvas;
+    Slider skipSlider;
     public bool skipNarrative;
     bool playerPositioned;
 
@@ -62,8 +63,9 @@ public class RoomScene_CutsceneManager : MonoBehaviour
 
     void Awake()
     {
-        skipSLider = skipUI.GetComponent<Slider>();
-        skipUI.SetActive(true);
+        skipSlider = skipUI.GetComponent<Slider>();
+        skipSliderCanvas = skipUI.GetComponent<CanvasGroup>();
+        StartCoroutine(EnableSkipNarrative(5));
         LockCursor(true);
         mapYellowMark.SetActive(false);
         EnablePlayerComponents(false);
@@ -77,7 +79,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     {
         typing();
         KaelDialog();
-        SkipNarrative();
+        SkipNarrativeSlider();
     }
 
     IEnumerator FirstDialog(float time) //kael starts talking
@@ -454,20 +456,29 @@ public class RoomScene_CutsceneManager : MonoBehaviour
         }
     }
 
-    void SkipNarrative()
+    void SkipNarrativeSlider()
     {
+        StartCoroutine(EnableSkipNarrative(5));
+
         if (Input.GetKey(skipKey))
         {
-            skipUI.SetActive(true);
-            if(skipSLider.value < skipDuration)
+            if (skipSlider.value < skipDuration)
             {
-                skipSLider.value += Time.deltaTime * 2f;
+                audioHandler.PlaySkipSlider();
+                skipSlider.value += Time.deltaTime * 3f;
             }
             else
             {
+                audioHandler.skipped = true;
+                audioHandler.SkipSFX();
                 skipNarrative = true;
                 skipUI.SetActive(false);
             }
+        }
+        else if (Input.GetKeyUp((skipKey)))
+        {
+            audioHandler.skipSliderPlaying = false;
+            skipSlider.value = 0;
         }
 
         if (skipNarrative)
@@ -510,6 +521,20 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             {
                 sceneCamera[i].SetActive(false);
             }
+        }
+    }
+
+    IEnumerator EnableSkipNarrative(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        if (skipSliderCanvas.alpha < 1)
+        {
+            skipSliderCanvas.alpha += Time.deltaTime;
+        }
+        else
+        {
+            skipSliderCanvas.alpha = 1f;
         }
     }
 }
