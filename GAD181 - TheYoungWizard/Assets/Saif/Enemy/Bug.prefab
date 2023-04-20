@@ -604,7 +604,7 @@ MonoBehaviour:
   attackDamage: 2
   player: {fileID: 0}
   sightRange: 100
-  attackRange: 1
+  attackRange: 2
   playerSightRange: 0
   playerAttackRange: 0
   playerlastposition: {x: 0, y: 0, z: 0}

@@ -27,10 +27,7 @@ public class WinterEnemySounds : MonoBehaviour
     {
         audioSource.PlayOneShot(attack1, 0.3f);
     }
-    public void PlayAttack2SFX()
-    {
-        audioSource.PlayOneShot(attack2, 0.3f);
-    }
+
     public void PlayDeadSFX()
     {
         audioSource.PlayOneShot(deadSound, 0.5f);

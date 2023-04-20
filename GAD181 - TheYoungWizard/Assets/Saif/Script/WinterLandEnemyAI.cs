@@ -24,6 +24,7 @@ public class WinterLandEnemyAI : MonoBehaviour
     float playerHP;
     float playerDistance;
 
+
     private void Start()
     {
         player = GameObject.Find("Player(In-Game)").transform;
@@ -32,7 +33,7 @@ public class WinterLandEnemyAI : MonoBehaviour
         slider.maxValue = currentHealth;
         maxHealth = currentHealth;
         thatPlayer = GameObject.Find("Player(In-Game)");
-        
+ 
 
 
 
@@ -76,8 +77,6 @@ public class WinterLandEnemyAI : MonoBehaviour
         agent.SetDestination(transform.position);
         animEnemy.SetBool("Death",true);
         Destroy(gameObject, 3);
-        
-
     }
 
     private void EnemyAttack()
@@ -87,6 +86,7 @@ public class WinterLandEnemyAI : MonoBehaviour
         animEnemy.SetTrigger("Attack2");
         animEnemy.SetBool("Run Forward", false);
     }
+
 
 
     private void EnemyDealDamage()
@@ -128,11 +128,13 @@ public class WinterLandEnemyAI : MonoBehaviour
             }
         }
 
+
+
         else if (currentHealth <= 0)
         {
             LookAtPlayer(false);
             EnemyDeath();
-            
+
         }
 
         playerHP = thatPlayer.GetComponent<playerCombat>().GetPlayerHealth();
