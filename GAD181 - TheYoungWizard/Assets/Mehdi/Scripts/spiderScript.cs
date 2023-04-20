@@ -1,86 +1,181 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEditor. VersionControl;
+using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class spiderScript : MonoBehaviour
 {
     private Animator animator;
     [SerializeField] GameObject raycastOrigin;
+    [SerializeField] float rayCastLength = 5f;
     [SerializeField] LayerMask layerMask;
+    [SerializeField] float spiderDamage = 10f;
+    [SerializeField] GameObject playerShieldExplosion;
     GameObject player;
     [SerializeField] Player playerScript;
     NavMeshAgent agent;
-    [SerializeField] int spiderHp;
-    [SerializeField] float attackTime = 5f;
+    [SerializeField] float spiderHp;
+    [SerializeField] float attackTime;
     public float currentAttackTime;
+    bool jump;
+    Rigidbody rb;
+    bool attacking;
+    public float distanceToPlayer;
+    float randomTimeToAttack;
+    bool shieldExploded;
+    RaycastHit hit;
 
+    //slider
+    [SerializeField] Slider slider;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
-        spiderHp = 20;
+        rb = GetComponent<Rigidbody>();
+        slider.maxValue = spiderHp;
+        slider.value = spiderHp;
+        randomTimeToAttack = UnityEngine.Random.Range(3,7);
+        attackTime = randomTimeToAttack;
     }
-
-
     void Update()
     {
-
-        attack();
+        player = GameObject.FindGameObjectWithTag("Player");
 
         if (playerScript == null)
         {
+
+            // Look at the player
+            transform.LookAt(player.transform.position);
+            Vector3 currentRotation = transform.rotation.eulerAngles;
+            transform.rotation = Quaternion.Euler(0, currentRotation.y, currentRotation.z);
             chase();
         }
+
+        Death();
+        playerShield();
+        UpdateHealthSlider();
+
+    }
+
+    private void UpdateHealthSlider()
+    {
+        slider.value = spiderHp;
+    }
+
+    private void Death()
+    {
         if (spiderHp <= 0)
         {
+            FindObjectOfType<EnemyDeathCounter>().EnemyDeath++;
             animator.SetTrigger("Death");
-            Destroy(gameObject, 2);
+            //  healthSlider.gameObject.SetActive(false);
+            agent.enabled = false;
+            this.enabled = false;
+            Destroy(gameObject, 2f);
         }
     }
+
     void attack()
     {
-        RaycastHit hit;
-
-        if (Physics.Raycast(raycastOrigin.transform.position, raycastOrigin.transform.forward, out hit, 3f, layerMask))
+        if (Physics.Raycast(raycastOrigin.transform.position, raycastOrigin.transform.forward, out hit, rayCastLength, layerMask))
         {
-            if(currentAttackTime < attackTime)
+            attackTime = randomTimeToAttack;
+            if (currentAttackTime < attackTime)
             {
                 currentAttackTime += Time.deltaTime;
-                animator.SetBool("Run", true);
             }
-            else if(currentAttackTime >= attackTime)
+            else if (currentAttackTime >= attackTime)
             {
+                randomTimeToAttack = UnityEngine.Random.Range(3, 7);
                 animator.SetTrigger("Attack");
-                animator.SetBool("Run", false);
-                playerScript = hit.rigidbody.GetComponent<Player>();
                 currentAttackTime = 0;
             }
-
-            Debug.DrawLine(transform.position, transform.forward * 1f, Color.red);
         }
         else
         {
             playerScript = null;
         }
-        Debug.DrawLine(transform.position, transform.forward * 1f, Color.red);
-        if (spiderHp < 0)
-        {
-            animator.SetTrigger("Death");
-            Destroy(gameObject);
-        }
-
-
-
-
+        Debug.DrawLine(raycastOrigin.transform.position, raycastOrigin.transform.forward * 1f, Color.red);
     }
     void chase()
     {
-        animator.SetBool("Run", true);
-        player = GameObject.FindGameObjectWithTag("Player");
-        agent.SetDestination(player.transform.position);
+        distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        if (distanceToPlayer > agent.stoppingDistance)
+        {
+            animator.SetBool("Run", true);
+            agent.SetDestination(player.transform.position);
+        }
+        else
+        {
+            attack();
+            animator.SetBool("Run", false);
+        }
+
+    }
+
+    public void WarnPlayer()
+    {
+        if (player != null)
+        {
+            player.GetComponent<playerCombat>().enableSenses();
+        }
+    }
+
+    public void DisableWarnPlayer()
+    {
+        if (player != null)
+        {
+            player.GetComponent<playerCombat>().disableSenses();
+        }
+    }
+
+    public void Jump()
+    {
+        if (player != null)
+        {
+            if (distanceToPlayer > 3)
+            {
+                transform.position += transform.forward * 3f; //jump
+                player.GetComponent<playerCombat>().damagePlayer(spiderDamage, false);
+            }
+        }
+
+
+    }
+
+    public void playerShield()
+    {
+        if (attacking && !shieldExploded && hit.transform.name == "Player_ForceField")
+        {
+            shieldExploded = true;
+            GameObject explosion = Instantiate(playerShieldExplosion, hit.point, Quaternion.identity);
+            Destroy(explosion, 1f);
+        }
+    }
+
+    public void resetPos()
+    {
+        transform.position -= transform.forward * 2f;
+    }
+
+    public void DamageEnemy(float damage)
+    {
+        spiderHp -= damage;
+    }
+
+    public void Attacking()
+    {
+        attacking = true;
+    }
+
+    public void NotAttacking()
+    {
+        attacking = false;
+        shieldExploded = false;
     }
 }

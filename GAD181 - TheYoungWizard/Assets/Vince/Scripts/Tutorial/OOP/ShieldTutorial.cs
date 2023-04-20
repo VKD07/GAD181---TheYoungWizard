@@ -59,7 +59,7 @@ public class ShieldTutorial : MonoBehaviour
 
         if (slowDownTime && playerForceField.activeSelf == true)
         {
-            cineMachineBrain.m_IgnoreTimeScale = false;
+            cineMachineBrain.m_IgnoreTimeScale = false; 
             taskOne = true;
             objectiveBox.ObjectiveCompleted(true);
             Time.timeScale = 1f;

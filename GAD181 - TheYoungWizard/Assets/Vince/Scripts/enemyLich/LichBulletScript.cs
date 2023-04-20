@@ -35,12 +35,12 @@ public class LichBulletScript : MonoBehaviour
             if (reduceDamage)
             {
                 float newDamage = bulletDamage / 2;
-                player.GetComponent<playerCombat>().damagePlayer(newDamage);
+                player.GetComponent<playerCombat>().damagePlayer(newDamage,false);
                 print(newDamage);
             }
             else
             {
-                player.GetComponent<playerCombat>().damagePlayer(bulletDamage);
+                player.GetComponent<playerCombat>().damagePlayer(bulletDamage, false);
                 print(bulletDamage);
             }
             Destroy(gameObject);

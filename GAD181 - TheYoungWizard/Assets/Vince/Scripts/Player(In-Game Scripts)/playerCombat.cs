@@ -82,6 +82,8 @@ public class playerCombat : MonoBehaviour
     [Header("SFX")]
     [SerializeField] PlayerSoundsHandler sfx;
 
+    [Header("CheckPoint")]
+    Vector3 savePoint;
 
     public bool dodge = false;
     public float shieldDuration = 3f;
@@ -89,7 +91,7 @@ public class playerCombat : MonoBehaviour
 
     void Start()
     {
-        CursorLoc();
+        CursorLock();
         //giving control of camera
         cam.m_YAxis.m_MaxSpeed = 2;
         cam.m_XAxis.m_MaxSpeed = 200;
@@ -103,7 +105,7 @@ public class playerCombat : MonoBehaviour
         playerMovement = GetComponent<Player_Movement>();
     }
 
-    private void CursorLoc()
+    private void CursorLock()
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -143,7 +145,9 @@ public class playerCombat : MonoBehaviour
     {
         if (playerHealth <= 0 && !tutorial)
         {
-            SceneManager.LoadScene("RoomScene");
+            //SceneManager.LoadScene("RoomScene");
+            transform.position = savePoint;
+            playerHealth = 100;
         }
     }
 
@@ -304,7 +308,7 @@ public class playerCombat : MonoBehaviour
     {
         if (!disablePlayerAttack)
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && targetMode && !attacking && !forceField.startAttackDelay)
             {
                 playerMovement.stopMoving = true;
                 attacking = true;
@@ -386,7 +390,7 @@ public class playerCombat : MonoBehaviour
     private void ItemHandler()
     {
         //if slot 1 is full and player wanted to use it
-        if (itemManager.numberOfHealthP > 0 && Input.GetKeyDown(KeyCode.Alpha1) && playerHealth < 100)
+        if (itemManager.numberOfHealthP > 0 && Input.GetKeyDown(KeyCode.Alpha1) && playerHealth < 100 && !forceField.shieldIsActive)
         {
             sfx.PlayhealSfx();
             float totalHealthValue = playerHealth + healthPotionValue;
@@ -434,9 +438,9 @@ public class playerCombat : MonoBehaviour
         }
     }
     //take damage from enemy
-    public void damagePlayer(float damage)
+    public void damagePlayer(float damage , bool ignoreShield)
     {
-        if (forceField.shieldIsActive == false)
+        if (forceField.shieldIsActive == false || ignoreShield)
         {
             playerHealth -= damage;
             disableSenses();
@@ -447,7 +451,6 @@ public class playerCombat : MonoBehaviour
 
     public void damagePlayer2(float damage)
     {
-
         playerHealth -= damage;
         disableSenses();
         Time.timeScale = 1;
@@ -519,5 +522,9 @@ public class playerCombat : MonoBehaviour
         {
             cam.m_Lens.FieldOfView += 80f * Time.deltaTime;
         }
+    }
+    public void RespawnPoint(Vector3 respawn)
+    {
+        savePoint = respawn;
     }
 }

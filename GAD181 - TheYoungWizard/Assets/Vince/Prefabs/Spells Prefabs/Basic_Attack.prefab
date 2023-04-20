@@ -128,7 +128,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletDamage: 5
   bossImpactVfx: {fileID: 1334071670866236, guid: adc6d05559a79b04884668e3791335a6, type: 3}
-  mrPlayer: {fileID: 1518113482479036492, guid: 5c151c979cfa6a04bad8a31da7a52ce8, type: 3}
+  explosion: {fileID: 2181891358993693377, guid: 3c9b835796e834a47b70051997caeb7c, type: 3}
 --- !u!1001 &4189858638692076931
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -263,6 +263,18 @@ PrefabInstance:
     - target: {fileID: 4121427213488122, guid: 69cd5bfdab535e54f87fbb6abae1a60b, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.56328
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546894440910646, guid: 69cd5bfdab535e54f87fbb6abae1a60b, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1149.2446
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546894440910646, guid: 69cd5bfdab535e54f87fbb6abae1a60b, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1149.2446
+      objectReference: {fileID: 0}
+    - target: {fileID: 4546894440910646, guid: 69cd5bfdab535e54f87fbb6abae1a60b, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1149.2446
       objectReference: {fileID: 0}
     - target: {fileID: 4963680521542098, guid: 69cd5bfdab535e54f87fbb6abae1a60b, type: 3}
       propertyPath: m_LocalScale.z

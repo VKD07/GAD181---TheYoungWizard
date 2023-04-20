@@ -3,19 +3,39 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class StoneSpell : MonoBehaviour
 {
+    public enum Island
+    {
+        snowIsland,
+        UnknownIsland,
+    }
+
+    public enum Spells
+    {
+        FrostWall,
+        WindGust,
+        Luminous,
+    }
+
     [SerializeField] GameObject runeStone;
     [SerializeField] GameObject circleVFX;
     [SerializeField] Sprite spellIcon;
     [SerializeField] Image spellImageIcon;
     [SerializeField] GameObject notifCanvas;
+    [SerializeField] MapUnlockHandler mapUnlockHandler;
+    [SerializeField] SpellUnlockHandler spellUnlockHandler;
+    [SerializeField] Island islandToUnlock;
+    [SerializeField] Spells spellsToUnlock;
+    [SerializeField] bool disableGoingBack;
+    [SerializeField] GameObject spellBookUnlock;
     CanvasGroup notifAlpha;
     bool showMessage;
     public bool unlocked;
-    
+
 
     private void Start()
     {
@@ -26,6 +46,59 @@ public class StoneSpell : MonoBehaviour
     private void Update()
     {
         SpellUnlockedPopUpMessage();
+        MessageGameManager();
+    }
+
+    private void MessageGameManager()
+    {
+        mapUnlockHandler = FindObjectOfType<MapUnlockHandler>();
+        spellUnlockHandler = FindObjectOfType<SpellUnlockHandler>();
+
+        if (unlocked)
+        {
+            if (mapUnlockHandler != null)
+            {
+                MapUnlock();
+            }
+
+            if (spellUnlockHandler != null)
+            {
+                SpellUnlock();
+            }
+        }
+    }
+
+    private void MapUnlock()
+    {
+        if (islandToUnlock == Island.snowIsland)
+        {
+            StartCoroutine(GoBackToRoom(5));
+            mapUnlockHandler.unlockSnowIsland = true;
+        }
+        else if (islandToUnlock == Island.UnknownIsland)
+        {
+            StartCoroutine(GoBackToRoom(5));
+            mapUnlockHandler.unlockUnknownIsland = true;
+        }
+    }
+
+    private void SpellUnlock()
+    {
+        if (spellsToUnlock == Spells.WindGust)
+        {
+            spellBookUnlock.SetActive(true);
+            spellUnlockHandler.unlockWindGust = true;
+        }
+        else if (spellsToUnlock == Spells.FrostWall)
+        {
+            spellBookUnlock.SetActive(true);
+            spellUnlockHandler.unlockIceWall = true;
+        }
+        else if (spellsToUnlock == Spells.Luminous)
+        {
+            spellBookUnlock.SetActive(true);
+            spellUnlockHandler.unlockLuminous = true;
+        }
     }
 
     private void SpellUnlockedPopUpMessage()
@@ -33,7 +106,7 @@ public class StoneSpell : MonoBehaviour
         if (showMessage)
         {
             spellImageIcon.sprite = spellIcon;
-            if(notifAlpha.alpha < 1)
+            if (notifAlpha.alpha < 1)
             {
                 notifCanvas.SetActive(true);
                 notifAlpha.alpha += Time.deltaTime;
@@ -46,7 +119,7 @@ public class StoneSpell : MonoBehaviour
 
         if (notifCanvas.activeSelf && showMessage == false)
         {
-            if(notifAlpha.alpha > 0)
+            if (notifAlpha.alpha > 0)
             {
                 notifAlpha.alpha -= Time.deltaTime;
             }
@@ -69,5 +142,14 @@ public class StoneSpell : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         showMessage = false;
+    }
+
+    IEnumerator GoBackToRoom(float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (!disableGoingBack)
+        {
+            SceneManager.LoadScene("RoomScene 1");
+        }
     }
 }

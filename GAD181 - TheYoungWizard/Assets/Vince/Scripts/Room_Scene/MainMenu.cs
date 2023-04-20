@@ -9,14 +9,13 @@ public class MainMenu : MonoBehaviour
     [SerializeField] public bool mainMenuActive;
     [SerializeField] GameObject mainMenuCamera;
     [SerializeField] GameObject mainMenuUi;
-    [SerializeField] KeyCode mainMenuKeyCode = KeyCode.Return;
     [SerializeField] GameObject player;
     [SerializeField] CanvasGroup alpha;
     [SerializeField] CanvasGroup exitImage;
     [SerializeField] float fadeOutRate = 0.5f;
     [SerializeField] CinemachineFreeLook playerCamera;
     bool startGame;
-    bool cameraControl;
+    public bool cameraControl;
     bool fadeOut;
     // Update is called once per frame
 
@@ -66,14 +65,14 @@ public class MainMenu : MonoBehaviour
             {
                 alpha.alpha -= Time.deltaTime * fadeOutRate;
                 player.SetActive(true);
-                mainMenuCamera.SetActive(false);
+                //mainMenuCamera.SetActive(false);
             }
             else
             {
-                cameraControl = true;
+               // cameraControl = true;
                 startGame = false;
                 alpha.alpha = 0;
-                mainMenuUi.SetActive(false);
+                //mainMenuUi.SetActive(false);
             }
         }
     }
@@ -104,7 +103,7 @@ public class MainMenu : MonoBehaviour
         else
         {
             playerCamera.m_YAxis.m_MaxSpeed = 2;
-            playerCamera.m_XAxis.m_MaxSpeed = 300f;
+            playerCamera.m_XAxis.m_MaxSpeed = 250f;
         }
     }
 }

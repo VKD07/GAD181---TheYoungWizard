@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,12 @@ public class Fireball_Script : MonoBehaviour
     {
         if (collision.gameObject.tag == "dummy")
         {
+            Destroy(gameObject);
+        }
+
+        if (collision.gameObject.tag == "Enemy")
+        {
+            ExplosionEffect();
             Destroy(gameObject);
         }
     }
@@ -60,6 +67,13 @@ public class Fireball_Script : MonoBehaviour
         if(collision.tag == "Enemy")
         {
             ExplosionEffect();
+            Destroy(gameObject);
+        }
+
+        if(collision.tag == "ForceField")
+        {
+            ExplosionEffect();
+            Destroy(gameObject);
         }
 
     }

@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class Player_SpellCast : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] float cameraShakeIntensity = 0.4f;
     [SerializeField] CastModeManager castModeManager;
     [SerializeField] SpellSlot spellManager;
     [SerializeField] Animator playerAnimation;
@@ -218,12 +219,11 @@ public class Player_SpellCast : MonoBehaviour
             enableSpeedBoost = true;
         }
 
-       // speedBoost();
+      speedBoost();
     }
-
-   /* private void speedBoost()
+    private void speedBoost()
     {
-        if(enableSpeedBoost && speedBoostTime < speedBoostDuration)
+        if (enableSpeedBoost && speedBoostTime < speedBoostDuration)
         {
             playerMovement.runSpeed = totalSpeed;
             playerMovement.walkingSpeed = totalSpeed;
@@ -236,7 +236,7 @@ public class Player_SpellCast : MonoBehaviour
             enableSpeedBoost = false;
             speedBoostTime = 0f;
         }
-    }*/
+    }
 
     void EnableWindGustVfx()
     {
@@ -256,4 +256,9 @@ public class Player_SpellCast : MonoBehaviour
         }
     }
     #endregion
+
+    public void TriggerCameraShake()
+    {
+      //  CameraShake.instance.ShakeCamera(0.5f, cameraShakeIntensity);
+    }
 }

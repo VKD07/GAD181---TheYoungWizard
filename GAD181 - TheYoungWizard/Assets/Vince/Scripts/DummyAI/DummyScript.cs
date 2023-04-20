@@ -116,7 +116,7 @@ public class DummyScript : MonoBehaviour
 
     private void DamagePlayer()
     {
-        pc.damagePlayer(attackDamage);
+        pc.damagePlayer(attackDamage, false);
     }
 
     private void DamageIndicator()

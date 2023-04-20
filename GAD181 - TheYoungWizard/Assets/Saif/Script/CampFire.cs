@@ -18,7 +18,6 @@ public class CampFire : MonoBehaviour
     private void Start()
     {
         firePlacement = new Vector3(fireSpanwer.transform.position.x, fireSpanwer.transform.position.y, fireSpanwer.transform.position.z);
- 
     }
 
 }

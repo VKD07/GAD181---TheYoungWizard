@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
+using System.Threading;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,7 @@ public class FirstChallenge : MonoBehaviour
     RectTransform sceneTimerPos;
     [SerializeField] GameObject keyboardUI;
     [SerializeField] Animator beamUIAnim;
+    public bool stopTimer;
 
     [Header("Challenges")]
     [Header("Challenge 1")]
@@ -97,7 +99,11 @@ public class FirstChallenge : MonoBehaviour
                 sceneTimer.SetActive(true);
                 spellImage.sprite = spellCast.spellIcons[0];
                 setSpellIconAlpha(1);
-                timerSlider.value -= firstChallengeTimeRate * Time.deltaTime;
+
+                if (!stopTimer)
+                {
+                    timerSlider.value -= firstChallengeTimeRate * Time.deltaTime;
+                }
             }
             else if (timerSlider.value <= 0)
             {
@@ -147,7 +153,10 @@ public class FirstChallenge : MonoBehaviour
             if (timerSlider.value > 0)
             {
                 sceneTimer.SetActive(true);
-                timerSlider.value -= secondChallengeTimeRate * Time.deltaTime;
+                if (!stopTimer)
+                {
+                    timerSlider.value -= secondChallengeTimeRate * Time.deltaTime;
+                }
             }
             if (Input.GetKeyDown(KeyCode.LeftControl))
             {
@@ -183,7 +192,10 @@ public class FirstChallenge : MonoBehaviour
             playerMovement.enabled = false;
             if (timerSlider.value > 0 && challenge3Done == false)
             {
-                timerSlider.value -= spellsChallengeTimerRate * Time.deltaTime;
+                if (!stopTimer)
+                {
+                    timerSlider.value -= spellsChallengeTimerRate * Time.deltaTime;
+                }
                 sceneTimer.SetActive(true);
             }
             else if (timerSlider.value <= 0)
@@ -235,6 +247,7 @@ public class FirstChallenge : MonoBehaviour
     {
         if (startFinalChallenge)
         {
+            TriggerVirtualCameraShake(1, 0.5f, true);
             beamSliderUI.SetActive(true);
             beamSlider.value += bossPower;
 
@@ -266,8 +279,11 @@ public class FirstChallenge : MonoBehaviour
             }//Lose situation
             else if (beamSlider.value >= 76)
             {
-                SceneManager.LoadScene(4);
+              SceneManager.LoadScene(4);
             }
+        }
+        else
+        {
         }
     }
 
@@ -306,5 +322,10 @@ public class FirstChallenge : MonoBehaviour
             beamUIAnim.SetBool("Shake", false);
         }
     }
-
+    
+    void TriggerVirtualCameraShake(float time, float intensity, bool value)
+    {
+        CameraShake.instance.ShakeVirtualCamera(time, intensity);
+        CameraShake.instance.disableLerping = value;
+    }
 }

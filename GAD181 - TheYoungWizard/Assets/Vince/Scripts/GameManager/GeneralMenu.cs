@@ -6,11 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class GeneralMenu : MonoBehaviour
 {
-    MainMenu startingMenu;
     [SerializeField] KeyCode menuKey = KeyCode.Escape;
     [SerializeField] GameObject mainMenuUI;
     [SerializeField] GameObject menuText;
-    public GameObject StartingMenu;
+    public CanvasGroup StartingMenu;
     public bool mainMenuOpened;
     void Start()
     {
@@ -26,12 +25,12 @@ public class GeneralMenu : MonoBehaviour
 
     private void findStartingMenu()
     {
-        StartingMenu = GameObject.FindGameObjectWithTag("StartingMenu");
+        StartingMenu = GameObject.Find("TitleMenu").GetComponent<CanvasGroup>();
     }
 
     private void OpenGeneralMenu()
     {
-        if (StartingMenu == null)
+        if (StartingMenu.alpha <= 0)
         {
             menuText.SetActive(true);
             if (Input.GetKeyDown(menuKey))
@@ -73,19 +72,33 @@ public class GeneralMenu : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                SceneManager.LoadScene("TutorialScene");
+                SceneManager.LoadScene("RoomScene 1");
                 mainMenuOpened = false;
                 mainMenuUI.SetActive(false);
                 Time.timeScale = 1f;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                SceneManager.LoadScene("WinterLand");
+                SceneManager.LoadScene("TutorialScene");
                 mainMenuOpened = false;
                 mainMenuUI.SetActive(false);
                 Time.timeScale = 1f;
             }
             else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                SceneManager.LoadScene("Forest Level");
+                mainMenuOpened = false;
+                mainMenuUI.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                SceneManager.LoadScene("WinterLand");
+                mainMenuOpened = false;
+                mainMenuUI.SetActive(false);
+                Time.timeScale = 1f;
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
             {
                 SceneManager.LoadScene("FinalBoss");
                 mainMenuOpened = false;
