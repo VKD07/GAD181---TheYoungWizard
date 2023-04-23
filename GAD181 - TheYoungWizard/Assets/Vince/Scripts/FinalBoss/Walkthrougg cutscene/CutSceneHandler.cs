@@ -19,6 +19,7 @@ public class CutSceneHandler : MonoBehaviour
     [SerializeField] Animator playerAnim;
     [SerializeField] Transform playerTransform;
     [SerializeField] StoneSpell stoneSpell;
+    [SerializeField] AudioSource playerAudioSource;
 
     [Header("Dialog Box")]
     [SerializeField] GameObject dialogCanvas;
@@ -517,12 +518,13 @@ public class CutSceneHandler : MonoBehaviour
         castModeUI.SetActive(value);
         guideUI.SetActive(value);
         aimCanvas.SetActive(value);
-        playerAnim.enabled = value;
         pm.enabled = value;
         ps.enabled = value;
         config.enabled = value;
         pf.enabled = value;
         pc.enabled = value;
+        playerAudioSource.enabled = value;
+        playerAnim.SetBool("dialogIdle", !value);
 
         if (value)
         {

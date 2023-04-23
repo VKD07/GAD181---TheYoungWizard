@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.5188679, g: 0.51875466, b: 0.48166606, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -1287,7 +1287,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
       propertyPath: m_RootOrder
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19107,6 +19107,51 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 294ff253ed23b9d478d6cb365d6faf6c, type: 3}
+--- !u!1 &1047058460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1047058462}
+  - component: {fileID: 1047058461}
+  m_Layer: 0
+  m_Name: PlayerInitialPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1047058461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047058460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cee821250cb94d64b94ef1036226b5de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnPointHandler: {fileID: 0}
+  playerTransform: {fileID: 0}
+--- !u!4 &1047058462
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1047058460}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.279, y: -1.247, z: -7.826}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1050411051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20912,7 +20957,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281533907}
-  m_LocalRotation: {x: 0.14613008, y: -0.7121283, z: 0.1555943, w: 0.6688122}
+  m_LocalRotation: {x: 0.14613007, y: -0.7121283, z: 0.15559427, w: 0.6688122}
   m_LocalPosition: {x: 3.5331602, y: 1.0954218, z: -0.56274176}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -24030,7 +24075,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605629998}
-  m_LocalRotation: {x: 0.10407319, y: -0.058643907, z: 0.02596397, w: 0.9924997}
+  m_LocalRotation: {x: 0.10407322, y: -0.058643907, z: 0.025963955, w: 0.9924997}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -24796,8 +24841,12 @@ MonoBehaviour:
   furBall: {fileID: 0}
   portal: {fileID: 669643390}
   menu: {fileID: 528115108}
+  portalParticle: {fileID: 0}
   mapYellowMark: {fileID: 2091471923}
   mapUI: {fileID: 777018960}
+  scrolls: {fileID: 0}
+  windVfx: {fileID: 0}
+  mainMenuScript: {fileID: 0}
   dialogCanvas: {fileID: 1664356074}
   dialogBox: {fileID: 1664356075}
   nextKey: 323
@@ -24805,6 +24854,10 @@ MonoBehaviour:
   typingDuration: 2
   currentTime: 0
   countingDownNext: 0
+  skipKey: 102
+  skipUI: {fileID: 0}
+  skipDuration: 5
+  skipNarrative: 0
   cinemachineBrain: {fileID: 1281533912}
   sceneCamera:
   - {fileID: 938906530}
@@ -24946,6 +24999,10 @@ MonoBehaviour:
   catMeow: {fileID: 8300000, guid: 09ba652c88c03724caad0d7e6a45af0c, type: 3}
   redPortalOpen: {fileID: 8300000, guid: b5d93ec2ca0b1034da6f7a15e800a244, type: 3}
   whoosh: {fileID: 8300000, guid: eee0595328876734a8ee0f7807d515b1, type: 3}
+  skipSoundEffect: {fileID: 0}
+  skipSlider: {fileID: 0}
+  skipSliderPlaying: 0
+  skipped: 0
 --- !u!1001 &1677664966
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31303,7 +31360,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1932591285}
-  m_LocalRotation: {x: 0.12206269, y: -0.058163226, z: 0.02702365, w: 0.9904482}
+  m_LocalRotation: {x: 0.12206267, y: -0.058163255, z: 0.027023647, w: 0.9904481}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

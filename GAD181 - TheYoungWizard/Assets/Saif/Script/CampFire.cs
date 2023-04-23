@@ -9,15 +9,18 @@ public class CampFire : MonoBehaviour
     [SerializeField] GameObject fireSpanwer;
     [SerializeField] AudioClip campfireLitSfx;
     [SerializeField] CanvasGroup uiCanvas;
-    public Vector3 firePlacement;
+    [SerializeField] RespawnPointHandler respawnPointHandler;
+    [SerializeField] ParticleSystem explosionVfx;
+    [SerializeField] Transform playerSpawnLocation;
+    playerCombat pc;
     public bool campFireLit;
     bool fadeOut;
     AudioSource audioSource;
 
     private void Start()
     {
-        firePlacement = new Vector3(fireSpanwer.transform.position.x, fireSpanwer.transform.position.y, fireSpanwer.transform.position.z);
         audioSource = GetComponent<AudioSource>();
+        respawnPointHandler = GameObject.FindGameObjectWithTag("GameManager").GetComponent<RespawnPointHandler>();
     }
 
     private void Update()
@@ -56,14 +59,13 @@ public class CampFire : MonoBehaviour
     }
     public void PlayFire()
     {
-        audioSource.PlayOneShot(campfireLitSfx, 1f);
-        campFireLit = true;
-        campFire.Play();
+        if (!campFireLit)
+        {
+            respawnPointHandler.SetRespawnPoint(playerSpawnLocation.transform.position);
+            audioSource.PlayOneShot(campfireLitSfx, 1f);
+            campFireLit = true;
+            explosionVfx.Play();
+            campFire.Play();
+        }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        
-    }
-
 }

@@ -15,12 +15,14 @@ public class spiderScript : MonoBehaviour
     [SerializeField] LayerMask layerMask;
     [SerializeField] float spiderDamage = 10f;
     [SerializeField] GameObject playerShieldExplosion;
+    [SerializeField] float idleDistance = 10f;
     GameObject player;
     [SerializeField] Player playerScript;
     NavMeshAgent agent;
     [SerializeField] float spiderHp;
     [SerializeField] float attackTime;
     public float currentAttackTime;
+    float initialHp;
     bool jump;
     Rigidbody rb;
     bool attacking;
@@ -59,7 +61,6 @@ public class spiderScript : MonoBehaviour
         Death();
         playerShield();
         UpdateHealthSlider();
-
     }
 
     private void UpdateHealthSlider()
@@ -105,10 +106,28 @@ public class spiderScript : MonoBehaviour
     void chase()
     {
         distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceToPlayer > agent.stoppingDistance)
+        if(distanceToPlayer >= idleDistance)
+        {
+            animator.SetBool("Run", false);
+        }
+        else if (distanceToPlayer > agent.stoppingDistance && distanceToPlayer < idleDistance)
         {
             animator.SetBool("Run", true);
             agent.SetDestination(player.transform.position);
+        }else if(distanceToPlayer < 2)
+        {
+            //attack if the player is very close to the enemy
+            attackTime = randomTimeToAttack;
+            if (currentAttackTime < attackTime)
+            {
+                currentAttackTime += Time.deltaTime;
+            }
+            else if (currentAttackTime >= attackTime)
+            {
+                randomTimeToAttack = UnityEngine.Random.Range(3, 7);
+                animator.SetTrigger("Attack");
+                currentAttackTime = 0;
+            }
         }
         else
         {
@@ -141,8 +160,8 @@ public class spiderScript : MonoBehaviour
             if (distanceToPlayer > 3)
             {
                 transform.position += transform.forward * 3f; //jump
-                player.GetComponent<playerCombat>().damagePlayer(spiderDamage, false);
             }
+            player.GetComponent<playerCombat>().damagePlayer(spiderDamage, false);
         }
 
 
@@ -150,7 +169,7 @@ public class spiderScript : MonoBehaviour
 
     public void playerShield()
     {
-        if (attacking && !shieldExploded && hit.transform.name == "Player_ForceField")
+        if (attacking && !shieldExploded && hit.transform?.name == "Player_ForceField")
         {
             shieldExploded = true;
             GameObject explosion = Instantiate(playerShieldExplosion, hit.point, Quaternion.identity);

@@ -37,13 +37,24 @@ public class RoomScene_Player : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] AudioClip footSteps;
 
+    RespawnPointHandler respawnPointHandler;
+
     void Start()
     {
+        InitSpawn();
+
         characterController = GetComponent<CharacterController>();
         audioSource = GetComponent<AudioSource>();
         //setting the cursor to visible and lock to the center
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    private void InitSpawn()
+    {
+        //Spawning
+        respawnPointHandler = GameObject.FindGameObjectWithTag("GameManager").GetComponent<RespawnPointHandler>();
+        this.gameObject.transform.position = respawnPointHandler.storedRespawnPoint;
     }
 
     // Update is called once per frame

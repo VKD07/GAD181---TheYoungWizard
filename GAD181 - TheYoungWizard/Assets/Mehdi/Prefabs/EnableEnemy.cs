@@ -61,7 +61,7 @@ public class EnableEnemy : MonoBehaviour
             {
                 spiderMusic = true;
                 audioSource.clip = clip;
-                audioSource.Play();
+                audioSource?.Play();
             }
         }
     }

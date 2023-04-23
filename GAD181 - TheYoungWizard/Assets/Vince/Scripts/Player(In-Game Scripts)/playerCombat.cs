@@ -83,12 +83,15 @@ public class playerCombat : MonoBehaviour
     [SerializeField] PlayerSoundsHandler sfx;
 
     [Header("CheckPoint")]
-    Vector3 savePoint;
-
+    [SerializeField] RespawnPointHandler respawnPointHandler;
     public bool dodge = false;
     public float shieldDuration = 3f;
     public bool tutorial;
 
+    private void Awake()
+    {
+        Spawning();
+    }
     void Start()
     {
         CursorLock();
@@ -103,6 +106,13 @@ public class playerCombat : MonoBehaviour
         cam.m_Lens.FieldOfView = 33f;
         midRig.m_TrackedObjectOffset.x = 0.25f;
         playerMovement = GetComponent<Player_Movement>();
+    }
+
+    private void Spawning()
+    {
+        respawnPointHandler = GameObject.FindGameObjectWithTag("GameManager").GetComponent<RespawnPointHandler>();
+        this.gameObject.transform.position = respawnPointHandler.storedRespawnPoint;
+        //print(respawnPointHandler.storedRespawnPoint + "," + transform.position);
     }
 
     private void CursorLock()
@@ -146,8 +156,8 @@ public class playerCombat : MonoBehaviour
         if (playerHealth <= 0 && !tutorial)
         {
             //SceneManager.LoadScene("RoomScene");
-            transform.position = savePoint;
-            playerHealth = 100;
+            //transform.position = savePoint;
+            Time.timeScale = 0f;
         }
     }
 
@@ -438,7 +448,7 @@ public class playerCombat : MonoBehaviour
         }
     }
     //take damage from enemy
-    public void damagePlayer(float damage , bool ignoreShield)
+    public void damagePlayer(float damage, bool ignoreShield)
     {
         if (forceField.shieldIsActive == false || ignoreShield)
         {
@@ -477,6 +487,11 @@ public class playerCombat : MonoBehaviour
     public void SetPlayerMana(float value)
     {
         playerMana += value;
+    }
+
+    public void SetPlayerHealth(float health)
+    {
+        playerHealth = health;
     }
 
 
@@ -522,9 +537,5 @@ public class playerCombat : MonoBehaviour
         {
             cam.m_Lens.FieldOfView += 80f * Time.deltaTime;
         }
-    }
-    public void RespawnPoint(Vector3 respawn)
-    {
-        savePoint = respawn;
     }
 }

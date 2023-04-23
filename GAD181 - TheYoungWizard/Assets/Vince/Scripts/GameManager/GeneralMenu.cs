@@ -25,7 +25,7 @@ public class GeneralMenu : MonoBehaviour
 
     private void findStartingMenu()
     {
-        StartingMenu = GameObject.Find("TitleMenu").GetComponent<CanvasGroup>();
+      //  StartingMenu = GameObject.Find("TitleMenu").GetComponent<CanvasGroup>();
     }
 
     private void OpenGeneralMenu()

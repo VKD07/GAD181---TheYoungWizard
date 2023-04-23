@@ -8,7 +8,7 @@ public class SpellUnlockHandler : MonoBehaviour
     public bool unlockIceWall;
     public bool unlockLuminous;
 
-    CastModeManager castModeManager;
+    public CastModeManager castModeManager;
     private void Update()
     {
         UnlockSpells();
@@ -28,7 +28,7 @@ public class SpellUnlockHandler : MonoBehaviour
             {
                 castModeManager.IceSpellLocked = false;
             }
-            else if (unlockLuminous)
+            if (unlockLuminous)
             {
                 castModeManager.luminousLocked = false;
             }

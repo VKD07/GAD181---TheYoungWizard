@@ -213,7 +213,7 @@ public class Player_Movement : MonoBehaviour
         //}
 
 
-        if (Input.GetKeyDown(rollKey) && rolling == false && pc.castingSpell == false)
+        if (Input.GetKeyDown(rollKey) && rolling == false && pc.castingSpell == false && rollCurrentTime < rollDuration)
         {
             anim.SetTrigger("Roll");
             pc.RollCamera();

@@ -33,6 +33,8 @@ TagManager:
   - PenguinLeft
   - mainMenu
   - SkeletonGate
+  - GameManager
+  - LevelUpFx
   layers:
   - Default
   - TransparentFX
@@ -55,7 +57,7 @@ TagManager:
   - PlayerBullet
   - enemyForceField
   - StoneSpell
-  - 
+  - CheckPoint
   - 
   - 
   - 

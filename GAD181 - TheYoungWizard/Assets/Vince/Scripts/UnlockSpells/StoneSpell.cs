@@ -12,6 +12,7 @@ public class StoneSpell : MonoBehaviour
     {
         snowIsland,
         UnknownIsland,
+        none,
     }
 
     public enum Spells
@@ -73,16 +74,18 @@ public class StoneSpell : MonoBehaviour
     {
         if (islandToUnlock == Island.snowIsland)
         {
-            if (headBackToRoom)
-            {
-                StartCoroutine(GoBackToRoom(5));
-            }
+
+            StartCoroutine(GoBackToRoom(5));
             mapUnlockHandler.unlockSnowIsland = true;
         }
         else if (islandToUnlock == Island.UnknownIsland)
         {
             StartCoroutine(GoBackToRoom(5));
             mapUnlockHandler.unlockUnknownIsland = true;
+        }
+        else if (islandToUnlock == Island.none)
+        {
+            //do nothing
         }
     }
 

@@ -20,14 +20,4 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Backspace))
-        {
-            SceneManager.LoadScene(0);
-        }
-    }
-
-
 }

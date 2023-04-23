@@ -461,7 +461,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     {
         StartCoroutine(EnableSkipNarrative(5));
 
-        if (Input.GetKey(skipKey))
+        if (Input.GetKey(skipKey) && skipSliderCanvas.alpha >= 1)
         {
             if (skipSlider.value < skipDuration)
             {

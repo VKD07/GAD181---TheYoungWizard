@@ -17,6 +17,7 @@ public class ForestLevelCutScene : MonoBehaviour
     [SerializeField] GameObject aimCanvas;
     [SerializeField] Animator playerAnim;
     [SerializeField] Transform playerTransform;
+    [SerializeField] AudioSource playerAudioSource;
 
     [Header("Environment Components")]
     [SerializeField] EnemyDeathCounter enemyDeathHandler;
@@ -432,12 +433,13 @@ public class ForestLevelCutScene : MonoBehaviour
         castModeUI.SetActive(value);
         guideUI.SetActive(value);
         aimCanvas.SetActive(value);
-        playerAnim.enabled = value;
         pm.enabled = value;
         ps.enabled = value;
         config.enabled = value;
         pf.enabled = value;
         pc.enabled = value;
+        playerAudioSource.enabled = value;
+        playerAnim.SetBool("dialogIdle", !value);
 
         if (value)
         {

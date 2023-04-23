@@ -16,6 +16,7 @@ public class BossHealthHandler : MonoBehaviour
     AudioSource audioSource;
     BossScript bossScript;
     public bool firstRockShattered;
+    public bool resetRocks;
 
     void Start()
     {
@@ -26,7 +27,13 @@ public class BossHealthHandler : MonoBehaviour
 
     void Update()
     {
-        if(!finalCutScene)
+        ShatteredRocks();
+        ResetRocks();
+    }
+
+    private void ShatteredRocks()
+    {
+        if (!finalCutScene)
         {
             if (bossScript.GetBossHealth() <= 800 && rockHealth[0] != null)
             {
@@ -52,6 +59,18 @@ public class BossHealthHandler : MonoBehaviour
         }
     }
 
+    void ResetRocks()
+    {
+        if (resetRocks)
+        {
+            for (int i = 0; i < rockHealth.Length; i++)
+            {
+                rockHealth[i].SetActive(true);
+            }
+            resetRocks = false;
+        }
+    }
+
     public void ShatteredRock(int rockNum)
     {
         if (rockHealth[rockNum] == null)
@@ -65,6 +84,7 @@ public class BossHealthHandler : MonoBehaviour
         //GameObject cloneObj = Instantiate(bossScript.bossClone, bossScript.multipleFireBallSpawners[0].position, Quaternion.identity);
         //Destroy(cloneObj, bossScript.cloneDuration);
         Destroy(rockHealth[rockNum]);
+        //rockHealth[rockNum].SetActive(false);
     }
 
     public void ReleaseCharge()

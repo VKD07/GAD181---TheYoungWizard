@@ -32,12 +32,11 @@ public class Fireball_Script : MonoBehaviour
             ExplosionEffect();
             Destroy(gameObject);
         }
+
     }
 
     private void OnTriggerEnter(Collider collision)
     {
-
-
         if (collision.tag == "Boss")
         {
             GameObject boss = collision.gameObject;
@@ -86,8 +85,6 @@ public class Fireball_Script : MonoBehaviour
         if (collision.tag == "CheckPoint")
         {
             collision.GetComponent<CampFire>().PlayFire();
-            savePoint = collision.GetComponent<CampFire>().firePlacement;
-            player.GetComponent<playerCombat>().RespawnPoint(savePoint);
         }
 
         if (collision.gameObject.tag == "SkeletonGate")

@@ -21,6 +21,7 @@ public class Player_Animation_Config : MonoBehaviour
     public bool targetAvailable;
     float currentDamage;
     public bool enemyDetected;
+    bool checkPointDetected;
     Vector3 direction;
     RaycastHit hit;
     public float distanceToPlayer;
@@ -47,22 +48,22 @@ public class Player_Animation_Config : MonoBehaviour
         {
             targetAvailable = true;
             direction = (hit.point - bulletSpawn.position).normalized;
-
+           
             if (hit.rigidbody != null && hit.rigidbody.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 enemyDetected = true;
             }
-
+            if (hit.rigidbody != null && hit.rigidbody.gameObject.layer == LayerMask.NameToLayer("CheckPoint"))
+            {
+                checkPointDetected = true;
+            }
             distanceToPlayer = Vector3.Distance(hit.point, transform.position);
-           
-
-          //  if(distanceToPlayer < )
-
             Debug.DrawLine(ray.origin, ray.direction * Mathf.Infinity, Color.red);
         }
         else
         {
             enemyDetected = false;
+            checkPointDetected = false;
             targetAvailable = false;
         }
     }
@@ -80,6 +81,11 @@ public class Player_Animation_Config : MonoBehaviour
             if (enemyDetected && hit.rigidbody != null)
             {
                 hit.rigidbody.gameObject.SendMessage("DamageEnemy", currentDamage);
+            }
+            
+            if(checkPointDetected && hit.rigidbody != null)
+            {
+                hit.rigidbody.gameObject.GetComponent<CampFire>().PlayFire();
             }
         }
     }

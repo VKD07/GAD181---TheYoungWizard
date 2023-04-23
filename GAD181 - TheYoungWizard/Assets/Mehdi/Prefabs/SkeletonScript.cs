@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.UI;
 
 public class SkeletonScript : MonoBehaviour
@@ -18,17 +20,18 @@ public class SkeletonScript : MonoBehaviour
     NavMeshAgent agent;
     [SerializeField] float spiderHp;
     [SerializeField] float attackTime;
+    [SerializeField] BoxCollider bossTriggerBox;
     public float currentAttackTime;
     bool jump;
     Rigidbody rb;
     public float distanceToPlayer;
     float randomTimeToAttack;
     RaycastHit hit;
-
+    [SerializeField] float idleDistance = 30f;
     AudioSource audioSource;
     [SerializeField] AudioClip swingSword;
     [SerializeField] AudioClip footStep;
-
+    float initHp;
     //slider
     [SerializeField] Slider slider;
     //unlock spell
@@ -38,8 +41,9 @@ public class SkeletonScript : MonoBehaviour
     bool shieldExploded;
 
 
-    void Start()
+    void Awake()
     {
+        initHp = spiderHp;
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
@@ -49,26 +53,27 @@ public class SkeletonScript : MonoBehaviour
         randomTimeToAttack = UnityEngine.Random.Range(3, 7);
         attackTime = randomTimeToAttack;
     }
+
+    private void OnEnable()
+    {
+        spiderHp = initHp;
+    }
     void Update()
     {
         player = GameObject.FindGameObjectWithTag("Player");
 
         if (playerScript == null)
         {
-
             // Look at the player
             transform.LookAt(player.transform.position);
             Vector3 currentRotation = transform.rotation.eulerAngles;
             transform.rotation = Quaternion.Euler(0, currentRotation.y, currentRotation.z);
             chase();
         }
-
         Death();
         playerShield();
         UpdateHealthSlider();
-
     }
-
     private void UpdateHealthSlider()
     {
         slider.value = spiderHp;
@@ -90,7 +95,6 @@ public class SkeletonScript : MonoBehaviour
 
     void attack()
     {
-
         if (Physics.Raycast(raycastOrigin.transform.position, raycastOrigin.transform.forward, out hit, rayCastLength, layerMask))
         {
             attackTime = randomTimeToAttack;
@@ -150,8 +154,9 @@ public class SkeletonScript : MonoBehaviour
             if (distanceToPlayer > 3)
             {
                 transform.position += transform.forward * 3f; //jump
-                player.GetComponent<playerCombat>().damagePlayer(skeletonDamage, false);
             }
+            player.GetComponent<playerCombat>().damagePlayer(skeletonDamage, false);
+
         }
 
 
@@ -159,7 +164,7 @@ public class SkeletonScript : MonoBehaviour
 
     public void playerShield()
     {
-        if (attacking && hit.transform.name == "Player_ForceField"  && !shieldExploded)
+        if (attacking && hit.transform.name == "Player_ForceField" && !shieldExploded)
         {
             shieldExploded = true;
             GameObject explosion = Instantiate(playerShieldExplosion, hit.point, Quaternion.identity);
@@ -169,7 +174,7 @@ public class SkeletonScript : MonoBehaviour
 
     public void resetPos()
     {
-        transform.position -= transform.forward * 2f;
+        transform.position -= transform.forward * 3f;
     }
 
     public void DamageEnemy(float damage)

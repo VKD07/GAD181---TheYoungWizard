@@ -9,7 +9,6 @@ public class spiderWalksound : MonoBehaviour
     void Start()
     {
         aud = GetComponent<AudioSource>();
-
     }
 
     // Update is called once per frame
