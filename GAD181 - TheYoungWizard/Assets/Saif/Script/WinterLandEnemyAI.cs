@@ -33,10 +33,6 @@ public class WinterLandEnemyAI : MonoBehaviour
         slider.maxValue = currentHealth;
         maxHealth = currentHealth;
         thatPlayer = GameObject.Find("Player(In-Game)");
- 
-
-
-
     }
     public void DamageEnemy(float playerDamage)
     {
@@ -97,8 +93,6 @@ public class WinterLandEnemyAI : MonoBehaviour
     {
         slider.value = currentHealth;
     }
-
-
 
     private void Update()
     {

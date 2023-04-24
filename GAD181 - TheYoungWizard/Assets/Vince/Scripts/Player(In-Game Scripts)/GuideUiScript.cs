@@ -65,19 +65,24 @@ public class GuideUiScript : MonoBehaviour
             }
             else
             {
-                EnableMouse(false);
-                Time.timeScale = 1f;
-                spellBookIcon.sprite = spellBookClosed;
-                spellBookOpened = false;
-                spellBookUI.SetActive(false);
-
-                //for the final cutscene
-                if (challengeScript != null)
-                {
-                    challengeScript.stopTimer = false;
-                }
+                CloseSpellBook();
                 //end
             }
+        }
+    }
+
+    public void CloseSpellBook()
+    {
+        EnableMouse(false);
+        Time.timeScale = 1f;
+        spellBookIcon.sprite = spellBookClosed;
+        spellBookOpened = false;
+        spellBookUI.SetActive(false);
+
+        //for the final cutscene
+        if (challengeScript != null)
+        {
+            challengeScript.stopTimer = false;
         }
     }
 

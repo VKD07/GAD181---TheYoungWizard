@@ -74,12 +74,12 @@ public class StoneSpell : MonoBehaviour
     {
         if (islandToUnlock == Island.snowIsland)
         {
-            StartCoroutine(GoBackToRoom(5));
+            StartCoroutine(GoBackToRoom(7));
             mapUnlockHandler.unlockSnowIsland = true;
         }
         else if (islandToUnlock == Island.UnknownIsland)
         {
-            StartCoroutine(GoBackToRoom(5));
+            StartCoroutine(GoBackToRoom(7));
             mapUnlockHandler.unlockUnknownIsland = true;
         }
         else if (islandToUnlock == Island.none)

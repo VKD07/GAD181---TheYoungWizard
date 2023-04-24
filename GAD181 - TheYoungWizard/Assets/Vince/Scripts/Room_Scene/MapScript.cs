@@ -164,6 +164,7 @@ public class MapScript : MonoBehaviour
             {
                 islandButton[0].interactable = true;
                 lockImage[0].SetActive(false);
+                lockImage[1].SetActive(true);
             }
 
             if(unlockHandler.unlockUnknownIsland)

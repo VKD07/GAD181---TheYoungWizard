@@ -53,6 +53,13 @@ public class LichBulletScript : MonoBehaviour
             Destroy(explosion, 2f);
             Destroy(gameObject);
         }
+
+        if(other.tag == "MovingLand")
+        {
+            GameObject explosion = Instantiate(explosionVfx, transform.position, Quaternion.identity);
+            Destroy(explosion, 2f);
+            Destroy(gameObject);
+        }
     }
 
     void ReduceDamage(bool value)

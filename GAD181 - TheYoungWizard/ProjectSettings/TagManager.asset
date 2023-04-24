@@ -35,6 +35,7 @@ TagManager:
   - SkeletonGate
   - GameManager
   - LevelUpFx
+  - MovingLand
   layers:
   - Default
   - TransparentFX

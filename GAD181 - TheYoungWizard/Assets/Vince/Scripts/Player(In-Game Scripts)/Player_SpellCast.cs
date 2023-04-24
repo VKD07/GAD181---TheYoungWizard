@@ -180,6 +180,7 @@ public class Player_SpellCast : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+        enemiesInRange.RemoveAll(enemy => enemy == null);
         otherLayer = other.gameObject.layer;
         otherTag = LayerMask.LayerToName(otherLayer);
         if (enemyTagsAffected.Contains(otherTag))
@@ -207,6 +208,8 @@ public class Player_SpellCast : MonoBehaviour
 
         if (releaseWind == true)
         {
+            enableSpeedBoost = true;
+
             foreach (GameObject enemy in enemiesInRange)
             {
                 if (enemy == null) { return; }
@@ -216,9 +219,7 @@ public class Player_SpellCast : MonoBehaviour
                 enemy.SendMessage("DamageEnemy", windGustDamage);
             }
             enemiesInRange.Clear();
-            enableSpeedBoost = true;
         }
-
       speedBoost();
     }
     private void speedBoost()
