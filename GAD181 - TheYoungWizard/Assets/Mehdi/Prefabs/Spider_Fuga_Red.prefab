@@ -1081,6 +1081,7 @@ GameObject:
   - component: {fileID: 1716472239425754226}
   - component: {fileID: 1716472239425754224}
   - component: {fileID: 1716472239425754227}
+  - component: {fileID: 7734918531266512500}
   - component: {fileID: 1716472239425754229}
   m_Layer: 13
   m_Name: Spider_Fuga_Red
@@ -1300,6 +1301,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spiderBite: {fileID: 8300000, guid: d45f7ce92e64db0409d4a9c95014eae3, type: 3}
+--- !u!114 &7734918531266512500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8433802030246802010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0d43010730fc3d4da57af0aaf5767d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deathSound: {fileID: 0}
 --- !u!114 &1716472239425754229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1317,10 +1331,10 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 132
-  spiderDamage: 10
+  spiderDamage: 15
   playerShieldExplosion: {fileID: 7935199031643992174, guid: aaac61f8f0923ff4daedff31698a025a, type: 3}
   playerScript: {fileID: 0}
-  spiderHp: 50
+  spiderHp: 55
   attackTime: 3
   currentAttackTime: 0
   distanceToPlayer: 0
