@@ -41,8 +41,8 @@ public class ItemManager : MonoBehaviour
         }
         if (numberOfManaP > 0)
         {
-            itemSlots[1].color = colorTransparent;
             colorTransparent.a = 1f;
+            itemSlots[1].color = colorTransparent;
         }
         else
         {

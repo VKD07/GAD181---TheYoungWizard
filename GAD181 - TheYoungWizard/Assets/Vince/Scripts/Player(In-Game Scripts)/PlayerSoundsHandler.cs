@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 
 public class PlayerSoundsHandler : MonoBehaviour
@@ -23,6 +24,9 @@ public class PlayerSoundsHandler : MonoBehaviour
     [Header("Consumables")]
     [SerializeField] AudioClip healSfx;
     [SerializeField] AudioClip manaSfx;
+    [Header("Death")]
+    [SerializeField] AudioClip defeatSfx;
+    public bool defeatedSfxPlayed;
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -81,5 +85,14 @@ public class PlayerSoundsHandler : MonoBehaviour
     public void PlayManaSfx()
     {
         audioSource.PlayOneShot(manaSfx, 0.3f);
+    }
+
+    public void PlayDefeatSfx()
+    {
+        if (!defeatedSfxPlayed)
+        {
+            defeatedSfxPlayed = true;
+            audioSource.PlayOneShot(defeatSfx, 0.7f);
+        }
     }
 }

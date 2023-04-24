@@ -31325,6 +31325,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: PlayOneShot
       objectReference: {fileID: 0}
+    - target: {fileID: 7982297125834472584, guid: 44c2c2324e1a7af47b6a8c3775dba116, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7982297126537804773, guid: 44c2c2324e1a7af47b6a8c3775dba116, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
       value: 
@@ -31332,6 +31336,10 @@ PrefabInstance:
     - target: {fileID: 7982297126537804773, guid: 44c2c2324e1a7af47b6a8c3775dba116, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_MethodName
       value: PlayOneShot
+      objectReference: {fileID: 0}
+    - target: {fileID: 7982297126537804775, guid: 44c2c2324e1a7af47b6a8c3775dba116, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7982297126555671113, guid: 44c2c2324e1a7af47b6a8c3775dba116, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[3].m_Target
@@ -45703,6 +45711,7 @@ MonoBehaviour:
   healParticles: {fileID: 4109030048757072308}
   manaParticles: {fileID: 5747799353952397614}
   sfx: {fileID: 0}
+  respawnPointHandler: {fileID: 0}
   dodge: 0
   shieldDuration: 0.2
   tutorial: 0

@@ -15,7 +15,6 @@ public class UnlockSpell : MonoBehaviour
     RaycastHit hit;
     void Start()
     {
-        
     }
 
     // Update is called once per frame
@@ -35,7 +34,7 @@ public class UnlockSpell : MonoBehaviour
                 {
                     stoneRune.GetComponent<StoneSpell>().unlocked = true;
                     stoneRune.GetComponent<StoneSpell>().HideRuneStone();
-                    audioSource.PlayOneShot(levelUpSound, 0.3f);
+                    audioSource.PlayOneShot(levelUpSound);
                     levelUpVfx.Play();
                 }
             }

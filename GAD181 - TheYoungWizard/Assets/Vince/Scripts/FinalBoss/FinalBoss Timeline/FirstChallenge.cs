@@ -128,7 +128,7 @@ public class FirstChallenge : MonoBehaviour
             else if (timerSlider.value <= 0)
             {
                 startChallenge = false;
-                SceneManager.LoadScene(4);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
 
             if (challengeDone)
@@ -177,7 +177,7 @@ public class FirstChallenge : MonoBehaviour
                 timerSlider.value = timerMaxDuration;
                 sceneTimer.SetActive(false);
                 challenge2Done = true;
-                SceneManager.LoadScene(4);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
 
         }
@@ -205,6 +205,7 @@ public class FirstChallenge : MonoBehaviour
                 //--reset scene
                 sceneTimer.SetActive(false);
                 challenge3Done = true;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
             if (!challenge3Done)
             {
@@ -279,7 +280,7 @@ public class FirstChallenge : MonoBehaviour
             }//Lose situation
             else if (beamSlider.value >= 76)
             {
-              SceneManager.LoadScene(4);
+              SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
         }
         else

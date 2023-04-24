@@ -74,7 +74,6 @@ public class StoneSpell : MonoBehaviour
     {
         if (islandToUnlock == Island.snowIsland)
         {
-
             StartCoroutine(GoBackToRoom(5));
             mapUnlockHandler.unlockSnowIsland = true;
         }

@@ -77,7 +77,7 @@ public class CutSceneHandler : MonoBehaviour
     {
         if (sequence[0])
         {
-            if (!countingDownNext)
+            if (!countingDownNext && !dialogBox.isTyping)
             {
                 if (Input.GetKeyDown(nextKey))
                 {
@@ -90,7 +90,7 @@ public class CutSceneHandler : MonoBehaviour
         }
         else if (sequence[1])
         {
-            if (!countingDownNext) //enabling player controls after second dialog
+            if (!countingDownNext && !dialogBox.isTyping) //enabling player controls after second dialog
             {
                 if (Input.GetKeyDown(nextKey))
                 {

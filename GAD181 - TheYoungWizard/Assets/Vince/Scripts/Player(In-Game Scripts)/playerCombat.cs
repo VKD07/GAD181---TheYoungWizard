@@ -6,6 +6,7 @@ using System.Diagnostics.Eventing.Reader;
 using System.Net;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
 public class playerCombat : MonoBehaviour
@@ -14,6 +15,10 @@ public class playerCombat : MonoBehaviour
     [SerializeField] float playerHealth;
     [SerializeField] float playerMana;
     Player_Movement playerMovement;
+
+    [Header("DeathHandler")]
+    AudioSource [] audioSources;
+    public bool enableAudioSource;
 
     [Header("Spell Mana Cost")]
     [SerializeField] int fireballManaCost;
@@ -80,13 +85,14 @@ public class playerCombat : MonoBehaviour
     [SerializeField] ParticleSystem manaParticles;
 
     [Header("SFX")]
-    [SerializeField] PlayerSoundsHandler sfx;
+    [SerializeField] public PlayerSoundsHandler sfx;
 
     [Header("CheckPoint")]
     [SerializeField] RespawnPointHandler respawnPointHandler;
     public bool dodge = false;
     public float shieldDuration = 3f;
     public bool tutorial;
+
 
     private void Awake()
     {
@@ -106,12 +112,14 @@ public class playerCombat : MonoBehaviour
         cam.m_Lens.FieldOfView = 33f;
         midRig.m_TrackedObjectOffset.x = 0.25f;
         playerMovement = GetComponent<Player_Movement>();
+        audioSources = FindObjectsOfType<AudioSource>();
     }
 
     private void Spawning()
     {
         respawnPointHandler = GameObject.FindGameObjectWithTag("GameManager").GetComponent<RespawnPointHandler>();
         this.gameObject.transform.position = respawnPointHandler.storedRespawnPoint;
+        Time.timeScale = 1f;
         //print(respawnPointHandler.storedRespawnPoint + "," + transform.position);
     }
 
@@ -155,12 +163,14 @@ public class playerCombat : MonoBehaviour
     {
         if (playerHealth <= 0 && !tutorial)
         {
-            //SceneManager.LoadScene("RoomScene");
-            //transform.position = savePoint;
+           // StopAllAudio();
+           // enableAudioSource = true;
+            sfx.PlayDefeatSfx();
+            anim.updateMode = AnimatorUpdateMode.UnscaledTime;
+            anim.SetBool("Dead", true);
             Time.timeScale = 0f;
         }
     }
-
     private void SpellCastAnimation()
     {
         //if combination is not wrong then you can activate a spell
@@ -452,6 +462,7 @@ public class playerCombat : MonoBehaviour
     {
         if (forceField.shieldIsActive == false || ignoreShield)
         {
+            anim.SetTrigger("hit");
             playerHealth -= damage;
             disableSenses();
             Time.timeScale = 1;
@@ -537,5 +548,24 @@ public class playerCombat : MonoBehaviour
         {
             cam.m_Lens.FieldOfView += 80f * Time.deltaTime;
         }
+    }
+
+    private void StopAllAudio()
+    {
+        if (!enableAudioSource)
+        {
+            foreach (AudioSource audioSource in audioSources)
+            {
+                audioSource.Stop();
+            }
+        }
+    }
+
+    public void ResetPlayer()
+    {
+        enableAudioSource = false;
+        sfx.defeatedSfxPlayed = false;
+        anim.SetBool("Dead", false);
+        Time.timeScale = 0f;
     }
 }

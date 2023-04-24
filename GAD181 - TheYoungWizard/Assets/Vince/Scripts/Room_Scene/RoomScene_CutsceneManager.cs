@@ -45,6 +45,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     Slider skipSlider;
     public bool skipNarrative;
     bool playerPositioned;
+    bool disableSkip;
 
 
     [Header("Cameras")]
@@ -306,6 +307,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    disableSkip = true;
                     mapYellowMark.SetActive(true);
                     dialogBox.EnableDialogBox(false);
                     cinemachineBrain.m_DefaultBlend.m_Style = CinemachineBlendDefinition.Style.EaseIn;
@@ -334,13 +336,14 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             }
         }
 
-        else if (sequence[16]) // goes to the back of kael. dialog: Kael: That map over there can help me access the portal! 
+        else if (sequence[16]) // Give back player controls 
         {
             if (!countingDownNext)
             {
                 if (Input.GetKeyDown(nextKey))
                 {
                     skipUI.SetActive(false);
+                    playerTransform.position = new Vector3(-8.268f, -1.247f, -7.917f);
                     audioHandler.PlayWhooshSFX(0);
                     dialogBox.EnableDialogBox(false);
                     EnablePlayerComponents(true);
@@ -353,7 +356,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             }
         }
 
-        else if (sequence[17]) // kael opens the portal
+        else if (sequence[17]) // KAEL: Looks like my spells have been scattered across these three locations. 
         {
             if (!countingDownNext)
             {
@@ -374,7 +377,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
         {
             if (!countingDownNext)
             {
-                if (Input.GetKeyDown(nextKey))
+                if (Input.GetKeyDown(nextKey)) //KAEL: I'll need to go there and collect them all back!  
                 {
                     dialogBox.nextLine(15);
                     sequence[18] = false;
@@ -461,7 +464,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     {
         StartCoroutine(EnableSkipNarrative(5));
 
-        if (Input.GetKey(skipKey) && skipSliderCanvas.alpha >= 1)
+        if (Input.GetKey(skipKey) && skipSliderCanvas.alpha >= 1 && !disableSkip)
         {
             if (skipSlider.value < skipDuration)
             {
@@ -505,6 +508,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             dialogBox.enabled = false;
             //audio
             audioHandler.PlayPortalSceneMusic();
+            audioHandler.skipped = true;
 
             if (!playerPositioned)
             {
