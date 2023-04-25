@@ -31,6 +31,7 @@ public class SkeletonScript : MonoBehaviour
     AudioSource audioSource;
     [SerializeField] AudioClip swingSword;
     [SerializeField] AudioClip footStep;
+    [SerializeField] AudioClip DeathSound;
     float initHp;
     //slider
     [SerializeField] Slider slider;
@@ -39,6 +40,7 @@ public class SkeletonScript : MonoBehaviour
 
     bool attacking;
     bool shieldExploded;
+    bool dead;
 
 
     void Awake()
@@ -89,6 +91,11 @@ public class SkeletonScript : MonoBehaviour
             //  healthSlider.gameObject.SetActive(false);
             agent.enabled = false;
             this.enabled = false;
+            if (!dead)
+            {
+                dead = true;
+                PlayDeathSfx();
+            }
             Destroy(gameObject, 2f);
         }
     }
@@ -201,5 +208,10 @@ public class SkeletonScript : MonoBehaviour
     {
         attacking = false;
         shieldExploded = false;
+    }
+
+    public void PlayDeathSfx()
+    {
+        audioSource.PlayOneShot(DeathSound, 0.7f);
     }
 }

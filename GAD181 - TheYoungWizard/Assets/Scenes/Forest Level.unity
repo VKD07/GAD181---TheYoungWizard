@@ -28360,11 +28360,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6685527935053377572, guid: f1e1cbc88cb38904ea291753ab3c5b39, type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.000000017642568
+      value: 0.00000001764257
       objectReference: {fileID: 0}
     - target: {fileID: 6685527935053377572, guid: f1e1cbc88cb38904ea291753ab3c5b39, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.0000000018174422
+      value: 0.0000000018174423
       objectReference: {fileID: 0}
     - target: {fileID: 6685527935053377572, guid: f1e1cbc88cb38904ea291753ab3c5b39, type: 3}
       propertyPath: m_LocalRotation.y
@@ -28763,7 +28763,8 @@ MonoBehaviour:
   distanceToPlayer: 0
   idleDistance: 30
   swingSword: {fileID: 8300000, guid: cc1e62e93d6915d4d8af6036f2dadfab, type: 3}
-  footStep: {fileID: 8300000, guid: 4f6ee0f182a916242bc156d509e7701a, type: 3}
+  footStep: {fileID: 8300000, guid: ceed6bbdee7daac468de393ded1b9e79, type: 3}
+  DeathSound: {fileID: 8300000, guid: ac1265b115a34fb47a64c13a81de3edb, type: 3}
   slider: {fileID: 549599479}
   runeStone: {fileID: 1876482783350911491}
 --- !u!195 &1312330469
