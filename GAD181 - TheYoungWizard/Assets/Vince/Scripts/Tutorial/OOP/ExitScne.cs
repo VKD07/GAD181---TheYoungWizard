@@ -28,11 +28,6 @@ public class ExitScne : MonoBehaviour
     {
         StartFadeIn();
         StartFadeOut();
-
-        if (Input.GetKeyDown(KeyCode.U))
-        {
-            LoadAsync.instance.LoadScene("RoomScene");
-        }
     }
 
     private void StartFadeIn()
