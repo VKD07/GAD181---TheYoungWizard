@@ -40252,7 +40252,7 @@ MonoBehaviour:
   - 'KAEL: Now that I have collected all the spells.'
   - 'KAEL: It''s time to go home.'
   - 'KAEL: It''s so dark here!'
-  - 'KAEL: I should use Luminous spell to brighten the place.'
+  - 'KAEL: There might be a way to brighten up the place.'
   - 'KAEL: Furball! What are you doing here?'
   - 'KAEL: Why have you gotten bigger?'
   - 'Furball: It doesn''t matter.'
@@ -66151,7 +66151,7 @@ PrefabInstance:
       objectReference: {fileID: 2608626011561794624}
     - target: {fileID: 7610578999117623215, guid: fbb7c31d2d701f64b838495665594e5e, type: 3}
       propertyPath: bulletMaxDamage
-      value: 200
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7610578999117623215, guid: fbb7c31d2d701f64b838495665594e5e, type: 3}
       propertyPath: cinemachineBrain
@@ -66159,7 +66159,7 @@ PrefabInstance:
       objectReference: {fileID: 6814667657723755393}
     - target: {fileID: 7610578999117623215, guid: fbb7c31d2d701f64b838495665594e5e, type: 3}
       propertyPath: bulletMinimumDamage
-      value: 200
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7821309061413382400, guid: fbb7c31d2d701f64b838495665594e5e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
