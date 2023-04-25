@@ -85,6 +85,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
 
     IEnumerator FirstDialog(float time) //kael starts talking
     {
+        playerTransform.position = new Vector3(-9.279f, -1.247f, -7.826f);
         yield return new WaitForSeconds(time);
         dialogBox.EnableDialogBox(true);
         dialogBox.SetDialogTextNum(0);

@@ -30,6 +30,6 @@ public class InitialCheckPoint : MonoBehaviour
         {
             playerTransform.position = transform.position;
         }
-        Destroy(gameObject, 1f);
+        Destroy(gameObject, 0.5f);
     }
 }

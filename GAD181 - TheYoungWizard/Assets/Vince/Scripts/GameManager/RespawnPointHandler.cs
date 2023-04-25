@@ -116,7 +116,8 @@ public class RespawnPointHandler : MonoBehaviour
 
     public void GoBack()
     {
-        SceneManager.LoadScene("RoomScene 1");
+        //SceneManager.LoadScene("RoomScene 1");
+        LoadAsync.instance.LoadScene("RoomScene 1");
         deathBG.SetActive(false);
         Time.timeScale = 1f;
         ShowCursor(false);

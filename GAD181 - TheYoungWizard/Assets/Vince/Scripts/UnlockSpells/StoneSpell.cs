@@ -37,12 +37,15 @@ public class StoneSpell : MonoBehaviour
     CanvasGroup notifAlpha;
     bool showMessage;
     public bool unlocked;
+    bool loaded;
+
 
 
     private void Start()
     {
         notifAlpha = notifCanvas.GetComponent<CanvasGroup>();
         notifAlpha.alpha = 0;
+        loaded = false;
     }
 
     private void Update()
@@ -155,7 +158,12 @@ public class StoneSpell : MonoBehaviour
         yield return new WaitForSeconds(time);
         if (!disableGoingBack)
         {
-            SceneManager.LoadScene("RoomScene 1");
+            //SceneManager.LoadScene("RoomScene 1");
+            if (!loaded)
+            {
+                loaded = true;
+                LoadAsync.instance.LoadScene("RoomScene 1");
+            }
         }
     }
 }

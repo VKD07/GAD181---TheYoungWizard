@@ -553,6 +553,7 @@ public class CutSceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextBtn))
                 {
+                    playerComponentsHandler.disableMouse = true;
                     playerComponentsHandler.EnableSpellCastUI(false);
                     playerComponentsHandler.EnableSpellBook(false);
                     dialogBox.nextLine(20);
@@ -644,6 +645,4 @@ public class CutSceneManager : MonoBehaviour
             countingDownNext = false;
         }
     }
-
-
 }

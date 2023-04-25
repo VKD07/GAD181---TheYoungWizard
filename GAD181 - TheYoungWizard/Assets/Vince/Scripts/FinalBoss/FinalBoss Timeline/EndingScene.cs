@@ -78,7 +78,7 @@ public class EndingScene : MonoBehaviour
     IEnumerator ResetScene(float time)
     {
         yield return new WaitForSeconds(time);
-        SceneManager.LoadScene(0);
-
+        //SceneManager.LoadScene(0);
+        LoadAsync.instance.LoadScene("RoomScene");
     }
 }

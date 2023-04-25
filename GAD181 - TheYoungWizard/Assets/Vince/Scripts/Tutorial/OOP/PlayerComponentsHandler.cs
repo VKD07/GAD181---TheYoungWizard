@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 
 public class PlayerComponentsHandler : MonoBehaviour
@@ -17,6 +18,8 @@ public class PlayerComponentsHandler : MonoBehaviour
     [SerializeField] GameObject useSpell;
     [SerializeField] GameObject spellBookGuide;
     [SerializeField] GameObject spellBookMainUI;
+    [SerializeField] GameObject pauseMenu;
+    public bool disableMouse;
 
 
     void Start()
@@ -31,6 +34,11 @@ public class PlayerComponentsHandler : MonoBehaviour
         spellBookGuide.SetActive(false);
         spellBookMainUI.SetActive(false);
 
+    }
+
+    private void Update()
+    {
+        DisableMouse();
     }
 
     public void EnablePlayerMovement(bool value)
@@ -71,4 +79,20 @@ public class PlayerComponentsHandler : MonoBehaviour
         playerAnimator.enabled = false;
     }
 
+    void DisableMouse()
+    {
+        pauseMenu = GameObject.Find("PauseMenu");
+        if (disableMouse)
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.visible = false;
+            StartCoroutine(EnableMouse());
+        }
+    }
+
+    IEnumerator EnableMouse()
+    {
+        yield return new WaitForSeconds(5f);
+        disableMouse = false;
+    }
 }

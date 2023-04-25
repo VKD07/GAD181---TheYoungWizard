@@ -17,7 +17,7 @@ public class playerCombat : MonoBehaviour
     Player_Movement playerMovement;
 
     [Header("DeathHandler")]
-    AudioSource [] audioSources;
+    AudioSource[] audioSources;
     public bool enableAudioSource;
 
     [Header("Spell Mana Cost")]
@@ -117,9 +117,12 @@ public class playerCombat : MonoBehaviour
 
     private void Spawning()
     {
-        respawnPointHandler = GameObject.FindGameObjectWithTag("GameManager").GetComponent<RespawnPointHandler>();
-        this.gameObject.transform.position = respawnPointHandler.storedRespawnPoint;
-        Time.timeScale = 1f;
+        if (!tutorial)
+        {
+            respawnPointHandler = GameObject.FindGameObjectWithTag("GameManager").GetComponent<RespawnPointHandler>();
+            this.gameObject.transform.position = respawnPointHandler.storedRespawnPoint;
+            Time.timeScale = 1f;
+        }
         //print(respawnPointHandler.storedRespawnPoint + "," + transform.position);
     }
 
@@ -163,8 +166,8 @@ public class playerCombat : MonoBehaviour
     {
         if (playerHealth <= 0 && !tutorial)
         {
-           // StopAllAudio();
-           // enableAudioSource = true;
+            // StopAllAudio();
+            // enableAudioSource = true;
             sfx.PlayDefeatSfx();
             anim.updateMode = AnimatorUpdateMode.UnscaledTime;
             anim.SetBool("Dead", true);

@@ -20,11 +20,11 @@ RenderSettings:
   m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientSkyColor: {r: 0.4245283, g: 0.4245283, b: 0.4245283, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -4550,6 +4550,9 @@ MonoBehaviour:
   exitImage: {fileID: 1172284308}
   fadeOutRate: 0.5
   playerCamera: {fileID: 552002149}
+  mapButtons:
+  - {fileID: 1522779209}
+  - {fileID: 268525089}
   cameraControl: 0
 --- !u!95 &528115109
 Animator:
@@ -10785,7 +10788,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 604feb90634da4d4193af69fb4d9c54e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  portalNumber: 0
+  portalNumber: 
 --- !u!1001 &671179745
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17928,6 +17931,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 528115108}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: ResetSettings
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &861035399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18325,7 +18340,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 906434698}
-  m_LocalRotation: {x: -0.0017112382, y: 0.94167185, z: -0.3340134, w: 0.04106438}
+  m_LocalRotation: {x: -0.0017112345, y: 0.94167185, z: -0.3340134, w: 0.04106441}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -19776,7 +19791,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1130312350
 GameObject:
@@ -19880,6 +19895,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 8300000, guid: e54d5d8d9d398fa4aa3b769d35746df3, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 528115108}
+        m_TargetAssemblyTypeName: MainMenu, Assembly-CSharp
+        m_MethodName: LoadTutoialScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23054,99 +23081,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3f84f8f63f2eb654891914d3c4f7cdbd, type: 3}
   m_PrefabInstance: {fileID: 1402387009}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &1411639459
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1500396874, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1500396874, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: storedRespawnPoint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1500396874, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: storedRespawnPoint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1500396874, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: storedRespawnPoint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164380933958579, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381100997861, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_Name
-      value: DevelopersMenu
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381100997861, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381100997867, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: StartingMenu
-      value: 
-      objectReference: {fileID: 528115106}
-    - target: {fileID: 6447164381619930040, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_Name
-      value: GameManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_RootOrder
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 44.267315
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -2.425686
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -4.6010385
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381619930041, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6447164381974218925, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d5f0a08ddff90a74a986b3d58f0f1ace, type: 3}
 --- !u!1 &1416746493
 GameObject:
   m_ObjectHideFlags: 3
@@ -31681,7 +31615,7 @@ MonoBehaviour:
   portalActive: 000000
   portalVfx: {fileID: 797392454}
   exitMapKey: 27
-  activePortal: 0
+  activePortal: 
   disableMapClosing: 0
   close: 0
   islandButton:

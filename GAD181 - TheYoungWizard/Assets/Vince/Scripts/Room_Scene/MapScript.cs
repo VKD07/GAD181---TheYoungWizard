@@ -23,7 +23,7 @@ public class MapScript : MonoBehaviour
     [SerializeField] public GameObject portalVfx;
     [SerializeField] KeyCode exitMapKey = KeyCode.Escape;
     MapUnlockHandler unlockHandler;
-    public int activePortal;
+    public string activePortal;
     public bool disableMapClosing;
     public bool close;
 
@@ -82,7 +82,7 @@ public class MapScript : MonoBehaviour
         trailMaterial.SetColor("_EmissionColor", blueColor * emissionValue);
         portalParticleMaterial.SetColor("_EmissionColor", blueColor * emissionValue);
         portalLight.color = blueColor;
-        activePortal = 1;
+        activePortal = "WinterLand";
         portalVfx.SetActive(true);
         ShakeCamera();
         close = true;
@@ -95,7 +95,7 @@ public class MapScript : MonoBehaviour
         trailMaterial.SetColor("_EmissionColor", purpleColor * emissionValue);
         portalParticleMaterial.SetColor("_EmissionColor", purpleColor * emissionValue);
         portalLight.color = purpleColor;
-        activePortal = 2;
+        activePortal = "FinalBoss";
         portalVfx.SetActive(true);
         ShakeCamera();
         close = true;
@@ -109,7 +109,7 @@ public class MapScript : MonoBehaviour
         portalParticleMaterial.SetColor("_EmissionColor", greenColor * emissionValue);
         portalLight.color = greenColor;
         portalVfx.SetActive(true);
-        activePortal = 3;
+        activePortal = "Forest Level";
         ShakeCamera();
         close = true;
     }
@@ -171,6 +171,12 @@ public class MapScript : MonoBehaviour
             {
                 islandButton[1].interactable = true;
                 lockImage[1].SetActive(false);
+            }
+
+            if(!unlockHandler.unlockSnowIsland  && !unlockHandler.unlockSnowIsland)
+            {
+                lockImage[0].SetActive(true);
+                lockImage[1].SetActive(true);
             }
         }
     }

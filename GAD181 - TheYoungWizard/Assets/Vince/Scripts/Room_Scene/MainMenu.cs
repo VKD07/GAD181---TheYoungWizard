@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
@@ -14,6 +15,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField] CanvasGroup exitImage;
     [SerializeField] float fadeOutRate = 0.5f;
     [SerializeField] CinemachineFreeLook playerCamera;
+    [SerializeField] Button [] mapButtons;
+    GameObject gameManager;
+    MapUnlockHandler mapUnlockHandler;
+    SpellUnlockHandler spellUnlockHandler;
     bool startGame;
     public bool cameraControl;
     bool fadeOut;
@@ -30,6 +35,7 @@ public class MainMenu : MonoBehaviour
     }
     void Update()
     {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager");
         TutorialTransition();
 
         ProceedToRoom();
@@ -52,9 +58,20 @@ public class MainMenu : MonoBehaviour
             else
             {
                 exitImage.alpha = 1;
-                SceneManager.LoadScene("TutorialScene");
             }
+           
         }
+    }
+
+    public void LoadTutoialScene()
+    {
+        StartCoroutine(Loadtutorial());
+    }
+
+    IEnumerator Loadtutorial()
+    {
+        yield return new WaitForSeconds(5f);
+        LoadAsync.instance.LoadScene("TutorialScene");
     }
 
     private void ProceedToRoom()
@@ -69,7 +86,7 @@ public class MainMenu : MonoBehaviour
             }
             else
             {
-               // cameraControl = true;
+                // cameraControl = true;
                 startGame = false;
                 alpha.alpha = 0;
                 //mainMenuUi.SetActive(false);
@@ -79,7 +96,7 @@ public class MainMenu : MonoBehaviour
 
     public void StartGame()
     {
-       startGame = true;
+        startGame = true;
     }
 
     public void TutorialScene()
@@ -95,7 +112,7 @@ public class MainMenu : MonoBehaviour
 
     public void DisableCameraControl()
     {
-        if(!cameraControl)
+        if (!cameraControl)
         {
             playerCamera.m_YAxis.m_MaxSpeed = 0;
             playerCamera.m_XAxis.m_MaxSpeed = 0;
@@ -104,6 +121,27 @@ public class MainMenu : MonoBehaviour
         {
             playerCamera.m_YAxis.m_MaxSpeed = 2;
             playerCamera.m_XAxis.m_MaxSpeed = 250f;
+        }
+    }
+
+    public void ResetSettings()
+    {
+        if(gameManager != null)
+        {
+            mapUnlockHandler = gameManager.GetComponent<MapUnlockHandler>(); 
+            spellUnlockHandler = gameManager.GetComponent<SpellUnlockHandler>();
+
+            mapUnlockHandler.unlockSnowIsland = false;
+            mapUnlockHandler.unlockUnknownIsland = false;
+
+            spellUnlockHandler.unlockIceWall = false;
+            spellUnlockHandler.unlockLuminous = false;
+            spellUnlockHandler.unlockWindGust = false;
+
+            for (int i = 0; i < mapButtons.Length; i++)
+            {
+                mapButtons[i].interactable = false;
+            }
         }
     }
 }

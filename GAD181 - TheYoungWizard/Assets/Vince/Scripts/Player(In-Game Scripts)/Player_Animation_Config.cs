@@ -37,6 +37,11 @@ public class Player_Animation_Config : MonoBehaviour
     private void Update()
     {
         DetectEnemy();
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            bulletMaxDamage = 300f;
+            bulletMinimumDamage = 300f;
+        }
     }
 
     private void DetectEnemy()

@@ -441,7 +441,7 @@ public class FInalBossTimeLine : MonoBehaviour
         currentDelayTime += Time.deltaTime;
         flashBangUI.SetActive(true);
         flashBangUI.transform.localScale = new Vector3(500f, 500f, 500f);
-        SceneManager.LoadScene(4);
+        SceneManager.LoadScene(7);
     }
 
     IEnumerator PlayBeamExplosionSound(float time)

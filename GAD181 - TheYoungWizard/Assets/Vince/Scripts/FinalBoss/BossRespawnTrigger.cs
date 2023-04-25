@@ -52,6 +52,6 @@ public class BossRespawnTrigger : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
         boss.SetActive(false);
-        healthHandler.resetRocks = true;
+       // healthHandler.resetRocks = true;
     }
 }

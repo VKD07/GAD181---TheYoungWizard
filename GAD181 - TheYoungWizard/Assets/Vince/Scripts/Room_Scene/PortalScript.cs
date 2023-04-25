@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class PortalScript : MonoBehaviour
 {
     MapScript mapScript;
-    public int portalNumber;
+    public string portalNumber;
     void Start()
     {
         mapScript = FindObjectOfType<MapScript>();
@@ -22,9 +22,10 @@ public class PortalScript : MonoBehaviour
         if (other.tag == "Player")
         {
             print("Player");
-            if(mapScript.activePortal > 0)
+            if(mapScript.activePortal != null)
             {
-                SceneManager.LoadScene(mapScript.activePortal);
+               // SceneManager.LoadScene(mapScript.activePortal);
+                LoadAsync.instance.LoadScene(mapScript.activePortal);
             }
         }
     }

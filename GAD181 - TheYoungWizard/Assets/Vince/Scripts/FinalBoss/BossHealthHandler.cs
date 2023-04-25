@@ -16,7 +16,6 @@ public class BossHealthHandler : MonoBehaviour
     AudioSource audioSource;
     BossScript bossScript;
     public bool firstRockShattered;
-    public bool resetRocks;
 
     void Start()
     {
@@ -28,7 +27,7 @@ public class BossHealthHandler : MonoBehaviour
     void Update()
     {
         ShatteredRocks();
-        ResetRocks();
+        //ResetRocks();
     }
 
     private void ShatteredRocks()
@@ -52,24 +51,14 @@ public class BossHealthHandler : MonoBehaviour
             {
                 ShatteredRock(3);
             }
-            else if (bossScript.GetBossHealth() <= 50 && rockHealth[4] != null)
+             if (bossScript.GetBossHealth() <= 50 && rockHealth[4] != null)
             {
-                SceneManager.LoadScene("FinalBoss 1");//final cutscene
+                SceneManager.LoadScene(7);
             }
         }
     }
 
-    void ResetRocks()
-    {
-        if (resetRocks)
-        {
-            for (int i = 0; i < rockHealth.Length; i++)
-            {
-                rockHealth[i].SetActive(true);
-            }
-            resetRocks = false;
-        }
-    }
+
 
     public void ShatteredRock(int rockNum)
     {

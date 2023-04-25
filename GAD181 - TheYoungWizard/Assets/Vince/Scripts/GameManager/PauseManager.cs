@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField] GameObject pauseUI;
     [SerializeField] GameObject controlsUI;
     [SerializeField] Button returnHomeBtn;
+    [SerializeField] TextMeshProUGUI resetGameText;
     void Update()
     {
         EnableDisableUI();
@@ -20,7 +22,7 @@ public class PauseManager : MonoBehaviour
     private void EnableDisableUI()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        if(player != null)
+        if (player != null)
         {
             if (Input.GetKeyDown(pauseKey))
             {
@@ -35,15 +37,24 @@ public class PauseManager : MonoBehaviour
                     ResumeGame();
                 }
             }
+        }
 
-            if (SceneManager.GetActiveScene().name == "RoomScene 1")
-            {
-                returnHomeBtn.interactable = false;
-            }
-            else
-            {
-                returnHomeBtn.interactable = true;
-            }
+        if(SceneManager.GetActiveScene().name == "RoomScene 1" || SceneManager.GetActiveScene().name == "RoomScene" || SceneManager.GetActiveScene().name == "TutorialScene")
+        {
+            returnHomeBtn.interactable = false;
+        }
+        else
+        {
+            returnHomeBtn.interactable = true;
+        }
+
+        if (SceneManager.GetActiveScene().name == "TutorialScene")
+        {
+            resetGameText.SetText("END TUTORIAL");
+        }
+        else
+        {
+            resetGameText.SetText("RESET GAME");
         }
     }
 
@@ -71,7 +82,18 @@ public class PauseManager : MonoBehaviour
     public void ReturnHome()
     {
         ResumeGame();
-        SceneManager.LoadScene("RoomScene 1");
+        LoadAsync.instance.LoadScene("RoomScene 1");
+    }
+
+    public void ResetGame()
+    {
+        ResumeGame();
+        LoadAsync.instance.LoadScene("RoomScene");
+    }
+
+    private void ResetSettings()
+    {
+        
     }
 
     public void ShowControls()
@@ -85,7 +107,7 @@ public class PauseManager : MonoBehaviour
             controlsUI.SetActive(false);
         }
     }
-    
+
     public void Exitgame()
     {
         Application.Quit();

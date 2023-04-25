@@ -128,7 +128,7 @@ public class FirstChallenge : MonoBehaviour
             else if (timerSlider.value <= 0)
             {
                 startChallenge = false;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene(7);
             }
 
             if (challengeDone)
@@ -171,13 +171,13 @@ public class FirstChallenge : MonoBehaviour
             }
             else if (timerSlider.value <= 0)//challenge 2 failed
             {
+                SceneManager.LoadScene(7);
                 setSpellIconAlpha(1);
                 keyboardUI.SetActive(false);
                 startChallenge2 = false;
                 timerSlider.value = timerMaxDuration;
                 sceneTimer.SetActive(false);
                 challenge2Done = true;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             }
 
         }
@@ -205,7 +205,9 @@ public class FirstChallenge : MonoBehaviour
                 //--reset scene
                 sceneTimer.SetActive(false);
                 challenge3Done = true;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene(7);
+                startChallenge3 = false;
+
             }
             if (!challenge3Done)
             {
@@ -280,7 +282,7 @@ public class FirstChallenge : MonoBehaviour
             }//Lose situation
             else if (beamSlider.value >= 76)
             {
-              SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene(7);
             }
         }
         else

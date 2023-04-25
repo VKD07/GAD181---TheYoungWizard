@@ -28,6 +28,11 @@ public class ExitScne : MonoBehaviour
     {
         StartFadeIn();
         StartFadeOut();
+
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            LoadAsync.instance.LoadScene("RoomScene");
+        }
     }
 
     private void StartFadeIn()
@@ -67,7 +72,8 @@ public class ExitScne : MonoBehaviour
                     }
                     else
                     {
-                        SceneManager.LoadScene(0);
+                        LoadAsync.instance.LoadScene("RoomScene");
+                        startFade = false;
                     }
                 }
             }
