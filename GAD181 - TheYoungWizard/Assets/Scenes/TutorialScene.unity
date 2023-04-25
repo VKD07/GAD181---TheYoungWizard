@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 3
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -8700,7 +8700,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6049343582265624471, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.07245876
+      value: -0.07245875
       objectReference: {fileID: 0}
     - target: {fileID: 6172785108523187452, guid: 54a46b72fe8158142bc82dbd9b2b61eb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19227,6 +19227,7 @@ MonoBehaviour:
   spellBookGuide: {fileID: 1345747618}
   spellBookMainUI: {fileID: 1129708017}
   pauseMenu: {fileID: 0}
+  disableMouse: 0
 --- !u!114 &1433754910
 MonoBehaviour:
   m_ObjectHideFlags: 0

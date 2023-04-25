@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5056092, g: 0.44147137, b: 0.45263278, a: 1}
+  m_IndirectSpecularColor: {r: 0.50560737, g: 0.44146988, b: 0.45263177, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -10283,12 +10283,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1296639723}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
+      propertyPath: spiderHp
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: idleDistance
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: spiderDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1716472240135663583, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -28360,11 +28364,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6685527935053377572, guid: f1e1cbc88cb38904ea291753ab3c5b39, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.00000001764257
+      value: -0.000000017642568
       objectReference: {fileID: 0}
     - target: {fileID: 6685527935053377572, guid: f1e1cbc88cb38904ea291753ab3c5b39, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.0000000018174423
+      value: -0.0000000018174422
       objectReference: {fileID: 0}
     - target: {fileID: 6685527935053377572, guid: f1e1cbc88cb38904ea291753ab3c5b39, type: 3}
       propertyPath: m_LocalRotation.y
@@ -40127,12 +40131,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1296639723}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
+      propertyPath: spiderHp
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: idleDistance
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: spiderDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1716472240135663583, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -40875,7 +40883,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: idleDistance
-      value: 30
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: spiderDamage
@@ -44435,12 +44443,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1296639723}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
+      propertyPath: spiderHp
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: idleDistance
       value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: spiderDamage
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1716472240135663583, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -48154,7 +48166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: idleDistance
-      value: 30
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 1716472239425754229, guid: 1d88876a42567594bb50f6a4ca0f318d, type: 3}
       propertyPath: spiderDamage
