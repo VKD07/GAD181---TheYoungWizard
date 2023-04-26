@@ -24,7 +24,6 @@ public class ExplosionScript : MonoBehaviour
 
                 exploded = true;
                 collider.SendMessage("DamageEnemy", explosionDamage);
-
             }
         }
 
@@ -45,5 +44,13 @@ public class ExplosionScript : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, radius);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "CheckPoint")
+        {
+            other.GetComponent<CampFire>().PlayFire();
+        }
     }
 }

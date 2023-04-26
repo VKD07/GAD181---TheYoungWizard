@@ -12,11 +12,13 @@ public class CampFire : MonoBehaviour
     [SerializeField] RespawnPointHandler respawnPointHandler;
     [SerializeField] ParticleSystem explosionVfx;
     [SerializeField] Transform playerSpawnLocation;
+    [SerializeField] GameObject guideUI;
+    [SerializeField] float distanceToPlayer;
+    [SerializeField] float distanceToShowText = 3f;
     playerCombat pc;
     public bool campFireLit;
     bool fadeOut;
     AudioSource audioSource;
-
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -26,6 +28,7 @@ public class CampFire : MonoBehaviour
     private void Update()
     {
         FadeInText();
+        ShowText();
     }
 
     private void FadeInText()
@@ -57,6 +60,21 @@ public class CampFire : MonoBehaviour
             uiCanvas.gameObject.SetActive(false);
         }
     }
+
+    public void ShowText()
+    {
+        distanceToPlayer = Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position);
+
+        if (distanceToPlayer <= distanceToShowText && !campFireLit)
+        {
+            guideUI.SetActive(true);
+        }
+        else
+        {
+            guideUI.SetActive(false);
+        }
+    }
+
     public void PlayFire()
     {
         if (!campFireLit)
@@ -68,4 +86,5 @@ public class CampFire : MonoBehaviour
             campFire.Play();
         }
     }
+
 }

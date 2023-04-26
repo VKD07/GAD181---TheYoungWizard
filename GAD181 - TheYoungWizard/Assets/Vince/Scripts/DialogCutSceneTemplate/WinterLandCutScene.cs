@@ -30,6 +30,8 @@ public class WinterLandCutScene : MonoBehaviour
     [SerializeField] DialogBox dialogBox;
     [SerializeField] KeyCode nextKey = KeyCode.Mouse0;
 
+    [SerializeField] ObjectiveBox objBox;
+
     [Header("Sequence")]
     [SerializeField] bool[] sequence;
     public float typingDuration = 2f;
@@ -132,6 +134,8 @@ public class WinterLandCutScene : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    objBox.EnableObjectiveBox(true);
+                    objBox.SetObjectiveTextNum(0, "");
                     dialogBox.EnableDialogBox(false);
                     EnablePlayerControl();
                     sequence[4] = false;
@@ -145,6 +149,7 @@ public class WinterLandCutScene : MonoBehaviour
         {
             if (dialogTrigger[1].bounds.Intersects(playerCollider.bounds))//KAEL: It feels like this platform is moving.
             {
+                objBox.ObjectiveCompleted(true);
                 Destroy(dialogTrigger[1].gameObject);
                 EnablePlayerComponents(false);
                 dialogBox.EnableDialogBox(true);
@@ -161,6 +166,7 @@ public class WinterLandCutScene : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    objBox.EnableObjectiveBox(false);
                     dialogBox.EnableDialogBox(false);
                     EnablePlayerControl();
                     sequence[6] = false;

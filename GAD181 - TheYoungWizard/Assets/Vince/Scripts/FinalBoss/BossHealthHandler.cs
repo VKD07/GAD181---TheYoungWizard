@@ -51,9 +51,9 @@ public class BossHealthHandler : MonoBehaviour
             {
                 ShatteredRock(3);
             }
-             if (bossScript.GetBossHealth() <= 50 && rockHealth[4] != null)
+             else if (bossScript.GetBossHealth() <= 50 && rockHealth[4] != null)
             {
-                SceneManager.LoadScene(7);
+              //  SceneManager.LoadScene(7);
             }
         }
     }

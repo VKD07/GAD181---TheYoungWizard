@@ -95,6 +95,8 @@ public class Fireball_Script : MonoBehaviour
             Destroy(gameObject);
         }
 
+      
+
     }
 
     void ExplosionEffect()

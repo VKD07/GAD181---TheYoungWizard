@@ -13,6 +13,8 @@ public class RespawnPointHandler : MonoBehaviour
     [SerializeField] public bool respawnToCheckPoint;
     [SerializeField] ParticleSystem playerLvlUpFx;
     public bool initialSpawned;
+    float currentTime;
+    bool teleportPlayer;
 
     //playerComponents;
     [SerializeField] playerCombat pc;
@@ -22,8 +24,11 @@ public class RespawnPointHandler : MonoBehaviour
 
     private void Awake()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
-        playerTransform.position = storedRespawnPoint;
+        playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        if (playerTransform != null)
+        {
+            playerTransform.position = storedRespawnPoint;
+        }
     }
     // Update is called once per frame
     void Update()
@@ -33,14 +38,15 @@ public class RespawnPointHandler : MonoBehaviour
         pf = FindObjectOfType<PlayerForceField>();
         guideUiScript = FindObjectOfType<GuideUiScript>();
         playerLvlUpFx = GameObject.FindGameObjectWithTag("LevelUpFx")?.GetComponent<ParticleSystem>();
-
         CheckPlayerHealth();
         if (playerLvlUpFx == null)
         {
             return;
         }
+        TeleportPlayer();
     }
 
+  
     private void CheckPlayerHealth()
     {
         if (pc != null && pc.GetPlayerHealth() <= 0)
@@ -50,7 +56,7 @@ public class RespawnPointHandler : MonoBehaviour
             EnablePlayerComponents(false);
         }
 
-        if(pc == null) 
+        if (pc == null)
         {
             deathBG.SetActive(false);
         }
@@ -93,12 +99,13 @@ public class RespawnPointHandler : MonoBehaviour
         //check if Final Boss
         if (SceneManager.GetActiveScene().name == "FinalBoss")
         {
+            LoadAsync.instance.LoadScene("FinalBoss");
             deathBG.SetActive(false);
             ShowCursor(false);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else
         {
+            teleportPlayer = true;
             ShowCursor(false);
             deathBG.SetActive(false);
             EnablePlayerComponents(true);
@@ -106,13 +113,27 @@ public class RespawnPointHandler : MonoBehaviour
             //  SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
             playerLvlUpFx.Play();
             pc.sfx.PlayhealSfx();
-            playerTransform.position = storedRespawnPoint;
             // respawnToCheckPoint = true;
             Time.timeScale = 1f;
             pc.SetPlayerHealth(100);
             ShowCursor(false);
         }
     }
+
+    private void TeleportPlayer()
+    {
+        if(teleportPlayer == true && currentTime < 0.1f)
+        {
+            currentTime += Time.deltaTime;
+            playerTransform.position = storedRespawnPoint;
+        }
+        else
+        {
+            teleportPlayer = false;
+            currentTime = 0f;
+        }
+    }
+
 
     public void GoBack()
     {

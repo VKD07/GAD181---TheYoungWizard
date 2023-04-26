@@ -9,7 +9,7 @@ public class ObjectiveBox : MonoBehaviour
 {
     [Header("Objective Box")]
     [SerializeField] Animator anim;
-    [SerializeField] bool[] objectiveSequence;
+    [SerializeField] public bool[] objectiveSequence;
     [SerializeField] string[] objectives;
     [SerializeField] TextMeshProUGUI objectiveDesc;
     [SerializeField] GameObject objectiveBox;

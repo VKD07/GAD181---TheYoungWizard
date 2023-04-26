@@ -133,7 +133,6 @@ public class spiderScript : MonoBehaviour
             attack();
             animator.SetBool("Run", false);
         }
-
     }
 
     public void WarnPlayer()
@@ -183,6 +182,7 @@ public class spiderScript : MonoBehaviour
 
     public void DamageEnemy(float damage)
     {
+        animator.SetTrigger("Hit");
         spiderHp -= damage;
     }
 

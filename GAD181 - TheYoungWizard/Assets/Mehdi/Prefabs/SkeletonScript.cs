@@ -186,6 +186,7 @@ public class SkeletonScript : MonoBehaviour
 
     public void DamageEnemy(float damage)
     {
+       // animator.SetTrigger("Hit");
         spiderHp -= damage;
     }
 

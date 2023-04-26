@@ -20,6 +20,13 @@ public class playerCombat : MonoBehaviour
     AudioSource[] audioSources;
     public bool enableAudioSource;
 
+    [Header("Damage Indicator")]
+    [SerializeField] GameObject damageIndicator;
+    [SerializeField] float damageIndicatorDuration = 0.2f;
+    [SerializeField] Animator damageIndicatorAnimation;
+    bool tookDamage;
+    float currentIndicatorTime;
+
     [Header("Spell Mana Cost")]
     [SerializeField] int fireballManaCost;
     [SerializeField] int iceSpellManaCost;
@@ -160,6 +167,7 @@ public class playerCombat : MonoBehaviour
         SpellCastAnimation();
         DisablingDamageIndicator();
         DeathHandler();
+        ShowDamageFeedback();
     }
 
     private void DeathHandler()
@@ -174,12 +182,12 @@ public class playerCombat : MonoBehaviour
             Time.timeScale = 0f;
         }
     }
+
     private void SpellCastAnimation()
     {
         //if combination is not wrong then you can activate a spell
         if (castModeManager.wrongCombination == false)
         {
-
             //casting ice
             if (spellManager.iceCooldown == false && castModeManager.availableSpellID == 30 && castModeManager.castingMode == false
                 && playerMovement.rolling == false && castingSpell == false && Input.GetKeyDown(activateSpellKey)
@@ -463,22 +471,49 @@ public class playerCombat : MonoBehaviour
     //take damage from enemy
     public void damagePlayer(float damage, bool ignoreShield)
     {
-        if (forceField.shieldIsActive == false || ignoreShield)
+        if (!tutorial)
         {
+            tookDamage = true;
             anim.SetTrigger("hit");
             playerHealth -= damage;
             disableSenses();
             Time.timeScale = 1;
         }
-
     }
 
+    void ShowDamageFeedback()
+    {
+        if (tookDamage && currentIndicatorTime < damageIndicatorDuration)
+        {
+            currentIndicatorTime += Time.deltaTime;
+            damageIndicator.SetActive(true);
+        }
+        else if (currentIndicatorTime > damageIndicatorDuration)
+        {
+            tookDamage = false;
+            damageIndicator.SetActive(false);
+            currentIndicatorTime = 0;
+        }
+
+        else if (playerHealth <= 25)
+        {
+            damageIndicator.SetActive(true);
+            damageIndicatorAnimation.SetBool("LowHealth", true);
+        }
+        else
+        {
+            damageIndicator.SetActive(false);
+            damageIndicatorAnimation.SetBool("LowHealth", false);
+        }
+    }
     public void damagePlayer2(float damage)
     {
-        playerHealth -= damage;
-        disableSenses();
-        Time.timeScale = 1;
-
+        if (!tutorial)
+        {
+            playerHealth -= damage;
+            disableSenses();
+            Time.timeScale = 1;
+        }
     }
 
     //get player health

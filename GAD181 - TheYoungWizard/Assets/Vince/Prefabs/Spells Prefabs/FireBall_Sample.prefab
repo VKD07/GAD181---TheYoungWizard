@@ -128,7 +128,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fireBallDamage: 0
   explosionParticle: {fileID: 1809022330002312, guid: eb3a6eee91eea0943a05e26c48d219ec, type: 3}
-  explosionSound: {fileID: 8300000, guid: 92d0bf624c57ffe46a578b54a55a112f, type: 3}
 --- !u!1001 &8373228923705216183
 PrefabInstance:
   m_ObjectHideFlags: 0

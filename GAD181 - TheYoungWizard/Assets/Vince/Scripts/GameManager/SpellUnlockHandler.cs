@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpellUnlockHandler : MonoBehaviour
 {
@@ -9,9 +11,24 @@ public class SpellUnlockHandler : MonoBehaviour
     public bool unlockLuminous;
 
     public CastModeManager castModeManager;
+    public BossScript bossScript;
     private void Update()
     {
+        CheckBossHealth();
         UnlockSpells();
+    }
+
+    private void CheckBossHealth()
+    {
+        bossScript = FindObjectOfType<BossScript>();
+
+        if (bossScript != null)
+        {
+            if (bossScript.GetBossHealth() <= 0)
+            {
+                SceneManager.LoadScene("FinalCutScene");  
+            }
+        }
     }
 
     private void UnlockSpells()

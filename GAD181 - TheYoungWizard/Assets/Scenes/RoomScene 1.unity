@@ -2831,7 +2831,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &308967365
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20893,7 +20893,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281533907}
-  m_LocalRotation: {x: 0.14613007, y: -0.7121283, z: 0.15559427, w: 0.6688122}
+  m_LocalRotation: {x: 0.14613006, y: -0.7121283, z: 0.15559427, w: 0.6688122}
   m_LocalPosition: {x: 3.5331602, y: 1.0954218, z: -0.56274176}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -24011,7 +24011,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1605629998}
-  m_LocalRotation: {x: 0.10407322, y: -0.058643907, z: 0.025963955, w: 0.9924997}
+  m_LocalRotation: {x: 0.10407319, y: -0.058643907, z: 0.02596397, w: 0.9924997}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -24270,7 +24270,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1293891031151568200, guid: 06b9d15b7d33e854cb23fe58a33238aa, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1293891031151568200, guid: 06b9d15b7d33e854cb23fe58a33238aa, type: 3}
       propertyPath: m_LocalPosition.x
@@ -24783,9 +24783,11 @@ MonoBehaviour:
   scrolls: {fileID: 0}
   windVfx: {fileID: 0}
   mainMenuScript: {fileID: 0}
+  exclamationMark: {fileID: 0}
   dialogCanvas: {fileID: 1664356074}
   dialogBox: {fileID: 1664356075}
   nextKey: 323
+  objBox: {fileID: 0}
   sequence: 00000000000000000000000000000000000000000000000000
   typingDuration: 2
   currentTime: 0
@@ -25210,7 +25212,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4615203520336382312, guid: aca5779ba0f808248a9de9a2184a2c51, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4615203520336382312, guid: aca5779ba0f808248a9de9a2184a2c51, type: 3}
       propertyPath: m_LocalScale.x
@@ -32768,6 +32770,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84aab5348d53b5e40a2cf130e0b3b81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookatCamera2: 0
+  activateFloat: 0
+  floatMoveSpeed: 1
+  distance: 0.2
 --- !u!1001 &2095296052
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33134,7 +33140,7 @@ PrefabInstance:
       objectReference: {fileID: 552002147}
     - target: {fileID: 29553125496094997, guid: 801713372d3496a47b29ee3bfaa3f62c, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 29553125496094997, guid: 801713372d3496a47b29ee3bfaa3f62c, type: 3}
       propertyPath: m_LocalPosition.x

@@ -6,18 +6,18 @@ public class spiderWalksound : MonoBehaviour
 {
     AudioSource aud;
     [SerializeField] AudioClip spiderWalk;
+    [SerializeField] AudioClip spiderDeath;
     void Start()
     {
         aud = GetComponent<AudioSource>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     public void play_spiderWalk()
     {
         aud.PlayOneShot(spiderWalk);
+    }
+
+    public void PlaySpiderDeath()
+    {
+        aud.PlayOneShot(spiderDeath, 0.5f);
     }
 }

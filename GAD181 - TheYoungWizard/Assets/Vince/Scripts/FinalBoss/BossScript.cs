@@ -90,6 +90,7 @@ public class BossScript : MonoBehaviour
     [SerializeField] public float cloneDuration = 15f;
     [SerializeField] public bool bossReplica;
     bool replicated;
+    bool loaded;
 
     [Header("Boss SFX")]
     [SerializeField] BossSFXHandler bossSFXHandler;
@@ -141,9 +142,13 @@ public class BossScript : MonoBehaviour
 
     private void DeathHandler()
     {
-        if (health <= 0)
+        if (health <= 50)
         {
-            SceneManager.LoadScene("FinalBoss");
+            if (!loaded)
+            {
+                loaded = true;
+                LoadAsync.instance.LoadScene("FinalBoss 1");
+            }
         }
     }
 

@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FinalBoss 1.unity
     guid: 17fb9ff5fc3658242a32d524add30de0
+  - enabled: 0
+    path: Assets/Scenes/FinalCutScene.unity
+    guid: ae9f71d8a625da248b6efc788107cd46
   m_configObjects: {}

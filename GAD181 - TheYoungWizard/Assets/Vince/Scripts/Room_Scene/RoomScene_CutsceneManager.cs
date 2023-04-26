@@ -24,12 +24,16 @@ public class RoomScene_CutsceneManager : MonoBehaviour
     [SerializeField] GameObject scrolls;
     [SerializeField] GameObject windVfx;
     [SerializeField] MainMenu mainMenuScript;
+    [SerializeField] GameObject exclamationMark;
     bool portalDisabled;
 
     [Header("Dialog Box")]
     [SerializeField] GameObject dialogCanvas;
     [SerializeField] DialogBox dialogBox;
     [SerializeField] KeyCode nextKey = KeyCode.Mouse0;
+
+    [Header("Objective Box")]
+    [SerializeField] ObjectiveBox objBox;
 
     [Header("Sequence")]
     [SerializeField] bool[] sequence;
@@ -343,6 +347,8 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    objBox.EnableObjectiveBox(true);
+                    objBox.SetObjectiveTextNum(0, "");
                     skipUI.SetActive(false);
                     playerTransform.position = new Vector3(-8.268f, -1.247f, -7.917f);
                     audioHandler.PlayWhooshSFX(0);
@@ -363,6 +369,8 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             {
                 if (mapUI.activeSelf)
                 {
+                    objBox.ObjectiveCompleted(true);
+                    exclamationMark.SetActive(false);
                     mapScript.disableMapClosing = true;
                     LockCursor(true);
                     dialogBox.EnableDialogBox(true);
@@ -380,6 +388,7 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey)) //KAEL: I'll need to go there and collect them all back!  
                 {
+                    objBox.EnableObjectiveBox(false);
                     dialogBox.nextLine(15);
                     sequence[18] = false;
                     sequence[19] = true;
@@ -394,12 +403,76 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    objBox.EnableObjectiveBox(true);
+                    objBox.SetObjectiveTextNum(1, "");
                     mapScript.disableMapClosing = false;
                     LockCursor(false);
                     dialogBox.EnableDialogBox(false);
                     sequence[19] = false;
                     sequence[20] = true;
                     countingDownNext = true;
+                }
+            }
+        }
+
+        Skipped();
+    }
+
+    private void Skipped()
+    {
+        //if the narrative is skipped
+        if (skipNarrative)
+        {
+            if (!objBox.objectiveSequence[0])
+            {
+                objBox.EnableObjectiveBox(true);
+                objBox.SetObjectiveTextNum(0, "");
+                dialogBox.EnableDialogBox(false);
+
+                if (mapUI.activeSelf)
+                {
+                    dialogBox.EnableDialogBox(true);
+                    dialogBox.nextLine(14);
+                    objBox.ObjectiveCompleted(true);
+                    exclamationMark.SetActive(false);
+                    mapScript.disableMapClosing = true;
+                    LockCursor(true);
+                    objBox.objectiveSequence[0] = true;
+                    objBox.objectiveSequence[1] = true;
+                    countingDownNext = true;
+                }
+            }
+
+            else if (objBox.objectiveSequence[1])
+            {
+                if (!countingDownNext)
+                {
+                    if (Input.GetKeyDown(nextKey)) //KAEL: I'll need to go there and collect them all back!  
+                    {
+                        objBox.EnableObjectiveBox(false);
+                        dialogBox.nextLine(15);
+                        objBox.objectiveSequence[1] = false;
+                        objBox.objectiveSequence[2] = true;
+                        countingDownNext = true;
+                    }
+                }
+            }
+
+            else if (objBox.objectiveSequence[2]) // give back player controls
+            {
+                if (!countingDownNext)
+                {
+                    if (Input.GetKeyDown(nextKey))
+                    {
+                        objBox.EnableObjectiveBox(true);
+                        objBox.SetObjectiveTextNum(1, "");
+                        mapScript.disableMapClosing = false;
+                        LockCursor(false);
+                        dialogBox.EnableDialogBox(false);
+                        objBox.objectiveSequence[2] = false;
+                        objBox.objectiveSequence[3] = true;
+                        countingDownNext = true;
+                    }
                 }
             }
         }
@@ -493,7 +566,6 @@ public class RoomScene_CutsceneManager : MonoBehaviour
             cinemachineBrain.m_DefaultBlend.m_Time = 1f;
             mainMenuScript.cameraControl = true;
             //player control
-            dialogBox.EnableDialogBox(false);
             EnablePlayerComponents(true);
             playerAnim.SetBool("Suprised", false);
             //environment disable
@@ -506,7 +578,6 @@ public class RoomScene_CutsceneManager : MonoBehaviour
                 portalParticle.SetActive(false);
             }
             windVfx.SetActive(false);
-            dialogBox.enabled = false;
             //audio
             audioHandler.PlayPortalSceneMusic();
             audioHandler.skipped = true;

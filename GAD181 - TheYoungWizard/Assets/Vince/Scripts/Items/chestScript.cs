@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -15,8 +16,12 @@ public class chestScript : MonoBehaviour
     [Header("Chest Components")]
     [SerializeField] Sprite[] itemIcons;
     [SerializeField] ItemManager itemManager;
+    [SerializeField] public GameObject guideUI;
+    [SerializeField] float distanceToShowText = 2f;
     public bool chestIsOpen;
     bool itemsTaken;
+    float distanceToPlayer;
+
 
     [Header("Audio")]
     AudioSource audioSource;
@@ -37,6 +42,7 @@ public class chestScript : MonoBehaviour
         }
 
         TakeItemsInside();
+        ShowText();
     }
     private void TakeItemsInside()
     {
@@ -59,10 +65,24 @@ public class chestScript : MonoBehaviour
         }
     }
 
+    public void ShowText()
+    {
+        distanceToPlayer = Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position);
+
+        if (distanceToPlayer <= distanceToShowText && !chestIsOpen)
+        {
+            guideUI.SetActive(true);
+        }
+        else
+        {
+            guideUI.SetActive(false);
+        }
+    }
 
     public void playChestParticle()
     {
-        if (!chestIsOpen) {
+        if (!chestIsOpen)
+        {
             audioSource.PlayOneShot(openChestSfx, 0.1f);
             openChestParticle.Play();
             chestIsOpen = true;

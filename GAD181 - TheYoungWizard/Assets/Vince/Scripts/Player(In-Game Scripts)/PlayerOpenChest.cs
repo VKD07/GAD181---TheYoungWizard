@@ -21,6 +21,7 @@ public class PlayerOpenChest : MonoBehaviour
     {
         if(Physics.Raycast(rayCastPosition.position, rayCastPosition.transform.forward, out hit, rayCastRange,chestLayer))
         {
+            hit.rigidbody.GetComponent<chestScript>().SendMessage("ShowText");
             if (Input.GetKeyDown(openChestKey))
             {
                 GameObject chest = hit.rigidbody.gameObject;

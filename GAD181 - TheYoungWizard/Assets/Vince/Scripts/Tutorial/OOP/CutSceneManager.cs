@@ -17,6 +17,7 @@ public class CutSceneManager : MonoBehaviour
     [SerializeField] GameObject sceneCamera2;
     [SerializeField] KeyCode nextBtn = KeyCode.Mouse0;
     [SerializeField] GameObject dummy;
+    [SerializeField] playerCombat pc;
     public bool textIsUpdated;
     PlayerComponentsHandler playerComponentsHandler;
     DialogBox dialogBox;
@@ -537,6 +538,7 @@ public class CutSceneManager : MonoBehaviour
 
                 if (spellCastingTutorial.TaskSixDone())
                 {
+                    pc.disableSlowDownTime = true;
                     objectiveBox.ObjectiveCompleted(true);
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(19);
@@ -566,6 +568,7 @@ public class CutSceneManager : MonoBehaviour
 
         else if (tutorialSequence[23] && !dialogBox.isTyping)
         {
+            playerComponentsHandler.DisableCastMode(false);
             if (Input.GetKeyDown(nextBtn))
             {
                 if (!countingDownNext)

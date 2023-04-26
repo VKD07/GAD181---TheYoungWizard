@@ -30,11 +30,15 @@ public class ForestLevelCutScene : MonoBehaviour
     [SerializeField] Collider bossGateTrigger;
     [SerializeField] BossDoor bossDoor;
     [SerializeField] StoneSpell stoneSpell;
+    [SerializeField] GameObject[] exclamationMarks;
 
     [Header("Dialog Box")]
     [SerializeField] GameObject dialogCanvas;
     [SerializeField] DialogBox dialogBox;
     [SerializeField] KeyCode nextKey = KeyCode.Mouse0;
+
+    [Header("Objective Box")]
+    [SerializeField] ObjectiveBox objBox;
 
     [Header("Sequence")]
     [SerializeField] bool[] sequence;
@@ -54,6 +58,7 @@ public class ForestLevelCutScene : MonoBehaviour
     void Awake()
     {
         campFire.enabled = false;
+        objBox.EnableObjectiveBox(false);
         LockCursor();
         FirstDialog();
         StartCoroutine(EnableSecondDialog(1));
@@ -135,6 +140,9 @@ public class ForestLevelCutScene : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey) && !dialogBox.isTyping)
                 {
+                    exclamationMarks[0].SetActive(true);
+                    objBox.EnableObjectiveBox(true);
+                    objBox.SetObjectiveTextNum(0, "");
                     dialogBox.EnableDialogBox(false);
                     EnablePlayerControl();
                     thirdPersonCamera.SetActive(true);
@@ -152,6 +160,8 @@ public class ForestLevelCutScene : MonoBehaviour
             {
                 if (chest.chestIsOpen)
                 {
+                    exclamationMarks[0].SetActive(true);
+                    objBox.ObjectiveCompleted(true);
                     dialogBox.EnableDialogBox(true);
                     EnablePlayerComponents(false);
                     dialogBox.nextLine(4);
@@ -168,6 +178,9 @@ public class ForestLevelCutScene : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    objBox.ObjectiveCompleted(false);
+                    objBox.EnableObjectiveBox(false);
+                    dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(5);
                     sequence[6] = false;
                     sequence[7] = true;
@@ -197,6 +210,9 @@ public class ForestLevelCutScene : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    exclamationMarks[1].SetActive(true);
+                    objBox.EnableObjectiveBox(true);
+                    objBox.SetObjectiveTextNum(1, "");
                     campFire.enabled = true;
                     dialogBox.EnableDialogBox(false);
                     EnablePlayerControl();
@@ -211,6 +227,8 @@ public class ForestLevelCutScene : MonoBehaviour
         {
             if (campFire.campFireLit)
             {
+                exclamationMarks[1].SetActive(false);
+                objBox.ObjectiveCompleted(true);
                 dialogBox.EnableDialogBox(true);
                 dialogBox.nextLine(7);
                 EnablePlayerComponents(false);
@@ -226,6 +244,9 @@ public class ForestLevelCutScene : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey) && !dialogBox.isTyping)
                 {
+                    objBox.ObjectiveCompleted(false);
+                    objBox.EnableObjectiveBox(false);
+                    dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(8);
                     sequence[10] = false;
                     sequence[11] = true;
@@ -298,6 +319,8 @@ public class ForestLevelCutScene : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey) && !dialogBox.isTyping)
                 {
+                    objBox.EnableObjectiveBox(true);
+                    objBox.SetObjectiveTextNum(2, "");
                     dialogBox.EnableDialogBox(false);
                     EnablePlayerControl();
                     sequence[15] = false;
@@ -311,6 +334,7 @@ public class ForestLevelCutScene : MonoBehaviour
         {
             if (bossDoor.destroyGate) 
             {
+                objBox.ObjectiveCompleted(true);
                 dialogBox.EnableDialogBox(true);
                 dialogBox.nextLine(12);
                 EnablePlayerComponents(false);
@@ -326,6 +350,8 @@ public class ForestLevelCutScene : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey) && !dialogBox.isTyping)
                 {
+                    objBox.ObjectiveCompleted(false);
+                    objBox.EnableObjectiveBox(false);
                     dialogBox.EnableDialogBox(false);
                     EnablePlayerControl();
                     sequence[17] = false;

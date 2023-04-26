@@ -26,6 +26,10 @@ public class CutSceneHandler : MonoBehaviour
     [SerializeField] DialogBox dialogBox;
     [SerializeField] KeyCode nextKey = KeyCode.Mouse0;
 
+    [Header("ObjectiveBox")]
+    [SerializeField] ObjectiveBox objBox;
+    [SerializeField] GameObject exclamationMark;
+
     [Header("Sequence")]
     [SerializeField] bool[] sequence;
     public float typingDuration = 2f;
@@ -46,6 +50,7 @@ public class CutSceneHandler : MonoBehaviour
     [SerializeField] BossScript bossScript;
     [SerializeField] GameObject bossHealth;
     [SerializeField] BossHealthHandler bossHealthHandler;
+    [SerializeField] GameObject deathUI;
 
     [Header("Audio")]
     [SerializeField] AudioHandler audioHandler;
@@ -56,6 +61,12 @@ public class CutSceneHandler : MonoBehaviour
         EnablePlayerComponents(false);
         FirstDialog();
         StartCoroutine(EnableSecondDialog(1));
+        objBox.EnableObjectiveBox(false);
+        deathUI = GameObject.Find("DeathBG");
+        if (deathUI != null)
+        {
+            deathUI.SetActive(false);
+        }
     }
     // Update is called once per frame
     void Update()
@@ -121,8 +132,11 @@ public class CutSceneHandler : MonoBehaviour
         {
             if (!countingDownNext)
             {
-                if (Input.GetKeyDown(nextKey))
+                if (Input.GetKeyDown(nextKey)) // enable player control
                 {
+                    objBox.EnableObjectiveBox(true);
+                    objBox.SetObjectiveTextNum(0, "");
+                    exclamationMark.SetActive(true);
                     EnablePlayerControl();
                     dialogBox.EnableDialogBox(false);
                     countingDownNext = true;
@@ -141,6 +155,8 @@ public class CutSceneHandler : MonoBehaviour
             {
                 if (!countingDownNext)
                 {
+                    objBox.ObjectiveCompleted(true);
+                    exclamationMark.SetActive(false);
                     EnablePlayerComponents(false);
                     dialogBox.EnableDialogBox(true);
                     dialogBox.nextLine(4);
@@ -156,6 +172,7 @@ public class CutSceneHandler : MonoBehaviour
             {
                 if (Input.GetKeyDown(nextKey))
                 {
+                    objBox.EnableObjectiveBox(false);
                     dialogBox.nextLine(5);
                     countingDownNext = true;
                     sequence[5] = false;
@@ -213,6 +230,9 @@ public class CutSceneHandler : MonoBehaviour
                 {
                     if (Input.GetKeyDown(nextKey))
                     {
+                        objBox.EnableObjectiveBox(true);
+                        objBox.SetObjectiveTextNum(1, "");
+
                         dialogBox.EnableDialogBox(false);
                         EnablePlayerControl();
                         countingDownNext = true;
@@ -232,6 +252,7 @@ public class CutSceneHandler : MonoBehaviour
             {
                 if (currentCameraTimer < cameraTimer)
                 {
+                    objBox.EnableObjectiveBox(false);
                     audioHandler.PlayBossReveal();
                     playerTransform.position = new Vector3(-25.62f, -4.473627f, -29.39f);
                     thirdPersonCamera.SetActive(false);
