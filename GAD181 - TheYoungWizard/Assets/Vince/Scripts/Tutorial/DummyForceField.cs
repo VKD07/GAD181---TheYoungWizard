@@ -7,6 +7,7 @@ public class DummyForceField : MonoBehaviour
     [Header("Material Properties")]
     [SerializeField] Color[] colors;
     [SerializeField] float emissionIntensity = 5f;
+    [SerializeField] public BossScript bossScript;
 
     Renderer render;
     Material renderMaterial;
@@ -22,9 +23,23 @@ public class DummyForceField : MonoBehaviour
     public int randomElement;
     bool elementChosen;
     public bool activateShield;
+    public bool proceed;
 
     [Header("Number of Broken Shields")]
     public int numberOfBrokenShields;
+    public bool isDummy;
+
+    [Header("VFX")]
+    [SerializeField] GameObject healingVFX;
+
+    [Header("SFX")]
+    [SerializeField] BossSFXHandler sfx;
+    bool shieldActiveSfx;
+    bool shieldDeactiveSfx;
+
+    [Header("Objective Box")]
+    [SerializeField] ObjectiveBox objBox;
+    public int objNum = 9;
 
     void Awake()
     {
@@ -46,14 +61,29 @@ public class DummyForceField : MonoBehaviour
     {
         if (activateShield && elementChosen == false)
         {
-            elementChosen = true;
-            randomElement = UnityEngine.Random.Range(0, colors.Length);
+            if (!proceed)
+            {
+                proceed = true;
+                randomElement = 0;
+            }
+           else
+            {
+                objBox.EnableObjectiveBox(true);
+                if (objNum <= 11)
+                {
+                    objBox.ObjectiveCompleted(false);
+                    objNum++;
+                    objBox.SetObjectiveTextNum(objNum, ""); //setting objective text
+                }
+                randomElement++;
+            }
             renderMaterial.SetColor("_Emission", colors[randomElement]);
+            elementChosen = true;
         }
         else if (!activateShield && elementChosen == true)
         {
             elementChosen = false;
-            randomElement = 0;
+           
         }
     }
 
@@ -64,6 +94,13 @@ public class DummyForceField : MonoBehaviour
             meshRenderer.enabled = true;
             currentScale += Time.deltaTime * 15f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
+
+            if (!shieldActiveSfx)
+            {
+                shieldDeactiveSfx = false;
+                shieldActiveSfx = true;
+                sfx.ActivateShieldSfx();
+            }
         }
     }
 
@@ -71,9 +108,24 @@ public class DummyForceField : MonoBehaviour
     {
         if (currentScale > 0 && !activateShield)
         {
+            objBox.ObjectiveCompleted(true);
+            //objBox.EnableObjectiveBox(false);
+
             currentScale -= Time.deltaTime * 20f;
             transform.localScale = new Vector3(currentScale, currentScale, currentScale);
             meshRenderer.enabled = false;
+
+            if (!shieldDeactiveSfx)
+            {
+                sfx.ExplodingShieldSound();
+                shieldDeactiveSfx = true;
+                shieldActiveSfx = false;
+            }
+
+            if (healingVFX != null)
+            {
+                healingVFX.SetActive(false);
+            }
         }
     }
 
@@ -84,14 +136,25 @@ public class DummyForceField : MonoBehaviour
             explodeVfxMat.SetColor("_EmissionColor", colors[0] * 2.4f);
             explodeVfx.Play();
             activateShield = false;
-            numberOfBrokenShields += 1;
+            InterruptBoss();
+
+            if (isDummy)
+            {
+                numberOfBrokenShields += 1;
+            }
+
         }
         else if (randomElement == 1 && other.tag == "frostWall" && activateShield == true)
         {
             explodeVfxMat.SetColor("_EmissionColor", colors[1] * 2.4f);
             explodeVfx.Play();
             activateShield = false;
-            numberOfBrokenShields += 1;
+            InterruptBoss();
+
+            if (isDummy)
+            {
+                numberOfBrokenShields += 1;
+            }
         }
         else if (randomElement == 2 && other.tag == "windGust" && activateShield == true)
         {
@@ -101,10 +164,23 @@ public class DummyForceField : MonoBehaviour
                 explodeVfxMat.SetColor("_EmissionColor", colors[2] * 2.4f);
                 explodeVfx.Play();
                 activateShield = false;
-                numberOfBrokenShields += 1;
+                InterruptBoss();
+
+                if (isDummy)
+                {
+                    numberOfBrokenShields += 1;
+                }
             }
         }
     }
 
- 
+    public void InterruptBoss()
+    {
+        activateShield = false;
+        if (bossScript != null)
+        {
+            bossScript.damageBoss = true;
+            bossScript.playStunVfx();
+        }
+    }
 }

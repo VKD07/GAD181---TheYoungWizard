@@ -78,12 +78,12 @@ public class ShieldTutorial : MonoBehaviour
                 tutorialDummy.shieldTask = true;
                 tutorialDummy.startAttack = true;
                 //Updating the objective text
-                objectiveBox.SetObjectiveTextNum(4, $"{currentFireBallsBlocked} / {totalBlockedFireBallsrequired}");
+                objectiveBox.SetObjectiveTextNum(4, $"{currentFireBallsBlocked} / {totalBlockedFireBallsrequired} using SPACE");
 
             }
             else
             {
-                objectiveBox.SetObjectiveTextNum(4, $"{currentFireBallsBlocked} / {totalBlockedFireBallsrequired}");
+                objectiveBox.SetObjectiveTextNum(4, $"{currentFireBallsBlocked} / {totalBlockedFireBallsrequired} using SPACE");
                 tutorialDummy.startAttack = false;
                 startTaskTwo = false;
                 taskTwo = true;

@@ -43,5 +43,5 @@ Material:
     - _Offset: 0.6
     m_Colors:
     - Color_de7ef86d043a4a579f46cfe483c98493: {r: 2.9960785, g: 1.2553283, b: 0, a: 0}
-    - _Emission: {r: 0, g: 0.5254902, b: 0.7490196, a: 0}
+    - _Emission: {r: 0, g: 1, b: 1, a: 0}
   m_BuildTextureStacks: []

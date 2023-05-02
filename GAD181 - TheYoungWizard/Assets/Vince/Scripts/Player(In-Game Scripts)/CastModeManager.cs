@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class CastModeManager : MonoBehaviour
 {
+    [Header("Automatic Cast")]
+    [SerializeField] public bool autoCast;
     [Header("References")]
     [SerializeField] Player_Movement playerScript;
     [SerializeField] playerCombat pc;
@@ -46,7 +48,45 @@ public class CastModeManager : MonoBehaviour
 
     private void Update()
     {
+        //after you finished casting123
+        if (autoCast)
+        {
+            AutoCast();
+        }
+        else
+        {
+            ManualCast();
+        }
+    }
+    void AutoCast()
+    {
         //after you finished casting
+        if (this.gameObject.activeSelf == true && Input.GetKeyDown(KeyCode.R))
+        {
+            spellCastUiAnim.SetBool("CastMode", false);
+            centerCircleAnim.SetBool("SpinCircle", false);
+            castEffect.SetBool("ActivateEffect", false);
+            castEffectObj.SetActive(false);
+            pc.casting = false;
+            //resets spell combinations after UI is disabled;
+
+            doneCombining = false;
+            castingMode = false;
+            //ResetSpell();
+            this.gameObject.SetActive(false);
+            if (!disableMovement)
+            {
+                playerScript.enabled = true;
+            }
+            Time.timeScale = 1f;
+        }
+        CastMode();
+
+        settingSpellSprite();
+    }
+
+    private void ManualCast()
+    {
         if (this.gameObject.activeSelf == true && Input.GetKeyDown(KeyCode.R))
         {
             spellCastUiAnim.SetBool("CastMode", false);
@@ -60,7 +100,7 @@ public class CastModeManager : MonoBehaviour
             castingMode = false;
             ResetSpell();
             this.gameObject.SetActive(false);
-            if(!disableMovement)
+            if (!disableMovement)
             {
                 playerScript.enabled = true;
             }
@@ -68,6 +108,7 @@ public class CastModeManager : MonoBehaviour
         }
         CastMode();
     }
+
     private void OnEnable()
     {
         playerAudio.PlayOneShot(choosingElementFx, 0.1f);
@@ -98,7 +139,11 @@ public class CastModeManager : MonoBehaviour
         settingSpellSprite();
 
         //resets spell combinations after UI is disabled;
-        ResetSpell();
+        if (!autoCast)
+        {
+            ResetSpell();
+        }
+
         spellCastUiAnim.SetBool("CastMode", false);
         centerCircleAnim.SetBool("SpinCircle", false);
         castEffect.SetBool("ActivateEffect", false);
@@ -123,7 +168,7 @@ public class CastModeManager : MonoBehaviour
             Element(2);
         }
         //this prevents combining spells with only combing 2 elements
-        if(elementState[2] == true)
+        if (elementState[2] == true)
         {
             doneCombining = true;
         }
@@ -188,42 +233,99 @@ public class CastModeManager : MonoBehaviour
 
     void settingSpellSprite()
     {
-        for (int i = 0; i < spellIDs.Length; i++)
+        if (autoCast)
         {
-            if (spellIDs[i] == currentSpellID && doneCombining == true)
+            #region autoCast
+            if (doneCombining)
             {
-                //Spell lock
-                if (IceSpellLocked && currentSpellID == 30)
+                for (int i = 0; i < spellIDs.Length; i++)
                 {
-                    return;
+                    if (spellIDs[i] == currentSpellID)
+                    {
+                        //Spell lock
+                        if (IceSpellLocked && currentSpellID == 30)
+                        {
+                            return;
+                        }
+                        else if (windGustLocked && currentSpellID == 35)
+                        {
+                            return;
+                        }
+                        else if (luminousLocked && currentSpellID == 40)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            wrongCombination = false;
+                            spellSlot.sprite = spellIcons[i];
+                            DisableCastMode();
+                            //Store the current spell available to use
+                            availableSpellID = currentSpellID;
+                            correctCombination = true;
+                            playerAudio.PlayOneShot(correctCombiFx, 0.1f);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        DisableCastMode();
+                        wrongCombination = false;
+                    }
+
+
                 }
-                else if (windGustLocked && currentSpellID == 35)
+                //else
+                //{
+                //    //insert the consequences here if the player miscombined the elements------------------------
+                //    wrongCombination = true;
+                //    correctCombination = false;
+                //    spellSlot.sprite = defaultIcon;
+                //}
+            }
+            #endregion
+        }
+        else
+        {
+            #region ManualCast
+            for (int i = 0; i < spellIDs.Length; i++)
+            {
+                if (spellIDs[i] == currentSpellID && doneCombining == true)
                 {
-                    return;
-                }
-                else if (luminousLocked && currentSpellID == 40)
-                {
-                    return;
+                    //Spell lock
+                    if (IceSpellLocked && currentSpellID == 30)
+                    {
+                        return;
+                    }
+                    else if (windGustLocked && currentSpellID == 35)
+                    {
+                        return;
+                    }
+                    else if (luminousLocked && currentSpellID == 40)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        wrongCombination = false;
+                        spellSlot.sprite = spellIcons[i];
+                        //Store the current spell available to use
+                        availableSpellID = currentSpellID;
+                        correctCombination = true;
+                        playerAudio.PlayOneShot(correctCombiFx, 0.1f);
+                        break;
+                    }
                 }
                 else
                 {
-                    wrongCombination = false;
-                    spellSlot.sprite = spellIcons[i];
-                    //Store the current spell available to use
-                    availableSpellID = currentSpellID;
-                    correctCombination = true;
-                    playerAudio.PlayOneShot(correctCombiFx, 0.1f);
-                    break;
+                    //insert the consequences here if the player miscombined the elements------------------------
+                    wrongCombination = true;
+                    correctCombination = false;
+                    spellSlot.sprite = defaultIcon;
+
                 }
             }
-            else
-            {
-                //insert the consequences here if the player miscombined the elements------------------------
-                wrongCombination = true;
-                correctCombination = false;
-                spellSlot.sprite = defaultIcon;
-
-            }
+            #endregion
         }
     }
 
@@ -258,5 +360,25 @@ public class CastModeManager : MonoBehaviour
             //reset the spell ID after finish combining
             currentSpellID = 0;
         }
+    }
+
+    void DisableCastMode()
+    {
+        pc.casting = false;
+        Time.timeScale = 1;
+        doneCombining = false;
+        castingMode = false;
+        if (!disableMovement)
+        {
+            playerScript.enabled = true;
+        }
+        settingSpellSprite();
+        //resets spell combinations after UI is disabled;
+        //ResetSpell();
+        spellCastUiAnim.SetBool("CastMode", false);
+        centerCircleAnim.SetBool("SpinCircle", false);
+        castEffect.SetBool("ActivateEffect", false);
+        castEffectObj.SetActive(false);
+        this.gameObject.SetActive(false);
     }
 }

@@ -16,7 +16,7 @@ public class MovingDummy : MonoBehaviour
     float angle;
     public Animator anim;
     public BasicAttackTutorial basicAttack;
-    [SerializeField] public BossForceField forceField;
+    [SerializeField] public DummyForceField forceField;
     public bool startShielding;
     public bool dontDamage;
     [Header("Fireball")]

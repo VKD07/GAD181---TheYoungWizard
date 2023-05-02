@@ -68,7 +68,7 @@ public class CutSceneManager : MonoBehaviour
         dialogBox.EnableDialogBox(false);
         objectiveBox.EnableObjectiveBox(false);
         playerComponentsHandler.DisableCastMode(true);
-        Invoke("DisableTimeLine", 11f);
+        Invoke("DisableTimeLine", 1f);
     }
 
     // Update is called once per frame
@@ -427,7 +427,6 @@ public class CutSceneManager : MonoBehaviour
                     objectiveBox.EnableObjectiveBox(true);
                     objectiveBox.SetObjectiveTextNum(7, "");
                     spellCastingTutorial.startTaskThree = true;
-
                 }
 
                 if (spellCastingTutorial.TaskThreeDone())
@@ -590,7 +589,7 @@ public class CutSceneManager : MonoBehaviour
             {
                 dialogBox.EnableDialogBox(false);
                 objectiveBox.EnableObjectiveBox(true);
-                objectiveBox.SetObjectiveTextNum(10,"");
+                objectiveBox.SetObjectiveTextNum(12,"");
                 if (!exitScene.startFade)
                 {
                     exitScene.startFade = true;

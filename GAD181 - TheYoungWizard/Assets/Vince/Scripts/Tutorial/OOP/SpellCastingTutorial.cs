@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
+using UnityEngine.WSA;
 
 public class SpellCastingTutorial : MonoBehaviour
 {
     [SerializeField] GameObject spellBookMainUI;
     [SerializeField] GameObject spellBookGuide;
     [SerializeField] SphereCollider dummyForceField;
+   
     ObjectiveBox objectiveBox;
     public CastModeManager castModeManager;
     public playerCombat pc;
@@ -29,11 +31,16 @@ public class SpellCastingTutorial : MonoBehaviour
     public int shieldBroken = 0;
 
     float shieldSiwtchInterval = 1f;
-    float currentTime;
+    public float currentTime;
 
     [Header("Task Six")]
     [SerializeField] int totalShieldsBrokenRequired;
-    
+    [Header("Video Tutorial")]
+    [SerializeField] GameObject videoTutorial;
+    bool videoOpened;
+    bool enableDeactivate;
+    float currentVideoTime;
+    bool objectiveSet;
 
     void Start()
     {
@@ -59,15 +66,18 @@ public class SpellCastingTutorial : MonoBehaviour
         {
             if(tutorialDummy.forceField.activateShield == false && tutorialDummy.forceField.numberOfBrokenShields <= totalShieldsBrokenRequired)
             {
-
                 //updating objective text
-                objectiveBox.SetObjectiveTextNum(9, $"{tutorialDummy.forceField.numberOfBrokenShields} / {totalShieldsBrokenRequired}");
+                if (!objectiveSet)
+                {
+                    objectiveSet = true;
+                    objectiveBox.SetObjectiveTextNum(9, "");
+                }
 
                 if (currentTime < shieldSiwtchInterval)
                 {
                     currentTime += Time.deltaTime;
                 }
-                else
+                else if(currentTime >= shieldSiwtchInterval)
                 {
                     tutorialDummy.forceField.activateShield = true;
                     currentTime = 0f;
@@ -78,7 +88,6 @@ public class SpellCastingTutorial : MonoBehaviour
             {
                 taskSix = true;
                 startTaskSix = false;
-                 
             }
         }
     }
@@ -109,6 +118,26 @@ public class SpellCastingTutorial : MonoBehaviour
     {
         if (startTaskThree)
         {
+            if (!videoOpened)
+            {
+                videoOpened = true;
+                videoTutorial.SetActive(true);
+                Time.timeScale = 0f;
+            }
+            DisableVideo(3);
+
+            if (videoTutorial.activeSelf && enableDeactivate)
+            {
+                if (Input.GetKeyDown(KeyCode.Mouse0))
+                {
+                    Time.timeScale = 1f;
+                    videoTutorial.SetActive(false);
+                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                    UnityEngine.Cursor.visible = false;
+                }
+            }
+
+
             if (castModeManager != null)
             {
                 if (castModeManager.correctCombination)
@@ -182,6 +211,19 @@ public class SpellCastingTutorial : MonoBehaviour
         else
         {
             dummyForceField.enabled = false;
+        }
+    }
+
+    void DisableVideo(float time)
+    {
+        if (currentVideoTime < time)
+        {
+            currentVideoTime += Time.unscaledDeltaTime;
+        }
+        else
+        {
+            enableDeactivate = true;
+            currentVideoTime = 0;
         }
     }
 }
