@@ -73556,7 +73556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1000
   numberOfSkills: 5
-  idleModeTime: 7
+  idleModeTime: 4
   damageBoss: 0
   player: {fileID: 0}
   currentTime: 0
@@ -73602,7 +73602,7 @@ MonoBehaviour:
   healingVFX: {fileID: 0}
   shieldIsActivated: 0
   bossClone: {fileID: 1522091250139845897, guid: f6257b8fb84e1a448aa89bc07c1328a3, type: 3}
-  cloneDuration: 25
+  cloneDuration: 40
   bossReplica: 1
   bossSFXHandler: {fileID: 5496190996488108501}
 --- !u!195 &4906720792249044530

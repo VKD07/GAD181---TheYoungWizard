@@ -12,7 +12,9 @@ public class PauseManager : MonoBehaviour
     [SerializeField] KeyCode pauseKey = KeyCode.Escape;
     [SerializeField] GameObject pauseUI;
     [SerializeField] GameObject controlsUI;
+    [SerializeField] GameObject settingsUI;
     [SerializeField] Button returnHomeBtn;
+    [SerializeField] Button resetLevelBtn;
     [SerializeField] TextMeshProUGUI resetGameText;
     void Update()
     {
@@ -42,10 +44,12 @@ public class PauseManager : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "RoomScene 1" || SceneManager.GetActiveScene().name == "RoomScene" || SceneManager.GetActiveScene().name == "TutorialScene")
         {
             returnHomeBtn.interactable = false;
+            resetLevelBtn.interactable = false;
         }
         else
         {
             returnHomeBtn.interactable = true;
+            resetLevelBtn.interactable = true;
         }
 
         if (SceneManager.GetActiveScene().name == "TutorialScene")
@@ -54,7 +58,7 @@ public class PauseManager : MonoBehaviour
         }
         else
         {
-            resetGameText.SetText("RESET GAME");
+            resetGameText.SetText("RESET LEVEL");
         }
     }
 
@@ -74,6 +78,7 @@ public class PauseManager : MonoBehaviour
     public void ResumeGame()
     {
         controlsUI.SetActive(false);
+        settingsUI.SetActive(false);
         EnableCursor(false);
         pauseUI.SetActive(false);
         Time.timeScale = 1f;
@@ -88,7 +93,7 @@ public class PauseManager : MonoBehaviour
     public void ResetGame()
     {
         ResumeGame();
-        LoadAsync.instance.LoadScene("RoomScene");
+        LoadAsync.instance.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private void ResetSettings()
@@ -100,10 +105,18 @@ public class PauseManager : MonoBehaviour
     {
         if (!controlsUI.activeSelf)
         {
+            if(settingsUI.activeSelf)
+            {
+                settingsUI.SetActive(false);
+            }
             controlsUI.SetActive(true);
         }
         else
         {
+            if (settingsUI.activeSelf)
+            {
+                settingsUI.SetActive(false);
+            }
             controlsUI.SetActive(false);
         }
     }

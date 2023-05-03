@@ -128,7 +128,7 @@ public class BossScript : MonoBehaviour
         {
             //increasing difficulty
             numberOfSkills = 6;
-            idleModeTime = 2;
+            idleModeTime = 4;
             runSpeed = 3.5f;
             stompSpeed = 30f;
             fireBallsSpeed = 700f;

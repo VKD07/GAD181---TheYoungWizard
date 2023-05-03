@@ -68,7 +68,7 @@ public class CutSceneManager : MonoBehaviour
         dialogBox.EnableDialogBox(false);
         objectiveBox.EnableObjectiveBox(false);
         playerComponentsHandler.DisableCastMode(true);
-        Invoke("DisableTimeLine", 1f);
+        Invoke("DisableTimeLine", 11f);
     }
 
     // Update is called once per frame

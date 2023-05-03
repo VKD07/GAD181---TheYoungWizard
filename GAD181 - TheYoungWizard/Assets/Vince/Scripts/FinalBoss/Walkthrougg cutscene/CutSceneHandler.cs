@@ -273,6 +273,8 @@ public class CutSceneHandler : MonoBehaviour
 
             else if (sequence[11]) //kael talks to furball
             {
+                playerTransform.transform.LookAt(bossScript.gameObject.transform.position);
+
                 sceneCamera[0].SetActive(false);
                 sceneCamera[1].SetActive(true);
 

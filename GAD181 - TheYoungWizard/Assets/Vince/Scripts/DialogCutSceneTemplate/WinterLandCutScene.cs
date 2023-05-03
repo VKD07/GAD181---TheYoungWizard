@@ -23,7 +23,7 @@ public class WinterLandCutScene : MonoBehaviour
     [Header("Environment Components")]
     [SerializeField] StoneSpell stoneSpell;
     [SerializeField] Collider[] dialogTrigger;
-    [SerializeField] GameObject bug;
+    [SerializeField] GameObject [] bugs;
 
     [Header("Dialog Box")]
     [SerializeField] GameObject dialogCanvas;
@@ -98,8 +98,8 @@ public class WinterLandCutScene : MonoBehaviour
 
         else if (sequence[2])
         {
-            bug = GameObject.Find("Bug");
-            if (bug == null)
+            bugs = GameObject.FindGameObjectsWithTag("Bug");
+            if (bugs.Length <= 0)
             {
                 if (dialogTrigger[0].bounds.Intersects(playerCollider.bounds))//KAEL: Looks like these rocks are obstructing the path.
                 {

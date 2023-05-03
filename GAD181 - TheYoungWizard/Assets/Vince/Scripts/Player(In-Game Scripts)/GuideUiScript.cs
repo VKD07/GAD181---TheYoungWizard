@@ -21,7 +21,7 @@ public class GuideUiScript : MonoBehaviour
     [SerializeField] AudioClip spellBookSfx;
     [Header("References")]
     [SerializeField] playerCombat pc;
-    [SerializeField] bool disableTimePause;
+    [SerializeField] public bool disableTimePause;
     public bool spellBookOpened;
     [SerializeField] FirstChallenge challengeScript;
 
@@ -45,7 +45,7 @@ public class GuideUiScript : MonoBehaviour
                 //for the final cutscene
                 if(challengeScript != null)
                 {
-                    challengeScript.stopTimer = true;
+                    //challengeScript.stopTimer = true;
                 }
                 //end
 

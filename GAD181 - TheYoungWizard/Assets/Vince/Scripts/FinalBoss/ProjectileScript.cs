@@ -65,6 +65,8 @@ public class ProjectileScript : MonoBehaviour
         {
             GameObject player = collision.gameObject;
             player.GetComponent<playerCombat>().damagePlayer(projectileDamage, true);
+            GameObject explosionObj = Instantiate(explosionVfx, transform.position, Quaternion.identity);
+            Destroy(explosionObj, 2f);
             Destroy(gameObject);
         }
     }

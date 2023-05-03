@@ -6,15 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class RespawnPointHandler : MonoBehaviour
 {
+    [Header("Spawning Components")]
     [SerializeField] public Vector3 storedRespawnPoint;
     [SerializeField] GameObject respawnBtn;
     [SerializeField] Transform playerTransform;
     [SerializeField] Transform playerInitialCheckPoint;
+    [SerializeField] Animator playerAnim;
     [SerializeField] public bool respawnToCheckPoint;
     [SerializeField] ParticleSystem playerLvlUpFx;
+    [SerializeField] Collider bossTriggerCollider;
     public bool initialSpawned;
     float currentTime;
     bool teleportPlayer;
+    public bool respawnToBoss;
 
     //playerComponents;
     [SerializeField] playerCombat pc;
@@ -25,6 +29,7 @@ public class RespawnPointHandler : MonoBehaviour
     private void Awake()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player")?.transform;
+        playerAnim = GameObject.Find("KaelModel")?.GetComponent<Animator>();
         if (playerTransform != null)
         {
             playerTransform.position = storedRespawnPoint;
@@ -44,9 +49,9 @@ public class RespawnPointHandler : MonoBehaviour
             return;
         }
         TeleportPlayer();
+        CheckIfInBossLevel();
     }
 
-  
     private void CheckPlayerHealth()
     {
         if (pc != null && pc.GetPlayerHealth() <= 0)
@@ -96,15 +101,32 @@ public class RespawnPointHandler : MonoBehaviour
 
     public void RespawnPlayer()
     {
-        //check if Final Boss
-        if (SceneManager.GetActiveScene().name == "FinalBoss")
+      
+        //check if player has entered furballs lair so that it will respawn there after death
+        if (SceneManager.GetActiveScene().name == "FinalBoss" && respawnToBoss)
         {
-            LoadAsync.instance.LoadScene("FinalBoss");
+            LoadAsync.instance.LoadScene("ResetBoss");
             deathBG.SetActive(false);
             ShowCursor(false);
         }
+        //check if Final Boss
+        else if (SceneManager.GetActiveScene().name == "FinalBoss")
+        {
+            deathBG.SetActive(false);
+            ShowCursor(false);
+            LoadAsync.instance.LoadScene("FinalBoss");
+        }else if (SceneManager.GetActiveScene().name == "ResetBoss")
+        {
+            deathBG.SetActive(false);
+            ShowCursor(false);
+            LoadAsync.instance.LoadScene("ResetBoss");
+        }
         else
         {
+            if(playerAnim != null)
+            {
+                playerAnim.updateMode = AnimatorUpdateMode.Normal;
+            }
             teleportPlayer = true;
             ShowCursor(false);
             deathBG.SetActive(false);
@@ -119,7 +141,21 @@ public class RespawnPointHandler : MonoBehaviour
             ShowCursor(false);
         }
     }
+    private void CheckIfInBossLevel()
+    {
+        if(SceneManager.GetActiveScene().name == "FinalBoss")
+        {
+            bossTriggerCollider = GameObject.Find("FinalStageTrigger")?.GetComponent<Collider>();
 
+            if(bossTriggerCollider != null)
+            {
+                if (bossTriggerCollider.bounds.Intersects(playerTransform.GetComponent<Collider>().bounds))
+                {
+                    respawnToBoss = true;
+                }
+            }
+        }
+    }
     private void TeleportPlayer()
     {
         if(teleportPlayer == true && currentTime < 0.1f)
@@ -143,5 +179,7 @@ public class RespawnPointHandler : MonoBehaviour
         Time.timeScale = 1f;
         ShowCursor(false);
     }
+
+ 
 }
 

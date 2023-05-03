@@ -527,7 +527,7 @@ GameObject:
   - component: {fileID: 5434610193241568903}
   m_Layer: 13
   m_Name: Bug
-  m_TagString: Enemy
+  m_TagString: Bug
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1863,6 +1863,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84aab5348d53b5e40a2cf130e0b3b81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lookatCamera2: 0
+  activateFloat: 0
+  floatMoveSpeed: 1
+  distance: 0.2
 --- !u!1 &7352648710596849013
 GameObject:
   m_ObjectHideFlags: 0

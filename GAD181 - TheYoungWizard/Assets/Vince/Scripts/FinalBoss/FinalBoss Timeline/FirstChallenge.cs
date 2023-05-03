@@ -55,6 +55,7 @@ public class FirstChallenge : MonoBehaviour
     [SerializeField] Transform beamBlocker;
     [SerializeField] float bossBeamPowerRate;
     [SerializeField] float playerBeamPowerRate;
+    [SerializeField] GuideUiScript guideUI;
     Slider beamSlider;
     float shakeMaxTime;
     float currentTimeShake;
@@ -187,6 +188,7 @@ public class FirstChallenge : MonoBehaviour
     {
         if (startChallenge3)
         {
+            guideUI.disableTimePause = false;
             setTimerPosition(37, -355);
             pc.castingSpell = true;
             playerMovement.enabled = false;
@@ -226,10 +228,18 @@ public class FirstChallenge : MonoBehaviour
 
                 if (spellChosen == spellCast.availableSpellID)
                 {
-                    if (Input.GetKey(KeyCode.R))
+                    if (spellCast.autoCast)
                     {
                         spellIsChosen = false;
                         currentSpellsDone++;
+                    }
+                    else
+                    {
+                        if (Input.GetKey(KeyCode.R))
+                        {
+                            spellIsChosen = false;
+                            currentSpellsDone++;
+                        }
                     }
                 }
             }
@@ -250,6 +260,7 @@ public class FirstChallenge : MonoBehaviour
     {
         if (startFinalChallenge)
         {
+            DisableMouse();
             TriggerVirtualCameraShake(1, 0.5f, true);
             beamSliderUI.SetActive(true);
             beamSlider.value += bossPower;
@@ -325,10 +336,16 @@ public class FirstChallenge : MonoBehaviour
             beamUIAnim.SetBool("Shake", false);
         }
     }
-    
+
     void TriggerVirtualCameraShake(float time, float intensity, bool value)
     {
         CameraShake.instance.ShakeVirtualCamera(time, intensity);
         CameraShake.instance.disableLerping = value;
+    }
+
+    void DisableMouse()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

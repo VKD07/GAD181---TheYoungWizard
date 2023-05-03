@@ -37,6 +37,7 @@ TagManager:
   - LevelUpFx
   - MovingLand
   - Explosion
+  - Bug
   layers:
   - Default
   - TransparentFX

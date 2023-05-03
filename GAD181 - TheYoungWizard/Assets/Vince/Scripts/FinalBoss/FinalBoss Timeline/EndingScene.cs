@@ -11,6 +11,7 @@ public class EndingScene : MonoBehaviour
     [SerializeField] GameObject titleImg;
     [SerializeField] CanvasGroup blckImage;
     [SerializeField] CanvasGroup titleImage;
+    bool loaded;
     public bool startEndScene;
     bool starting;
     void Start()
@@ -79,6 +80,10 @@ public class EndingScene : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         //SceneManager.LoadScene(0);
-        LoadAsync.instance.LoadScene("RoomScene");
+        if (!loaded)
+        {
+            loaded = true;
+            LoadAsync.instance.LoadScene("RoomScene");
+        }
     }
 }

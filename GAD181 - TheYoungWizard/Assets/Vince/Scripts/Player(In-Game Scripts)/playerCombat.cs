@@ -473,11 +473,14 @@ public class playerCombat : MonoBehaviour
     {
         if (!tutorial)
         {
-            tookDamage = true;
-            anim.SetTrigger("hit");
-            playerHealth -= damage;
-            disableSenses();
-            Time.timeScale = 1;
+            if(!forceField.shieldIsActive || ignoreShield)
+            {
+                tookDamage = true;
+                anim.SetTrigger("hit");
+                playerHealth -= damage;
+                disableSenses();
+                Time.timeScale = 1;
+            }
         }
     }
 

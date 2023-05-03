@@ -15,7 +15,7 @@ public class SkeletonScript : MonoBehaviour
     [SerializeField] LayerMask layerMask;
     [SerializeField] float skeletonDamage = 10f;
     [SerializeField] GameObject playerShieldExplosion;
-    GameObject player;
+    [SerializeField] GameObject player;
     [SerializeField] Player playerScript;
     NavMeshAgent agent;
     [SerializeField] float spiderHp;
@@ -171,10 +171,10 @@ public class SkeletonScript : MonoBehaviour
 
     public void playerShield()
     {
-        if (attacking && hit.transform.name == "Player_ForceField" && !shieldExploded)
+        if (attacking && player.transform.Find("KaelModel").GetComponent<PlayerForceField>().shieldIsActive && !shieldExploded)
         {
             shieldExploded = true;
-            GameObject explosion = Instantiate(playerShieldExplosion, hit.point, Quaternion.identity);
+            GameObject explosion = Instantiate(playerShieldExplosion, player.transform.position, Quaternion.identity);
             Destroy(explosion, 1f);
         }
     }
