@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
-using UnityEngine.WSA;
 
 public class SpellCastingTutorial : MonoBehaviour
 {

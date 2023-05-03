@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
+using UnityEngine.ProBuilder.MeshOperations;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -44,9 +45,15 @@ public class PauseManager : MonoBehaviour
                 }
             }
         }
-
-        if(SceneManager.GetActiveScene().name == "RoomScene 1" || SceneManager.GetActiveScene().name == "RoomScene" || SceneManager.GetActiveScene().name == "TutorialScene")
+        if (SceneManager.GetActiveScene().name == "TutorialScene")
         {
+            print("Tutorial");
+            returnHomeBtn.interactable = false;
+            resetLevelBtn.interactable = true;
+        }
+        else if (SceneManager.GetActiveScene().name == "RoomScene 1" || SceneManager.GetActiveScene().name == "RoomScene")
+        {
+            print("Room Scene");
             returnHomeBtn.interactable = false;
             resetLevelBtn.interactable = false;
         }
@@ -55,6 +62,7 @@ public class PauseManager : MonoBehaviour
             returnHomeBtn.interactable = true;
             resetLevelBtn.interactable = true;
         }
+       
 
         if (SceneManager.GetActiveScene().name == "TutorialScene")
         {
@@ -97,19 +105,26 @@ public class PauseManager : MonoBehaviour
     public void ResetGame()
     {
         ResumeGame();
-        LoadAsync.instance.LoadScene(SceneManager.GetActiveScene().name);
+        if (SceneManager.GetActiveScene().name == "TutorialScene")
+        {
+            LoadAsync.instance.LoadScene("RoomScene");
+        }
+        else
+        {
+            LoadAsync.instance.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 
     private void ResetSettings()
     {
-        
+
     }
 
     public void ShowControls()
     {
         if (!controlsUI.activeSelf)
         {
-            if(settingsUI.activeSelf)
+            if (settingsUI.activeSelf)
             {
                 settingsUI.SetActive(false);
             }

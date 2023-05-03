@@ -107,13 +107,12 @@ public class SettingsScript : MonoBehaviour
     //enabling Settings UI
     public void EnableSettingsUI()
     {
-        if (!settingsEnabled && !settingsUI.activeSelf)
+        if (!settingsUI.activeSelf)
         {
             if (controlsUI.activeSelf)
             {
                 controlsUI.SetActive(false);
             }
-            settingsEnabled = true;
             settingsUI.SetActive(true);
         }
         else
@@ -122,7 +121,6 @@ public class SettingsScript : MonoBehaviour
             {
                 controlsUI.SetActive(false);
             }
-            settingsEnabled = false;
             settingsUI.SetActive(false);
         }
     }
