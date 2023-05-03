@@ -5882,12 +5882,13 @@ MonoBehaviour:
   startFinalChallenge: 0
   finalChallengeDone: 0
   beamSliderUI: {fileID: 323112095}
-  bossPower: 0.08
-  playerPower: 3
+  bossPower: 5
+  playerPower: 110
   beamChallengeBtn: 323
   beamBlocker: {fileID: 2121577468}
   bossBeamPowerRate: 0.005
-  playerBeamPowerRate: 0.23
+  playerBeamPowerRate: 0.15
+  guideUI: {fileID: 1895759917862870101}
   damageIndicator: {fileID: 6237384538271774450}
   spellCast: {fileID: 1895759916649326950}
   bossScript: {fileID: 1584934915}
@@ -45988,6 +45989,7 @@ MonoBehaviour:
   dodge: 0
   shieldDuration: 0.2
   tutorial: 0
+  pauseManager: {fileID: 0}
 --- !u!114 &1518113482911177625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47044,6 +47046,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2276ac289cf086e488fbc4597bc5148d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  autoCast: 0
   playerScript: {fileID: 1518113482911177625}
   pc: {fileID: 1518113482911177624}
   castModeTimer: 5
@@ -48237,6 +48240,7 @@ MonoBehaviour:
   disableTimePause: 1
   spellBookOpened: 0
   challengeScript: {fileID: 304382374}
+  pauseManager: {fileID: 0}
 --- !u!1 &1895759917862870105
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,6 +87,7 @@ public class PauseManager : MonoBehaviour
 
     public void ResumeGame()
     {
+        paused = false;
         controlsUI.SetActive(false);
         settingsUI.SetActive(false);
         EnableCursor(false);

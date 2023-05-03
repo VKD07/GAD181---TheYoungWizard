@@ -263,7 +263,7 @@ public class FirstChallenge : MonoBehaviour
             DisableMouse();
             TriggerVirtualCameraShake(1, 0.5f, true);
             beamSliderUI.SetActive(true);
-            beamSlider.value += bossPower;
+            beamSlider.value += bossPower * Time.deltaTime;
 
 
             beamBlocker.position -= beamBlocker.transform.forward * bossBeamPowerRate;
@@ -276,7 +276,7 @@ public class FirstChallenge : MonoBehaviour
             if (Input.GetKeyDown(beamChallengeBtn))
             {
                 shakeTheUI = true;
-                beamSlider.value -= playerPower;
+                beamSlider.value -= playerPower * Time.deltaTime;
                 beamBlocker.position += beamBlocker.transform.forward * playerBeamPowerRate;
                 beamBlocker.position = new Vector3(
                 beamBlocker.position.x,

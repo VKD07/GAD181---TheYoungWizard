@@ -4435,7 +4435,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 256195522389291046, guid: 16e5616d22f1acf4db517ad14249b916, type: 3}
       propertyPath: numberOfHeathPotion
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6213599675187822554, guid: 16e5616d22f1acf4db517ad14249b916, type: 3}
       propertyPath: m_Name
@@ -26454,11 +26454,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 256195522389291046, guid: 16e5616d22f1acf4db517ad14249b916, type: 3}
       propertyPath: numberOfManaPotion
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 256195522389291046, guid: 16e5616d22f1acf4db517ad14249b916, type: 3}
       propertyPath: numberOfHeathPotion
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6213599675187822554, guid: 16e5616d22f1acf4db517ad14249b916, type: 3}
       propertyPath: m_Name
@@ -44889,6 +44889,7 @@ MonoBehaviour:
   disableTimePause: 1
   spellBookOpened: 0
   challengeScript: {fileID: 0}
+  pauseManager: {fileID: 0}
 --- !u!1 &1895759917862870105
 GameObject:
   m_ObjectHideFlags: 0

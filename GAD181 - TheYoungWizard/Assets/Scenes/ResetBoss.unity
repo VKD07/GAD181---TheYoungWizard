@@ -40481,7 +40481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 602998595307223012, guid: d6a75f88dc4803c469dcb57d3e6704f3, type: 3}
       propertyPath: attackNumber
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 602998595307223012, guid: d6a75f88dc4803c469dcb57d3e6704f3, type: 3}
       propertyPath: cloneDuration
@@ -43343,6 +43343,7 @@ MonoBehaviour:
   disableTimePause: 1
   spellBookOpened: 0
   challengeScript: {fileID: 0}
+  pauseManager: {fileID: 0}
 --- !u!1 &1895759917862870105
 GameObject:
   m_ObjectHideFlags: 0
