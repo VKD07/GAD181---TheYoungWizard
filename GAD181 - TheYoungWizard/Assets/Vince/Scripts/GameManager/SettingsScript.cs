@@ -38,7 +38,7 @@ public class SettingsScript : MonoBehaviour
         volumeTxt.SetText((volumeStartingValue * 100).ToString() + "%");
 
         //sensitivty starting value
-        cinemachine = GameObject.Find("ThirdPersonLook").GetComponent<CinemachineFreeLook>();
+        cinemachine = GameObject.Find("ThirdPersonLook")?.GetComponent<CinemachineFreeLook>();
         mouseSensitivtySlider.value = sensitivtyStartingValue;
         if (cinemachine != null)
         {
@@ -72,7 +72,7 @@ public class SettingsScript : MonoBehaviour
 
     private void MouseSensitivtySettings()
     {
-        cinemachine = GameObject.Find("ThirdPersonLook").GetComponent<CinemachineFreeLook>();
+        cinemachine = GameObject.Find("ThirdPersonLook")?.GetComponent<CinemachineFreeLook>();
 
         if (cinemachine != null)
         {
