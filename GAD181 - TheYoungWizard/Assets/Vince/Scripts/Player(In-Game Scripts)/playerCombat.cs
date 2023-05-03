@@ -99,11 +99,13 @@ public class playerCombat : MonoBehaviour
     public bool dodge = false;
     public float shieldDuration = 3f;
     public bool tutorial;
+    [SerializeField] PauseManager pauseManager;
 
 
     private void Awake()
     {
         Spawning();
+        pauseManager = FindObjectOfType<PauseManager>();
     }
     void Start()
     {
@@ -274,7 +276,7 @@ public class playerCombat : MonoBehaviour
 
     private void castMode()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !disableCastMode)
+        if (Input.GetKeyDown(KeyCode.R) && !disableCastMode && !pauseManager.paused)
         {
             if (castUI.activeSelf == false)
             {

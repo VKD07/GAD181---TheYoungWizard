@@ -24,10 +24,12 @@ public class GuideUiScript : MonoBehaviour
     [SerializeField] public bool disableTimePause;
     public bool spellBookOpened;
     [SerializeField] FirstChallenge challengeScript;
+    [SerializeField] PauseManager pauseManager;
 
     void Start()
     {
         combineUI.SetActive(false);
+        pauseManager = FindObjectOfType<PauseManager>();
     }
 
     // Update is called once per frame
@@ -38,7 +40,7 @@ public class GuideUiScript : MonoBehaviour
 
     private void SpellBookUI()
     {
-        if (Input.GetKeyDown(openSpellBookKey))
+        if (Input.GetKeyDown(openSpellBookKey) && !pauseManager.paused)
         {
             if (!spellBookOpened)
             {

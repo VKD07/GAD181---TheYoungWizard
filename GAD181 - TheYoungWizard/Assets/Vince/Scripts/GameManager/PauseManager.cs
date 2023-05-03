@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,6 +17,7 @@ public class PauseManager : MonoBehaviour
     [SerializeField] Button returnHomeBtn;
     [SerializeField] Button resetLevelBtn;
     [SerializeField] TextMeshProUGUI resetGameText;
+    public bool paused;
     void Update()
     {
         EnableDisableUI();
@@ -30,12 +32,14 @@ public class PauseManager : MonoBehaviour
             {
                 if (!pauseUI.activeSelf)
                 {
+                    paused = true;
                     EnableCursor(true);
                     pauseUI.SetActive(true);
                     Time.timeScale = 0f;
                 }
                 else
                 {
+                    paused = false;
                     ResumeGame();
                 }
             }
